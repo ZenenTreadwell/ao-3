@@ -1,8 +1,8 @@
-// Mutations are state builders.
-// The current state is the result of all the events in the system fed through the mutation functions.
-// `server/state.js` for server; `modules/*` for vuex.
+// state is the result of events fed through the mutation
+// mutation(currentState, newEvent) = newState
+// see /src/server/state.js initialize, applyEvent
+// see /src/modules/*  applyEvent
 
-// const Vue = require('vue')
 const _ = require('lodash')
 const calculations = require('./calculations')
 
@@ -276,12 +276,49 @@ function sessionsMuts(sessions, ev) {
   }
 }
 
-let explodingTask, absorbingTask
-let claimed
-let pirate
-let task
+function hashMapMuts(hashMap, ev){
+    switch(ev.type){
+        case "task-created":
+            hashMap[ev.taskId] = ev.i
+            break
+        case "member-created":
+            hashMap[ev.memberId] = ev.i
+            break
+        case "resource-created":
+            hashMap[ev.resourceId] = ev.i
+            break
+        // XXX
+        case "tasks-received":
+            // XXX difficult as tasksMuts may add to array or may merge task
+            break
+        case "task-removed":
+            delete hashMap[ev.taskId]
+            Object.keys(hashMap).forEach(tId => {
+                if (hashMap[tId] > ev.i){
+                    hashMap[tId] --
+                }
+            })
+            break
+        case "member-purged":
+            delete hashMap[ev.memberId]
+            Object.keys(hashMap).forEach(tId => {
+                if (hashMap[tId] > ev.i){
+                    hashMap[tId] --
+                }
+            })
+            break
+        case "resource-purged":
+            delete hashMap[ev.resourceId]
+            Object.keys(hashMap).forEach(tId => {
+                if (hashMap[tId] > ev.i){
+                    hashMap[tId] --
+                }
+            })
+            break
+    }
+}
 
-
+let explodingTask, absorbingTask, claimed, pirate, task
 function tasksMuts(tasks, ev) {
   switch (ev.type) {
     case "member-field-updated":
@@ -695,18 +732,11 @@ function tasksMuts(tasks, ev) {
           if (task.claimed.indexOf(ev.memberId) === -1) {
             task.claimed.push(ev.memberId)
           }
-          if (!task.claims) {
-            console.log('no claims: ', task)
-          } else {
-            task.claims.push(ev)
-          }
+          task.claims.push(ev)
         }
+
         if (task.taskId === ev.memberId) {
-          if (!task.claims) {
-            console.log('no claims: ', task)
-          } else {
             task.claims.push(ev)
-          }
         }
       })
       break
@@ -819,7 +849,7 @@ function tasksMuts(tasks, ev) {
               return true
             }
           })) {
-          tasks.push(newT) /// XXX safeclone?
+          tasks.push(newT)
         }
       })
       break
@@ -843,4 +873,5 @@ module.exports = {
   resourcesMuts,
   sessionsMuts,
   tasksMuts,
+  hashMapMuts,
 }

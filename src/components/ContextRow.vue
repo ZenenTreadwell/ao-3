@@ -50,7 +50,7 @@ export default {
             return this.card.name
         },
         card(){
-            return this.$store.getters.hashMap[this.taskId]
+            return this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
         },
         cardStart(){
             if ( this.card.book.startTs ){

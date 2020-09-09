@@ -7,7 +7,7 @@
         div.deh(v-for='day in days'  @click='chooseDay(day)')
             day(:day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
     div(v-else)
-        div(v-for='n in selectedDaysEvs'  )
+        div(v-for='n in selectedDaysEvs')
             .tooltip(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
                 current(:memberId='n.memberId')
                 span {{ new Date(n.timestamp).toString().slice(15,21) }}
@@ -19,11 +19,13 @@
                 span - {{ n.notes }}
             .tooltip(v-else-if='n.name'  @click='goIn(n.taskId)')
                 span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ n.name }}
+        div(v-if='selectedDaysEvs.length === 0')
+            .soft(@click='clickDateBar') - no activity
     .row.menu
         .inline(@click='prevMonth')
             img(src='../assets/images/back.svg')
         .inline
-            .soft(@click='chooseDay("")')
+            .soft(@click='clickDateBar')
                 h5 {{ monthName }} - {{year}}
                     span(v-if='chosenDay') - {{ chosenDay }}
         .inline(@click='nextMonth')
@@ -32,6 +34,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import Day from './Day.vue'
 import Current from './Current.vue'
 import Currentr from './Currentr.vue'
@@ -50,6 +53,13 @@ export default {
     Day, Currentr, Current
   },
   methods: {
+      clickDateBar(){
+          if (this.chosenDay){
+              this.chooseDay("")
+          } else {
+              this.chooseDay(1)
+          }
+      },
       goIn(taskId){
           let panel = [taskId]
           let parents = []
@@ -71,7 +81,7 @@ export default {
 
       },
       getFromMap(taskId){
-          return this.$store.getters.hashMap[taskId]
+          return this.$store.state.tasks[this.$store.state.hashMap[taskId]]
       },
       chooseDay(x){
           console.log('dispatching choose day')
@@ -137,7 +147,10 @@ export default {
                         if (!evs[date.day]){
                             evs[date.day] = []
                         }
-                        evs[date.day].push(cl)
+                        let noDup = evs[date.day].every(c => !_.isEqual(c, cl))
+                        if (noDup){
+                            evs[date.day].push(cl)
+                        }
                     }
                 })
 
@@ -158,7 +171,7 @@ export default {
         return evs
     },
     card(){
-        return this.$store.getters.hashMap[this.inId]
+        return this.$store.state.tasks[this.$store.state.hashMap[this.inId]]
     },
     todaysEvents(){
         let allTasks
@@ -168,20 +181,10 @@ export default {
             allTasks = []
         }
         allTasks.push(this.inId)
-
-        let sunTasks = []
-        if (this.$store.state.upgrades.dimension === 'sun'){
-            this.$store.state.members.forEach(m => {
-                sunTasks.push( m.memberId )
-                let sun = this.$store.getters.hashMap[m.memberId]
-                allTasks = allTasks.concat(sun.subTasks).concat(sun.priorities).concat(sun.completed)
-            })
-        }
-
-        allTasks = _.uniq(allTasks.concat(sunTasks))
+        allTasks = _.uniq(allTasks)
         return allTasks
             .map(tId => {
-                return this.$store.getters.hashMap[tId]
+                return this.$store.state.tasks[this.$store.state.hashMap[tId]]
             })
     },
     firstDay(){
@@ -235,6 +238,7 @@ h5
 
 .soft
     color: softGrey
+    cursor: pointer
 
 .inline
   display:inline-block

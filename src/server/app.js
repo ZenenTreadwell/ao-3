@@ -23,6 +23,7 @@ startDctrlAo()
 function startDctrlAo(){
   console.log('starting db')
   dctrlDb.startDb( (err, conn) => {
+    if (err) return console.log('db initialize failed:', err)
 
     let start = Date.now()
     state.initialize( err => {

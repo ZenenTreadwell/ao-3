@@ -216,7 +216,7 @@ export default {
             }
         },
         isGrabbed(taskId){
-            return this.$store.getters.hashMap[taskId].deck.indexOf( this.$store.getters.member.memberId ) > -1
+            return this.$store.state.tasks[this.$store.state.hashMap[taskId]].deck.indexOf( this.$store.getters.member.memberId ) > -1
         },
         nextColor() {
             let colors = ['red', 'yellow', 'green', 'purple', 'blue']

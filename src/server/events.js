@@ -182,6 +182,7 @@ function memberCreated(name, fob, secret, callback) {
           name,
           fob,
           secret,
+          i: serverState.tasks.length
       }
       dctrlDb.insertEvent(newEvent, callback)
 }
@@ -199,6 +200,7 @@ function memberPurged(memberId, blame, callback) {
     type: "member-purged",
     memberId,
     blame,
+    i: state.hashMap[memberId]
   }
   dctrlDb.insertEvent(newEvent, callback)
 }
@@ -237,6 +239,7 @@ function resourceCreated(resourceId, name, charged, secret, trackStock, callback
         charged,
         secret,
         info: {},
+        i: serverState.tasks.length
     }
     if (trackStock) {
         newEvent.stock = 0
@@ -295,6 +298,7 @@ function resourcePurged(resourceId, blame, callback) {
     type: "resource-purged",
     resourceId,
     blame,
+    i: state.hashMap[resourceId]
   }
   dctrlDb.insertEvent(newEvent, callback)
 }
@@ -323,21 +327,21 @@ function taskCreated(name, color, deck, inId, memberId, callback) {
     let hash = h.digest('hex')
     let isExist = false
     serverState.tasks.forEach( t => {
-        if (t.hash === hash){
+        if (t.taskId === hash || t.hash === hash){
             isExist = true
         }
     })
-    if (isExist) return callback('exists')
+    if (isExist) return callback('err exists')
 
     let newEvent = {
         type: "task-created",
-        taskId: uuidV1(),
+        taskId: hash,
         name,
         color,
         deck,
-        hash,
         inId,
         memberId,
+        i: serverState.tasks.length
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
@@ -511,6 +515,7 @@ function taskRemoved(taskId, blame, callback){
     type: "task-removed",
     taskId,
     blame,
+    i: serverState.hashMap[taskId]
   }
   dctrlDb.insertEvent(newEvent, callback)
 }

@@ -84,15 +84,16 @@ export default {
     },
     computed: {
         card(){
-          return this.$store.getters.hashMap[this.taskId]
+          return this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
         },
         parent(){
-          return this.$store.getters.hashMap[this.inId]
+          return this.$store.state.tasks[this.$store.state.hashMap[this.inId]]
         },
         name(){
             if (this.card){
                 return this.card.name
             }
+            return ""
         },
         isMember(){
             let is = false
@@ -116,9 +117,9 @@ export default {
               let days = msSince / (1000 * 60 * 60 * 24)
               return days
           }
+          return undefined
         },
         cardStart(){
-            // XXX recalc on nav
             if (this.card && this.card.book.startTs ){
               let now = Date.now()
               let msTill = this.card.book.startTs - now
@@ -132,6 +133,7 @@ export default {
                   minutes
               }
             }
+            return undefined
         },
         cardInputSty() {
           let color

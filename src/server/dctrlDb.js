@@ -48,7 +48,7 @@ function createStatements() {
     conn.function('eventFeed', (doc) => {
         eventEmitter.emit(JSON.parse(doc))
     })
-    preparedStmts.getAll = conn.prepare('SELECT document FROM events WHERE (timestamp > ?) ORDER BY timestamp') // WHERE (timestamp > ?)
+    preparedStmts.getAll = conn.prepare('SELECT document FROM events WHERE (timestamp > ?) ORDER BY timestamp')
     preparedStmts.insertEvent = conn.prepare("INSERT INTO events VALUES (?, ?)")
     preparedStmts.insertBackup = conn.prepare("INSERT INTO backups VALUES (?, ?)")
     preparedStmts.recover  = conn.prepare("SELECT document from backups ORDER BY timestamp DESC LIMIT 1")

@@ -37,12 +37,12 @@ export default {
   props: ['memberId', 'taskId', 'task'],
   methods:{
       getTask(taskId){
-          return this.$store.getters.hashMap[taskId]
+          return this.$store.state.tasks[this.$store.state.hashMap[taskId]]
       },
       goto(taskId){
           let panel = [taskId]
           let top = 0
-          let t = this.$store.getters.hashMap[taskId]
+          let t = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
           let panelColor = this.task.subTasks.filter( p => {
               return this.card(p).color === t.color
           })
@@ -60,7 +60,7 @@ export default {
           }
       },
       card(tId) {
-          return this.$store.getters.hashMap[tId]
+          return this.$store.state.tasks[this.$store.state.hashMap[tId]]
       },
       shortName(name) {
           return calculations.shortName(name)
@@ -73,7 +73,7 @@ export default {
               tasks = this.$store.state.tasks.filter( t => t.deck.indexOf(this.memberId) !== -1 )
           } else if (this.taskId) {
               let subTasks = []
-              let t = this.$store.getters.hashMap[this.taskId]
+              let t = this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
               t.subTasks.forEach(t => tasks.push( this.getTask(t)))
           } else if (this.task && this.task.subTasks) {
               this.task.subTasks.forEach( tId => {

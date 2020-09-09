@@ -117,7 +117,7 @@ export default {
     },
     computed: {
         card(){
-            return this.$store.getters.hashMap[this.taskId]
+            return this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
         },
         isMember(){
             let is = false

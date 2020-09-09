@@ -179,7 +179,7 @@ export default {
             if(!this.inId) {
                 return false
             }
-            return this.$store.getters.hashMap[this.inId].priorities.indexOf(this.b.taskId) > -1
+            return this.$store.state.tasks[this.$store.state.hashMap[this.inId]].priorities.indexOf(this.b.taskId) > -1
         },
         isCompleted(){
             return this.b.claimed.indexOf(this.$store.getters.member.memberId) > -1
@@ -259,7 +259,7 @@ export default {
 
 .hidden
     opacity: 0
-    
+
 .hidden:hover
     opacity: 0.25654
 </style>

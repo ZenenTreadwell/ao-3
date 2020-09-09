@@ -13,40 +13,27 @@ const openAo = require('./openAo')
 module.exports = function applyRouter(app){
     app.use(express.static(path.join(__dirname, '../../dist')))
     app.use(express.static(path.join(__dirname, '../../public')))
-
     if (configuration.openAo === true){
         app.use(openAo)
     }
-
     app.get('/*', (req, res) => {
         res.sendFile(path.join(__dirname, '../../dist/index.html'))
     })
-
-    app.use(serverAuth) // below here requires auth token
+    app.use(serverAuth)
     app.use(bodyParser.json())
     app.use(bodyParser.urlencoded({
         extended: true
     }))
-    app.use(spec)   // handles event creation
-    app.use(fobtap) // handles rfid scan devices
+    app.use(spec)   // event creation
+    app.use(fobtap) // rfid scan
     app.use(lightningRouter)
-
     app.post('/state', (req, res) => {
         res.json(state.pubState)
     })
-
-    // XXX restrict to only memberIds not ao or resourceIds
     app.post('/tasks/:taskId', (req, res) => {
         res.json(state.serverState.tasks)
     })
-
     app.post('/taskhash/:taskId', (req, res)=> {
         res.end( calculations.crawlerHash(state.serverState.tasks, req.params.taskId) )
     })
-
-    // app.post('/member/:memberId', (req, res) => {
-    //     res.json(
-    //         state.serverState.tasks.filter(t => t.deck.indexOf(req.params.taskId) > -1)
-    //     )
-    // })
 }

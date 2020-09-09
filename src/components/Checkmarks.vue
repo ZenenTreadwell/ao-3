@@ -6,6 +6,7 @@
     div(v-else)
       div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
         current-checks(:memberId='n')
+      div(@click='remove') x - remove card
 </template>
 
 <script>
@@ -19,6 +20,12 @@ export default {
         CurrentChecks, MemberRow, GuildCreate, Accounts
     },
     methods: {
+        remove(){
+            this.$store.dispatch("makeEvent", {
+                type: 'task-removed',
+                taskId: this.$store.getters.contextCard.taskId,
+            })
+        },
         getMemberCard(mId){
             let card
             this.$store.state.members.some(m => {

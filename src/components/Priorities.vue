@@ -51,14 +51,14 @@ export default {
   },
   methods:{
     hasCompleted(tId){
-        let card = this.$store.getters.hashMap[tId]
+        let card = this.$store.state.tasks[this.$store.state.hashMap[tId]]
         if(card && card.claimed){
             return card.claimed.length > 0
         }
         return false
     },
     getSubPriorities(taskId){
-      let card = this.$store.getters.hashMap[taskId]
+      let card = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
       if(card && card.priorities){
           return card.priorities.slice().reverse()
       }
@@ -85,7 +85,7 @@ export default {
       })
     },
     getCard(taskId){
-        return this.$store.getters.hashMap[taskId]
+        return this.$store.state.tasks[this.$store.state.hashMap[taskId]]
     },
     pilePrioritized() {
       this.$store.dispatch("makeEvent", {

@@ -1,6 +1,6 @@
 const M = require( '../mutations')
 
-const state = [] // aka members (in this file):
+const state = []
 
 const mutations = {
     setCurrent(members, current){

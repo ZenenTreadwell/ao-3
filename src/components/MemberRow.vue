@@ -85,7 +85,7 @@ export default {
             return g
         },
         b(){
-            return this.$store.getters.hashMap[this.m.memberId]
+            return this.$store.state.tasks[this.$store.state.hashMap[this.m.memberId]]
         },
         isVouched(){
             return this.b.deck.indexOf( this.$store.getters.member.memberId ) > -1

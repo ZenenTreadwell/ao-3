@@ -83,7 +83,7 @@ function reactions(ev){
                             result['p2sh-segwit'],
                         )
                     })
-                    .catch(err => console.log("tcre newaddr", err))
+                    .catch(err => console.log("newaddress error", err))
                 break
             case 'resource-created':
                 lightning.newAddress()

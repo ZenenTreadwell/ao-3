@@ -4,47 +4,32 @@ const M = require( '../mutations')
 const modules = require( '../modules')
 const config = require( '../../configuration')
 
-const serverState = {
-  ao: [],
-  sessions: [],
-  members: [],
-  tasks: [],
-  resources: [],
-  cash: {
-    address: config.tor.hostname,
-    alias: 'dctrl',
-    currency: 'CAD',
-    spot: 0,
-    rent: 0,
-    cap: 75,
-    pay_index: 0,
-    usedTxIds: [],
-    outputs: [],
-    channels: [],
-    info: {},
-  },
+function baseState(){
+    return {
+      hashMap: {},
+      ao: [],
+      sessions: [],
+      members: [],
+      tasks: [],
+      resources: [],
+      cash: {
+        address: config.tor.hostname,
+        alias: '',
+        currency: 'CAD',
+        spot: 0,
+        rent: 0,
+        cap: 75,
+        pay_index: 0,
+        usedTxIds: [],
+        outputs: [],
+        channels: [],
+        info: {},
+      },
+    }
 }
 
-const pubState = {
-  ao: [],
-  sessions: [],
-  members: [],
-  tasks: [],
-  resources: [],
-  cash: {
-    address: config.tor.hostname,
-    alias: '',
-    currency: 'CAD',
-    spot: 0,
-    rent: 0,
-    cap: 75,
-    pay_index: 0,
-    usedTxIds: [],
-    outputs: [],
-    channels: [],
-    info: {},
-  },
-}
+const serverState = baseState()
+const pubState = baseState()
 
 function setCurrent(state, b){
     modules.cash.mutations.setCurrent(state.cash, b)
@@ -53,6 +38,7 @@ function setCurrent(state, b){
     modules.ao.mutations.setCurrent(state.ao, b)
     modules.members.mutations.setCurrent(state.members, b)
     modules.resources.mutations.setCurrent(state.resources, b)
+    modules.hashMap.mutations.setCurrent(state.hashMap, b)
 }
 
 function applyBackup(b){
@@ -72,6 +58,7 @@ function applyEvent(state, ev) {
     M.sessionsMuts(state.sessions, ev)
     M.tasksMuts(state.tasks, ev)
     M.aoMuts(state.ao, ev)
+    M.hashMapMuts(state.hashMap, ev)
 }
 
 function initialize(callback) {

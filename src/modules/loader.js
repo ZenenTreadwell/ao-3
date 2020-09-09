@@ -1,5 +1,4 @@
 const request = require( 'superagent')
-const uuidV1 = require( 'uuid/v1')
 const io = require( 'socket.io-client')
 const socket = io()
 
@@ -43,12 +42,12 @@ function attachSocket(commit, dispatch){
             commit('setConnectionError', 'Timed out: ' + timeout + 'ms')
         })
 
-        socket.on('reconnect_attempt', (timeout)=> {
+        socket.on('reconnect_attempt', () => {
             commit('setConnected', 'connecting')
             commit('setConnectionError', 'reconnect attempt')
         })
 
-        socket.on('reconnect', (timeout)=> {
+        socket.on('reconnect', () => {
             commit('setConnected', 'connected')
             commit('setConnectionError', '')
         })
@@ -64,7 +63,7 @@ const actions = {
     connectSocket({commit, dispatch}){
         attachSocket(commit, dispatch)
     },
-    loadCurrent({ commit, state, dispatch }){
+    loadCurrent({ commit, state }){
         if (state.connected !== "connected"){
             socket.connect()
         }
@@ -73,7 +72,7 @@ const actions = {
             .set("Authorization", state.token)
             .end((err, res)=> {
                 if (err || !res.body) {
-
+                    console.log('task load post err: ', err)
                 } else {
                     console.log('got ', res.body.length, 'tasks from tasks endpoint')
                     commit('applyEvent', {
@@ -87,7 +86,7 @@ const actions = {
             .set("Authorization", state.token)
             .end((err, res)=>{
                 if (err || !res.body) {
-
+                    console.log('task load post err: ', err)
                 } else {
                     commit('setCurrent', res.body)
                     res.body.sessions.forEach(s => {
@@ -98,7 +97,7 @@ const actions = {
                 }
             })
     },
-    makeEvent({commit, state, getters, dispatch}, newEv){
+    makeEvent({commit, state}, newEv){
         let startTs = Date.now()
         commit("setReqStatus", "pending")
         request
@@ -110,8 +109,7 @@ const actions = {
                     commit("setReqStatus", "failed", res.body)
                     console.log({err, res})
                 } else {
-                    commit("setPing", Date.now() - startTs)
-                    commit("setReqStatus", "ready")
+                    commit("setReqStatus", Date.now() - startTs)
                     console.log("make event res", res.body)
                 }
             })

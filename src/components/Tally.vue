@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.tally.tooltip(@click='setAction')
+.tally.tooltip
     span
         span.faded
             span.points(v-if='b.completeValue > 0') {{ b.completeValue }}
@@ -9,11 +9,6 @@
         span.hide(v-if='b.claimed.length > 0') -
         img(v-for='n in clm.xmark'  src='../assets/images/xmark.svg')
         img(v-for='n in clm.mark'  src='../assets/images/mark.svg')
-    .tooltiptext(v-if='b.claimed.length > 0 || actions.length > 0')
-        p(v-if='$store.getters.member.tooltips  &&  actions.length > 0') counting on:
-        current(v-for='n in actions'  :memberId='n')
-        p(v-if='$store.getters.member.tooltips &&  b.claimed.length > 0') completed by:
-        current.block(v-for='memberId in b.claimed', :memberId='memberId')
 </template>
 
 <script>
@@ -77,6 +72,7 @@ export default {
                 minutes
             }
           }
+          return undefined
       },
     }
 }
@@ -105,7 +101,6 @@ export default {
     font-size: 1em
     min-height: 2em
     min-width: 7em
-    cursor: pointer
 img
     height: 1em
     position: relative

@@ -9,7 +9,7 @@ const {serverState} = require( './state')
 const client = new LightningClient(config.clightning.dir, true);
 
 lightningRouter.post('/lightning/channel',(req, res) => {
-    client.fundchannel(req.body.id, 'all') // XXX
+    client.fundchannel(req.body.id, 'all')
         .then(channel => {
             console.log("channel funded", channel)
             res.send(true)

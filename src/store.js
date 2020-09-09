@@ -18,6 +18,7 @@ export default createStore({
       resources: modules.resources,
       cash: modules.cash,
       sessions: modules.sessions,
+      hashMap: modules.hashMap,
   },
   getters: {
       bountyList(state, getters){
@@ -85,15 +86,15 @@ export default createStore({
           return getters.liveConnections[state.upgrades.warp]
       },
       memberCard(state, getters){
-          let memberCard = _.merge(calculations.blankCard('', '', ''), getters.hashMap[getters.member.memberId])
+          let memberCard = _.merge(calculations.blankCard('', '', ''), state.tasks[state.hashMap[getters.member.memberId]])
           return memberCard
       },
-      contextCard(state, getters){
-          let contextCard = _.merge(calculations.blankCard('', '', ''), getters.hashMap[state.context.panel[state.context.top]])
+      contextCard(state){
+          let contextCard = _.merge(calculations.blankCard('', '', ''), state.tasks[state.hashMap[state.context.panel[state.context.top]]])
           return contextCard
       },
       contextDeck(state, getters){
-          return getters.contextCard.subTasks.slice().reverse().map(t => getters.hashMap[t]).filter(t => !!t && t.color )
+          return getters.contextCard.subTasks.slice().reverse().map(t => state.tasks[state.hashMap[t]]).filter(t => !!t && t.color )
       },
       contextCompleted(state, getters){
           let upValence = []
@@ -106,7 +107,7 @@ export default createStore({
             }
           })
           return getters.contextCard.completed
-              .map(tId => getters.hashMap[tId])
+              .map(tId => state.tasks[state.hashMap[tId]])
               .filter(t => {
                   return (
                       upValence.every(mId => t.claimed.indexOf(mId) > -1) &&
@@ -188,13 +189,6 @@ export default createStore({
           }
           return getters.contextDeck.filter(d => d.color === 'blue')
       },
-      hashMap(state){
-          let hashMap = {}
-          state.tasks.forEach(t => {
-              hashMap[t.taskId] = t
-          })
-          return hashMap
-      },
       memberIds(state){
           return state.members.map(c => c.memberId)
       },
@@ -218,7 +212,7 @@ export default createStore({
           // my = _.filter(my, st => !my.some(t => t.subTasks.concat(t.priorities, t.completed).indexOf(st.taskId) > -1))
           my.forEach(g => {
               g.tempLastClaimed = 0
-              let completions = g.completed.map(t => getters.hashMap[t])
+              let completions = g.completed.map(t => state.tasks[state.hashMap[t]])
               completions.forEach(c => {
                   if(typeof c === 'undefined') {
                       console.log("invalid data due to broken subTaskId links in completed list")
@@ -269,12 +263,12 @@ export default createStore({
           guilds = _.filter(guilds, st => !guilds.some(t => t.subTasks.concat(t.priorities, t.completed).indexOf(st.taskId) > -1))
           guilds.forEach(g => {
               g.subTasks.concat(g.priorities, g.completed).forEach(p => {
-                  let task = getters.hashMap[p]
+                  let task = state.hashMap[p]
                   if(!task) {
                       console.log("null taskId found, this means cleanup is not happening elsewhere and is very bad")
                   } else if(task.guild) {
                       task.subTasks.concat(task.priorities, task.completed).forEach(sp => {
-                          let subtask = getters.hashMap[sp]
+                          let subtask = state.tasks[state.hashMap[sp]]
                           if(!subtask) {
                               console.log("null subtaskId found, this means cleanup is not happening elsewhere and is very bad")
                           } else if(subtask.guild) {
@@ -360,11 +354,11 @@ export default createStore({
           }
           return 10000
       },
-      membersVouches(state, getters){
+      membersVouches(state){
           let members = state.members.slice()
           let vouches = []
           members.forEach(m => {
-              let memberCard = getters.hashMap[m.memberId]
+              let memberCard = state.tasks[state.hashMap[m.memberId]]
               memberCard.deck.forEach(v => {
                   let prevCount = vouches.find(c => c.memberId === v)
                   if(!prevCount) {
@@ -382,7 +376,7 @@ export default createStore({
       weights(state, getters){
           let w = {}
           getters.memberIds.forEach(mId => {
-              let member = getters.hashMap[mId]
+              let member = state.tasks[state.hashMap[mId]]
               member.priorities.forEach(p => {
                   if (!w[p]) {
                       w[p] = 1 / member.priorities.length
@@ -402,7 +396,7 @@ export default createStore({
                   topId = tId
               }
           })
-          return getters.hashMap[topId]
+          return state.tasks[state.hashMap[topId]]
       },
   },
   middlewares: [],

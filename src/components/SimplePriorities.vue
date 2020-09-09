@@ -16,7 +16,7 @@ export default {
   props: ['taskId'],
   computed: {
       card() {
-          return this.$store.getters.hashMap[this.taskId]
+          return this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
       },
       priorities() {
           let p = []

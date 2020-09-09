@@ -167,17 +167,17 @@ export default {
       },
       coreMembers(){
           return this.sortedMembers
-            .filter(m => m.active > 0 && this.$store.getters.hashMap[m.memberId].boost > 0)
+            .filter(m => m.active > 0 && this.$store.state.tasks[this.$store.state.hashMap[m.memberId]].boost > 0)
       },
       pendingDeactivations(){
           return this.sortedMembers
-            .filter(m => m.active > 0 && this.$store.getters.hashMap[m.memberId].boost <= 0)
+            .filter(m => m.active > 0 && this.$store.state.tasks[this.$store.state.hashMap[m.memberId]].boost <= 0)
       },
       sortedMembers(){
               let sortedMembers = this.$store.state.members.slice()
               sortedMembers.sort((a, b) => {
-                  let cardA = this.$store.getters.hashMap[a.memberId]
-                  let cardB = this.$store.getters.hashMap[b.memberId]
+                  let cardA = this.$store.state.tasks[this.$store.state.hashMap[a.memberId]]
+                  let cardB = this.$store.state.tasks[this.$store.state.hashMap[b.memberId]]
                   if(cardA.deck.length < cardB.deck.length) return 1
                   if(cardA.deck.length === cardB.deck.length) return 0
                   return -1

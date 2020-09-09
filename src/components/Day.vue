@@ -79,10 +79,10 @@ export default {
             }
         },
         getCardName(tId){
-            return this.$store.getters.hashMap[tId].name
+            return this.$store.state.tasks[this.$store.state.hashMap[tId]].name
         },
         getCardColor(tId){
-            return this.$store.getters.hashMap[tId].color
+            return this.$store.state.tasks[this.$store.state.hashMap[tId]].color
         },
         checkIsMember(name){
             return this.$store.state.members.some(m => m.memberId === name)
@@ -129,7 +129,7 @@ export default {
     background-color: softGrey
     overflow: visible
 
-.day:hover 
+.day:hover
     background-color: softerGrey
 
 .date

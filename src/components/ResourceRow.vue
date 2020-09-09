@@ -36,11 +36,11 @@ export default {
             return this.optionList.length > 0
         },
         card(){
-            return this.$store.getters.hashMap[this.r.resourceId]
+            return this.$store.state.tasks[this.$store.state.hashMap[this.r.resourceId]]
         },
         optionList(){
             let ol = this.card.priorities.map(taskId => {
-                let option = this.$store.getters.hashMap[taskId]
+                let option = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
                 let split = option.name.split(':')
                 if (split.length >= 2){
                     return [split[0], split[1], option.color] // notes, name, color

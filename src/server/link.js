@@ -19,7 +19,6 @@ function sync(){
             let crawlered = calculations.crawler(serverState.tasks, l)
             let expectedHash = calculations.crawlerHash(serverState.tasks, l)
             connector.checkHash(a.address, a.outboundSecret, l, hashRes => {
-                console.log({a, l, hashRes})
                 if (expectedHash !== hashRes){
                     connector.postEvent(a.address, a.outboundSecret, {
                       type: 'tasks-received',

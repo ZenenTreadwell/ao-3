@@ -68,7 +68,7 @@ export default {
           newCards = []
           crawler = _.filter(crawler, t => {
             if(deck.concat(history).indexOf(t) > -1) return false
-            let task = this.$store.getters.hashMap[t]
+            let task = this.$store.state.tasks[this.$store.state.hashMap[t]]
             if(task === undefined || task.subTasks === undefined || task.priorities === undefined || task.completed === undefined) return false
 
             if(task.deck.indexOf(this.$store.getters.member.memberId) > -1) {

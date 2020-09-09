@@ -57,7 +57,6 @@ const mutations = {
     bark(state) {
         state.barking = true
         state.pinging = true
-        // XXX - should be sync? Works!?
         setTimeout(()=> {
             state.barking = false
         }, 1000)

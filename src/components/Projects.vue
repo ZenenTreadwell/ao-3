@@ -24,7 +24,7 @@ export default {
             let panel = [taskId]
             let top = 0
 
-            let t = this.$store.getters.hashMap[taskId]
+            let t = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
             let panelColor = this.$store.getters[t.color]
             let topColor = panelColor.indexOf(taskId)
 
