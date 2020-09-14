@@ -1,6 +1,7 @@
 <template lang='pug'>
 
 .app
+  .app2(:class='cardInputSty')
     helm
     contexts
     event-feed
@@ -30,6 +31,19 @@ export default {
     components: {
         EventFeed, Helm, TaskCreate, Contexts, Deck
     },
+    computed: {
+        cardInputSty(){
+            if (this.$store.getters.member.stacks === 5) return {
+                redwx : this.$store.getters.contextCard.color == 'red',
+                bluewx : this.$store.getters.contextCard.color == 'blue',
+                greenwx : this.$store.getters.contextCard.color == 'green',
+                yellowwx : this.$store.getters.contextCard.color == 'yellow',
+                purplewx : this.$store.getters.contextCard.color == 'purple',
+                blackwx : this.$store.getters.contextCard.color == 'black',
+            }
+            return undefined
+        },
+    }
 }
 
 </script>
@@ -47,4 +61,8 @@ export default {
     color: accent1
     font-weight: lighter
     font-size: 1.33em
+
+.app2
+    min-height: 100vh;
+
 </style>

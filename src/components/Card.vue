@@ -8,12 +8,12 @@
     flag(:b='b', :inId='inId')
     tally(:b='b')
     .dogecoin.tooltip(v-if='w > 0')
-        img(v-for='n in parseInt(Math.floor(w))'  src='../assets/images/badge.svg')
-        img(v-if='w % 1 > 0 || w < 1'  :class="['sixteenth' + fractionalReserveDoge]"  src='../assets/images/badge.svg')
+        img(v-for='n in parseInt(Math.floor(w))'  src='../assets/images/loggedOut.svg')
+        img(v-if='w % 1 > 0 || w < 1'  :class="['sixteenth' + fractionalReserveDoge]"  src='../assets/images/loggedOut.svg')
     .buffertop
       preview-deck(:task='b')
       .cardbody
-          linky.cardhud(@click='setAction'  :x='b.name' v-if='!member')
+          linky.cardhud(:x='b.name' v-if='!member')
           span.sml
               current(v-for='n in actions'  :memberId='n')
     div(v-if='b.taskId !== $store.getters.member.action  && b.taskId !== $store.getters.contextCard.taskId')
@@ -48,16 +48,13 @@
 </template>
 
 <script>
-import calculations from '../calculations'
+import _ from 'lodash'
 import Hammer from 'hammerjs'
 import Propagating from 'propagating-hammerjs'
-
 import Tally from './Tally'
 import Linky from './Linky'
 import Current from './Current'
 import SimplePriorities from './SimplePriorities'
-
-// consume
 import Bird from './Bird'
 import Flag from './Flag'
 import PreviewDeck from './PreviewDeck'
@@ -67,9 +64,7 @@ export default {
     components: { PreviewDeck, Bird, Flag, Linky, SimplePriorities, Current, Tally},
     mounted() {
         let el2 = this.$refs.scuttle
-
         let mc = Propagating(new Hammer.Manager(el2))
-        // find out if this is a subtask that breaks it?
         let Tap = new Hammer.Tap({ time: 400 })
         let Press = new Hammer.Press({ time: 500 })
         mc.add([Press, Tap])
@@ -182,8 +177,7 @@ export default {
             e.stopPropagation()
         })
 
-        mc2.on('press', (e) => {
-
+        mc2.on('press', () => {
             this.copyCardToClipboard()
         })
     },
@@ -211,7 +205,7 @@ export default {
         goIn(){
             let panel = this.c
             if (panel && panel.length && panel.length > 0){
-
+                //
             } else {
                 panel = _.uniq( [this.b.taskId].concat(this.$store.state.context.panel) )
             }
@@ -219,7 +213,7 @@ export default {
             let top = panel.indexOf(this.b.taskId)
 
             if (top > -1){
-
+                //
             } else {
                 top = 0
             }

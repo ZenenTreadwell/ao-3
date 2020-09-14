@@ -1,24 +1,29 @@
-# ao-3
+# Autonomous Organization
+## Project Setup
+- **nodejs** - a server to host ao and control devices
+- **sqlite3** - a database so notes and actions are saved onto your computer
+- **tor** - an onion so you can access from anywhere and link together with privacy
+- **bitcoind & c-lightning** - a positive alternative to the current financial system
 
-## Project setup
+Run install scripts for Ubuntu 20:
 ```
+chmod +x setup/*.sh
+./setup/prepare-install.sh
+./setup/install-<target-dependency>.sh
+
 npm install
-```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
+# bundle app
 npm run build
+
+# serve at localhost:8003
+npm run start
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Project Intent
+- Empower people by saving data locally, sending communications directly, and having an interface respectful of attention.
+- Exit corporate-state technoligopoly whose priorities are monitoring political opposition and influencing people's consciousness particularly by dividing and outraging.
+- Encourage honest constructive accountable relationships and communities.  
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Project Support
+Though nothing's expected, all Dorian Satoshi Nakamoto wanted was a free lunch, here's to the creator of ao: 3AA6s5MUnLjPzi2iPzUGVqWGAGBBJnBiWg or bc1qg3w4uy50ncdn3j3rhy0j06netthyz0y3ug2sx4.

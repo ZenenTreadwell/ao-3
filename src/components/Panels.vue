@@ -2,9 +2,7 @@
 
 .panel(:class='{ fullwidth : $store.getters.member.stacks === 1 || !requireFiveStacks }')
     div(v-if='$store.getters.all.length < 1')
-        h5.adjtooltip table
-        .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-            p.suggest no sub cards
+        h5.adjtooltip empty card
     div(v-else-if='$store.getters.member.stacks === 5 && requireFiveStacks')
       .row
         .four.columns
@@ -28,6 +26,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import Projects from './Projects'
 import CardPanel from './CardPanel'
 
@@ -50,9 +49,6 @@ export default {
       }
   },
   methods: {
-      getOracle(){
-
-      },
       getArchive(){
         let hodld = []
         this.$store.state.tasks.forEach( t => {

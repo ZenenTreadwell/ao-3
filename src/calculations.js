@@ -1,6 +1,4 @@
-const Vue = require( 'vue')
 const satsPerBtc = 100000000 // one hundred million per btc
-const _ = require('lodash')
 const cryptoUtils = require('./crypto')
 
 function access(active, memberBoost, charged){
@@ -22,7 +20,7 @@ function crawler(tasks, taskId){
       if(task.taskId === taskId) {
           let crawler = [taskId]
           do {
-              newCards = []
+              let newCards = []
               crawler.forEach(t => {
                   if(history.indexOf(t) >= 0) return
                   history.push(t)
@@ -66,7 +64,6 @@ function blankMember(memberId, name, fob, secret, lastUsed){
       secret,
       lastUsed,
       active: 0,
-      lastUsed: 0,
       muted: true,
       tooltips: true,
       stacks: 1,
@@ -141,10 +138,6 @@ function blankCard(taskId, name, color, deck = []) {
 //     return safeClone
 // }
 
-function isString(x) {
-  return Object.prototype.toString.call(x) === "[object String]"
-}
-
 function safeMerge(cardA, cardZ) {
     cardA.subTasks = [...new Set(cardA.subTasks.concat(cardZ.subTasks))]
     cardA.priorities = [...new Set(cardA.priorities.concat(cardZ.priorities))]
@@ -156,6 +149,7 @@ function safeMerge(cardA, cardZ) {
 
 function cadToSats(cadAmt, spot){
     let sats = parseFloat( cadAmt ) / parseFloat( spot ) * satsPerBtc
+    console.log({sats, cadAmt, spot, satsPerBtc})
     return parseInt(sats)
 }
 
@@ -213,4 +207,5 @@ module.exports = {
   crawler,
   crawlerHash,
   access,
+  calculateMsThisMonth,
 }

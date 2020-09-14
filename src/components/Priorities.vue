@@ -2,7 +2,7 @@
 
 .priorities
     div(v-if='priorities.length < 1')
-        h5 board
+        h5 empty board
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer
@@ -41,7 +41,6 @@ import Hypercard from './Card'
 import Hyperpriority from './Priority'
 import Checkbox from './Checkbox'
 import Connect from './Connect'
-import _ from 'lodash'
 
 export default {
   data(){

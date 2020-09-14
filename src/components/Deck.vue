@@ -25,7 +25,7 @@
             payments(v-show='$store.state.upgrades.mode === "chest"')
             planning(v-show='$store.state.upgrades.mode === "timecube"')
     div
-        .fadey(:class='{ cardInputSty, onestack : $store.getters.member.stacks === 1 || !requireFiveStacks, completedfadey : $store.state.context.completed }')
+        .fadey(:class='{ onestack : $store.getters.member.stacks === 1 || !requireFiveStacks, completedfadey : $store.state.context.completed }')
             .boatContainer
                 img.boatAll.faded.adjtooltip(@click='toggleStacks' src='../assets/images/orb.svg'  :class='{ro:$store.getters.member.stacks === 5}')
                 .tooltiptext.correctspottopleft(v-if='$store.getters.member.tooltips')
@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import calculations from '../calculations'
 import MemberRow from './Member'
 import ResourceRow from './ResourceRow'
 import ResourceBook from './ResourceBook'
@@ -139,23 +138,7 @@ export default {
           return {before, after}
       },
       card(){
-          if (!this.$store.getters.contextCard){
-              return {
-                  taskId: 'test',
-                  name: 'hello, world',
-              }
-          }
           return this.$store.getters.contextCard
-      },
-      cardInputSty(){
-          if (this.card) return {
-              redwx : this.card.color == 'red',
-              bluewx : this.card.color == 'blue',
-              greenwx : this.card.color == 'green',
-              yellowwx : this.card.color == 'yellow',
-              purplewx : this.card.color == 'purple',
-              blackwx : this.card.color == 'black',
-          }
       },
       cardAge(){
           let now = Date.now()

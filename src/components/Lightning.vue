@@ -11,16 +11,11 @@
       .localremote(v-for='n in $store.state.cash.channels')
           .localbar(:style='l(n)')  {{ parseFloat( n.channel_sat ).toLocaleString() }}
           .remotebar(:style='r(n)')  {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
-      // hr
-      // .row
-          .six.grid
-              p.local {{ $store.getters.totalLocal.toLocaleString() }}
-          .six.grid
-              p.remote {{ $store.getters.totalRemote.toLocaleString() }}
     .row
         h4(v-if='unchanneled.length > 0') peers with no channels
         div(v-for='p in unchanneled' @click='selectPeer(p.id)'  :class='{bluetx: p.id === selectedPeer}') {{ p.id.slice(0,7) }}
         button(v-if='selectedPeer'   @click='requestChannel') Request Channel
+    h3(v-if='sats > 0  && sats !== Infinity') 1 {{ $store.state.cash.currency }} ~ {{ sats }}
 </template>
 
 <script>
@@ -41,6 +36,9 @@ export default {
     computed: {
         unchanneled(){
             return this.$store.state.cash.info.peers.filter(p => !p.channels)
+        },
+        sats(){
+            return calculations.cadToSats(1, this.$store.state.cash.spot)
         }
     },
     methods:{

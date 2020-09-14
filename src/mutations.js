@@ -287,10 +287,15 @@ function hashMapMuts(hashMap, ev){
         case "resource-created":
             hashMap[ev.resourceId] = ev.i
             break
-        // XXX
-        case "tasks-received":
-            // XXX difficult as tasksMuts may add to array or may merge task
-            break
+        case "tasks-received":{
+            let i = 0
+            ev.tasks.forEach(t => {
+                if (!(hashMap[t.taskId] >= 0)){
+                    hashMap[t.taskId] = ev.i + i
+                    i ++
+                }
+            })
+            }break
         case "task-removed":
             delete hashMap[ev.taskId]
             Object.keys(hashMap).forEach(tId => {

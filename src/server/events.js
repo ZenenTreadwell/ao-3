@@ -536,6 +536,7 @@ function tasksReceived(tasks, blame, callback) {
     type: "tasks-received",
     tasks,
     blame,
+    i: serverState.tasks.length
   }
   dctrlDb.insertEvent(newEvent, callback)
 }

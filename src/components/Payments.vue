@@ -2,24 +2,24 @@
 
 .upgrades
     .payreq(v-if='$store.state.cash.info.alias && b.bolt11')
-        .section lightning request
+        .section request {{b.completeValue}}
         tag(:d='b.bolt11')
         a(:href='"lightning:" + b.bolt11')
             button Open Wallet
                 img(src='../assets/images/lightning.svg')
-    .payreq(v-else-if='b.btcAddr')
-        .section bitcoin address - send any amount
+    .payreq(v-else-if='$store.state.cash.info.alias && b.btcAddr')
+        .section address
         tag(:d='b.btcAddr')
         a(:href='"bitcoin:" + b.btcAddr')
             button Open Wallet
                 img(src='../assets/images/bitcoin.svg')
+    .section(v-else) lightning node unavailable :(
     div(v-if='$store.getters.contextCard.taskId === $store.getters.member.memberId')
         lightning
 </template>
 
 <script>
 
-import calcs from '../calculations'
 import PointsSet from './PointsSet'
 import Tag from './Tag'
 import Lightning from './Lightning'

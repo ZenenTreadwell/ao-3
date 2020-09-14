@@ -1,9 +1,9 @@
 <template lang='pug'>
 
 .p.clearboth(v-if='card')
-    .opencard(v-if='$store.getters.member.action === taskId'  @click='deaction')
+    .opencard(v-show='$store.getters.member.action === taskId'  @click='deaction')
         hypercard(:b="card", :c="parent.priorities",  :inId="inId")
-    .closedcard.agedwrapper.dont-break-out(v-else  :class="cardInputSty"  ref='wholeCard')
+    .closedcard.agedwrapper.dont-break-out(v-show='$store.getters.member.action !== taskId'   :class="cardInputSty"  ref='wholeCard')
         .agedbackground.freshpaper.middle(v-if='cardAge < 8')
         .agedbackground.weekoldpaper.middle(v-else-if='cardAge < 30')
         .agedbackground.montholdpaper.middle(v-else-if='cardAge < 90')
@@ -162,12 +162,12 @@ export default {
             })
         },
         deaction(){
-            // this.$store.dispatch("makeEvent", {
-            //     type: 'member-field-updated',
-            //     field: 'action',
-            //     newfield: false,
-            //     memberId: this.$store.getters.member.memberId,
-            // })
+            this.$store.dispatch("makeEvent", {
+                type: 'member-field-updated',
+                field: 'action',
+                newfield: false,
+                memberId: this.$store.getters.member.memberId,
+            })
         },
         setAction(){
             this.$store.dispatch("makeEvent", {

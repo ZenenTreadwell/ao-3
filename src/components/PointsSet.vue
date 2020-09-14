@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.pointsset(ref='wholeForm')
+.pointsset(ref='wholeForm'  :class='{unavailable: !this.$store.state.cash.info.alias}')
     input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
     button(@click.stop='setValue') invoice
 </template>
@@ -56,6 +56,9 @@ export default {
 
 @import '../styles/button'
 @import '../styles/input'
+
+.unavailable
+    opacity: 0.24
 
 button
     width: 90%
