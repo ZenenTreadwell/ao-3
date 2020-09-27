@@ -27,4 +27,4 @@ mode 1
 mode 2
 ![Image of ui](/public/ui-calendar.png)
 card
-![Image of ui](/public/ui-card.png
+![Image of ui](/public/ui-card.png)
