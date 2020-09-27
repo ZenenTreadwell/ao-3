@@ -13,7 +13,7 @@ function watchSpot(){
 
 function getRecordSpot(){
     getPrice( (err, spot)=> {
-        if (err) console.log("getRecordSpot err", err)
+        if (err) console.log("getRecordSpot err", " add bitcoinaverage keys in configuration.js")
         if (!err){
             events.spotUpdated(spot)
         }

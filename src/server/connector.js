@@ -27,6 +27,7 @@ function checkHash(address, secret, taskId, callback){
       method: 'post',
       json: true,
     }, function (err, res, resBody) {
+          console.log('check hash ', address, {err, res, resBody})
           if (err){
               return callback(err)
           }

@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "compile": "npm run build; npm run start",
+    "recompile": "npm run build; npm run start",
     "start": "node src/server/app.js"
   },
   "dependencies": {

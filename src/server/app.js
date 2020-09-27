@@ -51,13 +51,11 @@ function startDctrlAo(){
         })
 
         const filteredStream = dctrlDb.changeFeed.map(state.removeSensitive)
-
         const fullEvStream = Kefir.merge([filteredStream, dctrlDb.shadowFeed])
-
         fullEvStream.onValue( ev => {
               state.applyEvent(state.pubState, ev)
               io.emit('eventstream', ev)
-              console.log("emitting:", ev)
+              console.log("eventstream", ev.type)
         })
       })
     })

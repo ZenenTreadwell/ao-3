@@ -13,7 +13,6 @@ const syncLink = new cron.CronJob({
 })
 
 function sync(){
-    console.log('sycing')
     serverState.ao.forEach(a => {
         a.links.forEach(l => {
             let crawlered = calculations.crawler(serverState.tasks, l)
