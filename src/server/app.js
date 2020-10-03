@@ -14,7 +14,6 @@ const link = require('./link')
 const lightning = require('./lightning')
 const applyRouter = require('./router')
 const app = express()
-const openpgp = require('openpgp')
 
 applyRouter(app)
 startDctrlAo()
