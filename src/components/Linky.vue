@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 .linky
-    div.noheight(v-html='m') 
+    div.noheight(v-html='m')
 </template>
 
 <script>
@@ -14,8 +14,7 @@ export default {
     computed: {
         linkifiedName(){
             var text = this.x
-            // the negative look-behind and look-ahead in this regex make it compatible with vue-markdown rendering, but there's not an AND on the two ( )'s so link detection will fail if preceded by ]( OR succeed by )
-            var regex = /((http|ftp|https):\/\/)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z0-9]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
+            var regex = /((http|ftp|https):\/\/)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z0-9]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/gi;
             var linkedtext = text.replace(regex, function (url) {
               var linkedurl = url
               var hasprotocolregex = /((http|ftp|https):\/\/)/i

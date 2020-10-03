@@ -18,7 +18,7 @@
           label.stash(v-if='card.boost') {{ card.boost.toFixed(2) }}
           label.stash(v-else) 0
     .clearboth
-    
+
 </template>
 
 <script>
@@ -64,8 +64,7 @@ export default {
             this.$store.commit('setMode', 0)
         },
         goBadge(){
-            if(this.$store.state.upgrades.mode !== 'badge') {
-            } else {
+            if(this.$store.state.upgrades.mode === 'badge') {
                 if (this.isGrabbed){
                     this.$store.dispatch("makeEvent", {
                       type: 'task-dropped',

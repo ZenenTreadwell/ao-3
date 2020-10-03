@@ -32,7 +32,6 @@
 <script>
 
 const HOUR = 1000 * 60 * 60
-const HALFDAY = HOUR * 12
 
 export default {
     props:['tId', 'showSet'],
@@ -51,8 +50,6 @@ export default {
         }
     },
     data(){
-        let d = new Date()
-
         return {
             showSetTime: this.showSet,
             ymd: '',

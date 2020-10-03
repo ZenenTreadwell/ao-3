@@ -2,7 +2,7 @@
 
 .priorities
     div(v-if='priorities.length < 1')
-        h5 empty board
+        h5 empty
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer

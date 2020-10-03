@@ -2,7 +2,7 @@
 
 .upgrades
     .payreq(v-if='$store.state.cash.info.alias && b.bolt11')
-        .section request {{b.completeValue}}
+        .section pay {{b.completeValue}}
         tag(:d='b.bolt11')
         a(:href='"lightning:" + b.bolt11')
             button Open Wallet
@@ -13,25 +13,19 @@
         a(:href='"bitcoin:" + b.btcAddr')
             button Open Wallet
                 img(src='../assets/images/bitcoin.svg')
-    .section(v-else) lightning node unavailable :(
+    .section(v-else) payment node unavailable :(
     div(v-if='$store.getters.contextCard.taskId === $store.getters.member.memberId')
         lightning
 </template>
 
 <script>
 
-import PointsSet from './PointsSet'
 import Tag from './Tag'
 import Lightning from './Lightning'
 
 export default {
     components:{
-        PointsSet, Tag, Lightning
-    },
-    data(){
-        return {
-            payreqAmount: 1,
-        }
+        Tag, Lightning
     },
     computed: {
         b(){

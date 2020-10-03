@@ -49,7 +49,6 @@
 </template>
 
 <script>
-import _ from "lodash"
 import cryptoUtils from '../crypto'
 import Current from './Current'
 import MemberRow from './MemberRow'
@@ -149,18 +148,18 @@ export default {
           }
       },
       memberReq(){
-  			let name, secret
-  			name = this.member.name
-  			if (name){
-  					secret = cryptoUtils.createHash(name)
-  			}
-  			return {
-  					type: "member-created",
-  					name,
-  					secret,
-  					fob: this.member.fob,
-  			}
-  		},
+          let name, secret
+          name = this.member.name
+          if (name){
+          		secret = cryptoUtils.createHash(name)
+          }
+          return {
+              type: "member-created",
+              name,
+              secret,
+              fob: this.member.fob,
+          }
+          },
       nonMembers(){
           return this.sortedMembers
             .filter(m => m.active <= 0)
@@ -182,9 +181,9 @@ export default {
                   if(cardA.deck.length === cardB.deck.length) return 0
                   return -1
               })
-              return sortedMembers
+              return sortedMembers.filter(m => m.memberId !== this.$store.getters.member.memberId)
         },
-        activeAccounts(){
+      activeAccounts(){
             let a = 0
             this.$store.state.members.forEach(m => {
                 if (m.active > 0) {

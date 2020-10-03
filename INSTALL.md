@@ -3,8 +3,8 @@
 Run install scripts for Ubuntu 20:
 ```
 chmod +x setup/*.sh
-./setup/prepare-install.sh
-./setup/install-<target-dependency>.sh
+./install/prepare-install.sh
+./install/install-<target-dependency>.sh
 
 npm install
 

@@ -32,7 +32,6 @@
 import Hammer from 'hammerjs'
 import Propagating from 'propagating-hammerjs'
 import GuildCreate from './GuildCreate'
-import calculations from '../calculations'
 
 export default {
     props: ['b', 'inId'],

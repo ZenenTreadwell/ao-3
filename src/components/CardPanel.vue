@@ -225,10 +225,8 @@ export default {
     },
     playSound(){
       if (!this.$store.getters.member.muted){
-        try {
           let flip = new Audio(require('../assets/sounds/pageturn.wav'))
           flip.play()
-        } catch (err){}
       }
     },
     toggleStacks(){
@@ -259,7 +257,6 @@ export default {
         return this.position === -1
     },
     topCard(){
-        let topCard = {}
         let end = this.c.length - 1
         if (!this.c || end < 0){
             console.log('no top?')
@@ -286,10 +283,10 @@ export default {
 @import '../styles/button'
 @import '../styles/tooltips'
 
-h3 
+h3
     font-size: 0.54em
     padding-top: .5em;
-    
+
 .one
     cursor:pointer
 

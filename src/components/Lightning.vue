@@ -3,8 +3,6 @@
 #nodes
   .container(v-if='$store.state.cash.info && $store.state.cash.info.blockheight')
     .row
-        p {{ $store.state.cash.info.alias }} Lightning Node - block {{ $store.state.cash.info.blockheight.toLocaleString() }}
-    .row
       p.chain
         span {{ $store.getters.confirmedBalance.toLocaleString() }}
           .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
@@ -16,6 +14,7 @@
         div(v-for='p in unchanneled' @click='selectPeer(p.id)'  :class='{bluetx: p.id === selectedPeer}') {{ p.id.slice(0,7) }}
         button(v-if='selectedPeer'   @click='requestChannel') Request Channel
     h3(v-if='sats > 0  && sats !== Infinity') 1 {{ $store.state.cash.currency }} ~ {{ sats }}
+    p block {{ $store.state.cash.info.blockheight.toLocaleString() }}
 </template>
 
 <script>

@@ -2,12 +2,12 @@
 
 .app
   .app2(:class='cardInputSty')
-    helm
-    contexts
-    event-feed
-    task-create
-    deck
-    .breathingroom
+  helm
+  contexts
+  event-feed
+  task-create
+  deck
+  .breathingroom
 </template>
 
 <script>
@@ -53,16 +53,20 @@ export default {
 @import "./styles/colours";
 
 .breathingroom
-    margin-bottom: 7em
+    height: 7em
 
 .app
     background: main
     min-height: 100vh;
-    color: accent1
+    color: lightGrey
     font-weight: lighter
     font-size: 1.33em
 
 .app2
+    position: fixed
+    top: 0
     min-height: 100vh;
+    min-width: 100vw;
+    pointer-events: none;
 
 </style>

@@ -29,7 +29,6 @@
 
 <script>
 
-
 import Linky from './Linky'
 import calculations from '../calculations'
 
@@ -72,7 +71,6 @@ export default {
           if (this.memberId) {
               tasks = this.$store.state.tasks.filter( t => t.deck.indexOf(this.memberId) !== -1 )
           } else if (this.taskId) {
-              let subTasks = []
               let t = this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
               t.subTasks.forEach(t => tasks.push( this.getTask(t)))
           } else if (this.task && this.task.subTasks) {

@@ -55,13 +55,12 @@ export default {
               .set('authorization', token)
               .set('session', session)
               .set('name', this.name)
-              .end((err,res)=>{
+              .end( err =>{
                   if (err) {
                       this.pass = ''
                       return this.err = err.message
                   }
                   this.setAuth(token, session)
-
               })
       },
       setAuth(token, session){

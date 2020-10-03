@@ -1,6 +1,4 @@
-const Vue = require( 'vue')
 const _ = require( 'lodash')
-const payments = ["bitcoin", "lightning"]
 
 const state = {
     parent: [],
@@ -35,28 +33,16 @@ const mutations = {
 }
 
 const actions = {
-    loaded({commit, state, getters, dispatch}){
-        let isMuted = getters.member.muted
-        if (!isMuted){
-          try {
-            let flip = new Audio(require('../assets/sounds/pageturn.wav'))
-            flip.play()
-          } catch (err){}
-        }
-    },
-    goIn({commit, state, dispatch}, pContext ){
-        console.log('goIn hit', pContext)
+    goIn({commit}, pContext ){
+        console.log('goIn hit')
         commit("setPanel", pContext.panel)
         commit("setTop", pContext.top)
         pContext.parents.forEach(p => {
             commit("addParent", p)
         })
-        // XXX should limit ??
-        // window.localStorage.setItem("context", JSON.stringify(state))
-        // console.log('attempt to save ', state)
     },
     goUp({commit}, pContext){
-        console.log('goUp called')
+        console.log('goUp hit')
         commit("goToParent", pContext.target)
         commit("setPanel", pContext.panel)
         commit("setTop", pContext.top)
