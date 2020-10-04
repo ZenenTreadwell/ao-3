@@ -66,6 +66,7 @@ export default {
                   minutes
               }
             }
+            return undefined
         },
         cardInputSty() {
           let color = this.card.color

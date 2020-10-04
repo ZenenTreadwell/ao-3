@@ -151,7 +151,7 @@ export default {
           let name, secret
           name = this.member.name
           if (name){
-          		secret = cryptoUtils.createHash(name)
+              secret = cryptoUtils.createHash(name)
           }
           return {
               type: "member-created",

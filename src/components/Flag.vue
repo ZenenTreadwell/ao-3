@@ -6,7 +6,7 @@
 </template>
 
 <script>
-
+import _ from 'lodash'
 import Hammer from 'hammerjs'
 import Propagating from 'propagating-hammerjs'
 import uuidv1 from 'uuid/v1'
@@ -33,7 +33,6 @@ export default {
         let Tap = new Hammer.Tap({ time: 400 })
         mc.add(Tap)
         mc.on('tap', (e) => {
-            let mode = this.$store.state.upgrades.mode
             if (this.isTop){
                 this.dogeIt()
             } else {

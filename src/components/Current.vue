@@ -36,6 +36,7 @@ export default {
     },
     name(){
         if (this.m) return this.m.name
+        return undefined
     },
     isLoggedIn(){
         let isLoggedIn

@@ -1,7 +1,7 @@
 <template lang='pug'>
 
-#auth.container
-  div(v-if='!existing  && !confirmed')
+#auth.container(v-if='!confirmed')
+  div(v-if='!existing')
       .input-container
           input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
           label choose name
@@ -9,10 +9,15 @@
       button(v-if='name.length > 0'  @click="createAccount") new account
   div(v-if='existing')
       .input-container
+          input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="username", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
+          label name
+          span.focus-border
+      .input-container
           input.input-effect#password(type='password', v-model='pass', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createSession'  :class='{"has-content":!!pass}')
-          label account password
+          label password
           span.focus-border
       button(v-if='pass.length > 0'  @click="createSession") login
+  .existing(@click='toggleExisting') existing account?
 </template>
 
 <script>
@@ -37,6 +42,9 @@ export default {
       },
   },
   methods: {
+      toggleExisting(){
+          this.existing = !this.existing
+      },
       createAccount(){
           request.get('/newaccount/' + this.name)
               .end((err, res) => {
@@ -85,6 +93,12 @@ export default {
 @import '../styles/button'
 @import '../styles/input'
 @import '../styles/skeleton'
+
+.existing
+    text-align: right
+    font-size: 0.7em
+    color: lightGrey
+    cursor: pointer
 
 h1
     text-align: center
