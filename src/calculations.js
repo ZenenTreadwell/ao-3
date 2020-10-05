@@ -102,12 +102,12 @@ function blankCard(taskId, name, color, deck = []) {
         highlights: [],
         claims: [],
         stackView: {
-            all: 0,
+            all: -1,
             red: -1,
             blue: -1,
-            yellow: 0,
-            green: 0,
-            purple: 0,
+            yellow: -1,
+            green: -1,
+            purple: -1,
         },
         // actions: [], //
         // clocks: [],

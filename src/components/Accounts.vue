@@ -11,18 +11,18 @@
                 option(value='fob') fob
             .input-container
                 input.input-effect(:type='inputType' v-model='change.newfield'  :class='{"has-content":!!change.newfield}')
-                label {{"new " + change.field}}
+                label new value
                 span.focus-border
             br
-            .input-container(v-if='inputType === "password"')
+            .input-container(v-if='inputType === "password"   &&  change.newfield.length > 0')
                 input.input-effect(:type='inputType', v-model='change.confirmNewfield'  :class='{"has-content":!!change.confirmNewfield}')
                 label repeat
                 span.focus-border
-            .check(v-if='inputType === "password"')
+            .check(v-if='inputType === "password"  &&  change.confirmNewfield.length > 0')
                 img.checkmark(v-if='matched', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span - repeat correctly
-            button(v-if='change.newfield.length > 0'  @click='update') update
+            button(v-if='change.newfield.length > 0 && matched'  @click='update') update
         .six.columns
             .section prefer
             .check.click(@click='toggleTooltips')
@@ -57,7 +57,7 @@ export default {
     data() {
       return {
         change: {
-            field: 'name',
+            field: 'secret',
             newfield: '',
             confirmNewfield: ''
         },
@@ -111,6 +111,7 @@ export default {
         },
         update(){
             this.$store.dispatch('makeEvent', this.changeReq)
+            this.empty()
         },
         newMember() {
             this.$store.dispatch('makeEvent', this.memberReq)
@@ -118,9 +119,13 @@ export default {
     },
     computed:{
       matched(){
-          let x = this.change.newfield
-          let y = this.change.confirmNewfield
-          return x === y
+          if (this.change.field === "secret"){
+              let x = this.change.newfield
+              let y = this.change.confirmNewfield
+              return x === y
+          } else {
+              return true
+          }
       },
       changeReq(){
           if (this.change.field === 'secret'){

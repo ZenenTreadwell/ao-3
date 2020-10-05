@@ -18,9 +18,6 @@ export default {
     components: { ResourceBook, GuildCreate , PointsSet},
     data(){
         return {
-            isPayOpen: false,
-            isCubeOpen: false,
-            isChestOpen:false,
             uuid: uuidv1(),
         }
     },
@@ -88,21 +85,6 @@ export default {
                 })
             }
         },
-        togglePay(){
-            this.isPayOpen = !this.isPayOpen
-            this.isChestOpen = false
-            this.isCubeOpen = false
-        },
-        toggleChest(){
-            this.isChestOpen = !this.isChestOpen
-            this.isPayOpen = false
-            this.isCubeOpen = false
-        },
-        toggleCube(){
-            this.isCubeOpen = !this.isCubeOpen
-            this.isChestOpen = false
-            this.isPayOpen = false
-        },
         deckIt(){
             this.$store.dispatch("makeEvent", {
                 type: 'task-sub-tasked',
@@ -160,12 +142,6 @@ export default {
         }
     },
     computed: {
-        isOracle() {
-          return this.$store.state.upgrades.dimension === 'sun' && this.$store.state.upgrades.mode === 'doge'
-        },
-        isTop() {
-          return this.$store.state.upgrades.dimension === 'sun' && this.$store.state.upgrades.mode === 'boat'
-        },
         flagClass(){
             return {
                 boat : (this.$store.state.upgrades.mode === "boat" || this.$store.state.upgrades.mode === "doge") && !this.isDoged,
@@ -173,15 +149,6 @@ export default {
                 chest : this.$store.state.upgrades.mode === "chest",
                 timecube : this.$store.state.upgrades.mode === "timecube"
             }
-        },
-        isFlagged(){
-            if(!this.inId) {
-                return false
-            }
-            return this.$store.state.tasks[this.$store.state.hashMap[this.inId]].priorities.indexOf(this.b.taskId) > -1
-        },
-        isCompleted(){
-            return this.b.claimed.indexOf(this.$store.getters.member.memberId) > -1
         },
         isDoged() {
             return this.$store.getters.memberCard.priorities.indexOf(this.b.taskId) > -1
