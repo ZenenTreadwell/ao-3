@@ -10,14 +10,10 @@
             select(v-model='toMember')
                 option(v-for='n in $store.getters.recentMembers', :value="n.memberId") {{ n.name }}
             button.small(@click='dispatchMakeEvent(passInfo)') show
-        .play(v-if='$store.getters.sendableGuilds.length > 0')
+        .play(v-if='$store.getters.guilds.length > 0')
             select(v-model='toGuild')
-                template(v-for='g in $store.getters.sendableGuilds')
+                template(v-for='g in $store.getters.guilds')
                     option(:value="g.taskId") {{ g.guild }}
-                    template(v-for='p in g.guilds')
-                        option(:value="p.taskId") &nbsp;&nbsp;&nbsp;&nbsp;{{ p.guild }}
-                        template(v-for='sp in p.guilds')
-                            option(:value="sp.taskId") &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ sp.guild }}
             button.small(@click='dispatchMakeEvent(playInfo)') send
         .give
             select(v-model='toAo')
@@ -39,12 +35,12 @@ export default {
         GuildCreate
     },
     data() {
-        if (this.$store.getters.recentMembers.length > 0 && this.$store.getters.topGuilds.length > 0){
+        if (this.$store.getters.recentMembers.length > 0 && this.$store.getters.guilds.length > 0){
             return {
                 showGuildCreate: false,
                 showSend:false,
                 toMember: this.$store.getters.recentMembers[0].memberId,
-                toGuild: this.$store.getters.topGuilds[0].taskId,
+                toGuild: this.$store.getters.guilds[0].taskId,
                 toAo:'',
             }
         } else {

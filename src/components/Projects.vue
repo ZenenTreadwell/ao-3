@@ -1,18 +1,12 @@
 <template lang='pug'>
 
-.projects(v-if='subguilds.length > 0')
+.projects
     ul.none
-        li.spaced(v-for='p in subguilds'  :key='subguilds')
+        li.spaced(v-for='p in $store.getters.guilds'  :key='p.taskId')
             span(@click='goIn(p.taskId)')
                 img.floatleft(src='../assets/images/badge.svg')
             span(@click='goIn(p.taskId)')
-                span.nl.gui.smaller(:class='cardInputSty(p.color)') {{ p.guild }}
-            ul.none.indent
-                li.spaced(v-for='sp in p.guilds')
-                    span(@click='goIn(sp.taskId, p.taskId)')
-                        img.floatleft.smaller(src='../assets/images/badge.svg')
-                    span(@click='goIn(sp.taskId), p.taskId')
-                        span.nl.gui.smallest(:class='cardInputSty(sp.color)') {{ sp.guild }}
+                span.nl.gui.smaller {{ p.guild }}
 </template>
 
 <script>
@@ -38,34 +32,12 @@ export default {
             } else if (this.$store.getters.memberCard.taskId){
                 parents.push(this.$store.getters.memberCard.taskId)
             }
-
             if(guild) parents.push(guild)
 
             this.$store.dispatch("goIn", {panel, top, parents})
             if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
                 this.$store.commit("setMode", 1)
             }
-        },
-        cardInputSty(c){
-            return {
-                redtx : c === 'red',
-                bluetx : c === 'blue',
-                greentx : c === 'green',
-                yellowtx : c === 'yellow',
-                purpletx : c === 'purple',
-                blacktx : c === 'black',
-            }
-        },
-    },
-    computed: {
-        b(){
-            return this.$store.getters.contextCard
-        },
-        subguilds() {
-            return this.$store.state.tasks.filter(p => {
-                p.guild &&
-                this.b.subTasks.concat(this.b.priorities, this.b.completed).indexOf(p.taskId) > -1
-            })
         },
     },
 }
@@ -231,8 +203,6 @@ ul
     margin-right: 1em
     margin-bottom: 1em
     padding: 0 0.5em 0.55em 0.5em
-    background: lightGrey
-    opacity: .5
 
 .projects h3
     text-align: center

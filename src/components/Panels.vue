@@ -10,7 +10,6 @@
             card-panel(v-else  stack='red', :position='$store.getters.contextCard.stackView["red"]',  :taskId='$store.getters.contextCard.taskId')
         .four.columns
             card-panel(stack='green', :position='$store.getters.contextCard.stackView["green"]',  :taskId='$store.getters.contextCard.taskId')
-            projects
         .four.columns
             card-panel(v-if='$store.getters.blue.length === 0'  stack='purple',  :position='$store.getters.contextCard.stackView["purple"]', :taskId='$store.getters.contextCard.taskId')
             card-panel(v-else  stack='blue', :position='$store.getters.contextCard.stackView["blue"]',  :taskId='$store.getters.contextCard.taskId')
@@ -57,7 +56,7 @@ export default {
                 hodld.push(t)
               }
             })
-            let crawler = [this.$store.getters.memberCard.taskId].concat(this.$store.getters.myGuilds.map(t => t.taskId))
+            let crawler = [this.$store.getters.memberCard.taskId].concat(this.$store.getters.guilds.map(t => t.taskId))
             let deck = []
             let history = []
             let newCards = []

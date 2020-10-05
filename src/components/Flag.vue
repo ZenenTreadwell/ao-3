@@ -10,12 +10,8 @@ import _ from 'lodash'
 import Hammer from 'hammerjs'
 import Propagating from 'propagating-hammerjs'
 import uuidv1 from 'uuid/v1'
-import ResourceBook from './ResourceBook'
-import GuildCreate from './GuildCreate'
-import PointsSet from './PointsSet'
 
 export default {
-    components: { ResourceBook, GuildCreate , PointsSet},
     data(){
         return {
             uuid: uuidv1(),

@@ -26,26 +26,6 @@ export default createStore({
               .filter(t => t.completeValue >= 1 && getters.memberIds.indexOf(t.taskId) === -1)
               .sort((a,b) => b.completeValue - a.completeValue)
       },
-      topGuilds(state){
-          let guilds = []
-          let uniqueG = []
-          state.tasks.forEach(c => {
-              if (c.guild){
-                  let l = uniqueG.indexOf(c.guild)
-                  if (guilds.indexOf(c.guild) === -1){
-                    guilds.push(c)
-                    uniqueG.push(c.guild)
-                  } else {
-                    let o = guilds[l]
-                    if (o.deck.length <= c.deck.length){
-                        guilds[l] = c
-                    }
-                  }
-              }
-          })
-          guilds.sort( (a, b) => b.deck.length - a.deck.length )
-          return guilds
-      },
       recentMembers(state){
           let recentMembers = []
           recentMembers = state.members.slice()
@@ -201,95 +181,10 @@ export default createStore({
       resourceIds(state){
           return state.resources.map(c => c.resourceId)
       },
-      myGuilds(state, getters){
-          let my = state.tasks.filter(t => {
-              if(!t.guild) return false
-              if(t.deck.indexOf(getters.member.memberId) === -1) {
-                return false
-              }
-              return true
-          })
-          // my = _.filter(my, st => !my.some(t => t.subTasks.concat(t.priorities, t.completed).indexOf(st.taskId) > -1))
-          my.forEach(g => {
-              g.tempLastClaimed = 0
-              let completions = g.completed.map(t => state.tasks[state.hashMap[t]])
-              completions.forEach(c => {
-                  if(typeof c === 'undefined') {
-                      console.log("invalid data due to broken subTaskId links in completed list")
-                      return
-                  }
-                  if(c.lastClaimed > g.tempLastClaimed) {
-                      g.tempLastClaimed = c.lastClaimed
-                  }
-              })
-          })
-          my.sort((a, b) => {
-              return b.tempLastClaimed - a.tempLastClaimed
-          })
-          return my
-      },
-      pubguilds(state){
-          let guilds = []
-          let uniqueG = []
-          state.tasks.forEach(c => {
-              if (c.guild){
-                  let l = uniqueG.indexOf(c.guild)
-                  if (l === -1){
-                    guilds.push(c)
-                    uniqueG.push(c.guild)
-                  } else {
-                    let o = guilds[l]
-                    if (o.deck.length <= c.deck.length){
-                      guilds[l] = c
-                    }
-                  }
-              }
-          })
-          guilds = _.filter(guilds, st => !guilds.some(t => t.subTasks.concat(t.priorities, t.completed).indexOf(st.taskId) > -1))
-          guilds.sort( (a, b) => {
-              let aVal = a.deck.length
-              let bVal = b.deck.length
-              return bVal - aVal
-          })
-
-          if (guilds.length > 11){
-              return guilds.slice(0,11)
-          }
-          return guilds
-      },
-      sendableGuilds(state, getters) {
-          let guilds = _.filter(getters.myGuilds, st => !getters.pubguilds.some(t => { return t.taskId === st.taskId } ))
-          guilds = getters.pubguilds.concat(guilds)
-          guilds = _.filter(guilds, st => !guilds.some(t => t.subTasks.concat(t.priorities, t.completed).indexOf(st.taskId) > -1))
-          guilds.forEach(g => {
-              g.subTasks.concat(g.priorities, g.completed).forEach(p => {
-                  let task = state.hashMap[p]
-                  if(!task) {
-                      console.log("null taskId found, this means cleanup is not happening elsewhere and is very bad")
-                  } else if(task.guild) {
-                      task.subTasks.concat(task.priorities, task.completed).forEach(sp => {
-                          let subtask = state.tasks[state.hashMap[sp]]
-                          if(!subtask) {
-                              console.log("null subtaskId found, this means cleanup is not happening elsewhere and is very bad")
-                          } else if(subtask.guild) {
-                              if(!task.guilds) {
-                                  task.guilds = []
-                              }
-                              if(task.guilds.indexOf(subtask) === -1) {
-                                  task.guilds.push(subtask)
-                              }
-                          }
-                      })
-                      if(!g.guilds) {
-                          g.guilds = []
-                      }
-                      if(g.guilds.indexOf(task) === -1) {
-                          g.guilds.push(task)
-                      }
-                  }
-              })
-          })
-          return guilds
+      guilds(state) {
+          let gg = state.tasks.filter(p => p.guild)
+          console.log("got guilds?",  gg.length)
+          return gg.sort( (a, b) => b.deck.length - a.deck.length )
       },
       isLoggedIn(state, getters){
           let isLoggedIn = !!getters.member.memberId
