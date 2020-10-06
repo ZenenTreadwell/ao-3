@@ -1,13 +1,15 @@
 <template lang='pug'>
 
-.pointsset(ref='wholeForm'  :class='{unavailable: !this.$store.state.cash.info.alias}')
-    input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
-    button(@click.stop='setValue') invoice
+div(:class='{unavailable: !this.$store.state.cash.info.alias}')
+    .paymodeswitcher
+        button(@click='$store.commit("setPayMode", 0)'  :class='{chain: $store.state.upgrades.paymode === "bitcoin"}') on chain
+        button(@click='$store.commit("setPayMode", 1)'  :class='{light: $store.state.upgrades.paymode === "lightning"}') on lightning
+    .pointsset(v-if="$store.state.upgrades.paymode === 'lightning'")
+        input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
+        button(@click.stop='setValue') invoice
 </template>
 
 <script>
-import Hammer from 'hammerjs'
-import Propagating from 'propagating-hammerjs'
 
 export default {
     props: ['b'],
@@ -17,27 +19,6 @@ export default {
                 points: this.b.completeValue? this.b.completeValue : 1,
             }
         }
-    },
-    mounted() {
-        let el = this.$refs.wholeForm
-        if(!el) return
-        let mc = Propagating(new Hammer.Manager(el))
-
-        let singleTap = new Hammer.Tap({ event: 'singletap', time: 400 })
-        let doubleTap = new Hammer.Tap({ event: 'doubletap', taps: 2, time: 400, interval: 400 })
-
-        mc.add([doubleTap, singleTap])
-
-        singleTap.recognizeWith([doubleTap])
-        singleTap.requireFailure([doubleTap])
-
-        mc.on('doubletap', (e) => {
-            e.stopPropagation()
-        })
-
-        mc.on('singletap', (e) => {
-            e.stopPropagation()
-        })
     },
     methods: {
         setValue() {
@@ -56,6 +37,7 @@ export default {
 
 @import '../styles/button'
 @import '../styles/input'
+@import '../styles/colours'
 
 .unavailable
     opacity: 0.24
@@ -80,4 +62,13 @@ button
     background-color: rgba(22, 22, 22, 0.3)
     height: 2.2em
     width: 70%
+
+.paymodeswitcher
+    button
+        width: 50%
+
+.chain
+    background-color: wrexyellow
+.light
+    background-color: wrexpurple
 </style>

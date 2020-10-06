@@ -1,15 +1,15 @@
 <template lang='pug'>
 
 .upgrades
-    .payreq(v-if='$store.state.cash.info.alias && b.bolt11')
+    .payreq(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"')
         .section pay {{b.completeValue}}
-        tag(:d='b.bolt11')
+        tag(:d='b.bolt11'  size='5')
         a(:href='"lightning:" + b.bolt11')
             button Open Wallet
                 img(src='../assets/images/lightning.svg')
-    .payreq(v-else-if='$store.state.cash.info.alias && b.btcAddr')
+    .payreq(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"')
         .section address
-        tag(:d='b.btcAddr')
+        tag(:d='b.btcAddr'  size='7')
         a(:href='"bitcoin:" + b.btcAddr')
             button Open Wallet
                 img(src='../assets/images/bitcoin.svg')

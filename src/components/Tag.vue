@@ -16,7 +16,13 @@ export default {
             let qr = qrcode(typeNumber, errorCorrectionLevel)
             qr.addData(data)
             qr.make()
-            let cellsize = this.size || 4
+
+            let cellsize
+            if (this.size > 0){
+                cellsize = this.size
+            } else {
+                cellsize = 4
+            }
             let margin = 2
             let tag = qr.createImgTag(cellsize, margin)
             return tag

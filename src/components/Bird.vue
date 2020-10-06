@@ -15,7 +15,7 @@
                 template(v-for='g in $store.getters.guilds')
                     option(:value="g.taskId") {{ g.guild }}
             button.small(@click='dispatchMakeEvent(playInfo)') send
-        .give
+        .give(v-if='$store.state.ao.length > 0')
             select(v-model='toAo')
                 option(disabled, value='') to ao
                 option(v-for='n in $store.state.ao'  :value='n.address')  {{n.address}}

@@ -1,12 +1,12 @@
 const modes = ["doge", "boat", "timecube", "chest", "badge"]
-const payments = ["bitcoin", "lightning"]
-const dimensions = ["unicorn", "sun", "bull"]
+const paymodes = ["bitcoin", "lightning"]
 
 const state = {
     search: '',
     modes,
+    paymodes,
     mode: modes[0],
-    dimension: dimensions[0],
+    paymode: paymodes[0],
     bird: false,
     barking: false,
     pinging: false,
@@ -27,7 +27,6 @@ const mutations = {
         let currentIndex = modes.indexOf(state.mode)
         let nextIndex = (currentIndex + 1) % modes.length
         let target = modes[nextIndex]
-        console.log('in nextmode current, index, target', state.mode, nextIndex, target)
         state.mode = target
     },
     previousMode(state) {
@@ -42,16 +41,10 @@ const mutations = {
         state.mode = modes[0]
     },
     setPayMode(state, index) {
-        state.payment = payments[index]
+        state.paymode = paymodes[index]
     },
     closePayMode(state) {
-        state.payment = false
-    },
-    setDimension(state, index) {
-        state.dimension = dimensions[index]
-    },
-    closeDimension(state) {
-        state.dimension = false
+        state.paymode = false
     },
     bark(state) {
         state.barking = true

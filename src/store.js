@@ -183,7 +183,6 @@ export default createStore({
       },
       guilds(state) {
           let gg = state.tasks.filter(p => p.guild)
-          console.log("got guilds?",  gg.length)
           return gg.sort( (a, b) => b.deck.length - a.deck.length )
       },
       isLoggedIn(state, getters){
