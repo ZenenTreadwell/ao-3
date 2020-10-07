@@ -3,6 +3,7 @@
 .upgrades
     div(v-if='$store.getters.contextCard.taskId === $store.getters.member.memberId')
         accounts
+        connect
     div(v-else)
       div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
         current-checks(:memberId='n')
@@ -15,10 +16,11 @@ import CurrentChecks from './CurrentChecks'
 import MemberRow from './MemberRow'
 import GuildCreate from './GuildCreate'
 import Accounts from './Accounts'
+import Connect from './Connect'
 
 export default {
     components:{
-        CurrentChecks, MemberRow, GuildCreate, Accounts
+        CurrentChecks, MemberRow, GuildCreate, Accounts, Connect
     },
     methods: {
         remove(){

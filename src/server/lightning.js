@@ -104,12 +104,15 @@ function getInfo(){
 function recordEveryInvoice(start){
     client.waitanyinvoice(start)
         .then(invoice => {
+            if (!invoice.payment_hash){
+                return console.log('no payment hash wth?', {invoice})
+            }
             serverState.tasks.forEach( t => {
                 if (t.payment_hash === invoice.payment_hash){
                     allEvents.taskBoostedLightning(t.taskId, invoice.msatoshi / 1000, invoice.payment_hash, invoice.pay_index)
                 }
             })
-            recordEveryInvoice(start + 1)
+            recordEveryInvoice(start + 1) // is this recurr broken?
         })
         .catch(console.log)
 }

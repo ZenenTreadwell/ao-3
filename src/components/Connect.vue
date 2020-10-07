@@ -1,13 +1,17 @@
 <template lang='pug'>
 
 .Connect
-    div This ao: {{ $store.state.cash.address }}
-    code.click(@click='showSecr') This ao secret:
-        span(v-if='showSecret') {{ $store.state.loader.token }}
-    .section connect
+    .center
+        div this ao location:
+            br
+            span {{ $store.state.cash.address }}
+        code.click(@click='showSecr') reveal this ao secret:
+            br
+            span(v-if='showSecret') {{ $store.state.loader.token }}
+    .section connect aos
     .input-container
         input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
-        label address
+        label location
     .input-container
         input.input-effect(v-model='ao.secret' type='text'  :class='{"has-content":!!ao.secret}')
         label.input-effect secret
@@ -17,7 +21,7 @@
             span {{ r.address }}
             span(v-if='showAddress === i')
                 tag(:d='r.address', size='4')
-            span - 
+            span -
             span.discon(@click='discon(r.address)') disconnect
 </template>
 
@@ -84,6 +88,12 @@ export default {
 @import '../styles/button'
 @import '../styles/title'
 @import '../styles/input'
+
+.center
+    text-align: center
+    overflow-wrap: break-word
+    word-wrap: break-word
+
 .section
     color:lightGrey
     font-size: 0.9em

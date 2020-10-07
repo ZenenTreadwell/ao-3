@@ -2,9 +2,6 @@
 
 .tally.tooltip
     span
-        span.faded
-            span.points(v-if='b.completeValue > 0') {{ b.completeValue }}
-            img.chest(v-if='b.completeValue > 0'  src='../assets/images/completed.svg')
         span(v-if='cardStart').points {{ cardStart.days.toFixed(1) }} days
         span.hide(v-if='b.claimed.length > 0') -
         img(v-for='n in clm.xmark'  src='../assets/images/xmark.svg')
