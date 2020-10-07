@@ -6,7 +6,8 @@
     div(v-else)
       div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
         current-checks(:memberId='n')
-      div(@click='remove') x - remove card
+      div(v-if='$store.getters.contextCard.deck.length === 0 || ($store.getters.contextCard.deck.length === 1 && $store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1)'  @click='remove')
+          button.purplewx remove card
 </template>
 
 <script>
@@ -42,6 +43,8 @@ export default {
 </script>
 
 <style lang='stylus' scoped>
+@import '../styles/colours'
+
 h5
     text-align: center
     color: lightGrey
@@ -52,4 +55,8 @@ h5
     opacity: 0.77
     height: 5em
     margin-top: 1em
+
+button.purplewx
+    padding: 0.33em
+    margin-top: 0.33em
 </style>

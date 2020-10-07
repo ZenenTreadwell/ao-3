@@ -60,7 +60,7 @@ export default {
     min-height: 100vh;
     color: lightGrey
     font-weight: lighter
-    font-size: 1.33em
+    font-size: 1.23em
 
 .app2
     position: fixed

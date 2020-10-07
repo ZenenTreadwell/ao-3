@@ -310,19 +310,6 @@ router.post('/events', (req, res, next)=>{
             res.status(400).send(errRes)
           }
           break
-      case 'member-purged':
-          if (
-              validators.isMemberId(req.body.memberId, errRes)
-          ){
-              events.memberPurged(
-                req.body.memberId,
-                req.body.blame,
-                utils.buildResCallback(res)
-              )
-          } else {
-              res.status(400).send(errRes)
-          }
-          break
       case 'member-field-updated':
           if (
               validators.isMemberId(req.body.memberId, errRes) &&
@@ -493,19 +480,6 @@ router.post('/events', (req, res, next)=>{
             res.status(400).send(errRes)
           }
           break
-      case 'resource-purged':
-          if (
-            validators.isResourceId(req.body.resourceId, errRes)
-          ){
-            events.resourcePurged(
-              req.body.resourceId,
-              req.body.blame,
-              utils.buildResCallback(res)
-            )
-          } else {
-            res.status(400).send(errRes)
-          }
-          break
       case 'session-killed':
           if (
             validators.isSession(req.body.session, errRes)
@@ -631,15 +605,31 @@ router.post('/events', (req, res, next)=>{
           break
       case 'task-removed':
           if (
-            validators.isTaskId(req.body.taskId, errRes)
+              validators.isMemberId(req.body.taskId, errRes)
           ){
-            events.taskRemoved(
-              req.body.taskId,
-              req.body.blame,
-              utils.buildResCallback(res)
-            )
+              events.memberPurged(
+                req.body.taskId,
+                req.body.blame,
+                utils.buildResCallback(res)
+              )
+          } else if (
+              validators.isResourceId(req.body.resourceId, errRes)
+          ){
+              events.resourcePurged(
+                req.body.resourceId,
+                req.body.blame,
+                utils.buildResCallback(res)
+              )
+          } else if (
+              validators.isTaskId(req.body.taskId, errRes)
+          ){
+              events.taskRemoved(
+                req.body.taskId,
+                req.body.blame,
+                utils.buildResCallback(res)
+              )
           } else {
-            res.status(400).send(errRes)
+              res.status(400).send(errRes)
           }
           break
       case 'task-passed':

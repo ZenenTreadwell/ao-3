@@ -200,7 +200,7 @@ function memberPurged(memberId, blame, callback) {
     type: "member-purged",
     memberId,
     blame,
-    i: state.hashMap[memberId]
+    i: serverState.hashMap[memberId]
   }
   dctrlDb.insertEvent(newEvent, callback)
 }
@@ -298,7 +298,7 @@ function resourcePurged(resourceId, blame, callback) {
     type: "resource-purged",
     resourceId,
     blame,
-    i: state.hashMap[resourceId]
+    i: serverState.hashMap[resourceId]
   }
   dctrlDb.insertEvent(newEvent, callback)
 }

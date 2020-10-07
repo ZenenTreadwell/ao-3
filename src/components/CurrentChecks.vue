@@ -5,7 +5,6 @@
     img.checkmark.clickable(v-else  src='../assets/images/uncompleted.svg'  @click='complete')
     span.completedmarks
         span.name(@dblclick='goIn(memberId)'   @click.exact.stop='toggleHighlight()'  @click.ctrl.exact.stop='toggleHighlight(true)'  :class='{ highlight : isHighlighted, lowdark : isLowdarked }') {{ name }}
-            span -
             span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }}d:
             span(v-if='clockworkblue.hours > 0') {{ clockworkblue.hours }}:
             span(v-if='clockworkblue.minutes > 0') {{ Number(clockworkblue.minutes) }}:

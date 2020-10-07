@@ -7,18 +7,15 @@
     .row.center.clearboth(:class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
         label.hackername(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }') {{ m.name }}
     .bottomleft(v-if='nameList.length > 0')
-        div(@click='goBadge'  :class='{here: $store.state.upgrades.mode === "badge"}')
-            div.adjtooltip.stash {{nameList.length}}
-            .tooltiptext.v(v-if='$store.getters.member.tooltips')
-                current(v-for='mId in nameList'  :memberId='mId').suggest
+        div(@click='$store.commit("setMode", 4)'  :class='{here: $store.state.upgrades.mode === "badge"}')
+            .tooltip.stash {{nameList.length}}
+                .tooltiptext
+                    current(v-for='mId in nameList'  :memberId='mId')
     .bottomright(v-if='card.boost > 0')
-        .tooltip(@click='goChest'  :class='{here: $store.state.upgrades.mode === "chest"}')
-          .tooltiptext(v-if='$store.getters.member.tooltips')
-              p.suggest points
-          label.stash(v-if='card.boost') {{ card.boost.toFixed(2) }}
-          label.stash(v-else) 0
+        div(@click='$store.commit("setMode", 3)'  :class='{here: $store.state.upgrades.mode === "chest"}')
+            .tooltip.stash {{ card.boost.toLocaleString() }}
+                .tooltiptext(v-if='$store.getters.member.tooltips') satoshis
     .clearboth
-
 </template>
 
 <script>
@@ -121,10 +118,6 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/tooltips'
-
-.tooltiptext.v
-    position: absolute
-    left: 3em
 
 .row.center.clearboth
     cursor: pointer

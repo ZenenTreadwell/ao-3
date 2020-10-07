@@ -33,10 +33,10 @@
                 img.checkmark(v-if='$store.getters.member.guides'  src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span.space guide
-            .check.click(@click='toggleMuted')
-                img.checkmark(v-if='!$store.getters.member.muted', src='../assets/images/completed.svg')
-                img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space sound
+            //- .check.click(@click='toggleMuted')
+            //-     img.checkmark(v-if='!$store.getters.member.muted', src='../assets/images/completed.svg')
+            //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
+            //-     span.space sound
             .check.click(@click='toggleStacks')
                 img.checkmark(v-if='$store.getters.member.stacks === 5', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')

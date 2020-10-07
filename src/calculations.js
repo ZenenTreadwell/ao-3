@@ -2,7 +2,6 @@ const satsPerBtc = 100000000 // one hundred million per btc
 const cryptoUtils = require('./crypto')
 
 function access(active, memberBoost, charged){
-    console.log({active, memberBoost, charged})
     if (active <= 0  || charged < 0){
         return false
     }
@@ -149,7 +148,6 @@ function safeMerge(cardA, cardZ) {
 
 function cadToSats(cadAmt, spot){
     let sats = parseFloat( cadAmt ) / parseFloat( spot ) * satsPerBtc
-    console.log({sats, cadAmt, spot, satsPerBtc})
     return parseInt(sats)
 }
 
