@@ -2,13 +2,13 @@
 
 .upgrades
     .payreq(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"')
-        .section pay {{b.completeValue}}
+        .section {{b.bolt11}}
         tag(:d='b.bolt11'  size='5')
         a(:href='"lightning:" + b.bolt11')
             button Open Wallet
                 img(src='../assets/images/lightning.svg')
     .payreq(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"')
-        .section address
+        .section {{b.btcAddr}}
         tag(:d='b.btcAddr'  size='7')
         a(:href='"bitcoin:" + b.btcAddr')
             button Open Wallet
@@ -49,7 +49,9 @@ export default {
     color:lightGrey
     font-size: 0.9em
     margin-bottom: 0.9em
-
+    overflow-wrap: break-word
+    word-wrap: break-word
+    word-break: break-word
 .fw
     width: 100%
 

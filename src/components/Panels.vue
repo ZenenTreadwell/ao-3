@@ -146,6 +146,8 @@ h5
 .padonestack
     padding-top: 0.001em
     max-width: calc(100vw - 4em)
+    padding-left: 1em
+    padding-right: 1em
 
 .fullwidth
     width: 100%

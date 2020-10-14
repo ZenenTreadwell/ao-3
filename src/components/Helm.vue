@@ -6,7 +6,7 @@
         span.quarter(@click.stop='chooseMode(2)'  :class='{selected:$store.state.upgrades.mode === "timecube"}')
         span.quarter(@click.stop='chooseMode(3)'  :class='{selected:$store.state.upgrades.mode === "chest"}')
         span.quarter(@click.stop='chooseMode(4)'  :class='{selected:$store.state.upgrades.mode === "badge"}')
-        
+
 </template>
 
 <script>
@@ -18,7 +18,7 @@ export default {
         },
         chooseMode(x){
           if (this.$store.state.upgrades.modes[x] === this.$store.state.upgrades.mode){
-              return this.nextMode()
+              return this.$store.commit('setMode', 0)
           }
           this.$store.commit('setMode', x)
         }
@@ -43,7 +43,7 @@ export default {
 .selected
     color: black
 
-.quarter:before 
+.quarter:before
     content: "\2022";
 
 .upg

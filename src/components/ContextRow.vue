@@ -69,6 +69,11 @@ export default {
             return undefined
         },
         cardInputSty() {
+          if (this.$store.getters.member.stacks === 1){
+              return {
+                  nowx: true
+              }
+          }
           let color = this.card.color
           return {
               redwx : color == 'red',

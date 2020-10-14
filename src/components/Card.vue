@@ -281,7 +281,9 @@ export default {
             return
           }
           if (this.$store.getters.member.stacks === 1) {
-              return {}
+              return {
+                  nowx: true
+              }
           }
           return {
               redwx : this.b.color == 'red',

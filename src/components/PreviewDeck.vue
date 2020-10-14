@@ -5,23 +5,23 @@
         .one.grid
             span &nbsp;
         .two.grid
-            .bead.yellowwx.tooltip(v-if='red.length > 0'   v-for="(b,i) in yellow", @click='goto(b.taskId)')
+            .bead.tooltip(v-if='red.length > 0'   v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
         .two.grid
-            .bead.purplewx.tooltip(v-if='blue.length > 0' v-for="(b,i) in purple", @click='goto(b.taskId)')
+            .bead.tooltip(v-if='blue.length > 0' v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
         .two.grid
-            .bead.yellowwx.tooltip(v-if='red.length === 0'  v-for="(b,i) in yellow", @click='goto(b.taskId)')
+            .bead.tooltip(v-if='red.length === 0'  v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
-            .bead.redwx.tooltip(v-for="(b,i) in red"  :b="b", @click='goto(b.taskId)')
-                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
-        .two.grid
-            .bead.greenwx.tooltip(v-for="(b,i) in green", @click='goto(b.taskId)')
+            .bead.tooltip(v-for="(b,i) in red"  :b="b", @click='goto(b.taskId)'  :class='{redwx: $store.getters.member.stacks === 5}')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
         .two.grid
-            .bead.purplewx.tooltip(v-if='blue.length === 0'  v-for="(b,i) in purple", @click='goto(b.taskId)')
+            .bead.tooltip(v-for="(b,i) in green", @click='goto(b.taskId)'  :class='{greenwx: $store.getters.member.stacks === 5}')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
-            .bead.bluewx.tooltip(v-for="(b,i) in blue", @click='goto(b.taskId)')
+        .two.grid
+            .bead.tooltip(v-if='blue.length === 0'  v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}')
+                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
+            .bead.tooltip(v-for="(b,i) in blue", @click='goto(b.taskId)'  :class='{bluewx: $store.getters.member.stacks === 5}')
                 linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
         .one.grid
             span &nbsp;
@@ -111,6 +111,23 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+// this means the colour import overwrites 
+.bead
+    opacity: .5;
+    padding: 0
+    margin:0
+    height:.77em
+    min-height: 6px
+    width: 100%
+    border-radius: 50%;
+    display: inline-block;
+    border-width: 2px
+    border-color: rgba(255, 255, 255, 0.11)
+    border-style: solid
+    cursor: pointer
+    z-index: 98
+    background: lightGrey
+
 
 @import '../styles/colours'
 @import '../styles/grid'
@@ -132,20 +149,6 @@ export default {
     display: inline-block;
     cursor: pointer
 
-.bead
-    opacity: .39;
-    padding: 0
-    margin:0
-    height:.77em
-    min-height: 6px
-    width: 100%
-    border-radius: 50%;
-    display: inline-block;
-    border-width: 2px
-    border-color: rgba(255, 255, 255, 0.11)
-    border-style: solid
-    cursor: pointer
-    z-index: 98
 
 .bead:hover
     opacity: 1

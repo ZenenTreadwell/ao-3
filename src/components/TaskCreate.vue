@@ -25,19 +25,13 @@
       #btnpanel.btnpanel.adjtooltip
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
               div(v-if='$store.getters.member.stacks === 5')
-                  button.lit(@click='switchColor("red")'  :class='{ currentColor : showCreate && task.color === "red" }').redwx.paperwrapper
-                    img(:class='{ down : showCreate && task.color === "red" }')
-                  button.lit(@click='switchColor("yellow")'  :class='{ currentColor : showCreate && task.color === "yellow" }').yellowwx.paperwrapper
-                    img(:class='{ down : showCreate && task.color === "yellow" }')
-                  button.lit(@click='switchColor("green")'  :class='{ currentColor : showCreate && task.color === "green" }').greenwx.paperwrapper
-                    img(:class='{ down : showCreate && task.color === "green" }')
-                  button.lit(@click='switchColor("purple")'  :class='{ currentColor : showCreate && task.color === "purple" }').purplewx.paperwrapper
-                    img(:class='{ down : showCreate && task.color === "purple" }')
-                  button.lit(@click='switchColor("blue")'  :class='{ currentColor : showCreate && task.color === "blue" }').bluewx.paperwrapper
-                    img(:class='{ down : showCreate && task.color === "blue" }')
+                  button.lit(@click='switchColor("red")'  :class='{ down : task.color === "red" }').redwx.paperwrapper
+                  button.lit(@click='switchColor("yellow")'  :class='{ down : task.color === "yellow" }').yellowwx.paperwrapper
+                  button.lit(@click='switchColor("green")'  :class='{ down : task.color === "green" }').greenwx.paperwrapper
+                  button.lit(@click='switchColor("purple")'  :class='{ down : task.color === "purple" }').purplewx.paperwrapper
+                  button.lit(@click='switchColor("blue")'  :class='{ down : task.color === "blue" }').bluewx.paperwrapper
               div(v-else)
-                  button.lit(@click='switchColor("blue")').paperwrapper
-                    img(:class='{ down : showCreate }')
+                  .lonestar.down.lit(@click='switchColor("blue")').paperwrapper
       .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
           p.suggest.label create and search
       .scrollbarwrapper(v-show='showCreate && searchTotal > 0')
@@ -315,6 +309,11 @@ export default {
 @import '../styles/input';
 @import '../styles/tooltips';
 
+.lonestar
+    width : 20em
+    height: 2em
+    background : wrexno
+
 .searchtotal
     position: absolute
     top: 0
@@ -464,12 +463,6 @@ p
     background-image: url('../assets/images/down.svg')
     background-size: cover
     background-position: center center
-    top: 0
-    left: 0
-    right: 0
-    position: absolute
-    width: 100%
-    height: 100%
     opacity: 0.9
 
 .currentColor

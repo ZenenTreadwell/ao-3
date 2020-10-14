@@ -7,6 +7,7 @@ div(:class='{unavailable: !this.$store.state.cash.info.alias}')
     .pointsset(v-if="$store.state.upgrades.paymode === 'lightning'")
         input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
         button(@click.stop='setValue') invoice
+    
 </template>
 
 <script>

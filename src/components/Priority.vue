@@ -136,20 +136,22 @@ export default {
             return undefined
         },
         cardInputSty() {
-          let color
-          this.$store.state.tasks.some(t => {
-              if (this.taskId === t.taskId){
-                  color = t.color
-                  return true
+          console.log('card input calculating')
+          if (this.$store.getters.member.stacks === 1) {
+              console.log('its nowx')
+              return {
+                  nowx: true
               }
-          })
-          return {
-              redwx : color == 'red',
-              bluewx : color == 'blue',
-              greenwx : color == 'green',
-              yellowwx : color == 'yellow',
-              purplewx : color == 'purple',
-              blackwx : color == 'black',
+          } else {
+              console.log('colour mode? ', this.$store.getters.member.stacks )
+              return {
+                redwx : this.card.color == 'red',
+                bluewx : this.card.color == 'blue',
+                greenwx : this.card.color == 'green',
+                yellowwx : this.card.color == 'yellow',
+                purplewx : this.card.color == 'purple',
+                blackwx : this.card.color == 'black',
+              }
           }
         },
     },

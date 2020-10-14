@@ -1,18 +1,14 @@
 <template lang='pug'>
 
 .priority.closedcard(ref='wholeCard')
-  .row.agedwrapper(:class="cardInputSty")
-      .agedbackground.freshpaper(v-if='cardAge < 8')
-      .agedbackground.weekoldpaper(v-else-if='cardAge < 30')
-      .agedbackground.montholdpaper(v-else-if='cardAge < 90')
-      .agedbackground.threemontholdpaper(v-else='cardAge >= 90')
+  .row.agedwrapper(:class='cardInputSty')
       img.front.nopad(v-if='card.guild'  src="../assets/images/badge.svg")
       span.front.nudge(v-if='card.guild')  {{ card.guild }}
       img.left.front(v-if='isMember' src="../assets/images/loggedIn.svg")
       img.checkmark.right.front(v-if='isCompleted' src='../assets/images/completed.svg' ref='checkbox')
       img.checkmark.right.front(v-else-if='!isCompleted' src='../assets/images/uncompleted.svg' ref='checkbox')
       tally.right.front.lesspadding(:b='card')
-      linky.cardname.front(:x='card.name.slice(0,111)'  :key='name')
+      linky.cardname.front(:x='card.name.slice(0,111)')
 </template>
 
 <script>
@@ -135,13 +131,22 @@ export default {
             })
         },
         cardInputSty() {
-          return {
-              redwx : this.card.color == 'red',
-              bluewx : this.card.color == 'blue',
-              greenwx : this.card.color == 'green',
-              yellowwx : this.card.color == 'yellow',
-              purplewx : this.card.color == 'purple',
-              blackwx : this.card.color == 'black',
+          console.log('card input calculating')
+          if (this.$store.getters.member.stacks === 1) {
+              console.log('its nowx')
+              return {
+                  nowx: true
+              }
+          } else {
+              console.log('colour mode? ', this.$store.getters.member.stacks )
+              return {
+                redwx : this.card.color == 'red',
+                bluewx : this.card.color == 'blue',
+                greenwx : this.card.color == 'green',
+                yellowwx : this.card.color == 'yellow',
+                purplewx : this.card.color == 'purple',
+                blackwx : this.card.color == 'black',
+              }
           }
         },
         cardAge(){
