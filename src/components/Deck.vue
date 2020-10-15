@@ -26,24 +26,24 @@
             payments(v-show='$store.state.upgrades.mode === "chest"')
             planning(v-show='$store.state.upgrades.mode === "timecube"')
     div
-        .fadey(:class='{ onestack : $store.getters.member.stacks === 1 || !requireFiveStacks, completedfadey : $store.state.context.completed }')
-            .boatContainer
+        .fadey(v-if='$store.getters.all.length > 0'   :class='{ onestack : $store.getters.member.stacks === 1 || !requireFiveStacks, completedfadey : $store.state.context.completed }')
+            .boatContainer(:class='{hidden:!$store.getters.member.guides}')
                 img.boatAll.faded.adjtooltip(@click='toggleStacks' src='../assets/images/orb.svg'  :class='{ro:$store.getters.member.stacks === 5}')
                 .tooltiptext.correctspottopleft(v-if='$store.getters.member.tooltips')
-                    p(v-if='$store.getters.member.stacks === 5').suggest combine colors
-                    p(v-else).suggest split colors
-                img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='pilePrioritized')
+                    p(v-if='$store.getters.member.stacks === 5').suggest no color
+                    p(v-else).suggest color
+                img.boatAll.boatR.faded.adjtooltip.svgwhite(src='../assets/images/upboat.svg'  @click='pilePrioritized')
                 .tooltiptext.correctspottop(v-if='$store.getters.member.tooltips')
-                    p.suggest task all
+                    p.suggest all todo
             panels
-            .faded
+            .faded(:class='{hidden:!$store.getters.member.guides}')
                 img.adjtooltip.toggleStack(v-if='!$store.state.context.completed'  @click='pileDeSubTasked' src='../assets/images/downboat.svg')
                 .tooltiptext.correctspotleft(v-if='!$store.state.context.completed && $store.getters.member.tooltips')
-                    p.suggest clear
+                    p.suggest all clear
                 img.completed.adjtooltip(v-if='$store.state.context.completed'   src='../assets/images/completed.svg'  @click='toggleShowComplete'  :class='{ faded : !$store.state.context.completed, completedtabbed : $store.state.context.completed, normaltopmargin : $store.getters.red.length + $store.getters.green.length + $store.getters.blue.length + $store.getters.yellow.length + $store.getters.purple.length === 0 }')
                 img.completed.adjtooltip(v-else   src='../assets/images/uncompleted.svg'  @click='toggleShowComplete'  :class='{ faded : !$store.state.context.completed, completedtabbed : $store.state.context.completed, normaltopmargin : $store.getters.red.length + $store.getters.green.length + $store.getters.blue.length + $store.getters.yellow.length + $store.getters.purple.length === 0 }')
                 .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-                    p.suggest view completed
+                    p.suggest completions
 </template>
 
 <script>
@@ -155,6 +155,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+
 
 @import '../styles/colours';
 @import '../styles/button';
@@ -435,5 +436,15 @@ export default {
     right: 0px
     height:20px
 
+.hidden
+    opacity: 0
+
+.hidden:hover
+    opacity: 0.25654
+
+
+.svgwhite:hover
+    transform: rotate(-30deg)
+    opacity: 1
 
 </style>

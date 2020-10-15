@@ -132,8 +132,8 @@ h2
 
 .thickborder
     border-style: solid
-    border-color: green
-    border-width: 4px
+    border-color: lightGrey
+    border-width: 5px
 
 .mainbkg
     background: main
@@ -197,12 +197,13 @@ ul
     margin-block-end: 0
 
 .projects
-    border: solid 1px wrexblue
+    border: solid 3px lightGrey
     border-radius: 0.5em
     margin-top: 2.7em
     margin-right: 1em
     margin-bottom: 1em
     padding: 0 0.5em 0.55em 0.5em
+    background: darkGrey
 
 .projects h3
     text-align: center

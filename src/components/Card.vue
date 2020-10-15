@@ -162,16 +162,6 @@ export default {
 
         mc2.add([doubleTap, longPress])
 
-        // doubleTap.recognizeWith(singleTap)
-        // singleTap.requireFailure(doubleTap)
-        // longPress.requireFailure([singleTap, doubleTap])
-        // longPress.recognizeWith([singleTap, doubleTap])
-        // longPress.requireFailure([singleTap, doubleTap])
-        //
-        // mc2.on('singletap', (e) => {
-        //     // this.setAction()
-        // })
-
         mc2.on('doubletap', (e) => {
             this.goIn()
             e.stopPropagation()

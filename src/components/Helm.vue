@@ -35,9 +35,9 @@ export default {
 
 .quarter
     display: inline-block
-    width: 1.45em
+    width: 25%
     min-height: 2em
-    font-size: 1.7em
+    font-size: 2.2em
     color: lightGrey
 
 .selected
@@ -68,9 +68,12 @@ export default {
     opacity: 0.71
     border-bottom-left-radius: 10%
     border-bottom-right-radius: 10%
+    border: solid
     border-top: none
+    border-width: 5px
+    border-color: lightGrey
     cursor: pointer
 
 .topcenter:hover
-    background: rgba(51,51,51,.97)
+    background: rgba(55,55,55,.9)
 </style>

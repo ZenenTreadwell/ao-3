@@ -283,7 +283,7 @@ export default {
             if (this.$store.getters.member.stacks === 5){
                 return calculations.cardColorCSS(this.task.color)
             }
-            return {}
+            return {nowx: true}
         },
         debouncedName: {
             get() {
@@ -302,6 +302,10 @@ export default {
 </script>
 
 <style lang='stylus' scoped>
+
+textarea
+    background-color: darkGrey
+
 
 @import '../styles/colours';
 @import '../styles/button';
@@ -558,5 +562,6 @@ p
 
 .faded
     opacity: 0.235654
+
 
 </style>
