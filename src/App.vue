@@ -41,7 +41,9 @@ export default {
                 purplewx : this.$store.getters.contextCard.color == 'purple',
                 blackwx : this.$store.getters.contextCard.color == 'black',
             }
-            return undefined
+            return {
+                nowx: true
+            }
         },
     }
 }
@@ -68,5 +70,6 @@ export default {
     min-height: 100vh;
     min-width: 100vw;
     pointer-events: none;
+    opacity: 0.36
 
 </style>

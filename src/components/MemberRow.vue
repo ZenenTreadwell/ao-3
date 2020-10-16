@@ -128,7 +128,6 @@ label
 .memberrow
     box-shadow: 3px 1px 7px 1px lightGrey
     margin-bottom: 8px
-    background: #1c4eb069
     min-height: 37px
 
 .fw

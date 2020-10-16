@@ -37,7 +37,7 @@ export default {
     display: inline-block
     width: 25%
     min-height: 2em
-    font-size: 2.2em
+    font-size: 4.2em
     color: lightGrey
 
 .selected

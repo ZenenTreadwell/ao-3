@@ -4,6 +4,7 @@
     .payreq(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"')
         .section {{b.bolt11}}
         tag(:d='b.bolt11'  size='5')
+        .section {{b.completeValue}}
         a(:href='"lightning:" + b.bolt11')
             button Open Wallet
                 img(src='../assets/images/lightning.svg')
@@ -13,9 +14,8 @@
         a(:href='"bitcoin:" + b.btcAddr')
             button Open Wallet
                 img(src='../assets/images/bitcoin.svg')
-    .section(v-else) payment node unavailable :(
-    div(v-if='$store.getters.contextCard.taskId === $store.getters.member.memberId')
-        lightning
+    .section(v-else) node unavailable :(
+    lightning
 </template>
 
 <script>

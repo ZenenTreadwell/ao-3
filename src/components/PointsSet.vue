@@ -7,7 +7,7 @@ div(:class='{unavailable: !this.$store.state.cash.info.alias}')
     .pointsset(v-if="$store.state.upgrades.paymode === 'lightning'")
         input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
         button(@click.stop='setValue') invoice
-    
+
 </template>
 
 <script>
@@ -52,8 +52,11 @@ button
     color: white
     height: 2.2em
 
+.pointsset
+    margin-top: 0.39em
+
 .pointsset button
-    width: 30%
+    width: 50%
     height: 2.2em
     padding: 0
 
@@ -62,7 +65,7 @@ button
     border-width: 1px
     background-color: rgba(22, 22, 22, 0.3)
     height: 2.2em
-    width: 70%
+    width: 50%
 
 .paymodeswitcher
     button

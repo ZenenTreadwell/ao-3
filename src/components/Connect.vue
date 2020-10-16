@@ -1,21 +1,18 @@
 <template lang='pug'>
 
 .Connect
-    .center
-        div this ao location:
-            br
-            span {{ $store.state.cash.address }}
-        code.click(@click='showSecr') reveal this ao secret:
-            br
-            span(v-if='showSecret') {{ $store.state.loader.token }}
-    .section connect aos
+    div location:
+        span {{ $store.state.cash.address }}
+    code.click(@click='showSecr') secret:
+        span(v-if='showSecret') {{ $store.state.loader.token }}
+    .section ao connect
     .input-container
         input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
         label location
     .input-container
         input.input-effect(v-model='ao.secret' type='text'  :class='{"has-content":!!ao.secret}')
         label.input-effect secret
-    button(v-if='ao.address && ao.secret'  @click='connect') connect
+    button(@click='connect') connect
     div(v-for='(r, i) in $store.state.ao')
         h6(@dblclick='goIn(r.address)' @click='showAddr(i)')
             span {{ r.address }}
@@ -116,9 +113,6 @@ h1
 h6
     text-align: center
     cursor: pointer
-
-label
-    color: blue
 
 .count
     float: right

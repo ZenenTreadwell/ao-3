@@ -1,10 +1,9 @@
 <template lang='pug'>
 
 #accounts
-  .container
     .row
         .six.columns
-            .section update
+            .section update account
             select(v-model='change.field', @change='empty')
                 option(value='name') name
                 option(value='secret') password
@@ -22,9 +21,9 @@
                 img.checkmark(v-if='matched', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span - repeat correctly
-            button(v-if='change.newfield.length > 0 && matched'  @click='update') update
+            button(@click='update') update
         .six.columns
-            .section prefer
+            .section preferences
             .check.click(@click='toggleTooltips')
                 img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')

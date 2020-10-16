@@ -19,7 +19,7 @@
             projects(v-if='$store.state.upgrades.mode === "doge"  &&  $store.getters.member.memberId === $store.getters.contextCard.taskId')
             resource-book(v-if='$store.state.upgrades.mode === "timecube"'   :tId='$store.getters.contextCard.taskId')
             points-set(v-if='$store.state.upgrades.mode === "chest"'   :b='$store.getters.contextCard')
-        .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"  ||  $store.getters.inbox.length > 0')
+        .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"  ||  $store.getters.inbox.length > 0'  :class='{darkmode: $store.getters.member.stacks === 1}')
             zen(v-show='$store.state.upgrades.mode === "doge" && $store.getters.inbox.length > 0')
             priorities(v-show='$store.state.upgrades.mode === "boat"')
             checkmarks(v-show='$store.state.upgrades.mode === "badge"')
@@ -200,6 +200,13 @@ export default {
     margin-right: 1em
     flex-grow: 1
     flex-basis: 54%
+    border: solid
+    border-width: 0.4321em
+    border-color: main
+    padding: 0.7789em
+
+.darkmode
+    border-color: lightGrey
 
 .upgrade
     height: 4em

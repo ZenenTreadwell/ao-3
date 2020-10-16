@@ -1,7 +1,9 @@
 <template lang='pug'>
 
 #nodes
-  .container(v-if='$store.state.cash.info && $store.state.cash.info.blockheight')
+  p(@click='toggleOpen') {{ $store.state.cash.info.peers.length }} peers on block {{ $store.state.cash.info.blockheight.toLocaleString() }}
+  h3(v-if='sats > 0  && sats !== Infinity') 1 {{ $store.state.cash.currency }} ~ {{ sats }}
+  .container(v-if='open && $store.state.cash.info && $store.state.cash.info.blockheight')
     .row
       p.chain
         span {{ $store.getters.confirmedBalance.toLocaleString() }}
@@ -13,8 +15,6 @@
         h4(v-if='unchanneled.length > 0') peers with no channels
         div(v-for='p in unchanneled' @click='selectPeer(p.id)'  :class='{bluetx: p.id === selectedPeer}') {{ p.id.slice(0,7) }}
         button(v-if='selectedPeer'   @click='requestChannel') Request Channel
-    h3(v-if='sats > 0  && sats !== Infinity') 1 {{ $store.state.cash.currency }} ~ {{ sats }}
-    p block {{ $store.state.cash.info.blockheight.toLocaleString() }}
 </template>
 
 <script>
@@ -26,7 +26,8 @@ import request from 'superagent'
 export default {
     data(){
         return {
-            selectedPeer: false
+            selectedPeer: false,
+            open: false
         }
     },
     components:{
@@ -41,6 +42,9 @@ export default {
         }
     },
     methods:{
+        toggleOpen(){
+            this.open = !this.open
+        },
         selectPeer(pId){
             if (pId === this.selectedPeer){
                 return this.selectedPeer = false
