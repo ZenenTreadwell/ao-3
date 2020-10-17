@@ -5,6 +5,7 @@
 
 const _ = require('lodash')
 const calculations = require('./calculations')
+// const crypto = require('./crypto')
 
 let inAddressConnect
 let outAddressConnect
@@ -278,6 +279,12 @@ function sessionsMuts(sessions, ev) {
 
 function hashMapMuts(hashMap, ev){
     switch(ev.type){
+        case "ao-outbound-connected":
+            hashMap[ev.address] = ev.i
+            break
+        case "ao-inbound-connected":
+            hashMap[ev.address] = ev.i
+            break
         case "task-created":
             hashMap[ev.taskId] = ev.i
             break
@@ -326,6 +333,12 @@ function hashMapMuts(hashMap, ev){
 let explodingTask, absorbingTask, claimed, pirate, task
 function tasksMuts(tasks, ev) {
   switch (ev.type) {
+    case "ao-outbound-connected":
+        tasks.push(calculations.blankCard(ev.address, ev.address, 'blue'))
+        break
+    case "ao-inbound-connected":
+        tasks.push(calculations.blankCard(ev.address, ev.address, 'red'))
+        break
     case "member-field-updated":
       if (ev.field === 'action') {
         tasks.forEach(task => {
@@ -468,9 +481,6 @@ function tasksMuts(tasks, ev) {
           }
         }
       })
-      break
-    case "ao-outbound-connected":
-      tasks.push(calculations.blankCard(ev.address, ev.address, 'purple'))
       break
     case "ao-disconnected":
       break

@@ -1,8 +1,8 @@
 <template lang='pug'>
 
-.memberrow(v-if='m.memberId'  @dblclick='goIn(m.memberId)'  :key='m.memberId')
+.memberrow(v-if='m.memberId'  :key='m.memberId')
     .row(v-if='b')
-        .three.grid.ptr(@click='goIn(m.memberId)')
+        .three.grid.ptr
             current(:memberId='m.memberId')
         .one.grid
             coin(:b='b')

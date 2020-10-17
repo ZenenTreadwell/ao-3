@@ -14,10 +14,8 @@
         label.input-effect secret
     button(@click='connect') connect
     div(v-for='(r, i) in $store.state.ao')
-        h6(@dblclick='goIn(r.address)' @click='showAddr(i)')
-            span {{ r.address }}
-            span(v-if='showAddress === i')
-                tag(:d='r.address', size='4')
+        h6
+            span(@click='goIn(r.address)') {{ r.address }}
             span -
             span.discon(@click='discon(r.address)') disconnect
 </template>
@@ -64,6 +62,8 @@ export default {
         },
         connect(){
             this.$store.dispatch('makeEvent', this.ao)
+            this.ao.address = ''
+            this.ao.secret = ''
         },
         discon(address){
             console.log("try diconnection", address)

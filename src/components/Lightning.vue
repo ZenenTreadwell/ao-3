@@ -5,9 +5,6 @@
   h3(v-if='sats > 0  && sats !== Infinity') 1 {{ $store.state.cash.currency }} ~ {{ sats }}
   .container(v-if='open && $store.state.cash.info && $store.state.cash.info.blockheight')
     .row
-      p.chain
-        span {{ $store.getters.confirmedBalance.toLocaleString() }}
-          .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
       .localremote(v-for='n in $store.state.cash.channels')
           .localbar(:style='l(n)')  {{ parseFloat( n.channel_sat ).toLocaleString() }}
           .remotebar(:style='r(n)')  {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
@@ -15,6 +12,9 @@
         h4(v-if='unchanneled.length > 0') peers with no channels
         div(v-for='p in unchanneled' @click='selectPeer(p.id)'  :class='{bluetx: p.id === selectedPeer}') {{ p.id.slice(0,7) }}
         button(v-if='selectedPeer'   @click='requestChannel') Request Channel
+    p.chain
+      span {{ $store.getters.confirmedBalance.toLocaleString() }}
+        .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
 </template>
 
 <script>
@@ -67,6 +67,10 @@ export default {
             let capacity = local + remote
             let remotePercent =  remote / capacity
 
+            if (remotePercent < 0.2) {
+                remotePercent = 0.2
+            }
+
             let w = (remotePercent * 100).toFixed(7) + "%"
             return {
                 width: w
@@ -79,6 +83,9 @@ export default {
           let capacity = local + remote
           let localPercent =  n.channel_sat / capacity
 
+          if (localPercent > 0.8) {
+              localPercent = 0.8
+          }
           let w = (localPercent * 100).toFixed(7) + "%"
           return {
               width: w
@@ -206,6 +213,7 @@ h5
 .localremote
     width: 100%
     height: 2em
+    margin-bottom: 0.25em
 
 .localbar
     height: 2em

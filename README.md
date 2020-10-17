@@ -10,7 +10,7 @@
 
 See [INSTALL.md](/INSTALL.md)
 ## Project Intent
-- useful open source [[¹]](https://www.youtube.com/watch?v=kc1_y3i0Pvc)
+- useful open source [[¹]](https://www.youtube.com/watch?v=kc1_y3i0Pvc)m
 - connect people in new perspective
 - data never leaves server you run
 - only direct encrypted communication
@@ -23,8 +23,6 @@ See [INSTALL.md](/INSTALL.md)
 ![Image of ui](/public/ui.png)
 mode 1
 ![Image of ui](/public/ui-todo.png)
-mode 2
-![Image of ui](/public/ui-calendar.png)
 card
 ![Image of ui](/public/ui-card.png)
 
