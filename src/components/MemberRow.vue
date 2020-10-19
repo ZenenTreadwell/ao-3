@@ -1,6 +1,7 @@
 <template lang='pug'>
 
 .memberrow(v-if='m.memberId'  :key='m.memberId')
+    .absoright(v-if='b.boost > 0') {{b.boost.toLocaleString()}}
     .row(v-if='b')
         .three.grid.ptr
             current(:memberId='m.memberId')
@@ -116,6 +117,9 @@ export default {
 @import '../styles/grid'
 @import '../styles/tooltips'
 @import '../styles/spinners'
+
+.absoright
+    float: right
 
 img
     height: 4em

@@ -2,14 +2,23 @@
 # ![Image of ao](/public/favicon-32x32.png) Autonomous Organization
 
 ## Project Setup
+See [INSTALL.md](/INSTALL.md) for details.
 - **ubuntu** - operating system
 - **nodejs** - server
 - **sqlite3** - database
 - **tor** - network
 - **bitcoind & c-lightning** - wallet
 
-See [INSTALL.md](/INSTALL.md)
-## Project Intent
+
+Bundle [App.vue](/src/App.vue) interface
+
+    npm run build
+Run [app.js](/src/server/app.js) to start server
+
+    npm start
+
+
+## Intent
 - build useful open source [[¹]](https://www.youtube.com/watch?v=kc1_y3i0Pvc)
 - connect inside new perspective [[²]](https://duckduckgo.com/?q=inside+the+computer+zoolander+clip&t=canonical&ia=web)
 - data never leaves server you run; no non-user events; no spam
@@ -27,15 +36,18 @@ App is a collaborative place to put ideas on cards within cards.
 * (mode 4) see accounts involved, review checks, settings if on account card
 
 ![Image of ui](/public/ui.png)
-mode 1 open two tasks available
+mode 1 two tasks
 ![Image of ui](/public/ui-todo.png)
 
 card interactions
-![Image of ui](/public/ui-card.png)
 * top left: share card to accounts, labels, and other aos. Label to pin to front.
-* bottom left: unsubscribe, leave, send down
-* top right: subscribe, set to do, send up onto todo list
-* bottom right corner (or double click) move into card
+* bottom left: unsubscribe, leave, send down, away. Cards can be recalled in search placed again
+* top right: up-boat card to task
+* bottom right corner: go into card (or double click)
+
+![Image of ui](/public/ui-card.png)
+
+card navigations
 
 ## Contact
 

@@ -2,7 +2,7 @@
 
 #nodes
   p(@click='toggleOpen') {{ $store.state.cash.info.peers.length }} peers on block {{ $store.state.cash.info.blockheight.toLocaleString() }}
-  h3(v-if='sats > 0  && sats !== Infinity') 1 {{ $store.state.cash.currency }} ~ {{ sats }}
+  h3(v-if='sats > 0  && sats !== Infinity') 1 {{ $store.state.cash.currency }} ~ {{ sats.toLocaleString() }}
   .container(v-if='open && $store.state.cash.info && $store.state.cash.info.blockheight')
     .row
       .localremote(v-for='n in $store.state.cash.channels')
@@ -16,7 +16,6 @@
             span(v-if='$store.getters.confirmedBalance > 0') Request Channel
             span.inactive Request Channel Requires On Chain Funds
         div.center.nowx(v-for='p in unchanneled' @click='selectPeer(p.id)'  :class='{bluetx: p.id === selectedPeer}') {{ p.id.slice(0,9) }}
-    .center connect string
     .center
         span {{$store.state.cash.info.id }}
         span @{{ $store.state.cash.info.address[0].address }}
