@@ -8,13 +8,19 @@
       .localremote(v-for='n in $store.state.cash.channels')
           .localbar(:style='l(n)')  {{ parseFloat( n.channel_sat ).toLocaleString() }}
           .remotebar(:style='r(n)')  {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
-    .row
-        h4(v-if='unchanneled.length > 0') peers with no channels
-        div(v-for='p in unchanneled' @click='selectPeer(p.id)'  :class='{bluetx: p.id === selectedPeer}') {{ p.id.slice(0,7) }}
-        button(v-if='selectedPeer'   @click='requestChannel') Request Channel
     p.chain
       span {{ $store.getters.confirmedBalance.toLocaleString() }}
         .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
+    .row
+        button.nowx(v-if='selectedPeer'   @click='requestChannel')
+            span(v-if='$store.getters.confirmedBalance > 0') Request Channel
+            span.inactive Request Channel Requires On Chain Funds
+        div.center.nowx(v-for='p in unchanneled' @click='selectPeer(p.id)'  :class='{bluetx: p.id === selectedPeer}') {{ p.id.slice(0,9) }}
+    .center connect string
+    .center
+        span {{$store.state.cash.info.id }}
+        span @{{ $store.state.cash.info.address[0].address }}
+        span :{{ $store.state.cash.info.address[0].port}}
 </template>
 
 <script>
@@ -27,7 +33,7 @@ export default {
     data(){
         return {
             selectedPeer: false,
-            open: false
+            open: false,
         }
     },
     components:{
@@ -59,6 +65,7 @@ export default {
                 .end((err, res)=>{
                     console.log("response from channel", res.body)
                 })
+            this.selectedPeer = false
         },
         r(n){
             let local = parseFloat( n.channel_sat )
@@ -67,7 +74,7 @@ export default {
             let capacity = local + remote
             let remotePercent =  remote / capacity
 
-            if (remotePercent < 0.2) {
+            if (remotePercent < 0.2 && remotePercent > 0) {
                 remotePercent = 0.2
             }
 
@@ -83,7 +90,7 @@ export default {
           let capacity = local + remote
           let localPercent =  n.channel_sat / capacity
 
-          if (localPercent > 0.8) {
+          if (localPercent > 0.8 && localPercent < 1) {
               localPercent = 0.8
           }
           let w = (localPercent * 100).toFixed(7) + "%"
@@ -101,6 +108,19 @@ export default {
 @import '../styles/skeleton'
 @import '../styles/grid'
 @import '../styles/button'
+
+.inactive
+    opacity: 0.3456
+
+.center
+    text-align: center
+    word-break: break-all
+    overflow-wrap: break-word;
+
+.center.nowx
+    margin-top: 0.3em
+    margin-bottom: 0.3em
+    height: 2em
 
 .fw
     width: 100%

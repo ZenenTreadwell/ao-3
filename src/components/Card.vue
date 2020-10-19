@@ -72,6 +72,7 @@ export default {
         Press.requireFailure([Tap])
 
         mc.on('tap', (e) => {
+
             let parentId = this.$store.state.context.parent[this.$store.state.context.parent.length-1]
             if (this.$store.getters.member.action === this.b.taskId){
 

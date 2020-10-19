@@ -86,7 +86,7 @@ export default {
 @import '../styles/title'
 @import '../styles/input'
 
-.center
+span
     text-align: center
     overflow-wrap: break-word
     word-wrap: break-word

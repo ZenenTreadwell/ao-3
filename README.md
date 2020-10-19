@@ -10,22 +10,33 @@
 
 See [INSTALL.md](/INSTALL.md)
 ## Project Intent
-- useful open source [[¹]](https://www.youtube.com/watch?v=kc1_y3i0Pvc)m
-- connect people in new perspective
-- data never leaves server you run
-- only direct encrypted communication
-- never outside spam
-- personal history and collaborative community memory
-- exit surveil-divide-outrage-control systems
+- build useful open source [[¹]](https://www.youtube.com/watch?v=kc1_y3i0Pvc)
+- connect inside new perspective [[²]](https://duckduckgo.com/?q=inside+the+computer+zoolander+clip&t=canonical&ia=web)
+- data never leaves server you run; no non-user events; no spam
+- encourage full node validation and early lightning participation
+- leave surveil divide outrage scare social control "internet", use tor3 addresses
+- setup and control local hardware with pi pin integration  
 
 ## Interface
+App is a collaborative place to put ideas on cards within cards.
+* top center, see and select mode 1 - 4
+* bottom center, create card within current card (default logged in account)
+* (mode 1) create checks by ticking check boxes
+* (mode 2) set time, review history
+* (mode 3) receive [sat](https://duckduckgo.com/?t=canonical&q=sat+bitcoin&ia=web)
+* (mode 4) see accounts involved, review checks, settings if on account card
 
 ![Image of ui](/public/ui.png)
-mode 1
+mode 1 open two tasks available
 ![Image of ui](/public/ui-todo.png)
-card
+
+card interactions
 ![Image of ui](/public/ui-card.png)
+* top left: share card to accounts, labels, and other aos. Label to pin to front.
+* bottom left: unsubscribe, leave, send down
+* top right: subscribe, set to do, send up onto todo list
+* bottom right corner (or double click) move into card
 
 ## Contact
 
-AO used for development priorities and progress is available irregularly at [45vkpxcawtv2ap3aw6v5pk4sd2j3flxuvev63uktywts7jvqtasejkid.onion](http://45vkpxcawtv2ap3aw6v5pk4sd2j3flxuvev63uktywts7jvqtasejkid.onion)
+AO at [45vkpxcawtv2ap3aw6v5pk4sd2j3flxuvev63uktywts7jvqtasejkid.onion](http://45vkpxcawtv2ap3aw6v5pk4sd2j3flxuvev63uktywts7jvqtasejkid.onion)
