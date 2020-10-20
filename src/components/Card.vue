@@ -1,9 +1,5 @@
 <template lang='pug'>
 .task(:class="cardInputSty"  ref='wholeCard').dont-break-out.agedwrapper
-    .agedbackground.freshpaper(v-if='cardAge < 8')
-    .agedbackground.weekoldpaper(v-else-if='cardAge < 30')
-    .agedbackground.montholdpaper(v-else-if='cardAge < 90')
-    .agedbackground.threemontholdpaper(v-else='cardAge >= 90')
     bird(:b='b', :inId='inId')
     flag(:b='b', :inId='inId')
     tally(:b='b')
@@ -30,6 +26,8 @@
                     .row.pad.centered
                         h6 {{l}}
     div
+        .copydiv
+            img.copied(src='../assets/images/loggedOut.svg'  :class='{hidden:showCopied}')
         .scrol.faded(ref='scuttle')
             img.scrolly(src='../assets/images/downboat.svg'  :class='{hidden:!$store.getters.member.guides}')
         .vine(@click='goIn')
@@ -60,6 +58,11 @@ import Flag from './Flag'
 import PreviewDeck from './PreviewDeck'
 
 export default {
+    data(){
+        return {
+            showCopied: false
+        }
+    },
     props: ['b', 'inId', 'c'],
     components: { PreviewDeck, Bird, Flag, Linky, SimplePriorities, Current, Tally},
     mounted() {
@@ -241,7 +244,10 @@ export default {
         copyCardToClipboard(){
           console.log('navigator', navigator.clipboard, this.b.name)
           navigator.clipboard.writeText(this.b.name)
-              .then(x => console.log('success', x))
+              .then(x => {
+                  console.log('success', x)
+                  this.showCopied = true
+              })
               .catch(err => {
                   console.log('failed to copy: ' + this.b.name, {err}) // XXX firefox, null error
               })
@@ -700,5 +706,12 @@ label
 
 .hidden:hover
     opacity: 0.25654
+
+.copied
+    height: 2em
+
+.copydiv
+    padding-left: 50% - 2em
+
 
 </style>
