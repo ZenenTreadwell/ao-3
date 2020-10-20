@@ -1,7 +1,7 @@
 <template lang='pug'>
 .d.tooltip(v-if='$store.getters.member.memberId !== b.taskId'  ref='hodlcoin')
     //- p.hodlcount(v-if='isBull'  :class="{ grabbedhodlcount: isGrabbed }") {{ (b.deck.length > 1) ? b.deck.length : '' }}
-    img.dogepepecoin(:class="{ ungrabbedcoin : !isGrabbed, highlight: inHand }" src='../assets/images/badge.svg'  draggable='false')
+    img.dogepepecoin(:class="{ ungrabbedcoin : !isGrabbed, highlight: inHand }" src='../assets/images/loggedIn.svg'  draggable='false')
     .tooltiptext(v-if='$store.getters.member.tooltips || b.deck.length > 0')
         current.block(v-for='memberId in b.deck'  :memberId='memberId')
 </template>

@@ -17,7 +17,6 @@ Run [app.js](/src/server/app.js) to start server
 
     npm start
 
-
 ## Intent
 - build useful open source [[¹]](https://www.youtube.com/watch?v=kc1_y3i0Pvc)
 - connect inside new perspective [[²]](https://duckduckgo.com/?q=inside+the+computer+zoolander+clip&t=canonical&ia=web)
@@ -33,7 +32,7 @@ App is a collaborative place to put ideas on cards within cards.
 * (mode 1) create checks by ticking check boxes
 * (mode 2) set time, review history
 * (mode 3) receive [sat](https://duckduckgo.com/?t=canonical&q=sat+bitcoin&ia=web)
-* (mode 4) see accounts involved, review checks, settings if on account card
+* (mode 4) see accounts, review checks, settings if on account card
 
 ![Image of ui](/public/ui.png)
 mode 1 two tasks
@@ -41,13 +40,11 @@ mode 1 two tasks
 
 card interactions
 * top left: share card to accounts, labels, and other aos. Label to pin to front.
-* bottom left: unsubscribe, leave, send down, away. Cards can be recalled in search placed again
+* bottom left: unsubscribe, leave, send down, away. Not lost, cards can be retrieved by search
 * top right: up-boat card to task
 * bottom right corner: go into card (or double click)
 
 ![Image of ui](/public/ui-card.png)
-
-card navigations
 
 ## Contact
 

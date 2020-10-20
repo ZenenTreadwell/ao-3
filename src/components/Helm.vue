@@ -36,12 +36,13 @@ export default {
 .quarter
     display: inline-block
     width: 25%
-    min-height: 2em
-    font-size: 4.2em
+    font-size: 4.44em
     color: lightGrey
+    max-height: 2em
+    margin-top: -0.35em;
 
 .selected
-    color: black
+    color: main
 
 .quarter:before
     content: "\2022";

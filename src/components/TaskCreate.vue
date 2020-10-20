@@ -3,6 +3,14 @@
   div
       transition(name="slide-fade")
         .cc(v-show='showCreate')
+            .boatContainer
+                button.clear.tooltip(@click='resetCard') clear
+                    .tooltiptext(v-if='$store.getters.member.tooltips')
+                        p clear
+                button.lock lock
+                button.create.tooltip(@click='createOrFindTask') create
+                    .tooltiptext(v-if='$store.getters.member.tooltips')
+                        p.suggest.label create
             textarea#card.paperwrapper(
                 v-model='debouncedName'
                 type='text'
@@ -15,13 +23,6 @@
                 row='10'
                 col='20'
             )
-            .boatContainer
-                img.boatAll.faded.adjtooltip(src='../assets/images/downboat.svg'  @click='resetCard')
-                .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips')
-                    p.suggest.label clear
-                img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='createOrFindTask')
-                .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-                    p.suggest.label create
       #btnpanel.btnpanel.adjtooltip
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
               div(v-if='$store.getters.member.stacks === 5')
@@ -31,7 +32,7 @@
                   button.lit(@click='switchColor("purple")'  :class='{ down : task.color === "purple" }').purplewx.paperwrapper
                   button.lit(@click='switchColor("blue")'  :class='{ down : task.color === "blue" }').bluewx.paperwrapper
               div(v-else)
-                  .lonestar.down.lit(@click='switchColor("blue")').paperwrapper
+                  .lonestar.lit(@click='switchColor("blue")').paperwrapper
       .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
           p.suggest.label create and search
       .scrollbarwrapper(v-show='showCreate && searchTotal > 0')
@@ -181,7 +182,6 @@ export default {
             }
         },
         resetCard(){
-            this.showCreate = false
             this.task.name = ''
             this.$store.commit('setSearch', '')
         },
@@ -313,10 +313,16 @@ textarea
 @import '../styles/input';
 @import '../styles/tooltips';
 
+.boatContainer button
+    background-color: main
+.boatContainer button:hover
+    background-color: lightGrey
+    color: main
+
 .lonestar
     width : 20em
     height: 2em
-    background : wrexno
+    background-color : lightGrey 
 
 .searchtotal
     position: absolute
@@ -350,11 +356,6 @@ textarea
   bottom: 0
   left: 50%
   transform: translateX(-50%)
-
-button
-    border-color: rgba(0, 0, 0, 0.4)
-    margin-bottom: 0.5em
-    margin-top: 0.2em
 
 .lit
     opacity: 0.69

@@ -198,12 +198,13 @@ export default {
     float: right
     margin-top: 1em
     margin-right: 1em
-    flex-grow: 1
-    flex-basis: 54%
+    flex-grow: 2.77
+    flex-basis: 55%
     border: solid
     border-width: 0.4321em
     border-color: main
     padding: 0.7789em
+    background-color: main
 
 .darkmode
     border-color: lightGrey
