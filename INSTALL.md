@@ -1,18 +1,37 @@
 ## Install
 
-Run install scripts for Ubuntu 20:
+Must create a configuration.js file like:
 ```
-chmod +x setup/*.sh
-./install/prepare-install.sh
-./install/install-<target-dependency>.sh
+module.exports = {
+    openAo: true,
+    bitcoind: {
+        username: '',
+        password: ''
+    },
+    sqlite3: {
+        file: '/home/taylor/.ao/database.sqlite3'
+    },
+    tor: {
+    	hostname: '45vkpxcawtv2ap3aw6v5pk4sd2j3flxuvev63uktywts7jvqtasejkid.onion'
+    },
+    clightning: {
+        dir: '/home/taylor/.lightning/bitcoin'
+    },
+    bitcoinAverage: {
+        pub: '',
+        secret: ''
+    },
+    privateKey: '-----BEGIN EC PRIVATE KEY-----\n' +
+    '-----END EC PRIVATE KEY-----\n'
+}
 
-npm install
-
-# vue-cli bundle frontend
-npm run build
-
-# ao server at localhost:8003
-npm run start
 ```
 
-plzfeed 3AA6s5MUnLjPzi2iPzUGVqWGAGBBJnBiWg or bc1qg3w4uy50ncdn3j3rhy0j06netthyz0y3ug2sx4 kthxbye
+Must install tor, bitcoind, clightning, sqlite3. Ubuntu script:
+```
+cd install
+./install.sh
+```
+Recommend reading the scripts and running in terminal or following the instructions from individual projects.
+
+plz 3AA6s5MUnLjPzi2iPzUGVqWGAGBBJnBiWg

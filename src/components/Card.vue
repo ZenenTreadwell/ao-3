@@ -27,7 +27,7 @@
                         h6 {{l}}
     div
         .copydiv
-            img.copied(src='../assets/images/loggedOut.svg'  :class='{hidden:showCopied}')
+            img.copied(src='../assets/images/loggedOut.svg'  :class='{hidden:!showCopied}')
         .scrol.faded(ref='scuttle')
             img.scrolly(src='../assets/images/downboat.svg'  :class='{hidden:!$store.getters.member.guides}')
         .vine(@click='goIn')

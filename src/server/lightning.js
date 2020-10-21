@@ -7,6 +7,11 @@ const calculations = require( '../calculations')
 const LightningClient = require( 'lightning-client')
 const {serverState} = require( './state')
 const client = new LightningClient(config.clightning.dir, true);
+const Client = require('bitcoin-core');
+const bitClient = new Client(config.bitcoind)
+
+// bitClient.getBlockchainInfo().then((help) => console.log(help));
+
 
 lightningRouter.post('/lightning/channel',(req, res) => {
     client.fundchannel(req.body.id, 'all')

@@ -1,4 +1,5 @@
 let PORT = process.env.PORT || 8003
+const conf = require('../../configuration')
 const Kefir = require('kefir')
 const express = require('express')
 const path = require("path")
