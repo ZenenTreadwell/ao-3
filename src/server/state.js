@@ -6,7 +6,6 @@ const config = require( '../../configuration')
 const crypto = require('../crypto')
 
 let publicKey = crypto.derivePublicKey(config.privateKey)
-console.log({publicKey})
 
 function baseState(){
     return {

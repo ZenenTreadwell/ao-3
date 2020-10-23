@@ -1,7 +1,5 @@
 const crypto = require('crypto')
 
-console.log('got crypto library?', crypto)
-
 function createHash(payload) {
   let sha256 = crypto.createHash('sha256')
   sha256.update(payload)
