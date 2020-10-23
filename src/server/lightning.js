@@ -10,8 +10,34 @@ const client = new LightningClient(config.clightning.dir, true);
 const Client = require('bitcoin-core');
 const bitClient = new Client(config.bitcoind)
 
-// bitClient.getBlockchainInfo().then((help) => console.log(help));
+function getDecode (rawx){
+    return bitClient.getRawTransaction(rawx)
+        .then((rawTransaction) => {
+              return bitClient.decodeRawTransaction(rawTransaction)
+        })
+}
 
+
+lightningRouter.post('/bitcoin/transaction',(req, res) => {
+    bitClient.getMempoolEntry(req.body.txid)
+        .then(memPool => {
+            getDecode(req.body.txid).then(txn => {
+                txn.memPool = memPool
+                res.send(txn)
+            })
+        })
+        .catch(notInMempool => {
+            getDecode(req.body.txid).then(txn => {
+                Promise.all(txn.vout.map((output, i) => {
+                  return bitClient.getTxOut(txn.hash, i)
+                })).then(outs => {
+                    txn.vin.forEach(innnin => console.log({innnin}))
+                    txn.utxo = outs
+                    res.send(txn)
+                })
+          })
+    })
+})
 
 lightningRouter.post('/lightning/channel',(req, res) => {
     client.fundchannel(req.body.id, 'all')

@@ -74,7 +74,7 @@ const actions = {
                 if (err || !res.body) {
                     console.log('task load post err: ', err)
                 } else {
-                    console.log('got ', res.body.length, 'tasks from tasks endpoint')
+                    console.log('loaded ', res.body.length, 'cards')
                     commit('applyEvent', {
                         type: 'tasks-received',
                         tasks: res.body

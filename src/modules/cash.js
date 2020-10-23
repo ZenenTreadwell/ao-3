@@ -1,6 +1,7 @@
 const M = require( '../mutations')
 
 const state = {
+    publicKey: "",
     alias: "",
     address: "",
     spot: 123456,
@@ -16,6 +17,7 @@ const state = {
 
 const mutations = {
     setCurrent(state, current){
+        state.publicKey = current.cash.publicKey
         state.alias = current.cash.alias
         state.address = current.cash.address
         state.spot = current.cash.spot

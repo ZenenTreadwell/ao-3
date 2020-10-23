@@ -3,6 +3,10 @@ const dctrlDb = require( './dctrlDb')
 const M = require( '../mutations')
 const modules = require( '../modules')
 const config = require( '../../configuration')
+const crypto = require('../crypto')
+
+let publicKey = crypto.derivePublicKey(config.privateKey)
+console.log({publicKey})
 
 function baseState(){
     return {
@@ -13,6 +17,7 @@ function baseState(){
       tasks: [],
       resources: [],
       cash: {
+        publicKey,
         address: config.tor.hostname,
         alias: '',
         currency: 'CAD',

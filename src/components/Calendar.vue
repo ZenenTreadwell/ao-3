@@ -6,29 +6,32 @@
         .placeholder(v-for='placeholder in firstDay')
         div.deh(v-for='day in days'  @click='chooseDay(day)')
             day(:day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
-    div(v-else)
-        div(v-for='n in selectedDaysEvs')
-            .tooltip(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
-                current(:memberId='n.memberId')
-                span {{ new Date(n.timestamp).toString().slice(15,21) }}
-                span - {{ getFromMap(n.taskId).name }}
-            .tooltip(v-else-if='n.type === "resource-used"'  @click='goIn(n.resourceId)')
-                current(:memberId='n.memberId')
-                span {{ new Date(n.timestamp).toString().slice(15,21) }}
-                currentr(:resourceId='n.resourceId')
-                span - {{ n.notes }}
-            .tooltip(v-else-if='n.name'  @click='goIn(n.taskId)')
-                span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ n.name }}
-        div(v-if='selectedDaysEvs.length === 0')
-            .soft(@click='clickDateBar') - no activity
-    .row.menu
-        .inline(@click='prevMonth')
+    .calmonth(v-else)
+        .weekdayfull(@click='clickDateBar') {{ chosenWeekDay }}
+        .grey
+            .datenumber  {{ chosenDay }}
+            .soft(v-for='n in selectedDaysEvs')
+                div(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
+                    current(:memberId='n.memberId')
+                    span {{ new Date(n.timestamp).toString().slice(15,21) }}
+                    span - {{ getFromMap(n.taskId).name }}
+                div(v-else-if='n.type === "resource-used"'  @click='goIn(n.resourceId)')
+                    current(:memberId='n.memberId')
+                    span {{ new Date(n.timestamp).toString().slice(15,21) }}
+                    currentr(:resourceId='n.resourceId')
+                    span - {{ n.notes }}
+                div(v-else-if='n.name'  @click='goIn(n.taskId)')
+                    span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ n.name }}
+            div(v-if='selectedDaysEvs.length === 0')
+                .soft(@click='clickDateBar') - no activity
+    .row.menu(@click='clickDateBar')
+        .inline(@click.stop='prevMonth')
             img(src='../assets/images/back.svg')
         .inline
-            .soft(@click='clickDateBar')
+            .soft
                 h5 {{ monthName }} - {{year}}
                     span(v-if='chosenDay') - {{ chosenDay }}
-        .inline(@click='nextMonth')
+        .inline(@click.stop='nextMonth')
             img(src='../assets/images/forward.svg')
     .buffer
 </template>
@@ -123,6 +126,11 @@ export default {
       }
   },
   computed: {
+    chosenWeekDay(){
+        let date = new Date(this.year, this.month, this.chosenDay)
+        let firstDay = date.getDay()
+        return this.DAYS_OF_WEEK[firstDay]
+    },
     chosenDay(){
         return this.$store.state.upgrades.chosenDay
     },
@@ -218,6 +226,18 @@ export default {
 @import '../styles/skeleton';
 @import '../styles/tooltips';
 
+.row.menu
+    cursor: pointer
+
+.fw
+    width: 100%
+
+.grey
+    background-color: softGrey
+    min-height: 7em
+    color: main
+    padding: 5px
+
 .deh
     cursor: pointer
 
@@ -237,7 +257,6 @@ h5
     margin-top: 1em
 
 .soft
-    color: softGrey
     cursor: pointer
 
 .inline
@@ -274,6 +293,18 @@ h5
     font-size: 19px
     border-style:solid
     color:#ffffff1c
+
+.weekdayfull
+    width: 100%
+    height: 40px
+    text-align: center
+    font-weight:lighter
+    font-size: 19px
+    border-width: 1px
+    border-style:solid
+    color:#ffffff1c
+    cursor: pointer
+
 .date
     background-color: white
     float: right
@@ -323,4 +354,14 @@ tr, td
     float: left
 .fr
     float: right
+
+.datenumber
+    text-align:right
+    margin-top: 0
+    font-weight: bolder
+    font-size: 1.3em
+    z-index: 5
+    width: 100%
+    text-align: right
+
 </style>

@@ -30,7 +30,7 @@
             img.orby.fadey.ro(v-if='i > 0'  src='../assets/images/orb.svg'  @click='orbswap(b.taskId)')
             hypercard(:b="b"  :key="b.taskId"  :inId='taskId'  :c='panelIds')
     .box(v-else)
-        hypercard(:b="c[sanePosition]")
+        hypercard(:b="c[sanePosition]"  :inId='taskId'  :key='c[sanePosition].taskId')
 </template>
 
 <script>
@@ -248,9 +248,7 @@ export default {
     },
     c(){
         let c = this.$store.getters[this.stack]
-        console.log("I C:", c)
         if (!c){
-            console.log('No C')
             return []
         }
         return c

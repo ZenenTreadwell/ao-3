@@ -44,7 +44,6 @@ export default {
         singleTap.requireFailure(doubleTap)
 
         mc.on('singletap', (e) => {
-            console.log("tap on priority")
             if(this.$store.getters.member.action === this.taskId) {
                 this.deaction()
             } else {
@@ -136,14 +135,11 @@ export default {
             return undefined
         },
         cardInputSty() {
-          console.log('card input calculating')
           if (this.$store.getters.member.stacks === 1) {
-              console.log('its nowx')
               return {
                   nowx: true
               }
           } else {
-              console.log('colour mode? ', this.$store.getters.member.stacks )
               return {
                 redwx : this.card.color == 'red',
                 bluewx : this.card.color == 'blue',

@@ -1,15 +1,17 @@
 <template lang='pug'>
 
-.current(v-if='memberId'  :key='counter')
+.current(v-if='memberId')
     img.checkmark.clickable(v-if='isCompleted'  src='../assets/images/completed.svg'   @click='uncheck')
     img.checkmark.clickable(v-else  src='../assets/images/uncompleted.svg'  @click='complete')
     span.completedmarks
         span.name(@dblclick='goIn(memberId)'   @click.exact.stop='toggleHighlight()'  @click.ctrl.exact.stop='toggleHighlight(true)'  :class='{ highlight : isHighlighted, lowdark : isLowdarked }') {{ name }}
-            span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }}d:
-            span(v-if='clockworkblue.hours > 0') {{ clockworkblue.hours }}:
-            span(v-if='clockworkblue.minutes > 0') {{ Number(clockworkblue.minutes) }}:
-            span(v-if='clockworkblue.minutes > 0 && clockworkblue.seconds > 0 && clockworkblue.seconds < 10') 0
-            span(v-if='clockworkblue.seconds > 0') {{ Number(clockworkblue.seconds.toFixed(0)) }}
+        span.workblue(@click='toggleActive')
+            span [
+            span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }} days
+            span(v-else-if='clockworkblue.hours > 0') {{ clockworkblue.hours }} hours
+            span(v-else-if='clockworkblue.minutes > 0') {{ Number(clockworkblue.minutes) }} minutes
+            span(v-else-if='clockworkblue.seconds > 0') {{ Number(clockworkblue.seconds.toFixed(0)) }} seconds
+            span ]
         span(v-for='c in checkmarks'  :key='c.taskId')
             span.clickable(v-if='0 < c.completeValue') {{c.completeValue}}
             span.tooltip.plain.completedcheckmark(@click='goIn(c.taskId)'  :class='cardInputSty(c.color)')
@@ -22,18 +24,21 @@
 import Linky from './Linky'
 
 export default {
-  data(){
-      let x = {
-          counter: 0,
-      }
-      setInterval(()=>{ // total rerender not great
-          x.counter ++
-      }, 12345)
-      return x
-  },
   props: ['memberId'],
   components: { Linky },
   methods: {
+    toggleActive(){
+        let newfield = this.$store.getters.contextCard.taskId
+        if (this.$store.getters.member.action === this.$store.getters.contextCard.taskId){
+            newfield = false
+        }
+        this.$store.dispatch("makeEvent", {
+            type: 'member-field-updated',
+            field: 'action',
+            memberId: this.$store.getters.member.memberId,
+            newfield
+        })
+    },
     goIn(taskId){
         let parents = [this.memberId, this.$store.getters.contextCard.taskId]
         let panel = [taskId]
@@ -85,7 +90,6 @@ export default {
                 totalms = a.total
                 if (a.isActive){
                     active = a.timestamp
-                    console.log('set active for ', {a})
                 }
             }
         })
@@ -197,4 +201,7 @@ img.completedcheckmark
 
 .lilypad
     text-shadow: 0 0 20px green, 0 0 20px green, 0 0 20px green
+
+.workblue
+    cursor: pointer
 </style>

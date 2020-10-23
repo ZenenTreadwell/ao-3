@@ -7,7 +7,7 @@
                 button.clear.tooltip(@click='resetCard') clear
                     .tooltiptext(v-if='$store.getters.member.tooltips')
                         p clear
-                button.lock lock
+                button.lock(@click='lockIt') lock
                 button.create.tooltip(@click='createOrFindTask') create
                     .tooltiptext(v-if='$store.getters.member.tooltips')
                         p.suggest.label create
@@ -54,6 +54,7 @@
 
 import calculations from '../calculations'
 import Hammer from 'hammerjs'
+import cryptoUtils from '../crypto'
 
 import Current from './Current'
 export default {
@@ -122,6 +123,23 @@ export default {
         });
     },
     methods: {
+        lockIt(){
+            let toHide = this.task.name.trim()
+            let pubkey = this.$store.state.cash.publicKey
+            console.log(toHide, pubkey)
+            let potentialCard = cryptoUtils.encryptToPublic(pubkey, toHide)
+            console.log({
+              potentialCard,
+            })
+            this.$store.dispatch("makeEvent", {
+                type: 'task-created',
+                name: potentialCard,
+                color: this.task.color,
+                deck: [this.$store.getters.member.memberId],
+                inId: this.taskId,
+            })
+            this.resetCard()
+        },
         goInSearchPanel(){
             this.$store.dispatch('goIn', {
                 parents:[this.$store.getters.contextCard.taskId],
@@ -322,7 +340,7 @@ textarea
 .lonestar
     width : 20em
     height: 2em
-    background-color : lightGrey 
+    background-color : lightGrey
 
 .searchtotal
     position: absolute
