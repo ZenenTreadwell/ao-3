@@ -12,20 +12,6 @@ function hmacHex(data, signingKey) {
   return hmac.digest('hex')
 }
 
-// function genNewPrivKey(callback){
-//     crypto.generateKeyPair('rsa', {
-//       modulusLength: 4096,
-//       publicKeyEncoding: {
-//           type: 'spki',
-//           format: 'pem'
-//       },
-//       privateKeyEncoding: {
-//           type: 'pkcs8',
-//           format: 'pem',
-//       }
-//     }, callback)
-// }
-
 function derivePublicKey(p){
     return crypto.createPublicKey(p).export({
         type: 'spki',
