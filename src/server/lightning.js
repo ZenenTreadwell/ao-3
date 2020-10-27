@@ -17,7 +17,6 @@ function getDecode (rawx){
         })
 }
 
-
 lightningRouter.post('/bitcoin/transaction',(req, res) => {
     bitClient.getMempoolEntry(req.body.txid)
         .then(memPool => {
@@ -40,10 +39,14 @@ lightningRouter.post('/bitcoin/transaction',(req, res) => {
 })
 
 lightningRouter.post('/lightning/channel',(req, res) => {
-    client.fundchannel(req.body.id, 'all')
+    client.fundchannel(req.body.id, 'all', 'normal', true, 0)
         .then(channel => {
             console.log("channel funded", channel)
             res.send(true)
+        })
+        .catch(err => {
+            console.log(err)
+            res.send(false)
         })
 })
 

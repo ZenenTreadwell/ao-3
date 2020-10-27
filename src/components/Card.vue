@@ -5,7 +5,7 @@
     tally(:b='b')
     .dogecoin.tooltip(v-if='w > 0')
         img(v-for='n in parseInt(Math.floor(w))'  src='../assets/images/loggedOut.svg')
-        img(v-if='w % 1 > 0 || w < 1'  :class="['sixteenth' + fractionalReserveDoge]"  src='../assets/images/loggedOut.svg')
+        img(v-if='w % 1 > 0 || w < 1'  :class="['sixteenth' + fractionalReserveDoge]"  src='../assets/images/doge.svg')
     .buffertop
       preview-deck(:task='b')
       .cardbody

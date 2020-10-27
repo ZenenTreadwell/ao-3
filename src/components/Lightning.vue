@@ -12,10 +12,10 @@
         span {{ $store.getters.confirmedBalance.toLocaleString() }}
           .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
       .row
+          div.center.nowx(v-for='p in unchanneled' @click='selectPeer(p.id)'  :class='{bluetx: p.id === selectedPeer}') {{ p.id }}
           button.nowx(v-if='selectedPeer'   @click='requestChannel')
               span(v-if='$store.getters.confirmedBalance > 0') Request Channel
-              span.inactive Request Channel Requires On Chain Funds
-          div.center.nowx(v-for='p in unchanneled' @click='selectPeer(p.id)'  :class='{bluetx: p.id === selectedPeer}') {{ p.id.slice(0,9) }}
+              span(v-else).inactive Request Channel Requires On Chain Funds
       .center
           span {{$store.state.cash.info.id }}
           span @{{ $store.state.cash.info.address[0].address }}

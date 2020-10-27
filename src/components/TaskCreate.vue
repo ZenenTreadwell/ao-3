@@ -126,11 +126,7 @@ export default {
         lockIt(){
             let toHide = this.task.name.trim()
             let pubkey = this.$store.state.cash.publicKey
-            console.log(toHide, pubkey)
             let potentialCard = cryptoUtils.encryptToPublic(pubkey, toHide)
-            console.log({
-              potentialCard,
-            })
             this.$store.dispatch("makeEvent", {
                 type: 'task-created',
                 name: potentialCard,
