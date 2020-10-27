@@ -5,7 +5,12 @@ const modules = require( '../modules')
 const config = require( '../../configuration')
 const crypto = require('../crypto')
 
-let publicKey = crypto.derivePublicKey(config.privateKey)
+let publicKey
+try {
+    publicKey = crypto.derivePublicKey(config.privateKey)
+} catch (err){
+    console.log('key import error', err)
+}
 
 function baseState(){
     return {

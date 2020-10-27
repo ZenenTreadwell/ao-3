@@ -31,19 +31,18 @@ Run [app.js](/src/server/app.js) to start server
 
     npm start
 
-[Install folder](/install) contains scripts to install dependencies
+[Install folder](/install) contains scripts to install dependencies, run all by
+
+    cd install
+    chmod +x fullAoSetup.sh
+    ./fullAoSetup.sh
 - **ubuntu** - operating system
 - **nodejs** - server
 - **sqlite3** - database
 - **tor** - network
 - **bitcoind & c-lightning** - wallet
 
-
-    cd install
-    chmod +x fullAoSetup.sh
-    ./fullAoSetup.sh
-
-## App
+## Ao App
 Ao is card inception, a window into a list of cards within cards within cards. Many can be viewing, adding to, and updating all at the same. If you see what you did, other people can see it too.
 ![Image of ui](/public/ui.png)
 * top center, four dots to determine mode 1 - 4
