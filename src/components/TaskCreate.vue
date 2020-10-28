@@ -1,16 +1,12 @@
 <template lang='pug'>
 #createtask(ref="closeable")
-  div
+  div.secondbackground(@click.stop='switchColor(task.color)')
       transition(name="slide-fade")
         .cc(v-show='showCreate')
             .boatContainer
-                button.clear.tooltip(@click='resetCard') clear
-                    .tooltiptext(v-if='$store.getters.member.tooltips')
-                        p clear
+                button.clear(@click='resetCard') clear
                 button.lock(@click='lockIt') lock
-                button.create.tooltip(@click='createOrFindTask') create
-                    .tooltiptext(v-if='$store.getters.member.tooltips')
-                        p.suggest.label create
+                button.create(@click='createOrFindTask') create
             textarea#card.paperwrapper(
                 v-model='debouncedName'
                 type='text'
@@ -23,18 +19,16 @@
                 row='10'
                 col='20'
             )
-      #btnpanel.btnpanel.adjtooltip
+      #btnpanel.btnpanel
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
               div(v-if='$store.getters.member.stacks === 5')
-                  button.lit(@click='switchColor("red")'  :class='{ down : task.color === "red" }').redwx.paperwrapper
-                  button.lit(@click='switchColor("yellow")'  :class='{ down : task.color === "yellow" }').yellowwx.paperwrapper
-                  button.lit(@click='switchColor("green")'  :class='{ down : task.color === "green" }').greenwx.paperwrapper
-                  button.lit(@click='switchColor("purple")'  :class='{ down : task.color === "purple" }').purplewx.paperwrapper
-                  button.lit(@click='switchColor("blue")'  :class='{ down : task.color === "blue" }').bluewx.paperwrapper
+                  button(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" }').redwx.paperwrapper
+                  button(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" }').yellowwx.paperwrapper
+                  button(@click.stop='switchColor("green")'  :class='{ down : task.color === "green" }').greenwx.paperwrapper
+                  button(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" }').purplewx.paperwrapper
+                  button(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" }').bluewx.paperwrapper
               div(v-else)
-                  .lonestar.lit(@click='switchColor("blue")').paperwrapper
-      .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-          p.suggest.label create and search
+                  .lonestar.lit(@click.stop='switchColor("blue")'  :class='{ down : showCreate }').paperwrapper
       .scrollbarwrapper(v-show='showCreate && searchTotal > 0')
           .searchresults
               .boatContainer
@@ -64,7 +58,7 @@ export default {
             task: {
                 name: '',
                 search: '',
-                color: '',
+                color: 'green',
             },
             swipeTimeout: 0,
             searchResults: [],
@@ -334,10 +328,12 @@ textarea
     color: main
 
 .lonestar
-    width : 20em
     height: 2em
     background-color : lightGrey
-
+    width: 20em
+    position: fixed
+    left: 50%
+    transform: translateX(-50%)
 .searchtotal
     position: absolute
     top: 0
@@ -345,20 +341,8 @@ textarea
     color: lightGrey
     cursor: pointer
 
-.tooltiptext.correctspot
-    position: absolute
-    top: -.6em
-    right: -2em
-    color: white
-
-.tooltiptext.correctspotleft
-    position: absolute
-    top: -.6em
-    left: -2em
-    color: white
-
 #createtask
-  width: fit-content
+  width: 81%
   background-color: rgba(51, 51, 51, 0.3)
   color: accent1
   margin: 0 auto 0 auto
@@ -452,11 +436,9 @@ p
     color: white
     font-weight: bolder
 
-.textarea
-    padding-top: 1em
+textarea
     border-color: rgba(0, 0, 0, 0.4)
     height: 12.5em
-    padding-top: 5.5em
 
 .centr
     text-align: center
@@ -566,7 +548,6 @@ p
     position: relative
     margin-top: 1em
     margin-bottom: 1em
-    opacity: .3
     z-index:9999999999999
     cursor: pointer
 
@@ -578,5 +559,8 @@ p
 .faded
     opacity: 0.235654
 
+.secondbackground
+    background: main
+    cursor: pointer
 
 </style>
