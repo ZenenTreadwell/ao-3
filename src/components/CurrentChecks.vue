@@ -156,10 +156,13 @@ export default {
 @import '../styles/colours'
 @import '../styles/tooltips'
 
+.current
+    background: lightGrey
+
 img
     height: 0.7em
 .name
-    color: white
+
     font-size: 1.2em
     margin-right: 1em
     padding-bottom: .321em
@@ -181,7 +184,7 @@ img.completedcheckmark
 
 .clickable
     cursor: pointer
-    color: white
+
 
 .plain
     text-decoration: none

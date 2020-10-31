@@ -6,9 +6,10 @@
         .placeholder(v-for='placeholder in firstDay')
         div.deh(v-for='day in days'  @click='chooseDay(day)')
             day(:day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
+        .placeholder(v-for='placeholder in lastDay')
     .calmonth(v-else)
         .weekdayfull(@click='clickDateBar') {{ chosenWeekDay }}
-        .grey
+        .grey(@click='chooseDay(chosenDay)')
             .datenumber  {{ chosenDay }}
             .soft(v-for='n in selectedDaysEvs')
                 div(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
@@ -87,7 +88,9 @@ export default {
           return this.$store.state.tasks[this.$store.state.hashMap[taskId]]
       },
       chooseDay(x){
-          console.log('dispatching choose day')
+          if (x === this.chosenDay){
+              return this.$store.commit('chooseDay', "")
+          }
           this.$store.commit('chooseDay', x)
       },
       nextMonth(){
@@ -200,6 +203,12 @@ export default {
       let firstDay = date.getDay()
       return firstDay
     },
+    lastDay(){
+        let date = new Date(this.year, this.month + 1, 0)
+        let lastDay = date.getDay()
+        console.log({lastDay})
+        return  6 - lastDay
+    },
     days(){
       return  new Date(this.year, this.month + 1, 0).getDate()
     },
@@ -234,7 +243,7 @@ export default {
 
 .grey
     background-color: softGrey
-    min-height: 7em
+    min-height: 500px
     color: main
     padding: 5px
 

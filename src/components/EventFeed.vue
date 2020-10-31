@@ -58,7 +58,7 @@ export default {
 
 .feed
     position: fixed
-    color: white
+
     top: 100vh - 20em
     left: 45%
     height: 4em
@@ -105,7 +105,7 @@ img
     position: relative
     left: 30%
     top: 40%
-    color: white
+
     font-family: "Comic Sans MS"
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5)
 

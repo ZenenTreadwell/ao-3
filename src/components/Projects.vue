@@ -86,11 +86,6 @@ h3
     text-align: center
     font-size: 1.5em
 
-.description
-    color: white
-    margin-bottom: 1em
-    margin-left: 4.3em
-
 .box
     width: 100%
     margin: 0 auto
@@ -107,7 +102,6 @@ h3
 
 h2
     text-align: center
-    color: white
     margin-top: 0
 
 .checkwrapper
@@ -175,7 +169,6 @@ h2
     padding-bottom: 0.5em
 
 .suggest
-    color: rgba(255, 255, 255, 0.4)
     font-style: italic
     font-size: 1.2em
     text-align: center
@@ -201,6 +194,10 @@ ul
     margin-bottom: 1em
     padding: 0 0.5em 0.55em 0.5em
     background: darkGrey
+    color: wrexno
+    font-style: italic;
+    text-decoration: underline;
+    text-decoration-style: double;
 
 .projects h3
     text-align: center

@@ -86,7 +86,6 @@ th
     font-family: sans-serif
     font-weight: lighter
     font-size: 1.1em
-    color: accent1
     border-color: accent1
 
 td
@@ -149,7 +148,6 @@ img
     text-align: center
     font-size: 0.95em
     margin-top: 0.5em
-    color: white
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5)
     font-size: 1.5em
     pointer-events: none
@@ -185,7 +183,6 @@ img
     margin: 0.5em auto 0 auto
     font-size: 0.8em
     opacity: 0.3
-    color: white
 
 .centerer
     text-align: center

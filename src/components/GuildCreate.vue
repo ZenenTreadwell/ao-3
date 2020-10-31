@@ -66,7 +66,7 @@ button
 .guildcreate
     background: transparent
     padding: 0
-    color: white
+
     input
         width: 67%
     button 

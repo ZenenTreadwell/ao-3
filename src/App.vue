@@ -58,9 +58,9 @@ export default {
     height: 7em
 
 .app
-    background: main
+    background: #404040
     min-height: 100vh;
-    color: lightGrey
+    color: main
     font-weight: lighter
     font-size: 1.23em
 

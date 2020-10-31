@@ -241,9 +241,6 @@ img
 .right
     float: right
 
-.p
-    color: white
-
 .nopad
     padding-right: 0.15em
 

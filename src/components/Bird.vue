@@ -10,16 +10,16 @@
             select(v-model='toMember')
                 option(v-for='n in $store.getters.recentMembers', :value="n.memberId") {{ n.name }}
             button.small(@click='dispatchMakeEvent(passInfo)') show
-        .play(v-if='$store.getters.guilds.length > 0')
-            select(v-model='toGuild')
-                template(v-for='g in $store.getters.guilds')
-                    option(:value="g.taskId") {{ g.guild }}
-            button.small(@click='dispatchMakeEvent(playInfo)') send
-        .give(v-if='$store.state.ao.length > 0')
-            select(v-model='toAo')
-                option(disabled, value='') to ao
-                option(v-for='n in $store.state.ao'  :value='n.address')  {{n.address}}
-            button.small(@click='dispatchMakeEvent(aoLink)') link
+        //- .play(v-if='$store.getters.guilds.length > 0')
+        //-     select(v-model='toGuild')
+        //-         template(v-for='g in $store.getters.guilds')
+        //-             option(:value="g.taskId") {{ g.guild }}
+        //-     button.small(@click='dispatchMakeEvent(playInfo)') send
+        //- .give(v-if='$store.state.ao.length > 0')
+        //-     select(v-model='toAo')
+        //-         option(disabled, value='') to ao
+        //-         option(v-for='n in $store.state.ao'  :value='n.address')  {{n.address}}
+        //-     button.small(@click='dispatchMakeEvent(aoLink)') link
     .theTitle(v-if='b.guild && !showSend') {{ b.guild }}
     .count
 </template>
@@ -173,7 +173,6 @@ export default {
     height: 3em
 
 .task
-    color: white
     margin:10px 0
     padding:20px
 

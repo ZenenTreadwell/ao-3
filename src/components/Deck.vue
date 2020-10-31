@@ -17,8 +17,7 @@
                 .more.aftermore(v-if='panelSplit.after.length > 5') +{{ panelSplit.after.length - 5 }}
             auth
             projects(v-if='$store.state.upgrades.mode === "doge"  &&  $store.getters.member.memberId === $store.getters.contextCard.taskId')
-            resource-book(v-if='$store.state.upgrades.mode === "timecube"'   :tId='$store.getters.contextCard.taskId')
-            points-set(v-if='$store.state.upgrades.mode === "chest"'   :b='$store.getters.contextCard')
+            //- points-set(v-if='$store.state.upgrades.mode === "chest"'   :b='$store.getters.contextCard')
         .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"  ||  $store.getters.inbox.length > 0'  :class='{darkmode: $store.getters.member.stacks === 1}')
             zen(v-show='$store.state.upgrades.mode === "doge" && $store.getters.inbox.length > 0')
             priorities(v-show='$store.state.upgrades.mode === "boat"')
@@ -166,7 +165,7 @@ export default {
     opacity: 0.11
 
 .bluewx
-    color: white
+
 
 .faded
     opacity: 0.6
@@ -179,7 +178,7 @@ export default {
     width: 100%
 
 .card
-    color: white
+
     font-size:1.00111em
     margin-top: 1em
     display: inline-block
@@ -304,7 +303,7 @@ export default {
     opacity: 0.42
 
 .completed
-    color: white
+
     float: right
     cursor: pointer
     height: 1.35em
@@ -314,7 +313,7 @@ export default {
     bottom: 0.25em
 
 .scuttled
-    color: white
+
     float: right
     cursor: pointer
     height: 1.35em
@@ -342,7 +341,7 @@ export default {
 .completedtabbed
     background-color: rgba(0, 0, 0, 0.3)
     border-radius: 5px
-    color: white
+
     right: 0
     bottom: 0
     padding: 0.25em 0.5em 0.25em 0.5em
@@ -366,7 +365,7 @@ export default {
     margin: 0em auto 0.5em auto
     font-size: 0.8em
     opacity: 0.3
-    color: white
+
 
 .aftermore
     margin-top: 0.5em

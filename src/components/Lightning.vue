@@ -1,25 +1,23 @@
 <template lang='pug'>
 
 #nodes
-  p(v-if='$store.state.cash.info.peers'  @click='toggleOpen') {{ $store.state.cash.info.peers.length }} peers on block {{ $store.state.cash.info.blockheight.toLocaleString() }}
   h3(v-if='sats > 0  && sats !== Infinity') 1 {{ $store.state.cash.currency }} ~ {{ sats.toLocaleString() }}
-  .container(v-if='open && $store.state.cash.info && $store.state.cash.info.blockheight')
-      .row
-        .localremote(v-for='n in $store.state.cash.channels')
-            .localbar(:style='l(n)')  {{ parseFloat( n.channel_sat ).toLocaleString() }}
-            .remotebar(:style='r(n)')  {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
-      p.chain
-        span {{ $store.getters.confirmedBalance.toLocaleString() }}
-          .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
-      .row
-          div.center.nowx(v-for='p in unchanneled' @click='selectPeer(p.id)'  :class='{bluetx: p.id === selectedPeer}') {{ p.id }}
-          button.nowx(v-if='selectedPeer'   @click='requestChannel')
-              span(v-if='$store.getters.confirmedBalance > 0') Request Channel
-              span(v-else).inactive Request Channel Requires On Chain Funds
-      .center
-          span {{$store.state.cash.info.id }}
-          span @{{ $store.state.cash.info.address[0].address }}
-          span :{{ $store.state.cash.info.address[0].port}}
+  p(v-if='$store.state.cash.info.peers'  @click='toggleOpen')
+      span(v-if='$store.state.upgrades.paymode === "lightning"') {{ $store.state.cash.info.peers.length }} peers
+      span(v-else) block {{ $store.state.cash.info.blockheight.toLocaleString() }}
+  .container(v-if='$store.state.cash.info && $store.state.cash.info.blockheight')
+      .row(v-if='$store.state.upgrades.paymode === "lightning"')
+          .localremote(v-for='n in $store.state.cash.channels')
+              .localbar(:style='l(n)')  {{ parseFloat( n.channel_sat ).toLocaleString() }}
+              .remotebar(:style='r(n)')  {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
+          .center
+              span {{$store.state.cash.info.id }}
+              span @{{ $store.state.cash.info.address[0].address }}
+              span :{{ $store.state.cash.info.address[0].port}}
+      p(v-else)
+        .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
+              .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
+
 </template>
 
 <script>
@@ -108,6 +106,9 @@ export default {
 @import '../styles/grid'
 @import '../styles/button'
 
+#nodes
+    color: lightGrey
+
 .inactive
     opacity: 0.3456
 
@@ -130,9 +131,6 @@ export default {
 h3
     text-align: center
 
-option
-    color: white
-
 a
     color: purple
 
@@ -141,12 +139,6 @@ h1
 
 .h
     height: 2em
-
-.j
-    color: accent1
-    font-size: 1.5em
-    margin-bottom: 1.123em
-    background-color: main
 
 label
     word-break: break-all
@@ -185,21 +177,18 @@ p
 
 .local
     margin: 0
-    background: wrexpurple
-    color: white
+    background: linear-gradient('up', wrexpurple, rgba(0,0,0,0))
     padding: 1em
 
 .remote
     margin: 0
-    background: wrexgreen
-    color: white
+    background: linear-gradient('up', wrexgreen, rgba(0,0,0,0))
     text-align: right
     padding: 1em
 
 .chain
     margin: 0
-    background: wrexyellow
-    color: white
+    background: linear-gradient(wrexyellow, rgba(0,0,0,0))
     padding: 1em
     text-align: center
     position: relative
@@ -236,14 +225,14 @@ h5
 
 .localbar
     height: 2em
-    background: wrexpurple
+    background: linear-gradient(rgba(0,0,0,0), wrexpurple)
     float: left
     color: white
     text-align: center
 
 .remotebar
     height: 2em
-    background: wrexgreen
+    background: linear-gradient(rgba(0,0,0,0), wrexgreen)
     float: right
     color: white
     text-align: center

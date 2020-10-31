@@ -132,10 +132,8 @@ h5
 
 .card
     padding: 2em
-    color: white
     text-align: center
     font-size:1.3em
-    color:white
 
 #cyber
     width: 100%

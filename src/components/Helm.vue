@@ -42,10 +42,13 @@ export default {
     margin-top: -0.35em;
 
 .selected
-    color: main
+    color: wrexgreen
 
 .quarter:before
     content: "\2022";
+
+.quarter:hover
+    color: wrexgreen
 
 .upg
     height: 2em
@@ -59,14 +62,13 @@ export default {
     width: 10em
     height: 2em
     max-width: 33%
-    background: rgba(51,51,51,.3)
+    background: main
     color: main
     padding-left: 2em
     padding-right: 2em
     padding-top: .29em
     padding-bottom: .29em
     z-index: 77777
-    opacity: 0.71
     border-bottom-left-radius: 10%
     border-bottom-right-radius: 10%
     border: solid
@@ -75,6 +77,4 @@ export default {
     border-color: lightGrey
     cursor: pointer
 
-.topcenter:hover
-    background: rgba(55,55,55,.9)
 </style>

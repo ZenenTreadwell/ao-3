@@ -2,12 +2,11 @@
 
 div(:class='{unavailable: !this.$store.state.cash.info.alias}')
     .paymodeswitcher
-        button(@click='$store.commit("setPayMode", 0)'  :class='{chain: $store.state.upgrades.paymode === "bitcoin"}') on chain
-        button(@click='$store.commit("setPayMode", 1)'  :class='{light: $store.state.upgrades.paymode === "lightning"}') on lightning
+        button(@click='$store.commit("setPayMode", 0)'  :class='{chain: $store.state.upgrades.paymode === "bitcoin"}') chain
+        button(@click='$store.commit("setPayMode", 1)'  :class='{light: $store.state.upgrades.paymode === "lightning"}') lightning
     .pointsset(v-if="$store.state.upgrades.paymode === 'lightning'")
         input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
         button(@click.stop='setValue') invoice
-
 </template>
 
 <script>
@@ -66,13 +65,14 @@ button
     background-color: rgba(22, 22, 22, 0.3)
     height: 2.2em
     width: 50%
+    color: lightGrey
 
 .paymodeswitcher
     button
         width: 50%
 
 .chain
-    background-color: wrexyellow
+    background: linear-gradient(wrexyellow, rgba(0,0,0,0))
 .light
-    background-color: wrexpurple
+    background: linear-gradient(wrexpurple, rgba(0,0,0,0))
 </style>

@@ -111,7 +111,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-// this means the colour import overwrites 
+// this means the colour import overwrites
 .bead
     opacity: .5;
     padding: 0
@@ -125,7 +125,6 @@ export default {
     border-color: rgba(255, 255, 255, 0.11)
     border-style: solid
     cursor: pointer
-    z-index: 98
     background: lightGrey
 
 
@@ -141,7 +140,6 @@ export default {
     position: absolute;
     right: 3em;
     top: 2em;
-    z-index:9000
 
 .tinyboat
     height: 15px
@@ -158,7 +156,6 @@ export default {
 
 .tooltip .tooltiptext
     font-size: 1em
-    z-index: 152
     width: max-content
     max-width: 24em
 </style>

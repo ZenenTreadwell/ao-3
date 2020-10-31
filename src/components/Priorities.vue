@@ -140,13 +140,11 @@ export default {
     bottom: 1.75em
     left: 2em
 
-
 .fw
     width: 100%
 
 h5
     text-align: center
-    color: lightGrey
     opacity: 0.77
 
 .priorities
@@ -170,7 +168,6 @@ thead
 
 td
     vertical-align: middle
-    color: accent2
     font-size: 1.34em
     text-align: center
 
@@ -179,19 +176,6 @@ li
 
 img
     height: 3.9em
-
-table
-    text-align:center
-    width: 100%
-th
-    font-family: sans-serif
-    font-weight: lighter
-    font-size: 1.1em
-    color: accent1
-    border-color: accent1
-
-td
-    color: accent3
 
 .padding
     padding: 1.987654321em
@@ -231,25 +215,6 @@ img
 
 .clearboth
     clear: both
-
-.shipcontainer
-    // position: absolute
-    // display: inline
-
-.allocated
-    position: absolute
-    left: -3.05em
-    width: 3.3724em
-    text-align: center
-    color: white
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5)
-    font-size: 1.5em
-    pointer-events: none
-    z-index: 7
-    margin-top: 0.1em
-
-.openallocated
-    margin-top: 0.3em
 
 .onelinecard
     width: 100%

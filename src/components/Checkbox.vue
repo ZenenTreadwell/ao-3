@@ -76,7 +76,7 @@ export default {
 .checkbox
     opacity: 0.5
     cursor: pointer
-    color: white
+
     z-index: 105
     position: absolute
     right: 0.25em

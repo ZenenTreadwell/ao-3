@@ -130,9 +130,10 @@ label
     margin: 1em
 
 .memberrow
-    box-shadow: 3px 1px 7px 1px lightGrey
+    box-shadow: 3px 1px 7px 1px wrexblue
     margin-bottom: 8px
     min-height: 37px
+    background: lightGrey
 
 .fw
     width: 100%

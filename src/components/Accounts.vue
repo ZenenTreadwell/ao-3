@@ -1,47 +1,12 @@
 <template lang='pug'>
 
 #accounts
-    .row
-        .six.columns
-            .section update account
-            select(v-model='change.field', @change='empty')
-                option(value='name') name
-                option(value='secret') password
-                option(value='fob') fob
-            .input-container
-                input.input-effect(:type='inputType' v-model='change.newfield'  :class='{"has-content":!!change.newfield}')
-                label new value
-                span.focus-border
-            br
-            .input-container(v-if='inputType === "password"   &&  change.newfield.length > 0')
-                input.input-effect(:type='inputType', v-model='change.confirmNewfield'  :class='{"has-content":!!change.confirmNewfield}')
-                label repeat
-                span.focus-border
-            .check(v-if='inputType === "password"  &&  change.confirmNewfield.length > 0')
-                img.checkmark(v-if='matched', src='../assets/images/completed.svg')
-                img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span - repeat correctly
-            button(@click='update') update
-        .six.columns
-            .section preferences
-            .check.click(@click='toggleTooltips')
-                img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
-                img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space tooltip
-            .check.click(@click='toggleGuides')
-                img.checkmark(v-if='$store.getters.member.guides'  src='../assets/images/completed.svg')
-                img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space guide
-            //- .check.click(@click='toggleMuted')
-            //-     img.checkmark(v-if='!$store.getters.member.muted', src='../assets/images/completed.svg')
-            //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-            //-     span.space sound
-            .check.click(@click='toggleStacks')
-                img.checkmark(v-if='$store.getters.member.stacks === 5', src='../assets/images/completed.svg')
-                img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space color
     .list
-        .section vouch
+        .row
+            .three.grid.ptr
+            .one.grid
+                .section vouch
+            .grid.eight
         member-row(v-for="m in coreMembers"  :m='m'  :key='m.memberId')
         member-row(v-for="m in pendingDeactivations"  :m='m'  :key='m.memberId')
         member-row(v-for="m in nonMembers"  :m='m'  :key='m.memberId')
@@ -203,7 +168,7 @@ export default {
 <style lang='stylus' scoped>
 
 @import '../styles/colours'
-@import '../styles/skeleton'
+@import '../styles/grid'
 @import '../styles/breakpoints'
 @import '../styles/title'
 @import '../styles/button'

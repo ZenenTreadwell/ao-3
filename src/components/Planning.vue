@@ -1,6 +1,7 @@
 <template lang='pug'>
 
 .upgrades
+    resource-book(:tId='$store.getters.contextCard.taskId')
     task-calendar(:inId='$store.getters.contextCard.taskId')
 </template>
 

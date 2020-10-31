@@ -4,7 +4,7 @@
     flag(:b='b', :inId='inId')
     tally(:b='b')
     .dogecoin.tooltip(v-if='w > 0')
-        img(v-for='n in parseInt(Math.floor(w))'  src='../assets/images/loggedOut.svg')
+        img(v-for='n in parseInt(Math.floor(w))'  src='../assets/images/doge.svg')
         img(v-if='w % 1 > 0 || w < 1'  :class="['sixteenth' + fractionalReserveDoge]"  src='../assets/images/doge.svg')
     .buffertop
       preview-deck(:task='b')
@@ -347,7 +347,6 @@ export default {
     height: 3em
 
 .task
-    color: white
     margin:10px 0
     padding:20px
 
@@ -409,7 +408,6 @@ img.chest
     height: 3em
 
 .task
-    color: white
     margin:10px 0
     padding:20px
 
@@ -500,7 +498,6 @@ label
     height: 3em
 
 .task
-    color: white
     margin:0
     margin-bottom: .25em
     padding:1em
@@ -622,7 +619,7 @@ label
 
 .dogecoin
     position: absolute
-    top: -0.66em
+    top:0
     left: 50%
     transform: translateX(-50%)
     z-index: 154

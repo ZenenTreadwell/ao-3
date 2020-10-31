@@ -301,7 +301,6 @@ h3
 
 #tasks
     width: 100%
-    color: lightGrey
     // border-bottom: solid;
     // border-left: solid;
     // border-right: solid;

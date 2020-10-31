@@ -167,8 +167,10 @@ export default {
 
 @import '../styles/colours'
 
+.row.agedwrapper
+    box-shadow: 3px 1px 7px 1px main
+
 .priority
-    color: white
     clear: both
 
 .singleship

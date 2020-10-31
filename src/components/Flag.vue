@@ -176,7 +176,7 @@ export default {
     height: 3em
 
 .task
-    color: white
+
     margin:10px 0
     padding:20px
 

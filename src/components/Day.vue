@@ -4,7 +4,7 @@
     img.today(v-if='isToday'  src='../assets/images/orb.svg')
     span(v-for='t in ev')
         .tooltip.upgrade(v-if='!t.type')
-            img.upgrade(v-if='checkIsMember(t.name)'  @click="goIn(t.taskId)"  src='../assets/images/loggedOut.svg')
+            img.upgrade(v-if='checkIsMember(t.name)'  @cdbllick="goIn(t.taskId)"  src='../assets/images/doge.svg')
             img.upgrade(v-else  @click="goIn(t.taskId)"  src='../assets/images/uncompleted.svg'  :class='styl(t.color)')
             .tooltiptext
                 .until {{ cardDate(t) }}
@@ -12,12 +12,12 @@
                     current(:memberId='t.name')
                 linky(v-else  :x='t.name')
         .tooltip.upgrade(v-else-if='t.type === "resource-used"')
-            img.completedcheckmark(@click="goIn(t.resourceId)"  src='../assets/images/doge.svg'  :class='styl(t.color)')
+            img.completedcheckmark(@dblclick="goIn(t.resourceId)"  src='../assets/images/doge.svg'  :class='styl(t.color)')
             .tooltiptext
                 current(:memberId='t.memberId')
                 currentr(:resourceId='t.resourceId')
                 span {{t.notes}}
-        span.tooltip.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @click='goIn(t.taskId)'  :class='styl(getCardColor(t.taskId))')
+        span.tooltip.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goIn(t.taskId)'  :class='styl(getCardColor(t.taskId))')
             img.completedcheckmark(:class='{smaller: ev.length > 15}'  src='../assets/images/completed.svg')
             .tooltiptext
                 current(:memberId='t.memberId')
@@ -97,7 +97,7 @@ export default {
 @import '../styles/tooltips';
 
 .upgrade
-    height: 1.6em
+    height: 0.99em
 
 .checkmark
     display: inline
@@ -171,7 +171,7 @@ export default {
 		background-color: green
 
 .name
-    color: white
+
     font-size: 1.2em
     margin-right: 1em
     padding-bottom: .321em
@@ -189,7 +189,7 @@ img.completedcheckmark
 
 .clickable
     cursor: pointer
-    color: white
+
 
 .plain
     text-decoration: none

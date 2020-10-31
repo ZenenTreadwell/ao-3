@@ -7,7 +7,7 @@
                 button.clear(@click='resetCard') clear
                 button.lock(@click='lockIt') lock
                 button.create(@click='createOrFindTask') create
-            textarea#card.paperwrapper(
+            textarea(@click.stop)#card.paperwrapper(
                 v-model='debouncedName'
                 type='text'
                 :class='cardInputSty'
@@ -338,13 +338,11 @@ textarea
     position: absolute
     top: 0
     right: calc(50%-1em)
-    color: lightGrey
     cursor: pointer
 
 #createtask
   width: 81%
   background-color: rgba(51, 51, 51, 0.3)
-  color: accent1
   margin: 0 auto 0 auto
   text-align: center
   padding: 0.5em
@@ -372,11 +370,9 @@ textarea
 
 .color
     height: 2.5em
-    color: white
     padding: 1em
 
 .colorlabel
-    color: white
     align-content: center;
     text-align: center
 
@@ -391,16 +387,12 @@ textarea
 
 .fwi
     text-align: center
-    color: white
 
 .tealbk
     background: green
 
 .cc
     position: relative
-
-p
-    color: accent1
 
 .upgradeimg
    height: 3em
@@ -433,7 +425,6 @@ p
 }
 
 .label
-    color: white
     font-weight: bolder
 
 textarea
@@ -496,7 +487,6 @@ textarea
 
 .searchresults
     overflow: auto
-    color: white
     font-size: 1.1em
     height: 100%
     padding: 0 1em

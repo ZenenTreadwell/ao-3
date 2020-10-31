@@ -106,7 +106,7 @@ img
 
 .context
     opacity: 0.9
-    color: white
+
     width: calc(100% + 1em)
 
 .paperwrapper
@@ -172,7 +172,7 @@ img
 
 .here
     position: inline
-    color: white
+
     pointer-events: none
     margin-left: 2.5em
 

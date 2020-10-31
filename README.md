@@ -3,19 +3,11 @@
 
 ## Philosophy
   - Embrace open source (OS)
-  - OS operating systems are authentic control of hardware, the only true way to claim ownership of data.
-  - OS networking, tor, enables connection without intermediaries able to tell the origin or the destination, the only true way to get online privacy.
-  - OS money, bitcoin, cannot be counterfeited even by its creator or operators.
-  - OS social, ao, hopefully the first of many.
+  - OS operating systems are authentic control of hardware, true ownership of data.
+  - OS networking, tor, intermediaries blind to origin and destination, true online privacy.
+  - OS commerce, bitcoin, not possible to counterfeit or inflate, true lies.
+  - OS connection, ao, inside the computer.[[¹]](https://duckduckgo.com/?q=inside+the+computer+zoolander+clip&t=canonical&ia=web)
 
-barriers are low,
-implications profound,
-no time like now!?
-
-## Intent
-- connect inside new perspective [[¹]](https://duckduckgo.com/?q=inside+the+computer+zoolander+clip&t=canonical&ia=web)
-- encourage full node validation and early lightning participation
-- setup and control local hardware with pi pin integration  
 
 ## Install Instructions
 From terminal
@@ -43,10 +35,10 @@ Run [app.js](/src/server/app.js) to start server
 - **bitcoind & c-lightning** - wallet
 
 ## Ao App
-Ao is card inception, a window into a list of cards within cards within cards. Many can be viewing, adding to, and updating all at the same. If you see what you did, other people can see it too.
+
 ![Image of ui](/public/ui.png)
-* top center, four dots to determine mode 1 - 4
-* bottom center, create card within current
+* top, select mode 1 - 4
+* bottom, create card within current
 * (mode 1) create checklists
 * (mode 2) set time, review history
 * (mode 3) receive [sat](https://duckduckgo.com/?t=canonical&q=sat+bitcoin&ia=web)

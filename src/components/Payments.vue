@@ -1,19 +1,20 @@
 <template lang='pug'>
 
 .upgrades
+    points-set(:b='$store.getters.contextCard')
     .payreq(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"')
         .section {{b.bolt11}}
-        tag(:d='b.bolt11'  size='5')
         .section {{b.completeValue}}
         a(:href='"lightning:" + b.bolt11')
-            button Open Wallet
+            button
                 img(src='../assets/images/lightning.svg')
+                tag(:d='b.bolt11'  size='5')
     .payreq(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"')
         .section {{b.btcAddr}}
-        tag(:d='b.btcAddr'  size='7')
         a(:href='"bitcoin:" + b.btcAddr')
-            button Open Wallet
+            button
                 img(src='../assets/images/bitcoin.svg')
+                tag(:d='b.btcAddr'  size='7')
     .section(v-else) node unavailable :(
     lightning
 </template>
@@ -21,11 +22,12 @@
 <script>
 
 import Tag from './Tag'
+import PointsSet from './PointsSet'
 import Lightning from './Lightning'
 
 export default {
     components:{
-        Tag, Lightning
+        Tag, Lightning, PointsSet
     },
     computed: {
         b(){
@@ -101,9 +103,6 @@ h5
     opacity: 0.77
     height: 5em
     margin-top: 1em
-
-button
-    max-width: 232px
 
 .payreq
     text-align: center
