@@ -4,7 +4,7 @@
     img.today(v-if='isToday'  src='../assets/images/orb.svg')
     span(v-for='t in ev')
         .tooltip.upgrade(v-if='!t.type')
-            img.upgrade(v-if='checkIsMember(t.name)'  @cdbllick="goIn(t.taskId)"  src='../assets/images/doge.svg')
+            img.upgrade.doge(v-if='checkIsMember(t.name)'  @cdbllick="goIn(t.taskId)"  src='../assets/images/doge.svg')
             img.upgrade(v-else  @click="goIn(t.taskId)"  src='../assets/images/uncompleted.svg'  :class='styl(t.color)')
             .tooltiptext
                 .until {{ cardDate(t) }}
@@ -98,6 +98,10 @@ export default {
 
 .upgrade
     height: 0.99em
+
+.upgrade.doge
+    height: 1.89em
+
 
 .checkmark
     display: inline

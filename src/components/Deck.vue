@@ -1,20 +1,20 @@
 <template lang='pug'>
 .deck(:key='$store.getters.contextCard.taskId')
     .paperwrapper.padsides
-        .card.openwidth(:class='{ adjustwidth : !$store.getters.contextMember, closedwidth : $store.state.upgrades.mode === "doge"  && $store.getters.inbox.length === 0}')
+        .card.openwidth(:class='{ adjustwidth : $store.state.upgrades.mode !== "doge", closedwidth : $store.state.upgrades.mode === "doge"  && $store.getters.inbox.length === 0}')
             member-row(v-if='$store.getters.contextMember', :m='$store.getters.contextMember'  :key='card.taskId')
             resource-row(v-if='$store.getters.contextResource'   :r='$store.getters.contextResource'  :key='card.taskId')
-            .centerer
-                .more(v-if='panelSplit.before.length > 5') +{{ panelSplit.before.length - 5 }}
-            template(v-for='(n, i) in (panelSplit.before.length > 5 ? panelSplit.before.slice(-6, panelSplit.before.length - 1) : panelSplit.before)')
-              div(@click="goWithinPanel(n)"  :style='{ marginLeft : 0.5 + ((Math.min(panelSplit.before.length, 5) - i) * 0.25) + "em", marginRight: 1.5 + ((Math.min(panelSplit.before.length, 5) - i) * 0.25) + "em" }')
-                context(:taskId='n')
+            //- .centerer
+            //-     .more(v-if='panelSplit.before.length > 5') +{{ panelSplit.before.length - 5 }}
+            //- template(v-for='(n, i) in (panelSplit.before.length > 5 ? panelSplit.before.slice(-6, panelSplit.before.length - 1) : panelSplit.before)')
+            //-   div(@click="goWithinPanel(n)"  :style='{ marginLeft : 0.5 + ((Math.min(panelSplit.before.length, 5) - i) * 0.25) + "em", marginRight: 1.5 + ((Math.min(panelSplit.before.length, 5) - i) * 0.25) + "em" }')
+            //-     context(:taskId='n')
             hypercard(v-if='!$store.getters.contextMember && !$store.getters.contextResource'  :b="card"   :key='card.taskId')
-            template(v-for='(n, i) in panelSplit.after.slice(0, 5)')
-              div(@click="goWithinPanel(n)"  :style='{ marginLeft: 0.25 + (i * 0.25) + "em", marginRight: 1.25 + (i * 0.25) + "em" }')
-                context(:taskId='n')
-            .centerer
-                .more.aftermore(v-if='panelSplit.after.length > 5') +{{ panelSplit.after.length - 5 }}
+            //- template(v-for='(n, i) in panelSplit.after.slice(0, 5)')
+            //-   div(@click="goWithinPanel(n)"  :style='{ marginLeft: 0.25 + (i * 0.25) + "em", marginRight: 1.25 + (i * 0.25) + "em" }')
+            //-     context(:taskId='n')
+            //- .centerer
+            //-     .more.aftermore(v-if='panelSplit.after.length > 5') +{{ panelSplit.after.length - 5 }}
             auth
             projects(v-if='$store.state.upgrades.mode === "doge"  &&  $store.getters.member.memberId === $store.getters.contextCard.taskId')
             //- points-set(v-if='$store.state.upgrades.mode === "chest"'   :b='$store.getters.contextCard')
@@ -376,21 +376,17 @@ export default {
     text-align: center
     width: 100%
 
-.openwidth
-    max-width: 26em
-
 .normaltopmargin
     margin-top: 0
 
-.closedwidth
-    width: 30.65em
-    // transform: translateX(calc(50% - 1em))
+.card.closedwidth
+    width: 70%
     flex-grow: 0
 
- // .card.adjustwidth
-    // max-width: 100%
-    // max-width: 29.8em
-    // max-width: 39.333333333333%
+.card.adjustwidth
+    max-width: 100%
+    max-width: 15em
+
 
 .tooltiptext.correctspotmid
     position: absolute

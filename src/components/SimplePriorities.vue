@@ -83,7 +83,6 @@ table
     text-align:center
     width: 100%
 th
-    font-family: sans-serif
     font-weight: lighter
     font-size: 1.1em
     border-color: accent1

@@ -23,15 +23,10 @@
                 option(value='am') am
                 option(value='pm') pm
     button(@click='book')
-        span(v-if='!showSetTime && this.$store.getters.contextCard.book.startTs') change
-        span(v-else-if='this.calcTime.start < 0 && showSetTime && this.$store.getters.contextCard.book.startTs') clear
-        span(v-else) set
-        span {{' '}} time
+        span schedule
 </template>
 
 <script>
-
-const HOUR = 1000 * 60 * 60
 
 export default {
     props:['tId', 'showSet'],
@@ -100,10 +95,8 @@ export default {
 @import '../styles/button'
 
 #newresource
-    position: relative
-    top: 2em
-    margin-bottom: 1em
-
+    color: lightGrey
+    
 .br
   padding-top: 1.9em
 

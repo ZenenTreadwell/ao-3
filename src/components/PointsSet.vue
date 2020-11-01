@@ -1,12 +1,8 @@
 <template lang='pug'>
 
-div(:class='{unavailable: !this.$store.state.cash.info.alias}')
-    .paymodeswitcher
-        button(@click='$store.commit("setPayMode", 0)'  :class='{chain: $store.state.upgrades.paymode === "bitcoin"}') chain
-        button(@click='$store.commit("setPayMode", 1)'  :class='{light: $store.state.upgrades.paymode === "lightning"}') lightning
-    .pointsset(v-if="$store.state.upgrades.paymode === 'lightning'")
-        input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
-        button(@click.stop='setValue') invoice
+div
+    input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
+    button(@click.stop='setValue')
 </template>
 
 <script>
@@ -22,6 +18,7 @@ export default {
     },
     methods: {
         setValue() {
+            this.$store.commit("setPayMode", 1)
             this.$store.dispatch("makeEvent", {
                 type: 'task-valued',
                 taskId: this.b.taskId,
@@ -39,27 +36,12 @@ export default {
 @import '../styles/input'
 @import '../styles/colours'
 
-.unavailable
-    opacity: 0.24
-
 button
-    width: 90%
-
-.valueset
-    background: transparent
-    padding: 0
-    color: white
-    height: 2.2em
-
-.pointsset
-    margin-top: 0.39em
-
-.pointsset button
     width: 50%
+    float: right
     height: 2.2em
-    padding: 0
 
-.pointsset input
+input
     border-color: rgba(22, 22, 22, 1)
     border-width: 1px
     background-color: rgba(22, 22, 22, 0.3)
@@ -67,12 +49,5 @@ button
     width: 50%
     color: lightGrey
 
-.paymodeswitcher
-    button
-        width: 50%
 
-.chain
-    background: linear-gradient(wrexyellow, rgba(0,0,0,0))
-.light
-    background: linear-gradient(wrexpurple, rgba(0,0,0,0))
 </style>

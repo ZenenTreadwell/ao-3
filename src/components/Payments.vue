@@ -1,14 +1,17 @@
 <template lang='pug'>
 
 .upgrades
-    points-set(:b='$store.getters.contextCard')
+    .row
+        .quarter.hidden
+        .quarter(@click='$store.commit("setPayMode", 0)'  :class='{selected: $store.state.upgrades.paymode === "bitcoin"}')
+        .quarter(@click='$store.commit("setPayMode", 1)'  :class='{selected: $store.state.upgrades.paymode === "lightning"}')
     .payreq(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"')
         .section {{b.bolt11}}
-        .section {{b.completeValue}}
         a(:href='"lightning:" + b.bolt11')
             button
                 img(src='../assets/images/lightning.svg')
                 tag(:d='b.bolt11'  size='5')
+                .section {{b.completeValue}}
     .payreq(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"')
         .section {{b.btcAddr}}
         a(:href='"bitcoin:" + b.btcAddr')
@@ -16,6 +19,7 @@
                 img(src='../assets/images/bitcoin.svg')
                 tag(:d='b.btcAddr'  size='7')
     .section(v-else) node unavailable :(
+    points-set(:b='$store.getters.contextCard')
     lightning
 </template>
 
@@ -46,6 +50,25 @@ export default {
 @import '../styles/button';
 @import '../styles/tooltips';
 @import '../styles/spinners';
+
+.hidden
+    opacity: 0
+
+.quarter
+    display: inline-block
+    width: 25%
+    font-size: 4.44em
+    color: lightGrey
+    max-height: 2em
+    margin-top: -0.35em;
+    content-align: center
+    text-align: center
+
+.quarter:before
+    content: "\2022";
+
+.selected
+    color: wrexgreen
 
 .section
     color:lightGrey
@@ -108,8 +131,6 @@ h5
     text-align: center
     background-color: rgba(0,0,0,0)
     border-radius: 0.5em
-    padding: 1em
-    margin-bottom: 1.654321em
 
 a
     text-decoration: none

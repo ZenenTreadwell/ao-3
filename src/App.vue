@@ -61,8 +61,8 @@ export default {
     background: #404040
     min-height: 100vh;
     color: main
-    font-weight: lighter
     font-size: 1.23em
+    font: Garamond
 
 .app2
     position: fixed
