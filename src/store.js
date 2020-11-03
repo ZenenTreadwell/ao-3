@@ -220,7 +220,7 @@ export default createStore({
       },
       confirmedBalance(state){
           let confirmedBalance = 0
-          state.cash.outputs.forEach(o => {
+          state.cash.info.outputs.forEach(o => {
               confirmedBalance += o.value
           })
           return confirmedBalance

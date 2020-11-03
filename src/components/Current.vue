@@ -1,8 +1,6 @@
 <template lang='pug'>
 
 span.current
-    img.onlineicon(v-if='isPresent', src='../assets/images/loggedIn.svg')
-    img.onlineicon(v-else src='../assets/images/loggedOut.svg')
     span.clickable(v-if='memberId && name'  @click='goIn') {{ name }}
     img.onlineicon(v-if='!memberId', src='../assets/images/lightning.svg')
 </template>

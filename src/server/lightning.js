@@ -17,6 +17,49 @@ function getDecode (rawx){
         })
 }
 
+function getMempool(){
+    return bitClient.getMempoolInfo()
+        .then(memPoolInfo => {
+              return bitClient.getRawMempool()
+                  .then(rawMemPool => {
+                      memPoolInfo.feeChart = {
+                        highFee: 0,
+                        midHighFee: 0,
+                        midFee: 0,
+                        lowFee: 0
+                      }
+                      return rawMemPool.reduce( (prevPromise, txid) => {
+                          return prevPromise.then( x => {
+                              return bitClient.getMempoolEntry(txid)
+                                  .then(mentry => {
+                                      let satFee = mentry.fee * 100000000 / mentry.vsize
+                                      if (satFee > 150){
+                                          memPoolInfo.feeChart.highFee ++
+                                      } else if (satFee > 50){
+                                          memPoolInfo.feeChart.midHighFee ++
+                                      } else if (satFee > 10){
+                                          memPoolInfo.feeChart.midFee ++
+                                      } else {
+                                          memPoolInfo.feeChart.lowFee ++
+                                      }
+                                      return Promise.resolve()
+                                  }).catch(noTx => {
+                                      return Promise.resolve()
+                                  })
+                          })
+
+                      } , Promise.resolve())
+                          .then(x => {
+                              return bitClient.estimateSmartFee(6)
+                                  .then(smartFee => {
+                                      memPoolInfo.smartFee = smartFee
+                                      return memPoolInfo
+                                  })
+                          })
+                  })
+        })
+}
+
 lightningRouter.post('/bitcoin/transaction',(req, res) => {
     bitClient.getMempoolEntry(req.body.txid)
         .then(memPool => {
@@ -91,7 +134,6 @@ function checkFunds(){
         .listfunds()
         .then(result => {
             try {
-                allEvents.fundsSet(result.outputs, result.channels)
                 result.outputs.forEach( o => {
                     if (o.status === 'confirmed' && serverState.cash.usedTxIds.indexOf(o.txid) === -1){
                         serverState.tasks.forEach( t => {
@@ -109,28 +151,23 @@ function checkFunds(){
 function getInfo(){
     return client
         .getinfo()
-        .then(result => {
-            client.listpeers()
-                .then(peers => {
-                  try {
-                    result.peers = peers.peers.map(p => {
-                        return {
-                            id: p.id,
-                            channels: p.channels.length > 0
+        .then(mainInfo => {
+            client.listfunds()
+                .then(result => {
+                    mainInfo.channels = result.channels
+                    mainInfo.outputs = result.outputs
+                    getMempool().then(mempool => {
+                        mainInfo.mempool = mempool
+                        try {
+                            allEvents.getNodeInfo(mainInfo)
+                        } catch (err) {
+                            console.log('getNodeInfo error:  ', err)
                         }
                     })
-                  } catch (err){
-
-                  }
-                  try {
-                      allEvents.getNodeInfo(result)
-                  } catch (err) {
-                      console.log('getNodeInfo error:  ', err)
-                  }
-                })
-                .catch(err => {
 
                 })
+                .catch(console.log)
+
         })
         .catch(console.log)
 }

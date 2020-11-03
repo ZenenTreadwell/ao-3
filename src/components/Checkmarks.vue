@@ -46,6 +46,10 @@ export default {
 <style lang='stylus' scoped>
 @import '../styles/colours'
 
+.upgrades
+    padding: 1em
+    background: lightGrey
+
 h5
     text-align: center
     color: lightGrey
@@ -58,6 +62,7 @@ h5
     margin-top: 1em
 
 button.purplewx
+    width: 100%
     padding: 0.33em
     margin-top: 0.33em
 </style>

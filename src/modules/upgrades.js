@@ -1,12 +1,12 @@
 const modes = ["doge", "boat", "timecube", "chest", "badge"]
-const paymodes = ["bitcoin", "lightning"]
+const paymodes = ["mempool", "bitcoin", "lightning", "channels"]
 
 const state = {
     search: '',
     modes,
     paymodes,
     mode: modes[0],
-    paymode: paymodes[0],
+    paymode: paymodes[1],
     bird: false,
     barking: false,
     pinging: false,

@@ -347,7 +347,6 @@ textarea
   text-align: center
   padding: 0.5em
   position: fixed
-  left: 1em
   z-index: 149
   bottom: 0
   left: 50%

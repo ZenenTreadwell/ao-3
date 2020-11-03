@@ -2,21 +2,28 @@
 
 #nodes
   h3(v-if='sats > 0  && sats !== Infinity') 1 {{ $store.state.cash.currency }} ~ {{ sats.toLocaleString() }}
-  p(v-if='$store.state.cash.info.peers'  @click='toggleOpen')
-      span(v-if='$store.state.upgrades.paymode === "lightning"') {{ $store.state.cash.info.peers.length }} peers
-      span(v-else) block {{ $store.state.cash.info.blockheight.toLocaleString() }}
+  p(v-if='$store.state.cash.info.channels'  @click='toggleOpen')
+      span(v-if='$store.state.upgrades.paymode === "channels"') {{ $store.state.cash.info.channels.length }} channels
+      span(v-else-if='$store.state.upgrades.paymode === "mempool"')
+          span block {{ $store.state.cash.info.blockheight.toLocaleString() }}
+          span , mempool {{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed() }} MB
   .container(v-if='$store.state.cash.info && $store.state.cash.info.blockheight')
-      .row(v-if='$store.state.upgrades.paymode === "lightning"')
-          .localremote(v-for='n in $store.state.cash.channels')
+      .row(v-if='$store.state.upgrades.paymode === "channels"')
+          .localremote(v-for='n in $store.state.cash.info.channels')
               .localbar(:style='l(n)')  {{ parseFloat( n.channel_sat ).toLocaleString() }}
               .remotebar(:style='r(n)')  {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
+          .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
+                .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
           .center
               span {{$store.state.cash.info.id }}
               span @{{ $store.state.cash.info.address[0].address }}
               span :{{ $store.state.cash.info.address[0].port}}
-      p(v-else)
-        .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
-              .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
+      p(v-else-if='$store.state.upgrades.paymode === "mempool"')
+          .chain.high  {{ $store.state.cash.info.mempool.feeChart.highFee }} very high fee
+          .chain.midhigh  {{ $store.state.cash.info.mempool.feeChart.midHighFee }} high fee
+          .chain.mid  {{ $store.state.cash.info.mempool.feeChart.midFee }} mid fee
+          .chain.low  {{ $store.state.cash.info.mempool.feeChart.lowFee }} low fee
+          .smartfee within six block fee estimate {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/vbyte
 
 </template>
 
@@ -116,6 +123,7 @@ export default {
     text-align: center
     word-break: break-all
     overflow-wrap: break-word;
+    font-size: 0.5em
 
 .center.nowx
     margin-top: 0.3em
@@ -192,6 +200,15 @@ p
     padding: 1em
     text-align: center
     position: relative
+
+.chain.high
+  background: linear-gradient(wrexred, rgba(0,0,0,0))
+.chain.midhigh
+  background: linear-gradient(wrexyellow, rgba(0,0,0,0))
+.chain.mid
+  background: linear-gradient(wrexblue, rgba(0,0,0,0))
+.chain.low
+  background: linear-gradient(wrexgreen, rgba(0,0,0,0))
 
 
 .break

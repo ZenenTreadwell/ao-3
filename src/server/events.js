@@ -165,15 +165,6 @@ function currencySwitched(currency, callback) {
   dctrlDb.insertEvent(newEvent, callback)
 }
 
-function fundsSet(outputs, channels, callback) {
-  let newEvent = {
-      type: "funds-set",
-      outputs,
-      channels,
-  }
-  dctrlDb.triggerShadow(newEvent)
-}
-
 function memberCreated(name, fob, secret, callback) {
       let memberId = uuidV1()
       let newEvent = {
@@ -573,7 +564,6 @@ module.exports = {
     spotUpdated,
     rentSet,
     capSet,
-    fundsSet,
     getNodeInfo,
     memberCreated,
     memberDeactivated,

@@ -9,19 +9,23 @@
   - OS connection, ao, inside the computer.[[¹]](https://duckduckgo.com/?q=inside+the+computer+zoolander+clip&t=canonical&ia=web)
 
 
-## Install Instructions
+## Install
 From terminal
 
     git clone  https://github.com/AutonomousOrganization/ao-3.git
     cd ao-3
     npm install
 
-Bundle [App.vue](/src/App.vue) interface
+Bundle [App.vue](/src/App.vue) browser app
 
     npm run build
 Run [app.js](/src/server/app.js) to start server
 
     npm start
+
+Unlock via npm
+
+    npm run decrypt <<<copy to clipboard via long press>>>
 
 [Install folder](/install) contains scripts to install dependencies, run all by
 
@@ -32,26 +36,22 @@ Run [app.js](/src/server/app.js) to start server
 - **nodejs** - server
 - **sqlite3** - database
 - **tor** - network
-- **bitcoind & c-lightning** - wallet
+- **bitcoin lightning** - wallet
 
-## Ao App
+## App
+Open create panel at bottom.
+* search all card history
+* lock card using server pub key
+* create new card
 
-![Image of ui](/public/ui.png)
-* top, select mode 1 - 4
-* bottom, create card within current
-* (mode 1) create checklists
-* (mode 2) set time, review history
-* (mode 3) receive [sat](https://duckduckgo.com/?t=canonical&q=sat+bitcoin&ia=web)
-* (mode 4) see accounts, settings
+Select mode 1 - 4 at top center
+* (mode 1) checklist
+* (mode 2) calendar
+* (mode 3) [sat](https://duckduckgo.com/?t=canonical&q=sat+bitcoin&ia=web) tip jar
+* (mode 4) users
 
-mode1
-![Image of ui](/public/ui-todo.png)
+## Contact
 
-card
-![Image of ui](/public/ui-card.png)
-
-## Dev Contact
-
-AO at [45vkpxcawtv2ap3aw6v5pk4sd2j3flxuvev63uktywts7jvqtasejkid.onion](http://45vkpxcawtv2ap3aw6v5pk4sd2j3flxuvev63uktywts7jvqtasejkid.onion)
+[45vkpxcawtv2ap3aw6v5pk4sd2j3flxuvev63uktywts7jvqtasejkid.onion](http://45vkpxcawtv2ap3aw6v5pk4sd2j3flxuvev63uktywts7jvqtasejkid.onion)
 
 3AA6s5MUnLjPzi2iPzUGVqWGAGBBJnBiWg
