@@ -149,9 +149,11 @@ function checkFunds(){
 }
 
 function getInfo(){
+    console.log('getting info?')
     return client
         .getinfo()
         .then(mainInfo => {
+            console.log('main info')
             client.listfunds()
                 .then(result => {
                     mainInfo.channels = result.channels

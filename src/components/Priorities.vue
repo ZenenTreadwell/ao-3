@@ -9,7 +9,7 @@
               checkbox.boatAll.adjtooltip(:b='getCard(t)'  :inId='$store.getters.contextCard.taskId')
               .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips')
                   p.suggest claim checkmark
-              hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId')
+              hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId'  :c='priorities')
               div(v-if='i > 0')
                   img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='prioritized(t)'  :class='{hidden:!$store.getters.member.guides}')
                   .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
@@ -24,10 +24,10 @@
                       p.suggest return to table
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
           .clearboth.opensubcard
-              hyperpriority.closedcard(:taskId='st'  :inId="t")
+              hyperpriority.closedcard(:taskId='st'  :inId="t"  :c='getSubPriorities(t)')
           .row.subsubpriority(v-for='(st2, k) of getSubPriorities(st)'  :key='st2')
               .clearboth.opensubcard
-                  hyperpriority.closedcard(:taskId='st2'  :inId="st"  :inInId='t')
+                  hyperpriority.closedcard(:taskId='st2'  :inId="st"  :inInId='t'  :c='getSubPriorities(st)')
     div.clearboth
     div
         img.boatAll.faded.adjtooltip(src='../assets/images/downboat.svg'  @click='pileRefocused')
@@ -38,7 +38,7 @@
 <script>
 
 import Hypercard from './Card'
-import Hyperpriority from './Priority'
+import Hyperpriority from './SimplePriority'
 import Checkbox from './Checkbox'
 import Connect from './Connect'
 

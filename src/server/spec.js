@@ -84,8 +84,10 @@ router.post('/events', (req, res, next)=>{
               events.invoiceCreated(req.body.taskId, false, false)
               return
           }
+          console.log('attempting invoice create')
           lightning.createInvoice(req.body.value, "<3" +  uuidV1(), '~', 3600)
               .then(result => {
+                  console.log({result})
                   let addr = result['p2sh-segwit']
                   events.invoiceCreated(req.body.taskId, result.bolt11, result.payment_hash)
               })

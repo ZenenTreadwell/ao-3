@@ -6,17 +6,38 @@
         span.quarter(@click.stop='chooseMode(2)'  :class='{selected:$store.state.upgrades.mode === "timecube"}')
         span.quarter(@click.stop='chooseMode(3)'  :class='{selected:$store.state.upgrades.mode === "chest"}')
         span.quarter(@click.stop='chooseMode(4)'  :class='{selected:$store.state.upgrades.mode === "badge"}')
+    img(@click='toggleSettings'  src='../assets/images/gear.svg')
+    settings(v-if='showSettings').settings
 
 </template>
 
 <script>
 
+import Settings from './Settings'
+
 export default {
+    data(){
+        return {
+            showSettings: false
+        }
+    },
+    components: {
+        Settings
+    },
     methods: {
+        toggleSettings(){
+            this.showSettings = !this.showSettings
+        },
+        scrollTop(){
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        },
         nextMode() {
+            this.scrollTop()
             this.$store.commit('nextMode')
         },
         chooseMode(x){
+          this.scrollTop()
           if (this.$store.state.upgrades.modes[x] === this.$store.state.upgrades.mode){
               return this.$store.commit('setMode', 0)
           }
@@ -32,6 +53,25 @@ export default {
 @import '../styles/grid';
 @import '../styles/colours';
 @import '../styles/tooltips';
+
+.settings
+    position: fixed
+    bottom 5em
+    right: 0em
+    width: 75%
+    background: lightGrey
+    padding: 1.5em
+    border-style: solid
+    border-width: 4px
+    border-color: main
+    z-index: 9001
+
+img
+    position: fixed
+    bottom: 0
+    right: 0
+    height: 3.3em
+    z-index: 9001
 
 .quarter
     display: inline-block

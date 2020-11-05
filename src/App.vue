@@ -4,9 +4,8 @@
   .app2(:class='cardInputSty')
   helm
   contexts
-  event-feed
-  task-create
   deck
+  task-create
   .breathingroom
 </template>
 
@@ -55,7 +54,7 @@ export default {
 @import "./styles/colours";
 
 .breathingroom
-    height: 7em
+    height: 27em
 
 .app
     background: #404040

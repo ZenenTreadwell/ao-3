@@ -1,14 +1,15 @@
 <template lang='pug'>
 
-.priority.closedcard(ref='wholeCard')
-  .row.agedwrapper(:class='cardInputSty')
-      img.front.nopad(v-if='card.guild'  src="../assets/images/badge.svg")
-      span.front.nudge(v-if='card.guild')  {{ card.guild }}
-      img.left.front(v-if='isMember' src="../assets/images/loggedIn.svg")
-      img.checkmark.right.front(v-if='isCompleted' src='../assets/images/completed.svg' ref='checkbox')
-      img.checkmark.right.front(v-else-if='!isCompleted' src='../assets/images/uncompleted.svg' ref='checkbox')
-      tally.right.front.lesspadding(:b='card')
-      linky.cardname.front(:x='card.name.slice(0,111)')
+.priority(@click='goIn(taskId)')
+    .row.agedwrapper(:class='cardInputSty')
+        img.front.nopad(v-if='card.guild'  src="../assets/images/badge.svg")
+        span.front.nudge(v-if='card.guild')  {{ card.guild }}
+        img.left.front(v-if='isMember' src="../assets/images/loggedIn.svg")
+        .check(@click.stop='checky')
+            img.checkmark.right.front(v-if='isCompleted' src='../assets/images/completed.svg')
+            img.checkmark.right.front(v-else-if='!isCompleted' src='../assets/images/uncompleted.svg')
+        tally.right.front.lesspadding(:b='card')
+        linky.cardname.front(:x='card.name.slice(0,111)')
 </template>
 
 <script>
@@ -52,15 +53,26 @@ export default {
         let Tap = new Hammer.Tap({ time: 400 })
         checkmc.add(Tap)
         checkmc.on('tap', (e) => {
-            if(!this.isCompleted) {
-                this.complete()
-            } else {
-                this.uncheck()
-            }
+
             e.stopPropagation()
         })
     },
     methods: {
+      checky(){
+          if(!this.isCompleted) {
+              this.complete()
+          } else {
+              this.uncheck()
+          }
+      },
+      deaction(){
+          this.$store.dispatch("makeEvent", {
+              type: 'member-field-updated',
+              field: 'action',
+              newfield: false,
+              memberId: this.$store.getters.member.memberId,
+          })
+      },
       goIn(taskId){
           let panel = [taskId]
           let parents = [  ]
@@ -108,6 +120,14 @@ export default {
 
           }, function() {
               console.log("copy failed")
+          })
+      },
+      setAction(){
+          this.$store.dispatch("makeEvent", {
+              type: 'member-field-updated',
+              field: 'action',
+              newfield: this.taskId,
+              memberId: this.$store.getters.member.memberId,
           })
       },
     },
@@ -166,6 +186,13 @@ export default {
 <style lang='stylus' scoped>
 
 @import '../styles/colours'
+
+h1
+    color: blue
+
+.opencard
+    width: calc(100% - 4.5em)
+    margin-top: 0.5em
 
 .row.agedwrapper
     box-shadow: 3px 1px 7px 1px main
