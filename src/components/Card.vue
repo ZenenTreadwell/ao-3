@@ -12,8 +12,8 @@
           linky.cardhud(:x='b.name' v-if='!member')
           span.sml
               current(v-for='n in actions'  :memberId='n')
-    div(v-if='b.taskId !== $store.getters.member.action  && b.taskId !== $store.getters.contextCard.taskId')
-        simple-priorities(:taskId="b.taskId", :inId='b.taskId')
+    div(v-if='b.taskId !== $store.getters.contextCard.taskId')
+        simple-priorities(:taskId="b.taskId")
     .passed
         div.totop(v-if='b.passed.length + links.length > 0  && $store.state.upgrades.bird')
             div(@click='toggleBird')

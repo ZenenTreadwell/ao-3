@@ -1,29 +1,31 @@
 <template lang='pug'>
 
 #nodes
-  h3(v-if='sats > 0  && sats !== Infinity') 1 {{ $store.state.cash.currency }} ~ {{ sats.toLocaleString() }}
-  p(v-if='$store.state.cash.info.channels'  @click='toggleOpen')
+  p(v-if='areChannels'  @click='toggleOpen')
       span(v-if='$store.state.upgrades.paymode === "channels"') {{ $store.state.cash.info.channels.length }} channels
-      span(v-else-if='$store.state.upgrades.paymode === "mempool"')
-          span block {{ $store.state.cash.info.blockheight.toLocaleString() }}
-          span , mempool {{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed() }} MB
+      span(v-else-if='$store.state.upgrades.paymode === "mempool"') mempool  {{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed() }} MB
   .container(v-if='$store.state.cash.info && $store.state.cash.info.blockheight')
       .row(v-if='$store.state.upgrades.paymode === "channels"')
-          .localremote(v-for='n in $store.state.cash.info.channels')
-              .localbar(:style='l(n)')  {{ parseFloat( n.channel_sat ).toLocaleString() }}
-              .remotebar(:style='r(n)')  {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
-          .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
-                .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
+          .localremote
+              .localbar.tall(:style='l(nn)')  {{ parseFloat( nn.channel_sat ).toLocaleString() }}
+              .remotebar.tall(:style='r(nn)')  {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }}
+          .localremote(v-for='(n, i) in $store.state.cash.info.channels'  @click='selectedPeer = i')
+              .localbar(:style='l(n)')
+              .remotebar(:style='r(n)')
           .center
-              span {{$store.state.cash.info.id }}
+              span {{ $store.state.cash.info.id }}
               span @{{ $store.state.cash.info.address[0].address }}
               span :{{ $store.state.cash.info.address[0].port}}
       p(v-else-if='$store.state.upgrades.paymode === "mempool"')
-          .chain.high  {{ $store.state.cash.info.mempool.feeChart.highFee }} very high fee
-          .chain.midhigh  {{ $store.state.cash.info.mempool.feeChart.midHighFee }} high fee
-          .chain.mid  {{ $store.state.cash.info.mempool.feeChart.midFee }} mid fee
-          .chain.low  {{ $store.state.cash.info.mempool.feeChart.lowFee }} low fee
-          .smartfee within six block fee estimate {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/vbyte
+          label tx count by fee
+          .chain.high  {{ $store.state.cash.info.mempool.feeChart.highFee * 100 }} super 150+
+          .chain.midhigh  {{ $store.state.cash.info.mempool.feeChart.midHighFee * 100 }} high 50+
+          .chain.mid  {{ $store.state.cash.info.mempool.feeChart.midFee * 100 }} mid 10+
+          .chain.low  {{ $store.state.cash.info.mempool.feeChart.lowFee  * 100}} low -10
+          .smartfee six block estimate {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/vbyte
+          input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid')
+          button(v-if='txnCheck'  @click='checkTxid') get transaction
+          div {{ fetchedTxn }}
 
 </template>
 
@@ -36,7 +38,9 @@ import request from 'superagent'
 export default {
     data(){
         return {
-            selectedPeer: false,
+            fetchedTxn: {},
+            txnCheck: '',
+            selectedPeer: 0,
             open: false,
         }
     },
@@ -44,14 +48,29 @@ export default {
          Tag,
     },
     computed: {
-        unchanneled(){
-            return this.$store.state.cash.info.peers.filter(p => !p.channels)
+        areChannels(){
+            return this.$store.state.cash.info.channels
         },
         sats(){
             return calculations.cadToSats(1, this.$store.state.cash.spot)
+        },
+        nn(){
+            if (this.areChannels){
+                return this.$store.state.cash.info.channels[this.selectedPeer]
+            }
+            return {}
         }
     },
     methods:{
+        checkTxid(){
+            request
+              .post('/bitcoin/transaction')
+              .send({txid : this.txnCheck})
+              .set("Authorization", this.$store.state.loader.token)
+              .end((err, res)=>{
+                  this.fetchedTxn = res.body
+              })
+        },
         toggleOpen(){
             this.open = !this.open
         },
@@ -112,6 +131,13 @@ export default {
 @import '../styles/skeleton'
 @import '../styles/grid'
 @import '../styles/button'
+@import '../styles/input'
+
+
+.localbar.tall
+    height: 2em
+.remotebar.tall
+    height: 2em
 
 #nodes
     color: lightGrey
@@ -195,11 +221,12 @@ p
     padding: 1em
 
 .chain
+    height: 2.2em
     margin: 0
     background: linear-gradient(wrexyellow, rgba(0,0,0,0))
-    padding: 1em
     text-align: center
     position: relative
+    padding-top: 0.6em
 
 .chain.high
   background: linear-gradient(wrexred, rgba(0,0,0,0))
@@ -237,22 +264,17 @@ h5
 
 .localremote
     width: 100%
-    height: 2em
-    margin-bottom: 0.25em
+    height: 0.622em
 
 .localbar
-    height: 2em
+    height: 0.622em
     background: linear-gradient(rgba(0,0,0,0), wrexpurple)
     float: left
-    color: white
-    text-align: center
 
 .remotebar
-    height: 2em
+    height: 0.622em
     background: linear-gradient(rgba(0,0,0,0), wrexgreen)
     float: right
-    color: white
-    text-align: center
 
 
 

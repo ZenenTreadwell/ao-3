@@ -1,16 +1,16 @@
 <template lang='pug'>
 
 .priorities
-    div.clearboth(v-for='(t, i) of priorities.slice(0, 5)'  :key='priorities')
-        simple-hyperpriority.front(:taskId='t'  :c='priorities'  :inId='taskId')
-        .centerer
-            .more(v-if='i === 4 && priorities.length > 5') +{{ priorities.length - 5 }}
+    div.clearboth(v-for='(t, i) of priorities.slice(0, 5)'  :key='t')
+        simple-priority(:taskId='t'  :c='priorities'  :inId='taskId')
+    .centerer
+        .more(v-if='i === 4 && priorities.length > 5') +{{ priorities.length - 5 }}
 </template>
 
 <script>
 
 import Hypercard from './Card'
-import SimpleHyperpriority from './SimplePriority'
+import SimplePriority from './SimplePriority'
 
 export default {
   props: ['taskId'],
@@ -25,15 +25,9 @@ export default {
           }
           return p
       },
-      isSun() {
-          return this.$store.state.upgrades.dimension === 'sun'
-      },
-      isUni() {
-          return this.$store.state.upgrades.dimension === 'unicorn'
-      }
   },
   components:{
-      SimpleHyperpriority, Hypercard,
+      SimplePriority, Hypercard,
   },
 }
 

@@ -17,6 +17,10 @@ function getDecode (rawx){
         })
 }
 
+function onePercent(){
+   return Math.random() > 0.99
+}
+
 function getMempool(){
     return bitClient.getMempoolInfo()
         .then(memPoolInfo => {
@@ -29,25 +33,28 @@ function getMempool(){
                         lowFee: 0
                       }
                       return rawMemPool.reduce( (prevPromise, txid) => {
-                          return prevPromise.then( x => {
-                              return bitClient.getMempoolEntry(txid)
-                                  .then(mentry => {
-                                      let satFee = mentry.fee * 100000000 / mentry.vsize
-                                      if (satFee > 150){
-                                          memPoolInfo.feeChart.highFee ++
-                                      } else if (satFee > 50){
-                                          memPoolInfo.feeChart.midHighFee ++
-                                      } else if (satFee > 10){
-                                          memPoolInfo.feeChart.midFee ++
-                                      } else {
-                                          memPoolInfo.feeChart.lowFee ++
-                                      }
-                                      return Promise.resolve()
-                                  }).catch(noTx => {
-                                      return Promise.resolve()
-                                  })
-                          })
-
+                          if (onePercent()){
+                              return prevPromise.then( x => {
+                                  return bitClient.getMempoolEntry(txid)
+                                      .then(mentry => {
+                                          let satFee = mentry.fee * 100000000 / mentry.vsize
+                                          if (satFee > 150){
+                                              memPoolInfo.feeChart.highFee ++
+                                          } else if (satFee > 50){
+                                              memPoolInfo.feeChart.midHighFee ++
+                                          } else if (satFee > 10){
+                                              memPoolInfo.feeChart.midFee ++
+                                          } else {
+                                              memPoolInfo.feeChart.lowFee ++
+                                          }
+                                          return Promise.resolve()
+                                      }).catch(noTx => {
+                                          return Promise.resolve()
+                                      })
+                              })
+                        } else {
+                            return prevPromise
+                        }
                       } , Promise.resolve())
                           .then(x => {
                               return bitClient.estimateSmartFee(6)
@@ -149,11 +156,9 @@ function checkFunds(){
 }
 
 function getInfo(){
-    console.log('getting info?')
     return client
         .getinfo()
         .then(mainInfo => {
-            console.log('main info')
             client.listfunds()
                 .then(result => {
                     mainInfo.channels = result.channels

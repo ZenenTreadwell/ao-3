@@ -22,10 +22,10 @@
     .section(v-else) node unavailable :(
     br
     .row
-        .quarter(@click.stop='$store.commit("setPayMode", 0)'  :class='{selected: $store.state.upgrades.paymode === "mempool"}')
-        .quarter(@click.stop='$store.commit("setPayMode", 1)'  :class='{selected: $store.state.upgrades.paymode === "bitcoin"}')
-        .quarter(@click.stop='$store.commit("setPayMode", 2)'  :class='{selected: $store.state.upgrades.paymode === "lightning"}')
-        .quarter(@click.stop='$store.commit("setPayMode", 3)'  :class='{selected: $store.state.upgrades.paymode === "channels"}')
+        .quarter(@click.stop='setPay(0)'  :class='{selected: $store.state.upgrades.paymode === "mempool"}')
+        .quarter(@click.stop='setPay(1)'  :class='{selected: $store.state.upgrades.paymode === "bitcoin"}')
+        .quarter(@click.stop='setPay(2)'  :class='{selected: $store.state.upgrades.paymode === "lightning"}')
+        .quarter(@click.stop='setPay(3)'  :class='{selected: $store.state.upgrades.paymode === "channels"}')
 </template>
 
 <script>
@@ -43,6 +43,25 @@ export default {
             return this.$store.getters.contextCard
         },
     },
+    methods: {
+        scrollTop(){
+          console.log('scroll top')
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+          return true
+        },
+        setPay(x){
+            if (x === 2){
+                this.$store.dispatch("makeEvent", {
+                    type: 'task-valued',
+                    taskId: this.b.taskId,
+                    value: this.b.completeValue ,
+                })
+            }
+            this.scrollTop()
+            this.$store.commit("setPayMode", x)
+        }
+    }
 }
 
 </script>

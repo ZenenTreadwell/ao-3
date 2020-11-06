@@ -3,9 +3,12 @@
 div
     input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
     button(@click.stop='setValue')
+        h4(v-if='sats > 0  && sats !== Infinity') 0.01 {{ $store.state.cash.currency }} ~ {{ sats.toLocaleString() }}
+
 </template>
 
 <script>
+import calculations from '../calculations'
 
 export default {
     props: ['b'],
@@ -15,6 +18,11 @@ export default {
                 points: this.b.completeValue? this.b.completeValue : 1,
             }
         }
+    },
+    computed: {
+        sats(){
+            return calculations.cadToSats(1, this.$store.state.cash.spot) / 100
+        },
     },
     methods: {
         setValue() {

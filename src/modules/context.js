@@ -35,6 +35,7 @@ const mutations = {
 const actions = {
     goIn({commit}, pContext ){
         console.log('goIn hit')
+        commit("setMode", 0)
         commit("setPanel", pContext.panel)
         commit("setTop", pContext.top)
         pContext.parents.forEach(p => {
@@ -43,6 +44,7 @@ const actions = {
     },
     goUp({commit}, pContext){
         console.log('goUp hit')
+        commit("setMode", 0)
         commit("goToParent", pContext.target)
         commit("setPanel", pContext.panel)
         commit("setTop", pContext.top)
