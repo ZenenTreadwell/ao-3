@@ -87,9 +87,6 @@ img
 .quarter:before
     content: "\2022";
 
-.quarter:hover
-    color: wrexgreen
-
 .upg
     height: 2em
     pointer-events: none

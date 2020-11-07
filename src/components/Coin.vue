@@ -1,5 +1,5 @@
 <template lang='pug'>
-.d.tooltip(v-if='$store.getters.member.memberId !== b.taskId'  ref='hodlcoin')
+.d.tooltip(ref='hodlcoin')
     //- p.hodlcount(v-if='isBull'  :class="{ grabbedhodlcount: isGrabbed }") {{ (b.deck.length > 1) ? b.deck.length : '' }}
     img.dogepepecoin(:class="{ ungrabbedcoin : !isGrabbed, highlight: inHand }" src='../assets/images/loggedIn.svg'  draggable='false')
     .tooltiptext(v-if='$store.getters.member.tooltips || b.deck.length > 0')
@@ -93,7 +93,6 @@ export default {
                     memberId: this.$store.getters.member.memberId,
                 })
             } else {
-
                 this.$store.dispatch("makeEvent", {
                     type: 'pile-dropped',
                     taskId: this.b.taskId,

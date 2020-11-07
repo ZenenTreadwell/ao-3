@@ -1,7 +1,11 @@
 <template lang='pug'>
 
 .upgrades
-    lightning
+    .row
+        .quarter.hidden(@click.stop='setPay(1)'  :class='{selected: $store.state.upgrades.paymode === "mempool"}')
+        .quarter(@click.stop='setPay(1)'  :class='{selected: $store.state.upgrades.paymode === "bitcoin"}')
+        .quarter(@click.stop='setPay(2)'  :class='{selected: $store.state.upgrades.paymode === "lightning"}')
+        .quarter.hidden(@click.stop='setPay(2)'  :class='{selected: $store.state.upgrades.paymode === "channels"}')
     .payreq(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"')
         .section {{b.bolt11}}
         a(:href='"lightning:" + b.bolt11')
@@ -21,11 +25,7 @@
     .section(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "channels"')
     .section(v-else) node unavailable :(
     br
-    .row
-        .quarter(@click.stop='setPay(0)'  :class='{selected: $store.state.upgrades.paymode === "mempool"}')
-        .quarter(@click.stop='setPay(1)'  :class='{selected: $store.state.upgrades.paymode === "bitcoin"}')
-        .quarter(@click.stop='setPay(2)'  :class='{selected: $store.state.upgrades.paymode === "lightning"}')
-        .quarter(@click.stop='setPay(3)'  :class='{selected: $store.state.upgrades.paymode === "channels"}')
+    lightning
 </template>
 
 <script>

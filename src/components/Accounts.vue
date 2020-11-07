@@ -150,7 +150,7 @@ export default {
                   if(cardA.deck.length === cardB.deck.length) return 0
                   return -1
               })
-              return sortedMembers.filter(m => m.memberId !== this.$store.getters.member.memberId)
+              return sortedMembers
         },
       activeAccounts(){
             let a = 0
@@ -175,7 +175,7 @@ export default {
 @import '../styles/input'
 
 .section
-    color:lightGrey
+    color:main
     font-size: 0.9em
     margin-bottom: .9em
 

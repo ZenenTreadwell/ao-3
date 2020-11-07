@@ -1,24 +1,23 @@
 <template lang='pug'>
 #createtask(ref="closeable")
   div.secondbackground(@click.stop='switchColor(task.color)')
-      transition(name="slide-fade")
-        .cc(v-show='showCreate')
-            .boatContainer
-                button.clear(@click='resetCard') clear
-                button.lock(@click='lockIt') lock
-                button.create(@click='createOrFindTask') create
-            textarea(@click.stop)#card.paperwrapper(
-                v-model='debouncedName'
-                type='text'
-                :class='cardInputSty'
-                placeholder="textarea"
-                @keyup.enter.exact='createOrFindTask'
-                @keydown.enter.exact.prevent
-                @keyup.esc='closeCreate'
-                @input='exploring = false'
-                row='10'
-                col='20'
-            )
+      .cc(v-show='showCreate')
+          .boatContainer
+              button.clear(@click='resetCard') clear
+              button.lock(@click='lockIt') lock
+              button.create(@click='createOrFindTask') create
+          textarea#card.paperwrapper(
+              v-model='debouncedName'
+              type='text'
+              :class='cardInputSty'
+              placeholder="textarea"
+              @keyup.enter.exact='createOrFindTask'
+              @keydown.enter.exact.prevent
+              @keyup.esc='closeCreate'
+              @input='exploring = false'
+              row='10'
+              col='20'
+          )
       #btnpanel.btnpanel
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
               div(v-if='$store.getters.member.stacks === 5')
@@ -323,9 +322,6 @@ textarea
 
 .boatContainer button
     background-color: main
-.boatContainer button:hover
-    background-color: lightGrey
-    color: main
 
 .lonestar
     height: 2em

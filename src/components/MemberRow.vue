@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.memberrow(v-if='m.memberId'  :key='m.memberId')
+.memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId}')
     .absoright(v-if='b.boost > 0') {{b.boost.toLocaleString()}}
     .row(v-if='b')
         .three.grid.ptr
@@ -118,6 +118,7 @@ export default {
 @import '../styles/tooltips'
 @import '../styles/spinners'
 
+
 .absoright
     float: right
 
@@ -200,4 +201,8 @@ label
     text-align: center
     font-weight: bold
     margin-right: 2em
+
+.loggedIn
+    background: main
+
 </style>

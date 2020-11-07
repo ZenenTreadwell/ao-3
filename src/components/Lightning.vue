@@ -1,31 +1,32 @@
 <template lang='pug'>
 
-#nodes
-  p(v-if='areChannels'  @click='toggleOpen')
-      span(v-if='$store.state.upgrades.paymode === "channels"') {{ $store.state.cash.info.channels.length }} channels
-      span(v-else-if='$store.state.upgrades.paymode === "mempool"') mempool  {{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed() }} MB
-  .container(v-if='$store.state.cash.info && $store.state.cash.info.blockheight')
-      .row(v-if='$store.state.upgrades.paymode === "channels"')
-          .localremote
-              .localbar.tall(:style='l(nn)')  {{ parseFloat( nn.channel_sat ).toLocaleString() }}
-              .remotebar.tall(:style='r(nn)')  {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }}
-          .localremote(v-for='(n, i) in $store.state.cash.info.channels'  @click='selectedPeer = i')
-              .localbar(:style='l(n)')
-              .remotebar(:style='r(n)')
-          .center
-              span {{ $store.state.cash.info.id }}
-              span @{{ $store.state.cash.info.address[0].address }}
-              span :{{ $store.state.cash.info.address[0].port}}
-      p(v-else-if='$store.state.upgrades.paymode === "mempool"')
-          label tx count by fee
-          .chain.high  {{ $store.state.cash.info.mempool.feeChart.highFee * 100 }} super 150+
-          .chain.midhigh  {{ $store.state.cash.info.mempool.feeChart.midHighFee * 100 }} high 50+
-          .chain.mid  {{ $store.state.cash.info.mempool.feeChart.midFee * 100 }} mid 10+
-          .chain.low  {{ $store.state.cash.info.mempool.feeChart.lowFee  * 100}} low -10
-          .smartfee six block estimate {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/vbyte
-          input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid')
-          button(v-if='txnCheck'  @click='checkTxid') get transaction
-          div {{ fetchedTxn }}
+#nodes(v-if='$store.state.cash.info && $store.state.cash.info.blockheight')
+    .row
+        .six.grid
+            span mempool sample ({{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed() }} MB)
+            .chain.high  {{ $store.state.cash.info.mempool.feeChart.highFee * 100 }} super 150+
+            .chain.midhigh  {{ $store.state.cash.info.mempool.feeChart.midHighFee * 100 }} high 50+
+            .chain.mid  {{ $store.state.cash.info.mempool.feeChart.midFee * 100 }} mid 10+
+            .chain.low  {{ $store.state.cash.info.mempool.feeChart.lowFee  * 100}} low -10
+            .smartfee six block estimate {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/vbyte
+            input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid')
+            button(v-if='txnCheck'  @click='checkTxid') get transaction
+            div {{ fetchedTxn }}
+        .six.grid
+            span {{ $store.state.cash.info.channels.length }} channels
+            .row
+                .localremote
+                    .localbar.tall(:style='l(nn)')  {{ parseFloat( nn.channel_sat ).toLocaleString() }}
+                    .remotebar.tall(:style='r(nn)')  {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }}
+                .localremote(v-for='(n, i) in $store.state.cash.info.channels'  @click='selectedPeer = i')
+                    .localbar(:style='l(n)')
+                    .remotebar(:style='r(n)')
+                .center
+                    span {{ $store.state.cash.info.id }}
+                    span @{{ $store.state.cash.info.address[0].address }}
+                    span :{{ $store.state.cash.info.address[0].port}}
+            .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
+                .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
 
 </template>
 
@@ -141,6 +142,7 @@ export default {
 
 #nodes
     color: lightGrey
+    text-align: center
 
 .inactive
     opacity: 0.3456
