@@ -18,6 +18,7 @@ const mutations = {
         state.chosenDay = x
     },
     setSearch(state, x){
+        console.log('setsearch called', x)
         state.search = x
     },
     toggleBird(state){

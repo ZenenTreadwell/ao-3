@@ -3,7 +3,7 @@
 div
     input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
     button(@click.stop='setValue')
-        h4(v-if='sats > 0  && sats !== Infinity') 0.01 {{ $store.state.cash.currency }} ~ {{ sats.toLocaleString() }}
+        div(v-if='sats > 0  && sats !== Infinity') 0.01 {{ $store.state.cash.currency }} ~ {{ sats.toFixed(0) }}
 
 </template>
 

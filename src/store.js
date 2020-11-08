@@ -34,34 +34,6 @@ export default createStore({
           })
           return recentMembers
       },
-      matchCards(state, getters) {
-          let cards = []
-          let guilds = []
-          let doges = []
-          if(state.upgrades.search.length < 1) {
-              return { guilds, doges, cards}
-          }
-          try {
-              let regex = new RegExp(state.upgrades.search, 'i')
-              state.tasks.forEach(t => {
-                  if (t.taskId === getters.contextCard.taskId) return //
-                  if(t.guild && regex.test(t.guild)) {
-                      guilds.push(t)
-                  } else if(regex.test(t.name)) {
-                      cards.push(t)
-                  }
-              })
-              state.members.forEach(member => {
-
-                  if(regex.test(member.name)) {
-                      doges.push(member)
-                  }
-              })
-          } catch (err){
-              console.log("regex in error: ", err)
-          }
-          return { guilds, doges, cards}
-      },
       warpDrive(state, getters){
           return getters.liveConnections[state.upgrades.warp]
       },

@@ -1,20 +1,18 @@
 <template lang='pug'>
 #createtask(ref="closeable")
-  div.secondbackground(@click.stop='switchColor(task.color)')
+  div.secondbackground
       .cc(v-show='showCreate')
           .boatContainer
-              button.clear(@click='resetCard') clear
+              button.clear(@click='toggleSearch'  :class='{selected: showSearch}') search
               button.lock(@click='lockIt') lock
               button.create(@click='createOrFindTask') create
           textarea#card.paperwrapper(
-              v-model='debouncedName'
+              v-model='task.name'
               type='text'
               :class='cardInputSty'
               placeholder="textarea"
               @keyup.enter.exact='createOrFindTask'
               @keydown.enter.exact.prevent
-              @keyup.esc='closeCreate'
-              @input='exploring = false'
               row='10'
               col='20'
           )
@@ -28,19 +26,19 @@
                   button(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" }').bluewx.paperwrapper
               div(v-else)
                   .lonestar.lit(@click.stop='switchColor("blue")'  :class='{ down : showCreate }').paperwrapper
-      .scrollbarwrapper(v-show='showCreate && searchTotal > 0')
+      .scrollbarwrapper(v-show='showSearch')
           .searchresults
               .boatContainer
                   img.boatAll.faded(src='../assets/images/downboat.svg'  @click='deBoatAll')
                   .searchtotal(@click='goInSearchPanel') {{ searchTotal }}
                   img.boatAll.boatR.faded(src='../assets/images/upboat.svg'  @click='boatAll')
-              .result(v-for='t in $store.getters.matchCards.guilds'  @click.stop='debounce(loadResult, 500, [t])'  :class='resultInputSty(t)'  @dblclick.stop='goIn(t.taskId)')
+              .result(v-for='t in matches.guilds'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)')
                   img.smallguild(src='../assets/images/badge.svg')
                   span {{ t.guild }}
                   div {{ shortName(t.name) }}
-              .result(v-for='t in $store.getters.matchCards.doges'  @click.stop='debounce(loadResult, 500, [t])'  :class='resultInputSty(t)'  @dblclick.stop='goIn(t.taskId)')
+              .result(v-for='t in matches.doges'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)')
                   current(:memberId='t.memberId')
-              .result(v-for='t in $store.getters.matchCards.cards'  @click.stop='debounce(loadResult, 500, [t])'  :class='resultInputSty(t)'  @dblclick.stop='goIn(t.taskId)') {{ shortName(t.name) }}
+              .result(v-for='t in matches.cards'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)') {{ shortName(t.name) }}
 </template>
 
 <script>
@@ -56,13 +54,16 @@ export default {
             showCreate: false,
             task: {
                 name: '',
-                search: '',
                 color: 'green',
             },
+            search: '',
             swipeTimeout: 0,
-            searchResults: [],
-            exploring: true,
-            inDebounce: false,
+            showSearch: false,
+            matches: {
+                doges: [],
+                cards: [],
+                guilds: []
+            }
         }
     },
     components: {
@@ -76,16 +77,6 @@ export default {
         let longPress = new Hammer.Press({ time: 400 })
 
         mc.add([Swipe, longPress])
-
-        mc.on('press', () => {
-            navigator.clipboard.readText().then(clippy => {
-                console.log('press', clippy)
-                this.openCreate()
-                if (clippy){
-                  this.task.name += clippy
-                }
-            })
-        })
 
         mc.on('swipeleft', () => {
             if(Date.now() - this.swipeTimeout > 100) {
@@ -116,6 +107,46 @@ export default {
         });
     },
     methods: {
+        matchCards() {
+            let cards = []
+            let guilds = []
+            let doges = []
+            let search = this.task.name.trim()
+            this.search = search
+            if(search.length < 1) {
+                console.log('search empty match avoided')
+                return { guilds, doges, cards}
+            }
+            try {
+                let regex = new RegExp(search, 'i')
+                this.$store.state.tasks.forEach(t => {
+                    if (t.taskId === this.$store.getters.contextCard.taskId) return //
+                    if(t.guild && regex.test(t.guild)) {
+                        guilds.push(t)
+                    } else if(regex.test(t.name)) {
+                        cards.push(t)
+                    }
+                })
+                this.$store.state.members.forEach(member => {
+                    if(regex.test(member.name)) {
+                        doges.push(member)
+                    }
+                })
+            } catch (err){
+                console.log("regex in error: ", err)
+            }
+            console.log('got', guilds.length, doges.length, cards.length, 'match')
+            this.matches = { guilds, doges, cards}
+        },
+        toggleSearch(){
+            if (this.showSearch && this.search !== this.task.name.trim()){
+                return this.loadResult()
+            }
+            if (!this.showSearch){
+                this.loadResult()
+            }
+            this.showSearch = !this.showSearch
+        },
         lockIt(){
             let toHide = this.task.name.trim()
             let pubkey = this.$store.state.cash.publicKey
@@ -137,6 +168,8 @@ export default {
             })
         },
         boatAll(){
+            this.showCreate = false
+            this.showSearch = false
             this.$store.dispatch("makeEvent", {
                 type: 'pile-prioritized',
                 tasks: this.matchIds,
@@ -149,9 +182,6 @@ export default {
                 tasks: this.matchIds,
                 inId: this.$store.getters.contextCard.taskId,
             })
-        },
-        toCardMode(){
-            this.$store.commit("setDimension", 0)
         },
         goIn(taskId){
             clearTimeout(this.inDebounce)
@@ -176,6 +206,7 @@ export default {
         switchColor(color, refocus = true){
             if (this.task.color === color){
                 this.showCreate = !this.showCreate
+                this.showSearch = false
             } else if (this.showCreate) {
                 // don't close, switch
             } else {
@@ -190,7 +221,7 @@ export default {
         },
         resetCard(){
             this.task.name = ''
-            this.$store.commit('setSearch', '')
+            this.showSearch = false
         },
         subTaskTask(taskId) {
             this.$store.dispatch("makeEvent", {
@@ -201,6 +232,7 @@ export default {
             })
         },
         createOrFindTask(){
+            this.showSearch = false
             let foundId = this.matchCard
             let potentialCard = this.task.name.trim()
             this.resetCard()
@@ -239,22 +271,17 @@ export default {
         },
         resultInputSty(card) {
           return {
-              redtx : card.color == 'red',
-              bluetx : card.color == 'blue',
-              greentx : card.color == 'green',
-              yellowtx : card.color == 'yellow',
-              purpletx : card.color == 'purple',
-              blacktx : card.color == 'black',
+              redwx : card.color == 'red',
+              bluewx : card.color == 'blue',
+              greenwx : card.color == 'green',
+              yellowwx : card.color == 'yellow',
+              purplewx : card.color == 'purple',
+              blackwx : card.color == 'black',
           }
         },
-        loadResult(t) {
-            this.task.name = t.name.trim()
-            this.task.color = t.color
-            this.$store.commit('setSearch', this.task.name)
-        },
-        debounce(func, delay) {
-            clearTimeout(this.inDebounce)
-            this.inDebounce = setTimeout(() => func.apply(this, arguments[2]), delay) // confusing
+        loadResult() {
+            this.matchCards()
+            this.$store.commit('setSearch', this.task.name.trim())
         },
         shortName(theName) {
             return calculations.shortName(theName)
@@ -262,28 +289,15 @@ export default {
     },
     computed: {
         searchTotal(){
-            return this.$store.getters.matchCards.guilds.length + this.$store.getters.matchCards.doges.length + this.$store.getters.matchCards.cards.length
-        },
-        isCard(){
-            return this.$store.state.upgrades.dimension === 'unicorn'
+            return this.matches.guilds.length + this.matches.doges.length + this.matches.cards.length
         },
         taskId(){
             return this.$store.getters.contextCard.taskId
         },
-        matchCard(){
-            let foundId
-            this.$store.state.tasks.filter(t => {
-                let trimmy = this.task.name.trim()
-                if(t.name === trimmy || t.guild === trimmy) {
-                    foundId = t.taskId
-                }
-            })
-            return foundId
-        },
         matchIds(){
-            return this.$store.getters.matchCards.guilds
-                .concat(this.$store.getters.matchCards.doges)
-                .concat(this.$store.getters.matchCards.cards)
+            return this.matches.guilds
+                .concat(this.matches.doges)
+                .concat(this.matches.cards)
                 .map(t => t.taskId)
         },
         cardInputSty() {
@@ -291,17 +305,6 @@ export default {
                 return calculations.cardColorCSS(this.task.color)
             }
             return {nowx: true}
-        },
-        debouncedName: {
-            get() {
-                return this.task.name
-            },
-            set(newValue) {
-                this.task.name = newValue
-                this.debounce(() => {
-                    this.$store.commit('setSearch', newValue)
-                }, 400)
-            }
         },
     }
 }
@@ -467,12 +470,12 @@ textarea
     padding: 0
 
 .scrollbarwrapper
-    width: 37vw
+    width: 100%
     height: calc(100% - 2em)
     position: absolute
     top: calc(-100% - 0.5em)
     left: 0
-    background: rgba(22, 22, 22, 0.8)
+    background: lightGrey
     padding: 1em 0
     border-radius: 20px
 
@@ -497,6 +500,8 @@ textarea
     background-color: rgba(255, 255, 255, 0.75)
 
 .result
+    margin-left: 4em
+    margin-right: 4em
     margin-bottom: 0.3em
     cursor: pointer
 
@@ -529,7 +534,9 @@ textarea
 
 .boatAll
     margin: 0 1em 0 1em
-    height: 20px;
+    height: 11em;
+    width: 2em
+    background: main
     position: relative
     margin-top: 1em
     margin-bottom: 1em
@@ -539,7 +546,6 @@ textarea
 .boatR
     position: absolute
     right: 0px
-    height:20px
 
 .faded
     opacity: 0.235654
@@ -547,5 +553,10 @@ textarea
 .secondbackground
     background: main
     cursor: pointer
+
+.boatContainer button.selected
+    background: lightGrey
+    color: main
+
 
 </style>
