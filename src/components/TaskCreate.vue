@@ -5,7 +5,7 @@
           .boatContainer
               button.clear(@click='toggleSearch'  :class='{selected: showSearch}') search
               button.lock(@click='lockIt') lock
-              button.create(@click='createOrFindTask') create
+              button.create(@click='createOrFindTask') ship
           textarea#card.paperwrapper(
               v-model='task.name'
               type='text'
@@ -168,13 +168,14 @@ export default {
             })
         },
         boatAll(){
-            this.showCreate = false
-            this.showSearch = false
+            console.log(this.matchIds.length, ' shipments')
             this.$store.dispatch("makeEvent", {
                 type: 'pile-prioritized',
                 tasks: this.matchIds,
                 inId: this.$store.getters.contextCard.taskId,
             })
+            this.showCreate = false
+            this.showSearch = false
         },
         deBoatAll(){
             this.$store.dispatch("makeEvent", {
@@ -224,6 +225,7 @@ export default {
             this.showSearch = false
         },
         subTaskTask(taskId) {
+
             this.$store.dispatch("makeEvent", {
                 type: 'task-sub-tasked',
                 taskId: this.taskId,
@@ -233,8 +235,14 @@ export default {
         },
         createOrFindTask(){
             this.showSearch = false
-            let foundId = this.matchCard
             let potentialCard = this.task.name.trim()
+            let foundId = false
+            this.$store.state.tasks.some(t => {
+                if (t.name === potentialCard){
+                    foundId = t.taskId
+                    return true
+                }
+            })
             this.resetCard()
             if(!foundId) {
                 this.$store.dispatch("makeEvent", {

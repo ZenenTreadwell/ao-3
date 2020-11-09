@@ -1,8 +1,8 @@
 <template lang='pug'>
 
-#nodes(v-if='$store.state.cash.info && $store.state.cash.info.blockheight')
+#nodes
     .row
-        .six.grid
+        .six.grid(v-if='$store.state.cash.info.mempool')
             span mempool sample ({{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed() }} MB)
             .chain.high  {{ $store.state.cash.info.mempool.feeChart.highFee * 100 }} super 150+
             .chain.midhigh  {{ $store.state.cash.info.mempool.feeChart.midHighFee * 100 }} high 50+
@@ -12,16 +12,16 @@
             input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid')
             button(v-if='txnCheck'  @click='checkTxid') get transaction
             div {{ fetchedTxn }}
-        .six.grid
+        .six.grid(v-if='$store.state.cash.info.channels')
             span {{ $store.state.cash.info.channels.length }} channels
             .row
-                .localremote
+                .localremote(v-if='nn')
                     .localbar.tall(:style='l(nn)')  {{ parseFloat( nn.channel_sat ).toLocaleString() }}
                     .remotebar.tall(:style='r(nn)')  {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }}
                 .localremote(v-for='(n, i) in $store.state.cash.info.channels'  @click='selectedPeer = i')
                     .localbar(:style='l(n)')
                     .remotebar(:style='r(n)')
-                .center
+                .center(v-if='$store.state.cash.info.address.length > 0')
                     span {{ $store.state.cash.info.id }}
                     span @{{ $store.state.cash.info.address[0].address }}
                     span :{{ $store.state.cash.info.address[0].port}}
@@ -59,7 +59,7 @@ export default {
             if (this.areChannels){
                 return this.$store.state.cash.info.channels[this.selectedPeer]
             }
-            return {}
+            return false
         }
     },
     methods:{
