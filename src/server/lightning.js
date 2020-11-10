@@ -78,10 +78,11 @@ lightningRouter.post('/bitcoin/transaction',(req, res) => {
         .catch(notInMempool => {
             getDecode(req.body.txid).then(txn => {
                 Promise.all(txn.vout.map((output, i) => {
-                  return bitClient.getTxOut(txn.hash, i)
+                  return bitClient.getTxOut(req.body.txid, i)
                 })).then(outs => {
-                    txn.vin.forEach(innnin => console.log({innnin}))
-                    txn.utxo = outs
+                    if (outs.some(x => x !== null)){
+                        txn.utxo = outs
+                    }
                     res.send(txn)
                 })
           })

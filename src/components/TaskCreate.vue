@@ -3,7 +3,7 @@
   div.secondbackground
       .cc(v-show='showCreate')
           .boatContainer
-              button.clear(@click='toggleSearch'  :class='{selected: showSearch}') search
+              button.clear(@click='toggleSearch'  :class='{selected: showSearch}') find
               button.lock(@click='lockIt') lock
               button.create(@click='createOrFindTask') ship
           textarea#card.paperwrapper(

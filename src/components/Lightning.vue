@@ -11,14 +11,24 @@
             .smartfee six block estimate {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/vbyte
             input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid')
             button(v-if='txnCheck'  @click='checkTxid') get transaction
-            div {{ fetchedTxn }}
+            .chanfo(v-if='fetchedTxn.txid')
+                div txid: {{ fetchedTxn.txid }}
+                div status: {{ fetchedTxnStatus }}
+                div(v-if='fetchedTxn.utxo'  v-for='unspent in fetchedTxn.utxo')
+                    div(v-if='unspent')
+                        div {{(unspent.value * 100000000).toLocaleString()}} : {{unspent.scriptPubKey.addresses}}
+                div(v-if='fetchedTxn.memPool')
+                    div fee: {{ (fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize).toFixed() }}
         .six.grid(v-if='$store.state.cash.info.channels')
-            span {{ $store.state.cash.info.channels.length }} channels
+            span(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') {{ $store.state.cash.info.channels.length }} channels
             .row
-                .localremote(v-if='nn')
+                .localremote(@click='selectedPeer = false'  v-if='nn')
                     .localbar.tall(:style='l(nn)')  {{ parseFloat( nn.channel_sat ).toLocaleString() }}
                     .remotebar.tall(:style='r(nn)')  {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }}
-                .localremote(v-for='(n, i) in $store.state.cash.info.channels'  @click='selectedPeer = i')
+                .chanfo(v-if='selectedPeer !== false && selectedPeer >= 0')
+                    div  pubkey: {{ $store.state.cash.info.channels[selectedPeer].peer_id }}
+                    div  txid: {{ $store.state.cash.info.channels[selectedPeer].funding_txid }}
+                .localremote.ptr(v-for='(n, i) in $store.state.cash.info.channels'  @click='selectedPeer = i')
                     .localbar(:style='l(n)')
                     .remotebar(:style='r(n)')
                 .center(v-if='$store.state.cash.info.address.length > 0')
@@ -41,7 +51,7 @@ export default {
         return {
             fetchedTxn: {},
             txnCheck: '',
-            selectedPeer: 0,
+            selectedPeer: false,
             open: false,
         }
     },
@@ -49,6 +59,15 @@ export default {
          Tag,
     },
     computed: {
+        fetchedTxnStatus(){
+            if (this.fetchedTxn.memPool){
+                return 'unconfirmed'
+            }
+            if (this.fetchedTxn.utxo){
+                return 'confirmed, unspent'
+            }
+            return 'confirmed, spent'
+        },
         areChannels(){
             return this.$store.state.cash.info.channels
         },
@@ -56,6 +75,17 @@ export default {
             return calculations.cadToSats(1, this.$store.state.cash.spot)
         },
         nn(){
+            let totals = {
+                channel_sat: 0,
+                channel_total_sat: 0,
+            }
+            if (this.selectedPeer === false){
+                  this.$store.state.cash.info.channels.forEach(n => {
+                      totals.channel_sat += n.channel_sat
+                      totals.channel_total_sat += n.channel_total_sat
+                  })
+                  return totals
+            }
             if (this.areChannels){
                 return this.$store.state.cash.info.channels[this.selectedPeer]
             }
@@ -65,12 +95,13 @@ export default {
     methods:{
         checkTxid(){
             request
-              .post('/bitcoin/transaction')
-              .send({txid : this.txnCheck})
-              .set("Authorization", this.$store.state.loader.token)
-              .end((err, res)=>{
-                  this.fetchedTxn = res.body
-              })
+                .post('/bitcoin/transaction')
+                .send({txid : this.txnCheck})
+                .set("Authorization", this.$store.state.loader.token)
+                .end((err, res)=>{
+                    this.fetchedTxn = res.body
+                })
+            this.txnCheck = ''
         },
         toggleOpen(){
             this.open = !this.open
@@ -134,6 +165,13 @@ export default {
 @import '../styles/button'
 @import '../styles/input'
 
+.chanfo
+    word-break: break-all
+    overflow-wrap: break-word;
+    text-align: left
+    font-size: 0.7em
+.ptr
+    cursor: pointer
 
 .localbar.tall
     height: 2em
