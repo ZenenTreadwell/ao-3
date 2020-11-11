@@ -187,7 +187,6 @@ export default {
     border-width: 0.4321em
     border-color: main
     padding: 0.7789em
-    background-color: main
 
 .darkmode
     border-color: lightGrey

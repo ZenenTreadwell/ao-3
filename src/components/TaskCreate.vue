@@ -1,11 +1,11 @@
 <template lang='pug'>
 #createtask(ref="closeable")
-  div.secondbackground(@click='switchColor("green")')
+  div.secondbackground(@click='switchColor(task.color)')
       .cc(v-show='showCreate')
           .boatContainer
-              button.clear(@click='toggleSearch'  :class='{selected: showSearch}') find
-              button.lock(@click='lockIt') lock
-              button.create(@click='createOrFindTask') ship
+              button.clear(@click.stop='toggleSearch'  :class='{selected: showSearch}') find
+              button.lock(@click.stop='lockIt') lock
+              button.create(@click.stop='createOrFindTask') ship
           textarea#card.paperwrapper(
               v-model='task.name'
               type='text'
@@ -15,6 +15,7 @@
               @keydown.enter.exact.prevent
               row='10'
               col='20'
+              @click.stop
           )
       #btnpanel.btnpanel
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')

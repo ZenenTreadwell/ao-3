@@ -1,31 +1,20 @@
 <template lang='pug'>
 
 .upgrades
-    .row
-        .quarter.hidden(@click.stop='setPay(1)'  :class='{selected: $store.state.upgrades.paymode === "mempool"}')
-        .quarter(@click.stop='setPay(1)'  :class='{selected: $store.state.upgrades.paymode === "bitcoin"}')
-        .quarter(@click.stop='setPay(2)'  :class='{selected: $store.state.upgrades.paymode === "lightning"}')
-        .quarter.hidden(@click.stop='setPay(2)'  :class='{selected: $store.state.upgrades.paymode === "channels"}')
     .payreq(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"')
         .section {{b.bolt11}}
         a(:href='"lightning:" + b.bolt11')
-            button
-                img(src='../assets/images/lightning.svg')
-                tag(:d='b.bolt11'  size='5')
-                .section {{b.completeValue}}
+            tag(:d='b.bolt11'  size='5')
         points-set(:b='$store.getters.contextCard')
     .payreq(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"')
         .section {{b.btcAddr}}
         a(:href='"bitcoin:" + b.btcAddr')
-            button
-                img(src='../assets/images/bitcoin.svg')
-                tag(:d='b.btcAddr'  size='7')
+            tag(:d='b.btcAddr'  size='7')
         points-set(:b='$store.getters.contextCard')
     .section(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "mempool"')
     .section(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "channels"')
     .section(v-else) node unavailable :(
     br
-    lightning
 </template>
 
 <script>

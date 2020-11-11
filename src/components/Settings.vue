@@ -3,7 +3,7 @@
 #accounts
     .row
         .six.columns
-            .section update account
+            .section update
             select(v-model='change.field', @change='empty')
                 option(value='name') name
                 option(value='secret') password
@@ -21,7 +21,7 @@
                 img.checkmark(v-if='matched', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span - repeat correctly
-            button(@click='update') update
+            button(@click='update'  v-if='change.newfield') update
         .six.columns
             .section preferences
             .check.click(@click='toggleTooltips')
@@ -40,18 +40,21 @@
                 img.checkmark(v-if='$store.getters.member.stacks === 5', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span.space color
+    .breathing
+    lightning
 </template>
 
 <script>
 import cryptoUtils from '../crypto'
 import Current from './Current'
+import Lightning from './Lightning'
 import MemberRow from './MemberRow'
 export default {
-    components: {Current, MemberRow},
+    components: {Current, MemberRow, Lightning},
     data() {
       return {
         change: {
-            field: 'secret',
+            field: 'name',
             newfield: '',
             confirmNewfield: ''
         },
@@ -203,6 +206,12 @@ export default {
 @import '../styles/title'
 @import '../styles/button'
 @import '../styles/input'
+
+button
+    background: main
+
+.breathing
+    height: 1.12em
 
 .section
     color:main

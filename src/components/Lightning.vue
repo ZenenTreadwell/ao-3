@@ -3,24 +3,13 @@
 #nodes
     .row
         .six.grid(v-if='$store.state.cash.info.mempool')
-            span mempool sample ({{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed() }} MB)
+            .section mempool ({{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed() }} MB)
             .chain.high  {{ $store.state.cash.info.mempool.feeChart.highFee * 100 }} super 150+
             .chain.midhigh  {{ $store.state.cash.info.mempool.feeChart.midHighFee * 100 }} high 50+
             .chain.mid  {{ $store.state.cash.info.mempool.feeChart.midFee * 100 }} mid 10+
             .chain.low  {{ $store.state.cash.info.mempool.feeChart.lowFee  * 100}} low -10
-            .smartfee six block estimate {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/vbyte
-            input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid')
-            button(v-if='txnCheck'  @click='checkTxid') get transaction
-            .chanfo(v-if='fetchedTxn.txid')
-                div txid: {{ fetchedTxn.txid }}
-                div status: {{ fetchedTxnStatus }}
-                div(v-if='fetchedTxn.utxo'  v-for='unspent in fetchedTxn.utxo')
-                    div(v-if='unspent')
-                        div {{(unspent.value * 100000000).toLocaleString()}} : {{unspent.scriptPubKey.addresses}}
-                div(v-if='fetchedTxn.memPool')
-                    div fee: {{ (fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize).toFixed() }}
         .six.grid(v-if='$store.state.cash.info.channels')
-            span(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') {{ $store.state.cash.info.channels.length }} channels
+            .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') channels ({{ $store.state.cash.info.channels.length }})
             .row
                 .localremote(@click='selectedPeer = false'  v-if='nn')
                     .localbar.tall(:style='l(nn)')  {{ parseFloat( nn.channel_sat ).toLocaleString() }}
@@ -37,6 +26,19 @@
                     span :{{ $store.state.cash.info.address[0].port}}
             .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
                 .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
+    .row
+        .smartfee ~ fee to confirm within hour is  {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/vbyte
+        input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid')
+        button(v-if='txnCheck'  @click='checkTxid') get transaction
+        .chanfo(v-if='fetchedTxn.txid')
+            div txid: {{ fetchedTxn.txid }}
+            div status: {{ fetchedTxnStatus }}
+            div(v-if='fetchedTxn.utxo'  v-for='unspent in fetchedTxn.utxo')
+                div(v-if='unspent')
+                    div {{(unspent.value * 100000000).toLocaleString()}} : {{unspent.scriptPubKey.addresses}}
+            div(v-if='fetchedTxn.memPool')
+                div fee: {{ (fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize).toFixed() }}
+
 
 </template>
 
@@ -165,6 +167,13 @@ export default {
 @import '../styles/button'
 @import '../styles/input'
 
+
+.section
+    color:main
+    font-size: 0.9em
+    margin-bottom: .9em
+    text-align: left
+
 .chanfo
     word-break: break-all
     overflow-wrap: break-word;
@@ -179,7 +188,6 @@ export default {
     height: 2em
 
 #nodes
-    color: lightGrey
     text-align: center
 
 .inactive

@@ -130,7 +130,6 @@ export default {
 
 .day
     position: relative
-    background-color: softGrey
     overflow: visible
 
 .day:hover
