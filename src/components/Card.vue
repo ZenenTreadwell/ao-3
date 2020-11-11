@@ -7,7 +7,6 @@
     //-     img(v-for='n in parseInt(Math.floor(w))'  src='../assets/images/doge.svg')
     //-     img(v-if='w % 1 > 0 || w < 1'  :class="['sixteenth' + fractionalReserveDoge]"  src='../assets/images/doge.svg')
     .buffertop
-      preview-deck(:task='b')
       .cardbody
           linky.cardhud(:x='b.name' v-if='!member')
           span.sml
@@ -43,6 +42,7 @@
                 span(v-if='b.passed.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
                     img.send(src='../assets/images/send.svg')
                     span {{ b.passed.length}}
+    preview-deck(:task='b')
 </template>
 
 <script>

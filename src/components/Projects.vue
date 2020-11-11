@@ -194,10 +194,8 @@ ul
     margin-bottom: 1em
     padding: 0 0.5em 0.55em 0.5em
     background: darkGrey
-    color: wrexno
+    color: lightGrey
     font-style: italic;
-    text-decoration: underline;
-    text-decoration-style: double;
 
 .projects h3
     text-align: center

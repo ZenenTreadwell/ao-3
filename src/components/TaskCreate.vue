@@ -1,6 +1,6 @@
 <template lang='pug'>
 #createtask(ref="closeable")
-  div.secondbackground
+  div.secondbackground(@click='switchColor("green")')
       .cc(v-show='showCreate')
           .boatContainer
               button.clear(@click='toggleSearch'  :class='{selected: showSearch}') find
@@ -18,14 +18,11 @@
           )
       #btnpanel.btnpanel
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
-              div(v-if='$store.getters.member.stacks === 5')
-                  button(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" }').redwx.paperwrapper
-                  button(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" }').yellowwx.paperwrapper
-                  button(@click.stop='switchColor("green")'  :class='{ down : task.color === "green" }').greenwx.paperwrapper
-                  button(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" }').purplewx.paperwrapper
-                  button(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" }').bluewx.paperwrapper
-              div(v-else)
-                  .lonestar.lit(@click.stop='switchColor("blue")'  :class='{ down : showCreate }').paperwrapper
+              button(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" }').redwx.paperwrapper
+              button(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" }').yellowwx.paperwrapper
+              button(@click.stop='switchColor("green")'  :class='{ down : task.color === "green" }').greenwx.paperwrapper
+              button(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" }').purplewx.paperwrapper
+              button(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" }').bluewx.paperwrapper
       .scrollbarwrapper(v-show='showSearch')
           .searchresults
               .boatContainer
@@ -559,7 +556,6 @@ textarea
     opacity: 0.235654
 
 .secondbackground
-    background: main
     cursor: pointer
 
 .boatContainer button.selected

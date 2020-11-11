@@ -25,24 +25,8 @@
             payments(v-show='$store.state.upgrades.mode === "chest"')
             planning(v-show='$store.state.upgrades.mode === "timecube"')
     div
-        .fadey(v-if='$store.getters.all.length > 0'   :class='{ onestack : $store.getters.member.stacks === 1 || !requireFiveStacks, completedfadey : $store.state.context.completed }')
-            .boatContainer(:class='{hidden:!$store.getters.member.guides}')
-                img.boatAll.faded.adjtooltip(@click='toggleStacks' src='../assets/images/orb.svg'  :class='{ro:$store.getters.member.stacks === 5}')
-                .tooltiptext.correctspottopleft(v-if='$store.getters.member.tooltips')
-                    p(v-if='$store.getters.member.stacks === 5').suggest no color
-                    p(v-else).suggest color
-                img.boatAll.boatR.faded.adjtooltip.svgwhite(src='../assets/images/upboat.svg'  @click='pilePrioritized')
-                .tooltiptext.correctspottop(v-if='$store.getters.member.tooltips')
-                    p.suggest all todo
+        .fadey(v-if='$store.getters.all.length > 0'   :class='{ onestack : !requireFiveStacks, completedfadey : $store.state.context.completed }')
             panels
-            .faded(:class='{hidden:!$store.getters.member.guides}')
-                img.adjtooltip.toggleStack(v-if='!$store.state.context.completed'  @click='pileDeSubTasked' src='../assets/images/downboat.svg')
-                .tooltiptext.correctspotleft(v-if='!$store.state.context.completed && $store.getters.member.tooltips')
-                    p.suggest all clear
-                img.completed.adjtooltip(v-if='$store.state.context.completed'   src='../assets/images/completed.svg'  @click='toggleShowComplete'  :class='{ faded : !$store.state.context.completed, completedtabbed : $store.state.context.completed, normaltopmargin : $store.getters.red.length + $store.getters.green.length + $store.getters.blue.length + $store.getters.yellow.length + $store.getters.purple.length === 0 }')
-                img.completed.adjtooltip(v-else   src='../assets/images/uncompleted.svg'  @click='toggleShowComplete'  :class='{ faded : !$store.state.context.completed, completedtabbed : $store.state.context.completed, normaltopmargin : $store.getters.red.length + $store.getters.green.length + $store.getters.blue.length + $store.getters.yellow.length + $store.getters.purple.length === 0 }')
-                .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-                    p.suggest completions
 </template>
 
 <script>

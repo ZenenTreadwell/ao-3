@@ -134,12 +134,9 @@ export default {
 
 .preview
     width: 15%;
-    float: right;
-    margin-left: .5em;
-    margin-bottom: .5em;
     position: absolute;
-    right: 3em;
-    top: 2em;
+    bottom: 2em;
+    left: 40%
 
 .tinyboat
     height: 15px

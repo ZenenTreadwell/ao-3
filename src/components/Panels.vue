@@ -1,7 +1,7 @@
 <template lang='pug'>
 
-.panel(v-if='$store.getters.all.length > 0'   :class='{ fullwidth : $store.getters.member.stacks === 1 || !requireFiveStacks }')
-    div(v-if='$store.getters.member.stacks === 5 && requireFiveStacks')
+.panel(v-if='$store.getters.all.length > 0').fullwidth
+    div(v-if='requireFiveStacks')
       .row
         .four.columns
             card-panel(v-if='$store.getters.red.length === 0'   stack='yellow',  :position='$store.getters.contextCard.stackView["yellow"]', :taskId='$store.getters.contextCard.taskId')

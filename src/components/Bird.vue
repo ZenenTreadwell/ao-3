@@ -2,7 +2,7 @@
 
 .bird(ref='wholeBird')
     div(ref='bird')
-        img.birdy.faded(v-if='!showSend && !b.guild' src='../assets/images/send.svg'  :class='{hidden:!$store.getters.member.guides}')
+        img.birdy.faded(v-if='!showSend && !b.guild' src='../assets/images/badge.svg'  :class='{hidden:!$store.getters.member.guides}')
         div.birdy.faded.smallguild(v-else  :class='{ open : showSend }')
     guild-create(v-if='showSend'   :b='b')
     div(v-if='showSend')
@@ -181,9 +181,13 @@ export default {
     margin-top: 2em
     max-height: 3em
 
-select
-    background-color: lightteal
-    width: 70%
+
+.give
+    select
+        width: 61%
+    button
+        width: 29%
+
 
 select.form-control
     color: black
@@ -230,12 +234,12 @@ label
     width: 100%
 
 .theTitle
+    color: lightGrey
     position: absolute
     left: 3.3em
     top: 1.3em
 
 .small
-    width: 19%
     display: inline-block
     height: 2.3em
     position: relative
