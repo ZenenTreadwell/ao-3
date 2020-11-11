@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.panel(v-if='$store.getters.all.length > 0').fullwidth
+.panel(v-if='$store.getters.all.length > 0'  :class='{fullwidth: !requireFiveStacks}')
     div(v-if='requireFiveStacks')
       .row
         .four.columns
@@ -128,6 +128,8 @@ h5
     background-size: cover
     background-position: center center
     overflow: visible
+.fullwidth
+    width: 100%
 
 .card
     padding: 2em
@@ -143,8 +145,4 @@ h5
     max-width: calc(100vw - 4em)
     padding-left: 1em
     padding-right: 1em
-
-.fullwidth
-    width: 100%
-
 </style>

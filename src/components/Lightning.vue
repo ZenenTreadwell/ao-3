@@ -27,7 +27,7 @@
             .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
                 .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
     .row
-        .smartfee ~ fee to confirm within hour is  {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/vbyte
+        .smartfee recommended fee {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/vbyte
         input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid')
         button(v-if='txnCheck'  @click='checkTxid') get transaction
         .chanfo(v-if='fetchedTxn.txid')

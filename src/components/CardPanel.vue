@@ -2,29 +2,10 @@
 
 #tasks(v-if='c && c.length > 0')
     .spaceroom(v-if='c.length < 2')
-    .row.ptr(v-show="c.length > 1"  ref='swipebar')
-        .three.grid.tooltip(ref='previous')
-            span &nbsp;
-            img.fl(v-if='!open'  src='../assets/images/back.svg')
-            .tooltiptext(v-if='$store.getters.member.tooltips')
-                p.suggest previous
-        .one.grid.horizcenter(@click='first')
-            .box.verticalcenter
-                h3(v-if='!open') {{ sanePosition + 1 }}
-        .four.grid.horizcenter()
-            .mandalign.tooltip(ref='mandelorb')
-                img(src='../assets/images/orb.svg'  :class='{ro: open}')
-                .tooltiptext(v-if='$store.getters.member.tooltips')
-                    p(v-if='!open').suggest open stack
-                    p(v-else).suggest close stack
-        .one.grid.horizcenter(@click='last')
-            .box.verticalcenter
-                h3(v-if='!open') {{ c.length }}
-        .three.grid.tooltip(ref='next')
-            span &nbsp;
-            img.fr(v-if='!open'  src='../assets/images/forward.svg')
-            .tooltiptext(v-if='$store.getters.member.tooltips')
-                p.suggest next
+    .ptr(v-show="c.length > 1"  ref='swipebar')
+        span.third(:class='{hidden:open}'  ref='previous')
+        span.third(ref='mandelorb')
+        span.third(:class='{hidden:open}'  ref='next')
     .open(v-if='open')
         div(v-for='(b, i) in c'  :key="b.taskId")
             img.orby.fadey.ro(v-if='i > 0'  src='../assets/images/orb.svg'  @click='orbswap(b.taskId)')
@@ -377,6 +358,7 @@ img
     height:2.9em
 
 .ptr
+    width: 100%
     margin: 0
     margin-bottom: -.6em
     opacity: 0.4;
@@ -430,5 +412,14 @@ img
 
 .hidden
     opacity: 0
+
+.third
+    display: inline-block
+    text-align: center
+    width: 33%
+    font-size: 4.44em
+.third:before
+    content: "\2022";
+    color: lightGrey
 
 </style>
