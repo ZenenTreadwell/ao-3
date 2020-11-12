@@ -116,6 +116,22 @@ function confirmTaskAddrs(){
     })
 }
 
+
+function nukePays(){
+    client.listpays().then(x => {
+        console.log('got pays ', x.pays.length)
+        x.pays.reduce((pchain, p) => {
+            return pchain.then( () => {
+                if (p.status === 'failed'){
+                    return client.delpay(p.payment_hash, p.status)
+                }
+            })
+        }, Promise.resolve())
+
+    }).catch(console.log)
+}
+nukePays()
+
 function createInvoice(sat, label, description, expiresInSec){
     return client.invoice(sat * 1000, label, description, expiresInSec)
 }
