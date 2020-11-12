@@ -146,7 +146,7 @@ export default {
     },
     previous(){
         let position = (this.sanePosition - 1)
-        if (position === -1){
+        if (position <= -1){
             position = this.c.length - 1
         }
         this.$store.dispatch("makeEvent", {
@@ -225,7 +225,7 @@ export default {
   },
   computed: {
     sanePosition(){
-        return Math.min(this.position, this.c.length - 1)
+        return Math.min(Math.max(this.position, -1), this.c.length - 1)
     },
     c(){
         let c = this.$store.getters[this.stack]
@@ -235,7 +235,7 @@ export default {
         return c
     },
     open(){
-        return this.position === -1
+        return this.sanePosition === -1
     },
     topCard(){
         let end = this.c.length - 1
@@ -358,6 +358,7 @@ img
     height:2.9em
 
 .ptr
+    cursor: pointer
     width: 100%
     margin: 0
     margin-bottom: -.6em

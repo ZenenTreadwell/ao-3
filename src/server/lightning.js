@@ -119,7 +119,6 @@ function confirmTaskAddrs(){
 
 function nukePays(){
     client.listpays().then(x => {
-        console.log('got pays ', x.pays.length)
         x.pays.reduce((pchain, p) => {
             return pchain.then( () => {
                 if (p.status === 'failed'){
