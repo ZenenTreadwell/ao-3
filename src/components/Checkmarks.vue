@@ -2,11 +2,16 @@
 
 .upgrades
     div(v-if='$store.getters.contextCard.taskId === $store.getters.member.memberId')
-    .container(v-else)
+        span home card
+    div(v-else)
       div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
           current-checks(:memberId='n')
-      div(v-if='$store.getters.contextCard.deck.length === 0 || ($store.getters.contextCard.deck.length === 1 && $store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1)'  @click='remove')
-          button.purplewx remove card
+      div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
+          button.redwx remove card
+      div(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop')
+          button.purplewx drop card
+      div(v-else  @click='grab')
+          button.greenwx grab card
 </template>
 
 <script>
@@ -21,6 +26,18 @@ export default {
         CurrentChecks, MemberRow, GuildCreate, Accounts, Connect
     },
     methods: {
+        grab(){
+            this.$store.dispatch("makeEvent", {
+                type: 'task-grabbed',
+                taskId: this.$store.getters.contextCard.taskId,
+            })
+        },
+        drop(){
+            this.$store.dispatch("makeEvent", {
+                type: 'task-dropped',
+                taskId: this.$store.getters.contextCard.taskId,
+            })
+        },
         remove(){
             this.$store.dispatch("makeEvent", {
                 type: 'task-removed',
@@ -44,9 +61,10 @@ export default {
 
 <style lang='stylus' scoped>
 @import '../styles/colours'
-@import '../styles/grid'
+@import '../styles/skeleton'
 
 .upgrades
+
     padding: 1em
 
 h5
@@ -60,7 +78,7 @@ h5
     height: 5em
     margin-top: 1em
 
-button.purplewx
+button
     width: 100%
     padding: 0.33em
     margin-top: 0.33em

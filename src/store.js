@@ -94,15 +94,17 @@ export default createStore({
           let byCompletion = []
           getters.contextCompleted.forEach(c => {
               c.claimed.forEach(mId => {
-                  byCompletion.push(mId)
+                  if (getters.contextCard.deck.indexOf(mId) > -1){
+                      byCompletion.push(mId)
+                  }
               })
           })
           getters.contextCard.deck.forEach(mId => {
               byCompletion.push(mId)
           })
-          getters.contextCard.passed.map(p => {
-              byCompletion.push(p[1])
-          })
+          // getters.contextCard.passed.map(p => {
+          //     byCompletion.push(p[1])
+          // })
           return _.uniq(byCompletion)
       },
       all(state, getters){

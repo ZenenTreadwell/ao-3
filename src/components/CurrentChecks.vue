@@ -1,22 +1,25 @@
 <template lang='pug'>
 
 .current(v-if='memberId')
-    img.checkmark.clickable(v-if='isCompleted'  src='../assets/images/completed.svg'   @click='uncheck')
-    img.checkmark.clickable(v-else  src='../assets/images/uncompleted.svg'  @click='complete')
-    span.completedmarks
-        span.name(@dblclick='goIn(memberId)'   @click.exact.stop='toggleHighlight()'  @click.ctrl.exact.stop='toggleHighlight(true)'  :class='{ highlight : isHighlighted, lowdark : isLowdarked }') {{ name }}
-        span.workblue(@click='toggleActive')
-            span [
-            span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }} days
-            span(v-else-if='clockworkblue.hours > 0') {{ clockworkblue.hours }} hours
-            span(v-else-if='clockworkblue.minutes > 0') {{ Number(clockworkblue.minutes) }} minutes
-            span(v-else-if='clockworkblue.seconds > 0') {{ Number(clockworkblue.seconds.toFixed(0)) }} seconds
-            span ]
-        span(v-for='c in checkmarks'  :key='c.taskId')
-            span.clickable(v-if='0 < c.completeValue') {{c.completeValue}}
-            span.tooltip.plain.completedcheckmark(@click='goIn(c.taskId)'  :class='cardInputSty(c.color)')
-                img.completedcheckmark(src='../assets/images/completed.svg')
-                linky.tooltiptext.bigger(:x='c.name')
+    .row
+        .two.grid
+            span.name(@dblclick='goIn(memberId)'   @click.exact.stop='toggleHighlight()'  @click.ctrl.exact.stop='toggleHighlight(true)'  :class='{ highlight : isHighlighted, lowdark : isLowdarked }') {{ name }}
+            //- span.workblue(@click='toggleActive')
+            //-     span [
+            //-     span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }} days
+            //-     span(v-else-if='clockworkblue.hours > 0') {{ clockworkblue.hours }} hours
+            //-     span(v-else-if='clockworkblue.minutes > 0') {{ Number(clockworkblue.minutes) }} minutes
+            //-     span(v-else-if='clockworkblue.seconds > 0') {{ Number(clockworkblue.seconds.toFixed(0)) }} seconds
+            //-     span ]
+        .eight.grid
+            span(v-if='checkmarks.length <= 0') -
+            span(v-for='c in checkmarks'  :key='c.taskId')
+                span.tooltip.plain.completedcheckmark(@click='goIn(c.taskId)'  :class='cardInputSty(c.color)')
+                    img.completedcheckmark(src='../assets/images/completed.svg')
+                    linky.tooltiptext.bigger(:x='c.name')
+                        span.clickable(v-if='0 < c.completeValue') - {{c.completeValue}}
+        .two.grid
+            span -
 </template>
 
 <script>
@@ -155,9 +158,10 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/tooltips'
+@import '../styles/grid'
 
 .current
-    background: lightGrey
+    width: 100%
 
 img
     height: 0.7em

@@ -223,17 +223,6 @@ export default {
                 top,
                 panel,
             })
-            if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
-                this.$store.commit("setMode", 1)
-            }
-            let shouldGrab = this.b.deck.indexOf(this.$store.getters.member.memberId) === -1
-            if (shouldGrab) {
-                this.$store.dispatch("makeEvent", {
-                    type: 'task-grabbed',
-                    taskId: this.b.taskId,
-                    memberId: this.$store.getters.member.memberId,
-                })
-            }
         },
         purge(){
           this.$store.dispatch("makeEvent", {

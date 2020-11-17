@@ -33,13 +33,17 @@ const mutations = {
 }
 
 const actions = {
-    goIn({commit}, pContext ){
+    goIn({commit, dispatch}, pContext ){
         console.log('goIn hit')
         commit("setMode", 0)
         commit("setPanel", pContext.panel)
         commit("setTop", pContext.top)
         pContext.parents.forEach(p => {
             commit("addParent", p)
+        })
+        dispatch("makeEvent", {
+            type: 'task-grabbed',
+            taskId: pContext.panel[pContext.top],
         })
     },
     goUp({commit}, pContext){

@@ -26,6 +26,7 @@
     div
         .fadey(v-if='$store.getters.all.length > 0'   :class='{ onestack : !requireFiveStacks, completedfadey : $store.state.context.completed }')
             panels
+        .container
             checkmarks
 
 </template>
@@ -144,6 +145,7 @@ export default {
 @import '../styles/colours';
 @import '../styles/button';
 @import '../styles/tooltips';
+@import '../styles/skeleton';
 
 .ro
     transform: rotate(100deg)

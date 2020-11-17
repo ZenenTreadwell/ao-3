@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.preview(v-if='deck.length > 0 || topPriorities.length > 0')
+.preview(v-if='deck.length > 0 && $store.getters.contextCard.taskId !== task.taskId')
     .row
         .one.grid
             span &nbsp;
@@ -33,7 +33,7 @@ import Linky from './Linky'
 import calculations from '../calculations'
 
 export default {
-  props: ['memberId', 'taskId', 'task'],
+  props: ['task'],
   methods:{
       getTask(taskId){
           return this.$store.state.tasks[this.$store.state.hashMap[taskId]]
@@ -68,12 +68,7 @@ export default {
   computed: {
       deck(){
           let tasks = []
-          if (this.memberId) {
-              tasks = this.$store.state.tasks.filter( t => t.deck.indexOf(this.memberId) !== -1 )
-          } else if (this.taskId) {
-              let t = this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
-              t.subTasks.forEach(t => tasks.push( this.getTask(t)))
-          } else if (this.task && this.task.subTasks) {
+          if (this.task && this.task.subTasks) {
               this.task.subTasks.forEach( tId => {
                   let task = this.getTask(tId)
                   if(task) {
@@ -103,7 +98,6 @@ export default {
       },
   },
   components:{
-
       Linky,
   },
 }
@@ -135,8 +129,9 @@ export default {
 .preview
     width: 15%;
     position: absolute;
-    bottom: 2em;
+    bottom: 0;
     left: 40%
+    height: 2.2em
 
 .tinyboat
     height: 15px
