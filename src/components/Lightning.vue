@@ -1,25 +1,32 @@
 <template lang='pug'>
 
 #nodes
+    .breathing
     .row
-        .six.grid(v-if='$store.state.cash.info.mempool')
+        .four.grid(v-if='$store.state.cash.info.mempool')
             .section mempool ({{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed() }} MB)
-            .chain.high  {{ $store.state.cash.info.mempool.feeChart.highFee * 100 }} super 150+
-            .chain.midhigh  {{ $store.state.cash.info.mempool.feeChart.midHighFee * 100 }} high 50+
-            .chain.mid  {{ $store.state.cash.info.mempool.feeChart.midFee * 100 }} mid 10+
-            .chain.low  {{ $store.state.cash.info.mempool.feeChart.lowFee  * 100}} low -10
-        .six.grid(v-if='$store.state.cash.info.channels')
+            .chain.high  {{ $store.state.cash.info.mempool.feeChart.highFee * 103 }} super 150+
+            .chain.midhigh  {{ $store.state.cash.info.mempool.feeChart.midHighFee * 103 }} high 50+
+            .chain.mid  {{ $store.state.cash.info.mempool.feeChart.midFee * 103 }} mid 10+
+            .chain.low  {{ $store.state.cash.info.mempool.feeChart.lowFee  * 103}} low -10
+            .smartfee recommend {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/vbyte
+        .eight.grid(v-if='$store.state.cash.info.channels')
             .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') channels ({{ $store.state.cash.info.channels.length }})
             .row
+                .chanfo pubkey: {{ $store.state.cash.info.id }}
                 .localremote(@click='selectedPeer = false'  v-if='nn')
                     .localbar.tall(:style='l(nn)')  {{ parseFloat( nn.channel_sat ).toLocaleString() }}
                     .remotebar.tall(:style='r(nn)')  {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }}
-                .chanfo(v-if='selectedPeer !== false && selectedPeer >= 0')
-                    div  pubkey: {{ $store.state.cash.info.channels[selectedPeer].peer_id }}
-                    div  txid: {{ $store.state.cash.info.channels[selectedPeer].funding_txid }}
-                .localremote.ptr(v-for='(n, i) in $store.state.cash.info.channels'  @click='selectedPeer = i')
-                    .localbar(:style='l(n)')
-                    .remotebar(:style='r(n)')
+                div(v-for='(n, i) in $store.state.cash.info.channels'  @click='selectedPeer = i'  :key='n.peer_id'  :class='{ptr: selectedPeer !== i, spacer: selectedPeer === i}')
+                    .localremote(v-show='selectedPeer === i')
+                        .localbar.tall(:style='l(n)')  {{ parseFloat( n.channel_sat ).toLocaleString() }}
+                        .remotebar.tall(:style='r(n)')  {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
+                    .chanfo(v-show='selectedPeer === i')
+                        div  pubkey: {{ n.peer_id }}
+                        div  txid: {{ n.funding_txid }}
+                    .localremote(v-show='selectedPeer !== i')
+                        .localbar(:style='l(n)')
+                        .remotebar(:style='r(n)')
                 .center(v-if='$store.state.cash.info.address.length > 0')
                     span {{ $store.state.cash.info.id }}
                     span @{{ $store.state.cash.info.address[0].address }}
@@ -27,7 +34,6 @@
             .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
                 .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
     .row
-        .smartfee recommended fee {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/vbyte
         input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid')
         button(v-if='txnCheck'  @click='checkTxid') get transaction
         .chanfo(v-if='fetchedTxn.txid')
@@ -81,17 +87,11 @@ export default {
                 channel_sat: 0,
                 channel_total_sat: 0,
             }
-            if (this.selectedPeer === false){
-                  this.$store.state.cash.info.channels.forEach(n => {
-                      totals.channel_sat += n.channel_sat
-                      totals.channel_total_sat += n.channel_total_sat
-                  })
-                  return totals
-            }
-            if (this.areChannels){
-                return this.$store.state.cash.info.channels[this.selectedPeer]
-            }
-            return false
+            this.$store.state.cash.info.channels.forEach(n => {
+                totals.channel_sat += n.channel_sat
+                totals.channel_total_sat += n.channel_total_sat
+            })
+            return totals
         }
     },
     methods:{
@@ -225,10 +225,9 @@ h1
 label
     word-break: break-all
 
-
 #nodes
-    color:paleYellow
-    width: 100%
+    max-height: 100vh - 3.5em
+    overflow: scroll
 
 .break
     overflow-wrap: break-word;
@@ -324,6 +323,12 @@ h5
     background: linear-gradient(rgba(0,0,0,0), wrexgreen)
     float: right
 
+.breathing
+    height: 3.5em
 
-
+.breathing1
+    height: 1.35em
+.spacer
+    padding-top: 3.21em
+    margin-bottom: .7654321em
 </style>

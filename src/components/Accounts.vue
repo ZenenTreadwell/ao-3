@@ -1,15 +1,13 @@
 <template lang='pug'>
 
 #accounts
+    .breathing
+    div {{ activeAccounts }} accounts
     .list
-        .row
-            .three.grid.ptr
-            .one.grid
-                .section vouch
-            .grid.eight
         member-row(v-for="m in coreMembers"  :m='m'  :key='m.memberId')
         member-row(v-for="m in pendingDeactivations"  :m='m'  :key='m.memberId')
         member-row(v-for="m in nonMembers"  :m='m'  :key='m.memberId')
+    .breathing
 </template>
 
 <script>
@@ -153,14 +151,8 @@ export default {
               return sortedMembers
         },
       activeAccounts(){
-            let a = 0
-            this.$store.state.members.forEach(m => {
-                if (m.active > 0) {
-                    a ++
-                }
-            })
-            return a
-        }
+            return this.$store.state.members.length
+      }
     }
 }
 </script>
@@ -173,6 +165,10 @@ export default {
 @import '../styles/title'
 @import '../styles/button'
 @import '../styles/input'
+
+#accounts
+    max-height: 100vh - 3.5em
+    overflow: scroll
 
 .section
     color:main
@@ -227,5 +223,8 @@ input, select
     margin-top: -1em
 li
     margin-left: 1em
+
+.breathing
+    height: 3.5em
 
 </style>

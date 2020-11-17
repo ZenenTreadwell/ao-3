@@ -21,12 +21,13 @@
         .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"  ||  $store.getters.inbox.length > 0'  :class='{darkmode: $store.getters.member.stacks === 1}')
             zen(v-show='$store.state.upgrades.mode === "doge" && $store.getters.inbox.length > 0')
             priorities(v-show='$store.state.upgrades.mode === "boat"')
-            checkmarks(v-show='$store.state.upgrades.mode === "badge"')
             payments(v-show='$store.state.upgrades.mode === "chest"')
             planning(v-show='$store.state.upgrades.mode === "timecube"')
     div
         .fadey(v-if='$store.getters.all.length > 0'   :class='{ onestack : !requireFiveStacks, completedfadey : $store.state.context.completed }')
             panels
+            checkmarks
+
 </template>
 
 <script>
@@ -176,17 +177,13 @@ export default {
 
 .upgradesbar
     height: fit-content
-    border-radius: 30px
     margin-left: 1em
     float: right
     margin-top: 1em
     margin-right: 1em
     flex-grow: 2.77
     flex-basis: 55%
-    border: solid
-    border-width: 0.4321em
-    border-color: main
-    padding: 0.7789em
+    padding: 0.07789em
 
 .darkmode
     border-color: lightGrey

@@ -41,7 +41,6 @@
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span.space color
     .breathing
-    lightning
 </template>
 
 <script>

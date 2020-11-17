@@ -9,6 +9,8 @@ const {serverState} = require( './state')
 const client = new LightningClient(config.clightning.dir, true);
 const Client = require('bitcoin-core');
 const bitClient = new Client(config.bitcoind)
+const _ = require('lodash')
+const crypto = require('../crypto')
 
 function getDecode (rawx){
     return bitClient.getRawTransaction(rawx)
@@ -116,7 +118,6 @@ function confirmTaskAddrs(){
     })
 }
 
-
 function nukePays(){
     client.listpays().then(x => {
         x.pays.reduce((pchain, p) => {
@@ -129,7 +130,6 @@ function nukePays(){
 
     }).catch(console.log)
 }
-nukePays()
 
 function createInvoice(sat, label, description, expiresInSec){
     return client.invoice(sat * 1000, label, description, expiresInSec)

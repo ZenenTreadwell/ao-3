@@ -2,8 +2,7 @@
 
 .upgrades
     div(v-if='$store.getters.contextCard.taskId === $store.getters.member.memberId')
-        accounts
-    div(v-else)
+    .container(v-else)
       div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
           current-checks(:memberId='n')
       div(v-if='$store.getters.contextCard.deck.length === 0 || ($store.getters.contextCard.deck.length === 1 && $store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1)'  @click='remove')
@@ -45,10 +44,10 @@ export default {
 
 <style lang='stylus' scoped>
 @import '../styles/colours'
+@import '../styles/grid'
 
 .upgrades
     padding: 1em
-    background: lightGrey
 
 h5
     text-align: center

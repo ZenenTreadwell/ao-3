@@ -1,32 +1,48 @@
 <template lang='pug'>
 
 .helm
-    .topcenter(@click='nextMode')
-        span.quarter(@click.stop='chooseMode(1)'  :class='{selected: $store.state.upgrades.mode === "boat"}')
-        span.quarter(@click.stop='chooseMode(2)'  :class='{selected:$store.state.upgrades.mode === "timecube"}')
-        span.quarter(@click.stop='chooseMode(3)'  :class='{selected:$store.state.upgrades.mode === "chest"}')
-        span.quarter(@click.stop='chooseMode(4)'  :class='{selected:$store.state.upgrades.mode === "badge"}')
-    img(@click='toggleSettings'  src='../assets/images/gear.svg')
+    img.gear(@click='toggleSettings'  src='../assets/images/gear.svg')
+    img.bull(@click='toggleNodeInfo'  src='../assets/images/bull.svg')
+    img.doge(@click='toggleAccounts'  src='../assets/images/doge.svg')
     settings(v-if='showSettings').settings
+    lightning(v-if='showNodeInfo').lightning
+    accounts(v-if='showAccounts').accounts
 
 </template>
 
 <script>
 
 import Settings from './Settings'
+import Lightning from './Lightning'
+import Accounts from './Accounts'
 
 export default {
     data(){
         return {
+            showAccounts: false,
+            showNodeInfo: false,
             showSettings: false
         }
     },
     components: {
-        Settings
+        Settings, Lightning, Accounts
     },
     methods: {
+        toggleNodeInfo(){
+            this.showNodeInfo = !this.showNodeInfo
+            this.showAccounts = false
+            this.showSettings = false
+        },
+        toggleAccounts(){
+            this.showAccounts = !this.showAccounts
+            this.showSettings = false
+            this.showNodeInfo = false
+        },
         toggleSettings(){
             this.showSettings = !this.showSettings
+            this.showNodeInfo = false
+            this.showAccounts = false
+
         },
         scrollTop(){
           document.body.scrollTop = 0;
@@ -54,29 +70,63 @@ export default {
 @import '../styles/colours';
 @import '../styles/tooltips';
 
+img
+    height: 3.3em
+    position: fixed
+    z-index: 9001
+    cursor: pointer
 .settings
     position: fixed
-    bottom 5em
-    right: 0em
-    width: 75%
+    z-index: 8009
+    bottom: 0
+    right: 0
+    width: 89%
     background: lightGrey
     padding: 1.5em
     border-style: solid
     border-width: 4px
     border-color: main
-    z-index: 9001
-
-img
+.lightning
     position: fixed
+    z-index: 8009
+    top: 0
+    right: 0
+    width: 89%
+    background: lightGrey
+    padding: 1.5em
+    border-style: solid
+    border-width: 4px
+    border-color: main
+.accounts
+    position: fixed
+    z-index: 8009
+    top: 0
+    left: 0
+    width: 89%
+    background: lightGrey
+    padding: 1.5em
+    border-style: solid
+    border-width: 4px
+    border-color: main
+
+.gear
     bottom: 0
     right: 0
+
+.bull
+    top: 0
+    right: 0
     height: 3.3em
-    z-index: 9001
+
+.doge
+    top: 0
+    left: 0
+    height: 3.3em
 
 .quarter
     display: inline-block
-    width: 25%
-    font-size: 4.44em
+    width: 33%
+    font-size: 6.44em
     color: lightGrey
     max-height: 2em
     margin-top: -0.35em;
@@ -99,19 +149,12 @@ img
     width: 10em
     height: 2em
     max-width: 33%
-    background: main
     color: main
     padding-left: 2em
     padding-right: 2em
     padding-top: .29em
     padding-bottom: .29em
     z-index: 77777
-    border-bottom-left-radius: 10%
-    border-bottom-right-radius: 10%
-    border: solid
-    border-top: none
-    border-width: 5px
-    border-color: lightGrey
     cursor: pointer
 
 </style>
