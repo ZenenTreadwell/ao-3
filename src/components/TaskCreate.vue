@@ -1,11 +1,13 @@
 <template lang='pug'>
-#createtask(ref="closeable")
+
+
+#createtask(ref="closeable"   @keyup.tab='testTab'  @keyup.esc='testEscape')
   div.secondbackground(@click='switchColor(task.color)')
       .cc(v-show='showCreate')
           .boatContainer
-              button.clear(@click.stop='toggleSearch'  :class='{selected: showSearch}') find
-              button.lock(@click.stop='lockIt') lock
-              button.create(@click.stop='createOrFindTask') ship
+              button.clear(@click.stop='toggleSearch'  :class='{selected: showSearch, inactive: task.name == ""}') find
+              button.lock(@click.stop='lockIt'  :class='{inactive: task.name == ""}') lock
+              button.create(@click.stop='createOrFindTask'  :class='{inactive: task.name == ""}') ship
           textarea#card.paperwrapper(
               v-model='task.name'
               type='text'
@@ -52,7 +54,7 @@ export default {
             showCreate: false,
             task: {
                 name: '',
-                color: 'green',
+                color: 'blue',
             },
             search: '',
             swipeTimeout: 0,
@@ -105,6 +107,38 @@ export default {
         });
     },
     methods: {
+        testEscape(){
+            if (this.showCreate){
+                this.showCreate = false
+                this.showSearch = false
+            }
+        },
+        testTab(){
+            this.refocus()
+            if (this.showCreate  && !this.searchEqual){
+                return this.toggleSearch()
+            }
+            if (this.showSearch){
+                return this.showSearch = false
+            }
+            switch (this.task.color){
+                case "blue":
+                    this.switchColor("green")
+                    break
+                case "green":
+                    this.switchColor("purple")
+                    break
+                case "purple":
+                    this.switchColor("yellow")
+                    break
+                case "yellow":
+                    this.switchColor("red")
+                    break
+                case "red":
+                    this.switchColor("blue")
+                    break
+            }
+        },
         matchCards() {
             let cards = []
             let guilds = []
@@ -147,16 +181,18 @@ export default {
         },
         lockIt(){
             let toHide = this.task.name.trim()
-            let pubkey = this.$store.state.cash.publicKey
-            let potentialCard = cryptoUtils.encryptToPublic(pubkey, toHide)
-            this.$store.dispatch("makeEvent", {
-                type: 'task-created',
-                name: potentialCard,
-                color: this.task.color,
-                deck: [this.$store.getters.member.memberId],
-                inId: this.taskId,
-            })
-            this.resetCard()
+            if (toHide){
+                let pubkey = this.$store.state.cash.publicKey
+                let potentialCard = cryptoUtils.encryptToPublic(pubkey, toHide)
+                this.$store.dispatch("makeEvent", {
+                  type: 'task-created',
+                  name: potentialCard,
+                  color: this.task.color,
+                  deck: [this.$store.getters.member.memberId],
+                  inId: this.taskId,
+                })
+                this.resetCard()
+            }
         },
         goInSearchPanel(){
             this.$store.dispatch('goIn', {
@@ -213,10 +249,13 @@ export default {
             }
             this.task.color = color
             if(refocus) {
-                setTimeout(()=>{
-                    document.getElementById('card').focus()
-                }, 1)
+                this.refocus
             }
+        },
+        refocus(){
+            setTimeout(()=>{
+                document.getElementById('card').focus()
+            }, 1)
         },
         resetCard(){
             this.task.name = ''
@@ -294,6 +333,9 @@ export default {
         },
     },
     computed: {
+        searchEqual(){
+            return this.search == this.task.name
+        },
         searchTotal(){
             return this.matches.guilds.length + this.matches.doges.length + this.matches.cards.length
         },
@@ -308,9 +350,20 @@ export default {
         },
         cardInputSty() {
             if (this.$store.getters.member.stacks === 5){
-                return calculations.cardColorCSS(this.task.color)
+                return {
+                    redwx : this.task.color == 'red',
+                    bluewx : this.task.color == 'blue',
+                    greenwx : this.task.color == 'green',
+                    yellowwx : this.task.color == 'yellow',
+                    purplewx : this.task.color == 'purple',
+                    blackwx : this.task.color == 'black',
+                    inactive: this.task.name == ''
+                }
             }
-            return {nowx: true}
+            return {
+                nowx: true,
+                inactive: this.task.name == ''
+            }
         },
     }
 }
@@ -319,8 +372,7 @@ export default {
 
 <style lang='stylus' scoped>
 
-textarea
-    background-color: darkGrey
+
 
 
 @import '../styles/colours';
@@ -329,8 +381,19 @@ textarea
 @import '../styles/input';
 @import '../styles/tooltips';
 
+textarea
+    border-color: rgba(0, 0, 0, 0.4)
+    height: 12.5em
+textarea.inactive
+    height: 2em
+    opacity: 0
+
 .boatContainer button
     background-color: main
+
+button.inactive
+    opacity: 0.22
+
 
 .lonestar
     height: 2em
@@ -431,9 +494,6 @@ textarea
 .label
     font-weight: bolder
 
-textarea
-    border-color: rgba(0, 0, 0, 0.4)
-    height: 12.5em
 
 .centr
     text-align: center
