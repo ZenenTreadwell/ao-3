@@ -745,10 +745,16 @@ function tasksMuts(tasks, ev) {
           }
           task.claims.push(ev)
         }
-
         if (task.taskId === ev.memberId) {
             task.claims.push(ev)
         }
+
+        if (task.taskId === ev.inId) {
+            if (task.completed.indexOf(ev.taskId) === -1){
+                task.completed.push(ev.taskId)
+            }
+        }
+
       })
       break
     case "task-unclaimed":
@@ -764,6 +770,9 @@ function tasksMuts(tasks, ev) {
               }
             })
           }
+        }
+        if (task.taskId === ev.inId){
+            task.completed = task.completed.filter(taskId => taskId !== ev.taskId)
         }
       })
       break

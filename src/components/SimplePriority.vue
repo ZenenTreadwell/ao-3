@@ -103,16 +103,13 @@ export default {
               type: 'task-claimed',
               inId: this.inId,
               taskId: this.taskId,
-              memberId: this.$store.getters.member.memberId,
-              notes: 'checked by ' + this.$store.getters.member.memberId
           })
       },
       uncheck(){
           this.$store.dispatch("makeEvent", {
               type: 'task-unclaimed',
               taskId: this.taskId,
-              memberId:  this.$store.getters.member.memberId,
-              notes: ''
+              inId:  this.$store.getters.contextCard.taskId,
           })
       },
       copyCardToClipboard(){

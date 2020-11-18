@@ -44,7 +44,7 @@ export default {
             let now = Date.now()
             return this.b.claims.some(c => {
                 if (this.$store.getters.member.memberId === c.memberId && now - c.timestamp < 30000) return true
-            })
+            }) && this.$store.getters.contextCard.completed.indexOf(this.b.taskId) > -1
         },
     },
     methods: {
@@ -53,15 +53,13 @@ export default {
               type: 'task-claimed',
               inId: this.inId,
               taskId: this.b.taskId,
-              memberId: this.$store.getters.member.memberId,
-              notes: 'checked by ' + this.$store.getters.member.memberId
             })
         },
         uncheck(){
             this.$store.dispatch("makeEvent", {
               type: 'task-unclaimed',
               taskId: this.b.taskId,
-              memberId:  this.$store.getters.member.memberId,
+              inId:  this.inId,
               notes: ''
             })
         },

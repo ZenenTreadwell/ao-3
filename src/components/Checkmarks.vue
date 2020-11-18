@@ -3,7 +3,7 @@
 .upgrades
     div(v-if='$store.getters.contextCard.taskId === $store.getters.member.memberId')
         span home card
-    div(v-else)
+    div(v-else-if='$store.getters.loggedIn')
       div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
           current-checks(:memberId='n')
       div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')

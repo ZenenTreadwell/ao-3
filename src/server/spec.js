@@ -561,12 +561,12 @@ router.post('/events', (req, res, next)=>{
       case 'task-claimed':
           if (
             validators.isTaskId(req.body.taskId, errRes) &&
-            validators.isMemberId(req.body.memberId, errRes)
+            validators.isTaskId(req.body.inId, errRes)
           ){
             events.taskClaimed(
               req.body.taskId,
-              req.body.memberId,
               req.body.blame,
+              req.body.inId,
               utils.buildResCallback(res)
             )
           } else {
@@ -576,13 +576,12 @@ router.post('/events', (req, res, next)=>{
       case 'task-unclaimed':
           if (
             validators.isTaskId(req.body.taskId, errRes) &&
-            validators.isMemberId(req.body.memberId, errRes) &&
-            validators.isNotes(req.body.notes, errRes)
+            validators.isTaskId(req.body.inId, errRes)
           ){
             events.taskUnclaimed(
               req.body.taskId,
-              req.body.memberId,
               req.body.blame,
+              req.body.inId,
               utils.buildResCallback(res)
             )
           } else {

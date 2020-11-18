@@ -3,23 +3,23 @@
 .current(v-if='memberId')
     .row
         .two.grid
-            span.name(@dblclick='goIn(memberId)'   @click.exact.stop='toggleHighlight()'  @click.ctrl.exact.stop='toggleHighlight(true)'  :class='{ highlight : isHighlighted, lowdark : isLowdarked }') {{ name }}
-            //- span.workblue(@click='toggleActive')
-            //-     span [
-            //-     span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }} days
-            //-     span(v-else-if='clockworkblue.hours > 0') {{ clockworkblue.hours }} hours
-            //-     span(v-else-if='clockworkblue.minutes > 0') {{ Number(clockworkblue.minutes) }} minutes
-            //-     span(v-else-if='clockworkblue.seconds > 0') {{ Number(clockworkblue.seconds.toFixed(0)) }} seconds
-            //-     span ]
-        .eight.grid
+            span.name(@dblclick='goIn(memberId)'   @click.exact.stop='toggleHighlight()'  @click.ctrl.exact.stop='toggleHighlight(true)'  :class='{ highlight : isHighlighted, lowdark : isLowdarked }') {{ member.name }}
+        .seven.grid
             span(v-if='checkmarks.length <= 0') -
             span(v-for='c in checkmarks'  :key='c.taskId')
                 span.tooltip.plain.completedcheckmark(@click='goIn(c.taskId)'  :class='cardInputSty(c.color)')
                     img.completedcheckmark(src='../assets/images/completed.svg')
                     linky.tooltiptext.bigger(:x='c.name')
                         span.clickable(v-if='0 < c.completeValue') - {{c.completeValue}}
-        .two.grid
-            span -
+        .three.grid(@click='toggleActive')
+            .workblue
+                img(v-if='member.action === $store.getters.contextCard.taskId'  src='../assets/images/timecube.svg')
+                span(v-else) -
+                div(:key='updatePlz')
+                    span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }} days,
+                    span(v-if='clockworkblue.hours > 0') {{ clockworkblue.hours }} hours,
+                    span(v-if='clockworkblue.minutes > 0') {{ Number(clockworkblue.minutes) }} minutes,
+                    span(v-if='clockworkblue.seconds > 0 && clockworkblue.days < 1') {{ Number(clockworkblue.seconds)}} seconds
 </template>
 
 <script>
@@ -27,6 +27,14 @@
 import Linky from './Linky'
 
 export default {
+  data(){
+      return {
+          updatePlz: 1
+      }
+  },
+  mounted(){
+      setInterval(() => this.updatePlz += 3, 3001)
+  },
   props: ['memberId'],
   components: { Linky },
   methods: {
@@ -52,7 +60,7 @@ export default {
         this.$store.dispatch("makeEvent", {
             type: 'task-claimed',
             taskId: this.$store.getters.contextCard.taskId,
-            memberId: this.memberId,
+            inId: this.$store.getters.contextCard.taskId,
             notes: 'checked by ' + this.$store.getters.member.memberId
         })
     },
@@ -60,7 +68,7 @@ export default {
         this.$store.dispatch("makeEvent", {
             type: 'task-unclaimed',
             taskId: this.$store.getters.contextCard.taskId,
-            memberId: this.memberId,
+            inId: this.$store.getters.contextCard.taskId,
             notes: ''
         })
     },
@@ -85,7 +93,6 @@ export default {
   },
   computed:{
     clockworkblue(){
-        this.counter //
         let active = false
         let totalms = 0
         this.$store.getters.contextCard.actions.forEach(a => {
@@ -100,6 +107,8 @@ export default {
         if (active){
             totalms += (Date.now() - active)
         }
+
+        totalms += this.updatePlz
 
         let days = 0
         while (totalms > 1000 * 60 * 60 * 24){
@@ -118,16 +127,16 @@ export default {
             totalms -= 1000 * 60
         }
 
-        let seconds = totalms / 1000
+        let seconds = (totalms / 1000).toFixed(0)
 
         return {days, hours, minutes, seconds, active}
     },
-    name(){
+    member(){
         let memberId = this.memberId
         let name = false
         this.$store.state.members.forEach(member => {
             if (member.memberId == memberId){
-                name = member.name
+                name = member
             }
         })
         return name
@@ -165,8 +174,8 @@ export default {
 
 img
     height: 0.7em
-.name
 
+.name
     font-size: 1.2em
     margin-right: 1em
     padding-bottom: .321em
@@ -211,4 +220,8 @@ img.completedcheckmark
 
 .workblue
     cursor: pointer
+    img
+        height: 1.654321em
+    span
+        font-size: 0.7em
 </style>

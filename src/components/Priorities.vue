@@ -148,7 +148,6 @@ h5
     opacity: 0.77
 
 .priorities
-    background: rgba(22, 22, 22, 0.2)
     padding-bottom: 0.6em
     padding-top: 0.1em
 

@@ -193,7 +193,6 @@ export default {
 .upgrade
     height: 4em
     border: 4px solid rgba(0, 0, 0, 0.5)
-    background-color: rgba(0, 0, 0, 0, 0.2)
 
 .fw
     width: 100%

@@ -44,9 +44,6 @@ export default {
     clear: both
     overflow: hidden
 
-button
-    background: darkteal
-
 .deck
     width: 100%
 

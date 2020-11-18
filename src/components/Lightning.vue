@@ -17,14 +17,14 @@
                 .localremote(@click='selectedPeer = false'  v-if='nn')
                     .localbar.tall(:style='l(nn)')  {{ parseFloat( nn.channel_sat ).toLocaleString() }}
                     .remotebar.tall(:style='r(nn)')  {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }}
-                div(v-for='(n, i) in $store.state.cash.info.channels'  @click='selectedPeer = i'  :key='n.peer_id'  :class='{ptr: selectedPeer !== i, spacer: selectedPeer === i}')
-                    .localremote(v-show='selectedPeer === i')
+                .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id'  :class='{spacer: selectedPeer === i}')
+                    .localremote(v-show='selectedPeer === i'   @click='selectedPeer = false')
                         .localbar.tall(:style='l(n)')  {{ parseFloat( n.channel_sat ).toLocaleString() }}
                         .remotebar.tall(:style='r(n)')  {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
                     .chanfo(v-show='selectedPeer === i')
                         div  pubkey: {{ n.peer_id }}
                         div  txid: {{ n.funding_txid }}
-                    .localremote(v-show='selectedPeer !== i')
+                    .localremote(v-show='selectedPeer !== i'   @click='selectedPeer = i')
                         .localbar(:style='l(n)')
                         .remotebar(:style='r(n)')
                 .center(v-if='$store.state.cash.info.address.length > 0')
