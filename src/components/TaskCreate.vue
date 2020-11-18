@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 
-#createtask(ref="closeable"   @keyup.tab='testTab'  @keyup.esc='testEscape')
+#createtask(ref="closeable" @keydown='testAll' @keyup.tab='testTab'  @keyup.esc='testEscape')
   div.secondbackground(@click='switchColor(task.color)')
       .cc(v-show='showCreate')
           .boatContainer
@@ -107,6 +107,11 @@ export default {
         });
     },
     methods: {
+        testAll(){
+            this.showCreate = true
+            this.refocus()
+            console.log('test all show create should have opend')
+        },
         testEscape(){
             if (this.showCreate){
                 this.showCreate = false
