@@ -1,13 +1,12 @@
 <template lang="pug">
 
 #calendar(:key='inId')
-  .row.menu(@click='clickDateBar')
-      .inline.dot(@click.stop='prevMonth')
-      .inline
-          .soft
-              h5 {{ monthName }} - {{year}}
+  .row.menu
+      .four.grid.dot(@click.stop='prevMonth')
+      .four.grid(@click='clickDateBar')
+          .soft {{ monthName }} - {{year}}
                   span(v-if='chosenDay') - {{ chosenDay }}
-      .inline.dot(@click.stop='nextMonth')
+      .four.grid.dot(@click.stop='nextMonth')
   .calmonth(v-if='!chosenDay')
       .weekday(v-for='day in DAYS_OF_WEEK') {{ day }}
       .placeholder(v-for='placeholder in firstDay')
@@ -61,7 +60,9 @@ export default {
           if (this.chosenDay){
               this.chooseDay(false)
           } else {
-              this.chooseDay(new Date().getDate())
+              this.chooseDay(this.today.day)
+              this.month = this.today.month
+              this.year = this.today.year
           }
       },
       goIn(taskId){
@@ -232,7 +233,7 @@ export default {
 
 <style lang='stylus' scoped>
 @import '../styles/colours';
-@import '../styles/skeleton';
+@import '../styles/grid';
 @import '../styles/tooltips';
 
 .row.menu
@@ -267,15 +268,6 @@ h5
 
 .soft
     cursor: pointer
-
-.inline
-  display:inline-block
-  margin-left:25px
-  margin-right:25px
-  color: main
-  img
-      height: 1.6em
-      cursor: pointer
 
 #calendar
     color: main
@@ -376,11 +368,11 @@ tr, td
     text-align: right
 
 
-.inline.dot
-    font-size: 1.4em
+.dot
+    font-size: 1.9em
     color: lightGrey
 
-.inline.dot:before
+.dot:before
     content: "\2022";
 
 
