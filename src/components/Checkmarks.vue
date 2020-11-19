@@ -12,7 +12,7 @@
           div(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop')
               button.purplewx leave card
           div(v-else  @click='grab')
-              button.greenwx join card
+              button.greenwx enter card
 </template>
 
 <script>
