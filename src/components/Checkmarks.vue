@@ -6,13 +6,13 @@
     div(v-else-if="!getMemberCard($store.getters.contextCard.taskId)")
       div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
           current-checks(:memberId='n')
-      span(v-if='$store.getters.loggedIn')
+      span(v-if='$store.getters.isLoggedIn')
           div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
-              button.redwx remove card
+              button.redwx delete card
           div(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop')
-              button.purplewx drop card
+              button.purplewx leave card
           div(v-else  @click='grab')
-              button.greenwx grab card
+              button.greenwx join card
 </template>
 
 <script>
