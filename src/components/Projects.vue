@@ -121,38 +121,14 @@ h2
     padding: 0
     text-align: center
 
-.thickborder
-    border-style: solid
-    border-color: lightGrey
-    border-width: 5px
-
 .mainbkg
     background: main
-
-.hodlcount
-    position: relative
-    left: calc(50% - 1.07em)
-    top: -3em
-    text-align: center
-    width: 35px
-    bottom: calc(0.75em + 9px)
-    padding-bottom: 0
-    margin-bottom: 0
-    font-weight: bold
-    color: rgba(255, 255, 255, 0.75)
-    pointer-events: none
-    font-size: 2.5em
-
-.grabbedhodlcount {
-    opacity: 1
-}
 
 .submode
     height: 6em
     width: 6em
     margin-bottom: 1em
     margin-top: 1em
-    background-color: rgba(0, 0, 0, 0)
 
 .max
     height: 100%
@@ -180,22 +156,18 @@ h2
     list-style-type: none
     margin-left: -1em
 
-.more:hover
-    background-color: rgba(66, 66, 66, 0.4)
-
 ul
     margin-block-end: 0
 
 .projects
-    border: solid 3px lightGrey
-    border-radius: 0.5em
     margin-top: 2.7em
     margin-right: 1em
     margin-bottom: 1em
-    padding: 0 0.5em 0.55em 0.5em
-    background: darkGrey
-    color: lightGrey
+    padding: 2em
+    background: lightGrey
+    color: main
     font-style: italic;
+    border-radius: 3%
 
 .projects h3
     text-align: center

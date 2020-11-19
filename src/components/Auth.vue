@@ -94,10 +94,15 @@ export default {
 @import '../styles/input'
 @import '../styles/skeleton'
 
+#auth
+    background: lightGrey
+    border-radius: 3%
+    padding: 2em
+
 .existing
     text-align: right
     font-size: 0.7em
-    color: lightGrey
+    color: main
     cursor: pointer
 
 h1

@@ -164,11 +164,6 @@ export default {
 .count
     float: right
 
-.activated
-    border-style: solid
-    border-width: thick
-    border-color: white
-
 .upgrade
     height: 3em
 
@@ -197,12 +192,6 @@ select.shorten
 
 .curs
     cursor: pointer;
-
-label
-    color: black
-    text-align: center
-    padding: 0
-    margin-bottom: -50px
 
 .birdy
     float: left
@@ -234,7 +223,7 @@ label
     width: 100%
 
 .theTitle
-    color: lightGrey
+    color: main
     position: absolute
     left: 3.3em
     top: 1.3em

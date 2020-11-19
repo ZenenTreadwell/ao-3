@@ -10,7 +10,7 @@ const state = {
     bird: false,
     barking: false,
     pinging: false,
-    chosenDay: false
+    chosenDay: new Date().getDate()
 }
 
 const mutations = {

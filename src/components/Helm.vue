@@ -28,6 +28,12 @@ export default {
         Settings, Lightning, Accounts
     },
     methods: {
+        closeAll(){
+            this.showAccounts = false;
+            this.showNodeInfo = false;
+            this.showSettings = false;
+            console.log('closeall called')
+        },
         toggleNodeInfo(){
             this.showNodeInfo = !this.showNodeInfo
             this.showAccounts = false
@@ -75,6 +81,7 @@ img
     position: fixed
     z-index: 9001
     cursor: pointer
+
 .settings
     position: fixed
     z-index: 8009

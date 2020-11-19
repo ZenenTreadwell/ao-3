@@ -3,15 +3,16 @@
 .upgrades
     div(v-if='$store.getters.contextCard.taskId === $store.getters.member.memberId')
         span home card
-    div(v-else-if='$store.getters.loggedIn')
+    div(v-else-if="!getMemberCard($store.getters.contextCard.taskId)")
       div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
           current-checks(:memberId='n')
-      div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
-          button.redwx remove card
-      div(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop')
-          button.purplewx drop card
-      div(v-else  @click='grab')
-          button.greenwx grab card
+      span(v-if='$store.getters.loggedIn')
+          div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
+              button.redwx remove card
+          div(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop')
+              button.purplewx drop card
+          div(v-else  @click='grab')
+              button.greenwx grab card
 </template>
 
 <script>
@@ -64,7 +65,6 @@ export default {
 @import '../styles/skeleton'
 
 .upgrades
-
     padding: 1em
 
 h5

@@ -1,8 +1,8 @@
 <template lang='pug'>
 
-.upgrades
+.upgrades(@click.stop)
     task-calendar(:inId='$store.getters.contextCard.taskId')
-    resource-book(:tId='$store.getters.contextCard.taskId')
+    resource-book(:tId='$store.getters.contextCard.taskId'  v-if='!$store.state.upgrades.chosenDay')
 </template>
 
 <script>

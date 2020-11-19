@@ -1,40 +1,39 @@
 <template lang="pug">
 
 #calendar(:key='inId')
-    .calmonth(v-if='!chosenDay')
-        .weekday(v-for='day in DAYS_OF_WEEK') {{ day }}
-        .placeholder(v-for='placeholder in firstDay')
-        div.deh(v-for='day in days'  @click='chooseDay(day)')
-            day(:day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
-        .placeholder(v-for='placeholder in lastDay')
-    .calmonth(v-else)
-        .weekdayfull(@click='clickDateBar') {{ chosenWeekDay }}
-        .grey(@click='chooseDay(chosenDay)')
-            .datenumber  {{ chosenDay }}
-            .soft(v-for='n in selectedDaysEvs')
-                div(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
-                    current(:memberId='n.memberId')
-                    span {{ new Date(n.timestamp).toString().slice(15,21) }}
-                    span - {{ getFromMap(n.taskId).name }}
-                div(v-else-if='n.type === "resource-used"'  @click='goIn(n.resourceId)')
-                    current(:memberId='n.memberId')
-                    span {{ new Date(n.timestamp).toString().slice(15,21) }}
-                    currentr(:resourceId='n.resourceId')
-                    span - {{ n.notes }}
-                div(v-else-if='n.name'  @click='goIn(n.taskId)')
-                    span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ n.name }}
-            div(v-if='selectedDaysEvs.length === 0')
-                .soft(@click='clickDateBar') - no activity
-    .row.menu(@click='clickDateBar')
-        .inline(@click.stop='prevMonth')
-            img(src='../assets/images/back.svg')
-        .inline
-            .soft
-                h5 {{ monthName }} - {{year}}
-                    span(v-if='chosenDay') - {{ chosenDay }}
-        .inline(@click.stop='nextMonth')
-            img(src='../assets/images/forward.svg')
-    .buffer
+  .row.menu(@click='clickDateBar')
+      .inline.dot(@click.stop='prevMonth')
+      .inline
+          .soft
+              h5 {{ monthName }} - {{year}}
+                  span(v-if='chosenDay') - {{ chosenDay }}
+      .inline.dot(@click.stop='nextMonth')
+  .calmonth(v-if='!chosenDay')
+      .weekday(v-for='day in DAYS_OF_WEEK') {{ day }}
+      .placeholder(v-for='placeholder in firstDay')
+      div.deh(v-for='day in days'  @click='chooseDay(day)')
+          day(:day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
+      .placeholder(v-for='placeholder in lastDay')
+  .calmonth(v-else)
+      .weekdayfull(@click='clickDateBar') {{ chosenWeekDay }}
+      .grey
+          .datenumber  {{ chosenDay }}
+          .soft(v-for='n in selectedDaysEvs')
+              div(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
+                  current(:memberId='n.memberId')
+                  span {{ new Date(n.timestamp).toString().slice(15,21) }}
+                  span - {{ getFromMap(n.taskId).name }}
+              div(v-else-if='n.type === "resource-used"'  @click='goIn(n.resourceId)')
+                  current(:memberId='n.memberId')
+                  span {{ new Date(n.timestamp).toString().slice(15,21) }}
+                  currentr(:resourceId='n.resourceId')
+                  span - {{ n.notes }}
+              div(v-else-if='n.name'  @click='goIn(n.taskId)')
+                  span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ n.name }}
+          div(v-if='selectedDaysEvs.length === 0')
+              .soft(@click='clickDateBar') - no activity
+          priorities(v-if='new Date().getDate() === chosenDay')
+  .buffer
 </template>
 
 <script>
@@ -42,6 +41,7 @@ import _ from 'lodash'
 import Day from './Day.vue'
 import Current from './Current.vue'
 import Currentr from './Currentr.vue'
+import Priorities from './Priorities.vue'
 
 function getDMY(ts){
     let d = new Date(ts)
@@ -54,14 +54,14 @@ function getDMY(ts){
 export default {
   props: ['inId'],
   components: {
-    Day, Currentr, Current
+    Day, Currentr, Current, Priorities
   },
   methods: {
       clickDateBar(){
           if (this.chosenDay){
-              this.chooseDay("")
+              this.chooseDay(false)
           } else {
-              this.chooseDay(1)
+              this.chooseDay(new Date().getDate())
           }
       },
       goIn(taskId){
@@ -270,7 +270,9 @@ h5
 
 .inline
   display:inline-block
-  margin:15px
+  margin-left:25px
+  margin-right:25px
+  color: main
   img
       height: 1.6em
       cursor: pointer
@@ -372,5 +374,14 @@ tr, td
     z-index: 5
     width: 100%
     text-align: right
+
+
+.inline.dot
+    font-size: 1.4em
+    color: lightGrey
+
+.inline.dot:before
+    content: "\2022";
+
 
 </style>
