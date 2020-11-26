@@ -1,18 +1,15 @@
 <template lang='pug'>
 
 .upgrades
-    div(v-if='$store.getters.contextCard.taskId === $store.getters.member.memberId')
-        span home card
-    div(v-else-if="!getMemberCard($store.getters.contextCard.taskId)")
-      div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
-          current-checks(:memberId='n')
-      span(v-if='$store.getters.isLoggedIn')
-          div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
-              button.redwx delete card
-          div(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop')
-              button.purplewx leave card
-          div(v-else  @click='grab')
-              button.greenwx enter card
+    div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
+        current-checks(:memberId='n')
+    span(v-if='$store.getters.isLoggedIn  && $store.getters.member.memberId !== $store.getters.contextCard.taskId')
+        div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
+            button remove
+        div(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop')
+            button leave
+        div(v-else  @click='grab')
+            button enter
 </template>
 
 <script>

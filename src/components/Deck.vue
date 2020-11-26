@@ -9,7 +9,7 @@
             //- template(v-for='(n, i) in (panelSplit.before.length > 5 ? panelSplit.before.slice(-6, panelSplit.before.length - 1) : panelSplit.before)')
             //-   div(@click="goWithinPanel(n)"  :style='{ marginLeft : 0.5 + ((Math.min(panelSplit.before.length, 5) - i) * 0.25) + "em", marginRight: 1.5 + ((Math.min(panelSplit.before.length, 5) - i) * 0.25) + "em" }')
             //-     context(:taskId='n')
-            hypercard(v-if='!$store.getters.contextMember && !$store.getters.contextResource'  :b="card"   :key='card.taskId')
+            member-row(v-if='!$store.getters.contextMember && !$store.getters.contextResource'  :m="card"   :key='card.taskId')
             //- template(v-for='(n, i) in panelSplit.after.slice(0, 5)')
             //-   div(@click="goWithinPanel(n)"  :style='{ marginLeft: 0.25 + (i * 0.25) + "em", marginRight: 1.25 + (i * 0.25) + "em" }')
             //-     context(:taskId='n')
@@ -362,11 +362,12 @@ export default {
 .card.closedwidth
     width: 70%
     flex-grow: 0
+    transition: width 2s;
 
 .card.adjustwidth
     max-width: 100%
     max-width: 15em
-
+    transition: width 2s;
 
 .tooltiptext.correctspotmid
     position: absolute

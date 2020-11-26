@@ -3,7 +3,7 @@ source ~/.bashrc
 source ~/.profile
 if [ $(nvm --version 2>/dev/null | grep -c "0.") -eq 1 ];
 then
-		echo nvm already installed
+		echo node version manager (nvm) already installed
 else
 		wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 		source ~/.bashrc

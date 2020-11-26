@@ -4,17 +4,14 @@
     .topleft(v-if='$store.getters.inbox.length > 1'  @click='goDoge')
         img.smallguild(src='../assets/images/sendselected.svg')
         label.stash {{ $store.getters.inbox.length }}
-    .row.center.clearboth(:class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
-        label.hackername(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }') {{ m.name }}
-    .bottomleft(v-if='nameList.length > 0')
-        div(@click='$store.commit("setMode", 4)'  :class='{here: $store.state.upgrades.mode === "badge"}')
-            .tooltip.stash {{nameList.length}}
-                .tooltiptext
-                    current(v-for='mId in nameList'  :memberId='mId')
-    .bottomright(v-if='card.boost > 0')
+    .row.center.clearboth(@click='$store.commit("setMode", 0)'   :class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
+        label.hackername(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }')
+            linky(:x='m.name')
+    .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
+    .bottomright()
         div(@click='$store.commit("setMode", 3)'  :class='{here: $store.state.upgrades.mode === "chest"}')
-            .tooltip.stash {{ card.boost.toLocaleString() }}
-                .tooltiptext(v-if='$store.getters.member.tooltips') satoshis
+            .stash(v-if='card.boost > 0') {{ card.boost.toLocaleString() }}
+            .stash(v-else) - -
     .clearboth
 </template>
 
@@ -22,10 +19,11 @@
 
 import Bird from './Bird'
 import Current from './Current'
+import Linky from './Linky'
 
 export default {
     props: ['m'],
-    components: {Bird, Current},
+    components: {Bird, Current, Linky},
     computed:{
         card(){
             return this.$store.getters.contextCard
@@ -57,6 +55,13 @@ export default {
         },
     },
     methods: {
+        toBoat(){
+            if (this.$store.state.upgrades.mode === "boat"){
+                this.$store.commit("setMode", 0)
+            } else {
+                this.$store.commit("setMode", 1)
+            }
+        },
         goDoge(){
             this.$store.commit('setMode', 0)
         },
@@ -149,7 +154,6 @@ label
 .membershipcard
     padding: 1em
     background: rgba(22, 22, 22, 0.2)
-    text-align: center
     position: relative
 
 .smallguild
@@ -173,12 +177,17 @@ label
 
 
 .bottomleft
-    float: left
-    width: fit-content
-    position: relative
-    bottom: 0
-    left: 0
+    position: relative;
+    bottom: 0;
+    left: 0;
+    font-size: 3.3em;
+    margin-bottom: -0.7em;
     cursor: pointer
+    color: lightGrey
+.bottomleft:before
+    content: "\2022"
+.bottomleft.activationsequence
+    color: main
 
 .bottomright
     width: fit-content
@@ -198,7 +207,6 @@ label
 
 .title
     cursor: pointer
-    text-align: center
     font-size: 1.8em
     margin-top: 0.5em
     font-weight: bold

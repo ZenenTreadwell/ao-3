@@ -26,7 +26,7 @@
 <script>
 
 export default {
-    props: ['r', 'c'],
+    props: ['r'],
     components: { },
     computed:{
         cantAfford(){
@@ -83,17 +83,17 @@ export default {
             this.$store.dispatch("makeEvent", newEv)
         },
         goIn(){
-            let top = this.c.indexOf(this.r.resourceId)
+            let top = this.$store.getters.resourceIds.indexOf(this.r.resourceId)
             if (top > -1){
                 this.$store.dispatch("goIn", {
                     parents: [this.$store.getters.contextCard.taskId],
-                    panel: this.c,
+                    panel: this.$store.getters.resourceIds,
                     top,
                 })
                 if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
                     this.$store.commit("setMode", 1)
                 }
-                if (this.card.boost > 0){
+                if (this.$store.getters.resourceIdsard.boost > 0){
                     this.$store.commit("setMode", 3)
                 }
             }
