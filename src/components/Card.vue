@@ -232,7 +232,7 @@ export default {
 .task
     margin:10px 0
     padding:20px
-
+    cursor: crosshair;
 .row
     width: 100%
     .mainColumn

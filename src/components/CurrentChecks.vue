@@ -7,8 +7,8 @@
         .seven.grid
             span(v-if='checkmarks.length <= 0') -
             span(v-for='c in checkmarks'  :key='c.taskId')
-                span.plain.completedcheckmark(@click='goIn(c.taskId)'  :class='cardInputSty(c.color)')
-                    img.completedcheckmark(src='../assets/images/completed.svg')
+                span.plain.completedcheckmark(@click='goIn(c.taskId)'  )
+                    img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color)')
         .three.grid(@click='toggleActive')
             .workblue
                 img(v-if='member.action === $store.getters.contextCard.taskId'  src='../assets/images/timecube.svg')
