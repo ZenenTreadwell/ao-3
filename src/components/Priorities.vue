@@ -188,9 +188,6 @@ img
     margin-left: 3em
     padding: 0.5em
 
-.top
-    z-index: 9001
-
 .empty
     height: 3em
     padding-top: 0.6em
@@ -254,7 +251,6 @@ img
     position: relative
     margin-top: 1em
     margin-bottom: 1em
-    z-index:9999999999999
     cursor: pointer
     margin-top:.55em
 

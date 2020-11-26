@@ -18,7 +18,6 @@
 import uuidv1 from 'uuid/v1'
 import Hammer from 'hammerjs'
 import Propagating from 'propagating-hammerjs'
-
 import Hypercard from "./Card"
 
 export default {

@@ -26,6 +26,7 @@ export default {
     },
     methods: {
         setValue() {
+            this.$store.commit("setMode", 3)
             this.$store.commit("setPayMode", 2)
             this.$store.dispatch("makeEvent", {
                 type: 'task-valued',

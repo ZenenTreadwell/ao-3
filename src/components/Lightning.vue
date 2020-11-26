@@ -11,12 +11,12 @@
             .chain.low  {{ $store.state.cash.info.mempool.feeChart.lowFee  * 103}} low -10
             .smartfee recommend {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/vbyte
         .eight.grid(v-if='$store.state.cash.info.channels')
-            .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') channels ({{ $store.state.cash.info.channels.length }})
+            .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') in channels ({{ $store.state.cash.info.channels.length }})
             .row
-                .chanfo pubkey: {{ $store.state.cash.info.id }}
                 .localremote(@click='selectedPeer = false'  v-if='nn')
                     .localbar.tall(:style='l(nn)')  {{ parseFloat( nn.channel_sat ).toLocaleString() }}
                     .remotebar.tall(:style='r(nn)')  {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }}
+                .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id'  :class='{spacer: selectedPeer === i}')
                     .localremote(v-show='selectedPeer === i'   @click='selectedPeer = false')
                         .localbar.tall(:style='l(n)')  {{ parseFloat( n.channel_sat ).toLocaleString() }}
@@ -27,12 +27,14 @@
                     .localremote(v-show='selectedPeer !== i'   @click='selectedPeer = i')
                         .localbar(:style='l(n)')
                         .remotebar(:style='r(n)')
-                .center(v-if='$store.state.cash.info.address.length > 0')
-                    span {{ $store.state.cash.info.id }}
-                    span @{{ $store.state.cash.info.address[0].address }}
-                    span :{{ $store.state.cash.info.address[0].port}}
+                //- .center(v-if='$store.state.cash.info.address.length > 0')
+                //-     span {{ $store.state.cash.info.id }}
+                //-     span @{{ $store.state.cash.info.address[0].address }}
+                //-     span :{{ $store.state.cash.info.address[0].port}}
+            .section on chain
             .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
                 .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
+            points-set(:b='$store.getters.contextCard')
     .row
         input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid')
         button(v-if='txnCheck'  @click='checkTxid') get transaction
@@ -51,6 +53,8 @@
 <script>
 import calculations from '../calculations'
 
+import PointsSet from './PointsSet'
+
 import Tag from './Tag'
 import request from 'superagent'
 
@@ -64,7 +68,7 @@ export default {
         }
     },
     components:{
-         Tag,
+         Tag, PointsSet
     },
     computed: {
         fetchedTxnStatus(){
