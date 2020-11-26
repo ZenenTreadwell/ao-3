@@ -26,7 +26,7 @@
             panels
         .container
             checkmarks
-            projects(v-if='$store.state.upgrades.mode === "doge"  &&  $store.getters.member.memberId === $store.getters.contextCard.taskId')
+            projects(v-if='$store.getters.member.memberId === $store.getters.contextCard.taskId')
 
 </template>
 
@@ -143,7 +143,6 @@ export default {
 
 @import '../styles/colours';
 @import '../styles/button';
-@import '../styles/tooltips';
 @import '../styles/skeleton';
 
 .ro
@@ -422,13 +421,5 @@ export default {
 
 .hidden
     opacity: 0
-
-.hidden:hover
-    opacity: 0.25654
-
-
-.svgwhite:hover
-    transform: rotate(-30deg)
-    opacity: 1
 
 </style>

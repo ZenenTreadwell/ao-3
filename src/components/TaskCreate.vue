@@ -377,14 +377,10 @@ export default {
 
 <style lang='stylus' scoped>
 
-
-
-
 @import '../styles/colours';
 @import '../styles/button';
 @import '../styles/breakpoints';
 @import '../styles/input';
-@import '../styles/tooltips';
 
 textarea
     border-color: rgba(0, 0, 0, 0.4)
@@ -427,12 +423,6 @@ button.inactive
 
 .lit
     opacity: 0.69
-
-.btnwrapper:hover > .lit
-    opacity: 0.83
-
-.btnwrapper:hover > .lit:hover
-    opacity: 1
 
 .opaque > button.lit
     opacity: 1
@@ -566,9 +556,6 @@ button.inactive
 
 ::-webkit-scrollbar-thumb
     background-color: rgba(89, 89, 89, 0.4)
-
-::-webkit-scrollbar-thumb:hover
-    background-color: rgba(255, 255, 255, 0.75)
 
 .result
     margin-left: 4em

@@ -27,7 +27,9 @@
                   span {{ new Date(n.timestamp).toString().slice(15,21) }}
                   currentr(:resourceId='n.resourceId')
                   span - {{ n.notes }}
-              div(v-else-if='n.name'  @click='goIn(n.taskId)')
+              div(v-else-if='checkIsMember(n.name)'  @click='goIn(n.taskId)')
+                  span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ checkIsMember(n.name) }}
+              div(v-else  @click='goIn(n.taskId)')
                   span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ n.name }}
           div(v-if='selectedDaysEvs.length === 0')
               .soft(@click='clickDateBar') - no activity
@@ -56,6 +58,16 @@ export default {
     Day, Currentr, Current, Priorities
   },
   methods: {
+      checkIsMember(name){
+          let mName = false
+          this.$store.state.members.some(m => {
+                if (m.memberId === name){
+                    mName = m.name
+                    return true
+                }
+          })
+          return mName
+      },
       clickDateBar(){
           if (this.chosenDay){
               this.chooseDay(false)
@@ -139,7 +151,7 @@ export default {
         return this.$store.state.upgrades.chosenDay
     },
     selectedDaysEvs(){
-        let selectDays = _.uniqBy(this.eventsByDay[this.chosenDay], u => u.timestamp)
+        let selectDays = _.uniqBy(this.eventsByDay[this.chosenDay], u => u.taskId )
         selectDays.sort((a, b) => a.timestamp - b.timestamp)
         return selectDays
     },
@@ -234,7 +246,6 @@ export default {
 <style lang='stylus' scoped>
 @import '../styles/colours';
 @import '../styles/grid';
-@import '../styles/tooltips';
 
 .row.menu
     cursor: pointer
@@ -283,7 +294,7 @@ h5
     height: 100px
     border-style:solid
     border-width: 1px
-    border-color: lightGrey
+    border-color: softGrey
 .placeholder
     @extends .calendar-column
 .day
@@ -295,7 +306,7 @@ h5
     font-weight:lighter
     font-size: 19px
     border-style:solid
-    color:#ffffff1c
+    color:lightGrey
 
 .weekdayfull
     width: 100%
@@ -305,8 +316,9 @@ h5
     font-size: 19px
     border-width: 1px
     border-style:solid
-    color:#ffffff1c
+    color:lightGrey
     cursor: pointer
+    border-color: softGrey
 
 .date
     background-color: white

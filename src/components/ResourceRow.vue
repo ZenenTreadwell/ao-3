@@ -1,18 +1,16 @@
 <template lang='pug'>
 
 .memberrow.membershipcard(v-if='card'  @dblclick='goIn')
-    .row.center
+    .row
         label.hackername
             span {{ r.name }}
             span(v-if='r.charged > 0') - {{r.charged}}
         img.goodbye(v-if='!isAnyOptions' @click='resourcePurged'  src='../assets/images/downboat.svg')
         br
-        code(v-if='!isAnyOptions'  @click='goIn') create button with task inside card
+        code(v-if='!isAnyOptions'  @click='goIn') no resource triggers setup
         code(v-if='cantAfford').redtx not enough points
         div(v-for='o in optionList'  :class='{faded: cantAfford}')
-            button.tooltip(@click='use(o[0])'  :class='cardInputSty(o[2])') {{ o[1] }}
-                .tooltiptext
-                    span Your balance {{ $store.getters.memberCard.boost }}
+            button(@click='use(o[0])'  :class='cardInputSty(o[2])') {{ o[1] }}
         code(v-if='isAnyOptions && !cantAfford').redtx warning: live resources
     .bottomleft(v-if='r.charged')
     .bottomright(@click='goIn')
@@ -108,7 +106,6 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 @import '../styles/grid'
-@import '../styles/tooltips'
 @import '../styles/button'
 
 .redtx
@@ -132,14 +129,10 @@ code
     padding: .4321em
     background: lightGrey
 
-.center
-    text-align: center
-
 img
     height: 2em
 
 label
-    font-size: 1.246em
     font-weight: normal;
     margin: 1em
     display: block

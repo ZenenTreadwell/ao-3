@@ -159,7 +159,6 @@ export default {
 @import '../styles/skeleton'
 @import '../styles/grid'
 @import '../styles/button'
-@import '../styles/tooltips'
 
 .count
     float: right
@@ -200,9 +199,6 @@ select.shorten
 
 .faded
     opacity: 0.235654
-
-.faded:hover
-    opacity: 1
 
 .smallguild
     background-image: url('../assets/images/badge.svg')

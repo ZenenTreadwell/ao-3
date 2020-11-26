@@ -11,10 +11,6 @@
     img.front(v-if='isMember' src="../assets/images/loggedIn.svg")
     div.right.front(v-if='card.book.startTs')
         tally(:b='card')
-    .hyperpaper.freshpaper(v-if='cardAge < 8')
-    .hyperpaper.weekoldpaper(v-else-if='cardAge < 30')
-    .hyperpaper.montholdpaper(v-else-if='cardAge < 90')
-    .hyperpaper.threemontholdpaper(v-else='cardAge >= 90')
     slot
 </template>
 
@@ -160,16 +156,6 @@ img
     // visibility: hidden
     opacity: 0.15
 
-.popup:hover
-    height: 100%
-    z-index: 99
-
-.popup:hover .here
-    visibility: visible
-    opacity:.67
-    padding: 1em
-    z-index: 99
-
 .here
     position: inline
 
@@ -197,23 +183,6 @@ img.front
 
 .right.front
     float: right
-
-.popup:hover ~ .right.front
-    top: 0
-    right: 0
-
-.popup:hover ~ img.front
-    height: 2.2em
-    top: 0.41em
-
-.popup:hover ~ .right.front img
-    height: 2.2em
-    margin-top: 0.41em
-    margin-right: -0.5em
-
-.popup:hover ~ .right.front span
-    display: inline-block
-    padding: 1em
 
 .context
     box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5)

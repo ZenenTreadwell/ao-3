@@ -262,7 +262,6 @@ export default {
 @import '../styles/colours'
 @import '../styles/grid'
 @import '../styles/button'
-@import '../styles/tooltips'
 
 h3
     font-size: 0.54em
@@ -364,8 +363,6 @@ img
     margin-bottom: -.6em
     opacity: 0.4;
     margin-bottom: -.6em;
-    :hover
-        opacity:0.7
 
 .fr
     float: right
@@ -384,8 +381,6 @@ img
 
 .fadey
     opacity: 0.36
-    :hover
-        opacity: 0.996
 
 .box
     min-height: 1em

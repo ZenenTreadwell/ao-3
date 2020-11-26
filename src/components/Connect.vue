@@ -152,9 +152,6 @@ select.form-control
 .faded
     opacity: 0.235654
 
-.faded:hover
-    opacity: 1
-
 .conn, .discon
     font-size: 0.8em
     margin-left: 0.5em

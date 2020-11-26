@@ -122,7 +122,6 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
-@import '../styles/tooltips'
 
 .row.center.clearboth
     cursor: pointer
@@ -143,10 +142,6 @@ label
     font-weight: normal;
     margin: 1em
     display: block
-
-.hackername
-    font-family: monospace
-    font-size: 1.5em
 
 .spacer
     margin-bottom: 3em

@@ -74,7 +74,6 @@ export default {
 
 @import '../styles/grid';
 @import '../styles/colours';
-@import '../styles/tooltips';
 
 img
     height: 3.3em

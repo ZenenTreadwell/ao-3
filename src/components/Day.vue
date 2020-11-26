@@ -3,26 +3,13 @@
     .date {{ day }}
     img.today(v-if='isToday'  src='../assets/images/orb.svg')
     span(v-for='t in ev')
-        .tooltip.upgrade(v-if='!t.type')
+        .upgrade(v-if='!t.type')
             img.upgrade.doge(v-if='checkIsMember(t.name)'  @cdbllick="goIn(t.taskId)"  src='../assets/images/doge.svg')
             img.upgrade(v-else  @click="goIn(t.taskId)"  src='../assets/images/uncompleted.svg'  :class='styl(t.color)')
-            .tooltiptext
-                .until {{ cardDate(t) }}
-                span(v-if='checkIsMember(t.name)')
-                    current(:memberId='t.name')
-                linky(v-else  :x='t.name')
-        .tooltip.upgrade(v-else-if='t.type === "resource-used"')
+        .upgrade(v-else-if='t.type === "resource-used"')
             img.completedcheckmark(@dblclick="goIn(t.resourceId)"  src='../assets/images/doge.svg'  :class='styl(t.color)')
-            .tooltiptext
-                current(:memberId='t.memberId')
-                currentr(:resourceId='t.resourceId')
-                span {{t.notes}}
-        span.tooltip.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goIn(t.taskId)'  :class='styl(getCardColor(t.taskId))')
+        span.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goIn(t.taskId)'  :class='styl(getCardColor(t.taskId))')
             img.completedcheckmark(:class='{smaller: ev.length > 15}'  src='../assets/images/completed.svg')
-            .tooltiptext
-                current(:memberId='t.memberId')
-                span -
-                linky.bigger(:x='getCardName(t.taskId)')
 </template>
 
 <script>
@@ -94,7 +81,6 @@ export default {
 <style lang='stylus' scoped>
 
 @import '../styles/colours';
-@import '../styles/tooltips';
 
 .upgrade
     height: 0.99em

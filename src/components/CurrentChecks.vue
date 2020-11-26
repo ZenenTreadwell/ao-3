@@ -7,10 +7,8 @@
         .seven.grid
             span(v-if='checkmarks.length <= 0') -
             span(v-for='c in checkmarks'  :key='c.taskId')
-                span.tooltip.plain.completedcheckmark(@click='goIn(c.taskId)'  :class='cardInputSty(c.color)')
+                span.plain.completedcheckmark(@click='goIn(c.taskId)'  :class='cardInputSty(c.color)')
                     img.completedcheckmark(src='../assets/images/completed.svg')
-                    linky.tooltiptext.bigger(:x='c.name')
-                        span.clickable(v-if='0 < c.completeValue') - {{c.completeValue}}
         .three.grid(@click='toggleActive')
             .workblue
                 img(v-if='member.action === $store.getters.contextCard.taskId'  src='../assets/images/timecube.svg')
@@ -166,7 +164,6 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
-@import '../styles/tooltips'
 @import '../styles/grid'
 
 .current

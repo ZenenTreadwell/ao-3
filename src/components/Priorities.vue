@@ -2,26 +2,16 @@
 
 .priorities
     div(v-if='priorities.length < 1')
-        h5 empty
+        h5 no todos
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer
-              checkbox.boatAll.adjtooltip(:b='getCard(t)'  :inId='$store.getters.contextCard.taskId')
-              .tooltiptext.correctspotleft(v-if='$store.getters.member.tooltips')
-                  p.suggest claim checkmark
+              img.boatAll.boatL(src='../assets/images/downboat.svg'  @click='refocused(t)'  :class='{hidden:!$store.getters.member.guides}')
               hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId'  :c='priorities')
               div(v-if='i > 0')
-                  img.boatAll.boatR.faded.adjtooltip(src='../assets/images/upboat.svg'  @click='prioritized(t)'  :class='{hidden:!$store.getters.member.guides}')
-                  .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-                      p.suggest up boat
+                  img.boatAll.boatR.faded(src='../assets/images/upboat.svg'  @click='prioritized(t)'  :class='{hidden:!$store.getters.member.guides}')
               div(v-else-if='hasCompleted(t)')
-                  img.boatAll.boatR.faded.adjtooltip(src='../assets/images/completed.svg'  @click='completed(t)')
-                  .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-                      p.suggest to completed pile
-              div(v-else)
-                  img.boatAll.boatR.faded.adjtooltip(src='../assets/images/downboat.svg'  @click='refocused(t)'  :class='{hidden:!$store.getters.member.guides}')
-                  .tooltiptext.correctspot(v-if='$store.getters.member.tooltips')
-                      p.suggest return to table
+                  img.boatAll.boatR.faded(src='../assets/images/completed.svg'  @click='completed(t)')
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
           .clearboth.opensubcard
               hyperpriority.closedcard(:taskId='st'  :inId="t"  :c='getSubPriorities(t)')
@@ -30,9 +20,7 @@
                   hyperpriority.closedcard(:taskId='st2'  :inId="st"  :inInId='t'  :c='getSubPriorities(st)')
     div.clearboth
     div
-        img.boatAll.faded.adjtooltip(src='../assets/images/downboat.svg'  @click='pileRefocused')
-        .tooltiptext.correctspot2(v-if='$store.getters.member.tooltips'  :class='{hidden:!$store.getters.member.guides}')
-            p.suggest refocus all
+        img.boatAll.faded(src='../assets/images/downboat.svg'  @click='pileRefocused')
 </template>
 
 <script>
@@ -119,26 +107,6 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 @import '../styles/button'
-@import '../styles/tooltips'
-
-.tooltiptext.correctspot2
-    position: absolute
-    top: 95%
-    left: 30%
-
-.tooltiptext.correctspot
-    position: absolute
-    top: 1.75em
-    right: 2em
-
-.tooltiptext.correctspotleft
-    position: absolute
-    top: 1.75em
-    left: 2em
-
-.tooltiptext.correctspotbottomleft
-    bottom: 1.75em
-    left: 2em
 
 .fw
     width: 100%
@@ -281,12 +249,11 @@ img
     width:100%
 
 .boatAll
-    margin: 0 1em 0 .55em
-    height: 20px;
+    margin: .25em 1em 0 .55em
+    height: 1.25em;
     position: relative
     margin-top: 1em
     margin-bottom: 1em
-    opacity: .3
     z-index:9999999999999
     cursor: pointer
     margin-top:.55em
@@ -294,10 +261,10 @@ img
 .boatR
     position: absolute
     right: 0px
-    height:20px
 
-.faded
-    opacity: 0.235654
+.boatL
+    display: block
+    min-width: 0.75em
 
 .closedcard
     padding-right:3em

@@ -1,9 +1,7 @@
 <template lang='pug'>
-.d.tooltip(ref='hodlcoin')
+.d(ref='hodlcoin')
     //- p.hodlcount(v-if='isBull'  :class="{ grabbedhodlcount: isGrabbed }") {{ (b.deck.length > 1) ? b.deck.length : '' }}
     img.dogepepecoin(:class="{ ungrabbedcoin : !isGrabbed, highlight: inHand }" src='../assets/images/loggedIn.svg'  draggable='false')
-    .tooltiptext(v-if='$store.getters.member.tooltips || b.deck.length > 0')
-        current.block(v-for='memberId in b.deck'  :memberId='memberId')
 </template>
 
 <script>
@@ -127,14 +125,7 @@ export default {
 
 <style lang="stylus" scoped>
 
-@import '../styles/tooltips'
 @import '../styles/spinners'
-
-// .tooltiptext.correctspot
-//     position: absolute
-//     top: calc(100% - 1.75em)
-//     right: 2em
-//     z-index: 9000
 
 .dogepepecoin
   display:block

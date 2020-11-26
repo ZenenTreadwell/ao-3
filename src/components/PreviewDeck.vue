@@ -5,24 +5,17 @@
         .one.grid
             span &nbsp;
         .two.grid
-            .bead.tooltip(v-if='red.length > 0'   v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}')
-                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
+            .bead(v-if='red.length > 0'   v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}')
         .two.grid
-            .bead.tooltip(v-if='blue.length > 0' v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}')
-                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
+            .bead(v-if='blue.length > 0' v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}')
         .two.grid
-            .bead.tooltip(v-if='red.length === 0'  v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}')
-                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
-            .bead.tooltip(v-for="(b,i) in red"  :b="b", @click='goto(b.taskId)'  :class='{redwx: $store.getters.member.stacks === 5}')
-                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
+            .bead(v-if='red.length === 0'  v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}')
+            .bead(v-for="(b,i) in red"  :b="b", @click='goto(b.taskId)'  :class='{redwx: $store.getters.member.stacks === 5}')
         .two.grid
-            .bead.tooltip(v-for="(b,i) in green", @click='goto(b.taskId)'  :class='{greenwx: $store.getters.member.stacks === 5}')
-                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
+            .bead(v-for="(b,i) in green", @click='goto(b.taskId)'  :class='{greenwx: $store.getters.member.stacks === 5}')
         .two.grid
-            .bead.tooltip(v-if='blue.length === 0'  v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}')
-                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
-            .bead.tooltip(v-for="(b,i) in blue", @click='goto(b.taskId)'  :class='{bluewx: $store.getters.member.stacks === 5}')
-                linky.tooltiptext(:x='b? shortName(b.name) : "unknown card"')
+            .bead(v-if='blue.length === 0'  v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}')
+            .bead(v-for="(b,i) in blue", @click='goto(b.taskId)'  :class='{bluewx: $store.getters.member.stacks === 5}')
         .one.grid
             span &nbsp;
 </template>
@@ -124,7 +117,6 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/grid'
-@import '../styles/tooltips'
 
 .preview
     width: 15%;
@@ -138,10 +130,6 @@ export default {
     width: 100%
     display: inline-block;
     cursor: pointer
-
-
-.bead:hover
-    opacity: 1
 
 .tooltip
     position: relative

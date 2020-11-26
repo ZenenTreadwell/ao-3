@@ -78,20 +78,11 @@ export default {
 
 <style lang='stylus' scoped>
 
-@import '../styles/tooltips'
-
 .faded
     opacity: 0.235654
 
-.faded:hover
-    opacity: 1
-
 .hide
     opacity: 0
-
-.hide:hover
-    opacity: 0.25654
-
 .tally
     padding-right: 0.5em
     padding-left: 0.5em

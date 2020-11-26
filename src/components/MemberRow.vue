@@ -115,9 +115,7 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 @import '../styles/grid'
-@import '../styles/tooltips'
 @import '../styles/spinners'
-
 
 .absoright
     float: right
@@ -145,9 +143,6 @@ label
 
 .faded
     opacity: 0.235654
-
-.faded:hover
-    opacity: 1
 
 .yellowtx
     text-decoration: none

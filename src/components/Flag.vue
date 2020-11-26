@@ -1,7 +1,7 @@
 <template lang='pug'>
 .flag(v-if="$store.getters.memberCard")
     .flaggy(:id='uuid'  :class='flagClass')
-        img.svgwhite.faded(src='../assets/images/upboat.svg'  :class='{hidden:!$store.getters.member.guides}')
+        img.svgwhite(src='../assets/images/upboat.svg'  :class='{hidden:!$store.getters.member.guides}')
 
 </template>
 
@@ -206,15 +206,8 @@ export default {
     margin-top: -0.2em
     margin-right: -0.4em
 
-.faded
-    opacity: 0.235654
-
 .svgwhite
     fill: white
-
-.svgwhite:hover
-    transform: rotate(-30deg)
-    opacity: 1
 
 .opened
     float: left
@@ -222,6 +215,4 @@ export default {
 .hidden
     opacity: 0
 
-.hidden:hover
-    opacity: 0.25654
 </style>

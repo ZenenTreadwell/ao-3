@@ -96,7 +96,6 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 @import '../styles/button'
-@import '../styles/tooltips'
 
 h5.adjtooltip
     margin-top:1.2em
