@@ -1,11 +1,7 @@
 <template lang='pug'>
-.task(:class="cardInputSty"  ref='wholeCard').dont-break-out.agedwrapper
+.task(:class="cardInputSty" @click='goIn').dont-break-out.agedwrapper
     bird(:b='b', :inId='inId')
-    flag(:b='b', :inId='inId')
-    //- tally(:b='b')
-    //- .dogecoin.tooltip(v-if='w > 0')
-    //-     img(v-for='n in parseInt(Math.floor(w))'  src='../assets/images/doge.svg')
-    //-     img(v-if='w % 1 > 0 || w < 1'  :class="['sixteenth' + fractionalReserveDoge]"  src='../assets/images/doge.svg')
+    img.flaggy(@click.stop='upboat'  src='../assets/images/upboat.svg'  :class='{hidden:!$store.getters.member.guides}')
     .buffertop
       .cardbody
           linky.cardhud(:x='b.name' v-if='!member')
@@ -26,12 +22,11 @@
                         h6 {{l}}
     div
         .copydiv
-            img.copied(src='../assets/images/loggedOut.svg'  :class='{hidden:!showCopied}')
-        .scrol(ref='scuttle')
+            img.copied(src='../assets/images/loggedOut.svg'  :class='{hidden:!showCopied}'  @click.stop='copyCardToClipboard')
+        .scrol(@click.stop='remove')
             img.scrolly(src='../assets/images/downboat.svg'  :class='{hidden:!$store.getters.member.guides}')
-        .vine(@click.stop='goIn')
+        .vine
             span(v-if='b.boost > 0') {{b.boost}}
-            img.viney.faded(src='../assets/images/orb.svg'  :class='{hidden:!$store.getters.member.guides}')
         .singlebird(v-if='links.length + b.passed.length > 0'  @click.stop='toggleBird'  v-show='!$store.state.upgrades.bird')
             .row.pad.centered()
                 span(v-if='links.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
@@ -45,14 +40,11 @@
 
 <script>
 import _ from 'lodash'
-import Hammer from 'hammerjs'
-import Propagating from 'propagating-hammerjs'
 import Tally from './Tally'
 import Linky from './Linky'
 import Current from './Current'
 import SimplePriorities from './SimplePriorities'
 import Bird from './Bird'
-import Flag from './Flag'
 import PreviewDeck from './PreviewDeck'
 
 export default {
@@ -62,118 +54,23 @@ export default {
         }
     },
     props: ['b', 'inId', 'c'],
-    components: { PreviewDeck, Bird, Flag, Linky, SimplePriorities, Current, Tally},
-    mounted() {
-        let el2 = this.$refs.scuttle
-        let mc = Propagating(new Hammer.Manager(el2))
-        let Tap = new Hammer.Tap({ time: 400 })
-        let Press = new Hammer.Press({ time: 500 })
-        mc.add([Press, Tap])
-        Press.recognizeWith([Tap])
-        Press.requireFailure([Tap])
-
-        mc.on('tap', (e) => {
-
-            let parentId = this.$store.state.context.parent[this.$store.state.context.parent.length-1]
-            if (this.$store.getters.member.action === this.b.taskId){
-
-                if (this.$store.getters.contextCard.priorities.length <= 1){
-                    this.$store.commit('setMode', 0)
-
-                }
-                this.$store.dispatch("makeEvent", {
-                  type: 'task-de-sub-tasked',
-                  subTask: this.b.taskId,
-                  taskId: this.inId,
-                })
-            } else if (this.inId){
-                this.$store.dispatch("makeEvent", {
-                  type: 'task-de-sub-tasked',
-                  subTask: this.b.taskId,
-                  taskId: this.inId,
-                })
-            } else if (parentId) {
-              this.$store.dispatch("makeEvent", {
+    components: { PreviewDeck, Bird, Linky, SimplePriorities, Current, Tally},
+    methods: {
+        upboat(){
+            this.$store.dispatch("makeEvent", {
+                type: 'task-prioritized',
+                taskId: this.b.taskId,
+                inId: this.inId,
+            })
+            this.$store.commit('setMode', 1)
+        },
+        remove(){
+            this.$store.dispatch("makeEvent", {
                 type: 'task-de-sub-tasked',
                 subTask: this.b.taskId,
-                taskId: parentId,
-              })
-              let newPanel = _.filter(this.$store.state.context.panel, tId => tId !== this.b.taskId)
-              let newTop = Math.min(this.$store.state.context.top, newPanel.length -1)
-              if (newPanel.length > 0){
-                  this.$store.commit('setPanel', newPanel)
-                  this.$store.commit('setTop', newTop)
-              } else {
-                  this.$store.dispatch('goUp', {
-                    target: parentId,
-                    panel: [parentId],
-                    top: 0
-                  })
-              }
-            } else {
-                this.$store.dispatch("makeEvent", {
-                  type: 'task-de-sub-tasked',
-                  subTask: this.b.taskId,
-                  taskId: this.b.taskId,
-                })
-            }
-            console.log('tap handled')
-            e.stopPropagation()
-        })
-
-        mc.on('press', (e) => {
-            console.log('press also trig trig')
-            if (this.b.taskId === this.$store.getters.contextCard.taskId){
-                let parentId = this.$store.state.context.parent[this.$store.state.context.parent.length-1]
-                this.$store.dispatch("makeEvent", {
-                  type: 'task-popped',
-                  taskId: this.b.taskId,
-                  inId: parentId,
-                })
-                let newPanel = _.filter(this.$store.state.context.panel, tId => tId !== this.b.taskId)
-                let newTop = Math.min(this.$store.state.context.top, newPanel.length -1)
-                if (newPanel.length > 0){
-                    this.$store.commit('setPanel', newPanel)
-                    this.$store.commit('setTop', newTop)
-                } else {
-                    this.$store.dispatch('goUp', {
-                      target: parentId,
-                      panel: [parentId],
-                      top: 0
-                    })
-                }
-                return
-            }else {
-                this.$store.dispatch("makeEvent", {
-                  type: 'task-popped',
-                  taskId: this.b.taskId,
-                  inId: this.$store.getters.contextCard.taskId,
-                })
-            }
-
-            e.stopPropagation()
-        })
-
-        let el = this.$refs.wholeCard
-        if(!el) return
-        let mc2 = Propagating(new Hammer.Manager(el))
-
-        // let singleTap = new Hammer.Tap({ event: 'singletap', time: 400 })
-        let doubleTap = new Hammer.Tap({ event: 'doubletap', taps: 2, time: 400, interval: 400 })
-        let longPress = new Hammer.Press({ time: 600 })
-
-        mc2.add([doubleTap, longPress])
-
-        mc2.on('doubletap', (e) => {
-            this.goIn()
-            e.stopPropagation()
-        })
-
-        mc2.on('press', () => {
-            this.copyCardToClipboard()
-        })
-    },
-    methods: {
+                taskId: this.inId,
+            })
+        },
         setAction(){
             if (this.$store.getters.member.action === this.b.taskId){
                 return this.$store.dispatch("makeEvent", {
@@ -689,5 +586,11 @@ label
 .copydiv
     padding-left: 50% - 2em
 
+.flaggy
+    position: absolute
+    right: 1em
+    top: 1em
+    height: 1em
+    cursor: pointer
 
 </style>

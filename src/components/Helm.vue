@@ -2,8 +2,8 @@
 
 .helm
     img.gear(@click='toggleSettings'  src='../assets/images/gear.svg')
-    img.bull(@click='toggleNodeInfo'  src='../assets/images/bull.svg')
-    img.doge(@click='toggleAccounts'  src='../assets/images/doge.svg')
+    img.bull(@click='toggleNodeInfo'  src='../assets/images/bull.svg'   :class='{hidden:!$store.getters.member.guides && !showNodeInfo}')
+    img.doge(@click='toggleAccounts'  src='../assets/images/doge.svg'   :class='{hidden:!$store.getters.member.guides && !showAccounts}')
     settings(v-if='showSettings').settings
     lightning(v-if='showNodeInfo').lightning
     accounts(v-if='showAccounts').accounts
@@ -75,11 +75,15 @@ export default {
 @import '../styles/grid';
 @import '../styles/colours';
 
+.hidden
+    opacity: 0
+
 img
     height: 3.3em
     position: fixed
     z-index: 9001
     cursor: pointer
+    padding: .75em
 
 .settings
     position: fixed
