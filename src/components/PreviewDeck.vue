@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.preview(v-if='deck.length > 0 && $store.getters.contextCard.taskId !== task.taskId')
+.preview(@click.stop  v-if='deck.length > 0 && $store.getters.contextCard.taskId !== task.taskId')
     .row
         .one.grid
             span &nbsp;
@@ -34,16 +34,6 @@ export default {
       goto(taskId){
           let panel = [taskId]
           let top = 0
-          let t = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
-          let panelColor = this.task.subTasks.filter( p => {
-              return this.card(p).color === t.color
-          })
-          let topColor = panelColor.indexOf(taskId)
-
-          if (topColor > -1){
-            panel = panelColor
-            top = topColor
-          }
           let parents =  [this.$store.getters.contextCard.taskId, this.task.taskId]
           this.$store.dispatch("goIn", {parents, panel, top})
 

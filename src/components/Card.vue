@@ -25,8 +25,8 @@
             img.copied(src='../assets/images/loggedOut.svg'  :class='{hidden:!showCopied}'  @click.stop='copyCardToClipboard')
         .scrol(@click.stop='remove')
             img.scrolly(src='../assets/images/downboat.svg'  :class='{hidden:!$store.getters.member.guides}')
-        .vine
-            span(v-if='b.boost > 0') {{b.boost}}
+        .vine(@click.stop='pop')
+            img.viney(src='../assets/images/explode.svg'  :class='{hidden:!$store.getters.member.guides}')
         .singlebird(v-if='links.length + b.passed.length > 0'  @click.stop='toggleBird'  v-show='!$store.state.upgrades.bird')
             .row.pad.centered()
                 span(v-if='links.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
@@ -56,6 +56,13 @@ export default {
     props: ['b', 'inId', 'c'],
     components: { PreviewDeck, Bird, Linky, SimplePriorities, Current, Tally},
     methods: {
+        pop(){
+            this.$store.dispatch("makeEvent", {
+                type: 'task-popped',
+                taskId: this.b.taskId,
+                inId: this.inId,
+            })
+        },
         upboat(){
             this.$store.dispatch("makeEvent", {
                 type: 'task-prioritized',

@@ -2,20 +2,24 @@
 
 #accounts
     .breathing
-    div {{ activeAccounts }} accounts
+    div {{ activeAccounts }} accounts, {{$store.state.resources.length}} resources, {{ $store.state.ao.length }} connections
     .list
         member-row(v-for="m in coreMembers"  :m='m'  :key='m.memberId')
         member-row(v-for="m in pendingDeactivations"  :m='m'  :key='m.memberId')
         member-row(v-for="m in nonMembers"  :m='m'  :key='m.memberId')
-    .breathing
+    resource-row(v-for='r in $store.state.resources'  :r='r')
+    connect
 </template>
 
 <script>
 import cryptoUtils from '../crypto'
 import Current from './Current'
 import MemberRow from './MemberRow'
+import Connect from './Connect'
+import ResourceRow from './ResourceRow'
+
 export default {
-    components: {Current, MemberRow},
+    components: {Current, MemberRow, ResourceRow, Connect},
     data() {
       return {
         change: {
@@ -190,7 +194,6 @@ export default {
 h1
 		margin-bottom: 1em
 li
-    color:white
     font-size:18px
     font-family: 'Open Sans', light, sans-serif
 h3

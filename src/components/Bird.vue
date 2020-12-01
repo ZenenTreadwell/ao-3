@@ -2,14 +2,15 @@
 
 .bird(@click.stop)
     div(@click='toggleSend')
-        img.birdy.faded(v-if='!showSend && !b.guild' src='../assets/images/badge.svg'  :class='{hidden:!$store.getters.member.guides}')
-        div.birdy.faded.smallguild(v-else  :class='{ open : showSend }')
+        img.birdy(v-if='!showSend && !b.guild' src='../assets/images/badge.svg'  :class='{hidden:!$store.getters.member.guides}')
+        div.birdy.smallguild(v-else  :class='{ open : showSend }')
     guild-create(v-if='showSend'   :b='b')
     div(v-if='showSend')
         .give
             select(v-model='toMember')
                 option(v-for='n in $store.getters.recentMembers', :value="n.memberId") {{ n.name }}
                 option(v-for='g in $store.getters.guilds'  :value="g.taskId") # {{ g.guild }}
+                option(v-for='n in $store.state.ao'  :value='n.address')  {{ n.address }}
             button.small(@click='dispatchMakeEvent') show
         //- .play(v-if='$store.getters.guilds.length > 0')
         //-     select(v-model='toGuild')

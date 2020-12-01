@@ -8,15 +8,14 @@
             span(@click='goIn(p.taskId)')
                 span.nl.gui.smaller {{ p.guild }}
         label resources {{$store.state.resources.length}}
-        li(v-for='r in $store.state.resources')
-            resource-row(:r='r')
+
 </template>
 
 <script>
-import ResourceRow from './ResourceRow'
+
 
 export default {
-    components: {ResourceRow},
+    components: {},
     methods: {
         goIn(taskId, guild = undefined){
             let parents = []

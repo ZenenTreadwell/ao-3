@@ -387,13 +387,13 @@ textarea
     height: 12.5em
 textarea.inactive
     height: 2em
-    opacity: 0
 
 .boatContainer button
     background-color: main
+    color: white
 
 button.inactive
-    opacity: 0.22
+    opacity: 0
 
 
 .lonestar

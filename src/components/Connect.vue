@@ -1,23 +1,23 @@
 <template lang='pug'>
 
 .Connect
-    div location:
-        span {{ $store.state.cash.address }}
-    code.click(@click='showSecr') secret:
-        span(v-if='showSecret') {{ $store.state.loader.token }}
-    .section ao connect
-    .input-container
-        input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
-        label location
-    .input-container
-        input.input-effect(v-model='ao.secret' type='text'  :class='{"has-content":!!ao.secret}')
-        label.input-effect secret
-    button(@click='connect') connect
     div(v-for='(r, i) in $store.state.ao')
         h6
             span(@click='goIn(r.address)') {{ r.address }}
             span -
             span.discon(@click='discon(r.address)') disconnect
+    .section ao connect
+    .input-container
+        input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
+        label connect to address
+    .input-container(v-if='ao.address.length > 0')
+        input.input-effect(v-model='ao.secret' type='text'  :class='{"has-content":!!ao.secret}')
+        label.input-effect connection code
+    button(v-if='ao.secret.length > 0'  @click='connect') connect
+    code.click(@click='showSecr') reveal connection info:
+        span(v-if='showSecret')
+            div address: {{ $store.state.cash.address }}
+            div code: {{ $store.state.loader.token }}
 </template>
 
 <script>

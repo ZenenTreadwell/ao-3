@@ -1,23 +1,11 @@
 <template lang='pug'>
 
 .memberrow.membershipcard(v-if='card'  @dblclick='goIn')
-    .row
-        label.hackername
-            span {{ r.name }}
-            span(v-if='r.charged > 0') - {{r.charged}}
-        img.goodbye(v-if='!isAnyOptions' @click='resourcePurged'  src='../assets/images/downboat.svg')
-        br
-        code(v-if='!isAnyOptions'  @click='goIn') no resource triggers setup
-        code(v-if='cantAfford').redtx not enough points
+    label.hackername {{ r.name }}
+    .container
         div(v-for='o in optionList'  :class='{faded: cantAfford}')
             button(@click='use(o[0])'  :class='cardInputSty(o[2])') {{ o[1] }}
-        code(v-if='isAnyOptions && !cantAfford').redtx warning: live resources
-    .bottomleft(v-if='r.charged')
-    .bottomright(@click='goIn')
-      div(v-if='card.boost > 0')
-        p.stash {{ card.boost }}
-      div(v-else)
-        img.smallguild(src='../assets/images/orb.svg')
+                span(v-if='r.charged > 0') (-{{r.charged}})
     .clearboth
 </template>
 
@@ -108,6 +96,12 @@ export default {
 @import '../styles/grid'
 @import '../styles/button'
 
+.memberrow
+    box-shadow: 3px 1px 7px 1px main
+    margin-bottom: 8px
+    min-height: 37px
+    background: lightGrey
+
 .redtx
     font-size: 0.6em
 
@@ -127,7 +121,6 @@ code
     margin-top: 1em
     border-radius: 5px
     padding: .4321em
-    background: lightGrey
 
 img
     height: 2em
@@ -139,59 +132,6 @@ label
 
 .hackername
     font-family: monospace
-    font-size: 1.5em
-
-.membershipcard
-    padding: 1em
-    background: rgba(22, 22, 22, 0.2)
-    text-align: center
-    margin-bottom: 1em
-
-.agedwrapper
-    position: relative
-
-.agedbackground
-    background-image: url('/paper.jpg')
-    background-repeat: no-repeat
-    background-position: center center
-    background-size: cover
-    top: 0
-    left: 0
-    bottom: 0
-    right: 0
-    position: absolute
-    width: 100%
-    height: 100%
-    pointer-events: none
-    //border-radius: 12px
-    z-index: -1
-
-.freshpaper
-    background-image: url('/paper.jpg')
-    opacity: 0.3
-
-.weekoldpaper
-    background-image: url('/paper_aged_1.png')
-    opacity: 0.3
-
-.montholdpaper
-    background-image: url('/paper_aged_2.png')
-    opacity: 0.3
-
-.threemontholdpaper
-    background-image: url('/paper_aged_3.png')
-    opacity: 0.3
-
-.smallcaps
-    color: #fff
-    width: 100%
-    border-radius: 50%
-    opacity: 0.75
-    padding: 0.5em
-    border-style: solid
-    border-color: white
-    border-width: 2px
-
 .smallguild
     height: 2em
 
