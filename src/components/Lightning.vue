@@ -35,7 +35,7 @@
             .section on chain
             .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
                 .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
-            .price(v-if='sats > 0  && sats !== Infinity') 0.01 {{ $store.state.cash.currency }} ~ {{ sats.toFixed(0) }}
+            .price(v-if='sats > 0  && sats !== Infinity') 0.01 {{ $store.state.cash.currency }} ~ {{ (sats/100).toFixed(0) }}
             .price(v-else) 1.0 Bitcoin = 100,000,000
     .row
         .breathing

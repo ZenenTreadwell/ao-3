@@ -7,8 +7,6 @@
                 img.floatleft(src='../assets/images/badge.svg')
             span(@click='goIn(p.taskId)')
                 span.nl.gui.smaller {{ p.guild }}
-        label resources {{$store.state.resources.length}}
-
 </template>
 
 <script>
@@ -71,7 +69,7 @@ h3
 
 .spaced
     clear: both
-    margin-top: 0.25em
+    margin-top: 0.555em
 
 .fr
     float: right
@@ -219,4 +217,8 @@ ul.none.indent
 
 span.nl.gui.smallest
     font-size: 1.1em
+
+li:nth-child(2n)
+    float: right
+
 </style>

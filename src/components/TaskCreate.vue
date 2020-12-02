@@ -20,6 +20,7 @@
               @click.stop
           )
       #btnpanel.btnpanel
+          .ping {{ $store.state.loader.reqStatus }}
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
               button(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" }').redwx.paperwrapper
               button(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" }').yellowwx.paperwrapper
@@ -30,7 +31,7 @@
           .searchresults
               .boatContainer
                   img.boatAll.faded(src='../assets/images/downboat.svg'  @click='deBoatAll')
-                  .searchtotal(@click='goInSearchPanel') {{ searchTotal }}
+                  .searchtotal(@click='goInSearchPanel') {{ searchTotal }} of {{ $store.state.tasks.length }}
                   img.boatAll.boatR.faded(src='../assets/images/upboat.svg'  @click='boatAll')
               .result(v-for='t in matches.guilds'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)')
                   img.smallguild(src='../assets/images/badge.svg')
@@ -598,7 +599,6 @@ button.inactive
     position: relative
     margin-top: 1em
     margin-bottom: 1em
-    z-index:9999999999999
     cursor: pointer
 
 .boatR
@@ -614,6 +614,15 @@ button.inactive
 .boatContainer button.selected
     background: lightGrey
     color: main
+
+.ping
+    padding-top: 0.789em
+    float: left
+
+.pend
+    float: right
+
+
 
 
 </style>

@@ -12,6 +12,7 @@
     .breathing
     connect
     .breathing
+    projects
 </template>
 
 <script>
@@ -20,9 +21,10 @@ import Current from './Current'
 import MemberRow from './MemberRow'
 import Connect from './Connect'
 import ResourceRow from './ResourceRow'
+import Projects from './Projects'
 
 export default {
-    components: {Current, MemberRow, ResourceRow, Connect},
+    components: {Current, MemberRow, ResourceRow, Connect, Projects},
     data() {
       return {
         change: {

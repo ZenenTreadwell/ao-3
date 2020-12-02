@@ -84,6 +84,7 @@ export default {
 
 .upgrade
     height: 0.99em
+    display: inline
 
 .upgrade.doge
     height: 1.89em
