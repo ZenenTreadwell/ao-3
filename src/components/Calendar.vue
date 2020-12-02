@@ -165,6 +165,9 @@ export default {
         let evs = {}
         if (this.inId){
             this.todaysEvents.forEach(t => {
+                if (!t){
+                    return console.log('bad todays event')
+                }
                 t.claims.forEach(cl => {
                     let date = getDMY(cl.timestamp)
                     if (date.month === this.month && date.year === this.year){
@@ -208,7 +211,9 @@ export default {
         allTasks = _.uniq(allTasks)
         return allTasks
             .map(tId => {
-                return this.$store.state.tasks[this.$store.state.hashMap[tId]]
+                let ttttt = this.$store.state.tasks[this.$store.state.hashMap[tId]]
+                console.log(tId, ttttt)
+                return ttttt
             })
     },
     firstDay(){

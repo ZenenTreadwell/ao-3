@@ -7,8 +7,11 @@
         member-row(v-for="m in coreMembers"  :m='m'  :key='m.memberId')
         member-row(v-for="m in pendingDeactivations"  :m='m'  :key='m.memberId')
         member-row(v-for="m in nonMembers"  :m='m'  :key='m.memberId')
+    .breathing
     resource-row(v-for='r in $store.state.resources'  :r='r')
+    .breathing
     connect
+    .breathing
 </template>
 
 <script>

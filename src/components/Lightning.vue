@@ -19,13 +19,14 @@
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id'  :class='{spacer: selectedPeer === i}')
                     .localremote(v-show='selectedPeer === i'   @click='selectedPeer = false')
-                        .localbar.tall(:style='l(n)')  {{ parseFloat( n.channel_sat ).toLocaleString() }}
+                        .localbar.tall(:style='l(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseFloat( n.channel_sat ).toLocaleString() }}
                         .remotebar.tall(:style='r(n)')  {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
                     .chanfo(v-show='selectedPeer === i')
-                        div  pubkey: {{ n.peer_id }}
-                        div  txid: {{ n.funding_txid }}
+                        div pubkey: {{ n.peer_id }}
+                        div txid: {{ n.funding_txid }}
+                        div(v-if='n.state !== "CHANNELD_NORMAL"') state: {{ n.state }}
                     .localremote(v-show='selectedPeer !== i'   @click='selectedPeer = i')
-                        .localbar(:style='l(n)')
+                        .localbar(:style='l(n)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
                         .remotebar(:style='r(n)')
                 //- .center(v-if='$store.state.cash.info.address.length > 0')
                 //-     span {{ $store.state.cash.info.id }}
@@ -34,8 +35,10 @@
             .section on chain
             .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
                 .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
-            points-set(:b='$store.getters.contextCard')
+            .price(v-if='sats > 0  && sats !== Infinity') 0.01 {{ $store.state.cash.currency }} ~ {{ sats.toFixed(0) }}
+            .price(v-else) 1.0 Bitcoin = 100,000,000
     .row
+        .breathing
         input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid')
         button(v-if='txnCheck'  @click='checkTxid') get transaction
         .chanfo(v-if='fetchedTxn.txid')
@@ -92,8 +95,12 @@ export default {
                 channel_total_sat: 0,
             }
             this.$store.state.cash.info.channels.forEach(n => {
-                totals.channel_sat += n.channel_sat
-                totals.channel_total_sat += n.channel_total_sat
+                if (n.state === "CHANNELD_NORMAL"){
+                    totals.channel_sat += n.channel_sat
+                    totals.channel_total_sat += n.channel_total_sat
+                } else {
+                    console.log('abnormal', n)
+                }
             })
             return totals
         }
@@ -321,6 +328,9 @@ h5
     height: 0.622em
     background: linear-gradient(rgba(0,0,0,0), wrexpurple)
     float: left
+
+.localbar.abnormal
+    background: linear-gradient(rgba(0,0,0,0), wrexred)
 
 .remotebar
     height: 0.622em
