@@ -4,12 +4,17 @@
     .breathing
     .row
         .four.grid(v-if='$store.state.cash.info.mempool')
-            .section mempool ({{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed() }} MB)
-            .chain.high  {{ $store.state.cash.info.mempool.feeChart.highFee * 103 }} super 150+
-            .chain.midhigh  {{ $store.state.cash.info.mempool.feeChart.midHighFee * 103 }} high 50+
-            .chain.mid  {{ $store.state.cash.info.mempool.feeChart.midFee * 103 }} mid 10+
-            .chain.low  {{ $store.state.cash.info.mempool.feeChart.lowFee  * 103}} low -10
-            .smartfee recommend {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/vbyte
+            .section {{ $store.state.cash.info.blockheight.toLocaleString()}} blocks
+            .section() {{ ( (Date.now() - $store.state.cash.info.blockfo.time * 1000  ) / 60 / 1000).toFixed(1) }}min since tip
+            .section tips fee percentiles (sat per byte)
+            .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[4])') 90th {{ $store.state.cash.info.blockfo.feerate_percentiles[4] }}
+            .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[3])') 75th {{ $store.state.cash.info.blockfo.feerate_percentiles[3] }}
+            .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[2])') 50th {{ $store.state.cash.info.blockfo.feerate_percentiles[2] }}
+            .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[1])') 25th {{ $store.state.cash.info.blockfo.feerate_percentiles[1] }}
+            .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[0])') 10th {{ $store.state.cash.info.blockfo.feerate_percentiles[0] }}
+            .section recommend {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/byte
+            .section {{ $store.state.cash.info.mempool.size }} unconfirmed ({{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed() }} MB)
+            .section.sampler(@click='sampler') sample unconfirmed
         .eight.grid(v-if='$store.state.cash.info.channels')
             .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') in channels ({{ $store.state.cash.info.channels.length }})
             .row
@@ -23,7 +28,7 @@
                         .remotebar.tall(:style='r(n)')  {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
                     .chanfo(v-show='selectedPeer === i')
                         div pubkey: {{ n.peer_id }}
-                        div txid: {{ n.funding_txid }}
+                        div(@click='checkTxid(n.funding_txid)') txid: {{ n.funding_txid }}
                         div(v-if='n.state !== "CHANNELD_NORMAL"') state: {{ n.state }}
                     .localremote(v-show='selectedPeer !== i'   @click='selectedPeer = i')
                         .localbar(:style='l(n)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
@@ -33,24 +38,25 @@
                 //-     span @{{ $store.state.cash.info.address[0].address }}
                 //-     span :{{ $store.state.cash.info.address[0].port}}
             .section on chain
-            .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
-                .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
+            .outputs(@click='toggleShowOutputs')
+                .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
+                    .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
+            .chanfo(v-if='showOutputs'  v-for='n in $store.state.cash.info.outputs'  @click='checkTxid(n.txid)') txid: {{n.txid}} : {{n.output}}
             .price(v-if='sats > 0  && sats !== Infinity') 0.01 {{ $store.state.cash.currency }} ~ {{ (sats/100).toFixed(0) }}
-            .price(v-else) 1.0 Bitcoin = 100,000,000
+            .price(v-else) 1.0 BTC = 100,000,000
     .row
-        .breathing
-        input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid')
-        button(v-if='txnCheck'  @click='checkTxid') get transaction
+        .breathing1
+        input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
+        button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
         .chanfo(v-if='fetchedTxn.txid')
             div txid: {{ fetchedTxn.txid }}
             div status: {{ fetchedTxnStatus }}
-            div(v-if='fetchedTxn.utxo'  v-for='unspent in fetchedTxn.utxo')
-                div(v-if='unspent')
-                    div {{(unspent.value * 100000000).toLocaleString()}} : {{unspent.scriptPubKey.addresses}}
             div(v-if='fetchedTxn.memPool')
-                div fee: {{ (fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize).toFixed() }}
-
-
+                .chain(:class='getFeeColor(fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize)') fee: {{ (fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize).toFixed() }}
+            template(v-if='fetchedTxn.utxo && fetchedTxn.utxo.length > 0'  v-for='u in fetchedTxn.utxo')
+                div(v-if='u && u.value > 0 && u.scriptPubKey.addresses') {{ u.value }} : {{u.scriptPubKey.addresses}} - unspent
+            div(v-for='outp in filteredOut') {{ outp.value }} : {{outp.scriptPubKey.addresses}}
+        .breathing
 </template>
 
 <script>
@@ -64,16 +70,30 @@ import request from 'superagent'
 export default {
     data(){
         return {
+            showOutputs: false,
             fetchedTxn: {},
             txnCheck: '',
             selectedPeer: false,
             open: false,
+            sampleIndex: 0,
         }
     },
     components:{
          Tag, PointsSet
     },
     computed: {
+        filteredOut(){
+            if (this.fetchedTxn.utxo){
+                console.log('filtering outs becasuse there are unspents' , this.fetchedTxn.utxo.length)
+                let unspents = this.fetchedTxn.utxo.filter(x => x !== null).map(x => x.txid)
+                return this.fetchedTxn.vout.filter( y => {
+                    return unspents.indexOf(y.txid) === -1
+                })
+            } else {
+                console.log('returing vout?')
+                return this.fetchedTxn.vout.filter(() => true)
+            }
+        },
         fetchedTxnStatus(){
             if (this.fetchedTxn.memPool){
                 return 'unconfirmed'
@@ -106,18 +126,43 @@ export default {
         }
     },
     methods:{
-        checkTxid(){
+        getFeeColor(x){
+            if (x > 100) return { high : 1}
+            if (x > 50) return { midhigh : 1}
+            if (x > 10) return { mid: 1}
+            return {low: 1}
+        },
+        sampler(){
+            // merge this server side?, every click is obnoc
+            let allofem = this.$store.state.cash.info.mempool.sampleTxns.super
+                  .concat(this.$store.state.cash.info.mempool.sampleTxns.high)
+                  .concat(this.$store.state.cash.info.mempool.sampleTxns.med)
+                  .concat(this.$store.state.cash.info.mempool.sampleTxns.low)
+            let checkId = allofem[this.sampleIndex % allofem.length]
+            console.log('sampler samplin', {checkId})
+            this.checkTxid(checkId)
+            this.sampleIndex ++
+        },
+        checkTxid(x){
             request
                 .post('/bitcoin/transaction')
-                .send({txid : this.txnCheck})
+                .send({txid : x})
                 .set("Authorization", this.$store.state.loader.token)
                 .end((err, res)=>{
-                    this.fetchedTxn = res.body
+                    console.log('setting fetched txn', err, res.body)
+                    if (!err){
+                        this.fetchedTxn = res.body
+                    }
                 })
             this.txnCheck = ''
         },
         toggleOpen(){
             this.open = !this.open
+        },
+
+        toggleShowOutputs(){
+            this.showOutputs = !this.showOutputs
+            console.log('toggleded' , this.showOutputs)
         },
         selectPeer(pId){
             if (pId === this.selectedPeer){
@@ -286,6 +331,9 @@ p
     position: relative
     padding-top: 0.6em
 
+.outputs
+  cursor: pointer
+
 .chain.high
   background: linear-gradient(wrexred, rgba(0,0,0,0))
 .chain.midhigh
@@ -345,4 +393,6 @@ h5
 .spacer
     padding-top: 3.21em
     margin-bottom: .7654321em
+.sampler
+    cursor: pointer
 </style>

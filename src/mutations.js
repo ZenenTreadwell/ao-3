@@ -12,13 +12,6 @@ let outAddressConnect
 
 function aoMuts(aos, ev) {
   switch (ev.type) {
-    case "ao-linked":
-      aos.forEach(ao => {
-        if (ao.address === ev.address) {
-          ao.links.push(ev.taskId)
-        }
-      })
-      break
     case "ao-inbound-connected":
       inAddressConnect = aos.some(a => {
         if (a.address === ev.address) {
@@ -33,7 +26,6 @@ function aoMuts(aos, ev) {
           outboundSecret: false,
           inboundSecret: ev.secret,
           lastContact: Date.now(),
-          links: []
         }
         aos.push(newEv)
       }
@@ -52,17 +44,9 @@ function aoMuts(aos, ev) {
           outboundSecret: ev.secret,
           inboundSecret: false,
           lastContact: Date.now(),
-          links: []
         }
         aos.push(newEv)
       }
-      break
-    case "ao-link-disconnected":
-      aos.forEach(ao => {
-        if (ao.address === ev.address) {
-          ao.links = _.filter(ao.links, a => a !== ev.taskId)
-        }
-      })
       break
     case "ao-disconnected":
       aos.forEach((ao, i) => {
@@ -276,10 +260,15 @@ function sessionsMuts(sessions, ev) {
 function hashMapMuts(hashMap, ev){
     switch(ev.type){
         case "ao-outbound-connected":
-            hashMap[ev.address] = ev.i
+            if (!hashMap[ev.address]) {
+                console.log('outbound refering hashmap', ev.i)
+                hashMap[ev.address] = ev.i
+            }
             break
         case "ao-inbound-connected":
-            hashMap[ev.address] = ev.i
+            if (!hashMap[ev.address]) {
+                hashMap[ev.address] = ev.i
+            }
             break
         case "task-created":
             hashMap[ev.taskId] = ev.i
@@ -326,14 +315,31 @@ function hashMapMuts(hashMap, ev){
     }
 }
 
-let explodingTask, absorbingTask, claimed, pirate, task
+let explodingTask, absorbingTask, claimed, pirate, task, isExist, isExisting
 function tasksMuts(tasks, ev) {
   switch (ev.type) {
     case "ao-outbound-connected":
-        tasks.push(calculations.blankCard(ev.address, ev.address, 'blue'))
+        isExist = tasks.some(x => {
+            if (x.taskId === ev.address){
+                return true
+            }
+        })
+        if (!isExist){
+            console.log('creating address connect card')
+            tasks.push(calculations.blankCard(ev.address, ev.address, 'blue'))
+        } else {
+            console.log('found', ev.address)
+        }
         break
     case "ao-inbound-connected":
-        tasks.push(calculations.blankCard(ev.address, ev.address, 'red'))
+        isExisting = tasks.some(x => {
+            if (x.taskId === ev.address){
+                return true
+            }
+        })
+        if (!isExisting){
+            tasks.push(calculations.blankCard(ev.address, ev.address, 'red'))
+        }
         break
     case "member-field-updated":
       if (ev.field === 'action') {

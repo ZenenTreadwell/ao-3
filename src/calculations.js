@@ -64,17 +64,12 @@ function blankMember(memberId, name, fob, secret, lastUsed){
       lastUsed,
       active: 0,
       muted: true,
-      tooltips: true,
-      stacks: 1,
+      tooltips: false,
+      stacks: 1, // colorless
       payments: 0,
-      boats: true,
+      boats: false,
       action: false,
-      guides:true,
-      red: "#000000a0",
-      yellow: "#000000a0",
-      green: "#00f000a0",
-      purple: "#000000a0",
-      blue: "#000000a0",
+      guides:false,
     }
 }
 

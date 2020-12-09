@@ -22,11 +22,11 @@
       #btnpanel.btnpanel
           .ping {{ $store.state.loader.reqStatus }}
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
-              button(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" }').redwx.paperwrapper
-              button(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" }').yellowwx.paperwrapper
-              button(@click.stop='switchColor("green")'  :class='{ down : task.color === "green" }').greenwx.paperwrapper
-              button(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" }').purplewx.paperwrapper
-              button(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" }').bluewx.paperwrapper
+              .fifth(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" }').redtx.paperwrapper
+              .fifth(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" }').yellowtx.paperwrapper
+              .fifth(@click.stop='switchColor("green")'  :class='{ down : task.color === "green" }').greentx.paperwrapper
+              .fifth(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" }').purpletx.paperwrapper
+              .fifth(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" }').bluetx.paperwrapper
       .scrollbarwrapper(v-show='showSearch')
           .searchresults
               .boatContainer
@@ -109,9 +109,10 @@ export default {
     },
     methods: {
         testAll(){
-            this.showCreate = true
-            this.refocus()
-            console.log('test all show create should have opend')
+            if (this.showCreate === false){
+                this.showCreate = true
+                this.refocus()
+            }
         },
         testEscape(){
             if (this.showCreate){
@@ -512,10 +513,10 @@ button.inactive
     opacity: 0.2
 
 .down
-    background-image: url('../assets/images/down.svg')
-    background-size: cover
-    background-position: center center
-    opacity: 0.9
+    color: main
+
+.down:before
+    color: main
 
 .currentColor
     opacity: 1
@@ -617,12 +618,18 @@ button.inactive
 
 .ping
     padding-top: 0.789em
-    float: left
+    position: absolute
+    left: 3px
+    bottom: 3px
 
 .pend
     float: right
 
-
-
-
+.fifth
+    display: inline-block
+    width: 20%
+    font-size: 4.44em
+    color: lightGrey
+.fifth:before
+    content: "\2022";
 </style>

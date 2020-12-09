@@ -86,7 +86,8 @@ function aoInboundConnected(address, secret, callback){
     let newEvent = {
         type: "ao-inbound-connected",
         address,
-        secret
+        secret,
+        i: serverState.tasks.length,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
@@ -105,6 +106,7 @@ function aoOutboundConnected(address, secret, callback) {
         type: "ao-outbound-connected",
         address,
         secret,
+        i: serverState.tasks.length,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }

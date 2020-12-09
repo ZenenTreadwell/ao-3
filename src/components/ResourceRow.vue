@@ -79,9 +79,6 @@ export default {
                 if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
                     this.$store.commit("setMode", 1)
                 }
-                if (this.$store.getters.resourceIdsard.boost > 0){
-                    this.$store.commit("setMode", 3)
-                }
             }
         },
     }

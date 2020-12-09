@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-#accounts
+#settings
     .row
         .six.columns
             .section update
@@ -24,14 +24,14 @@
             button(@click='update'  v-if='change.newfield') update
         .six.columns
             .section preferences
-            .check.click(@click='toggleTooltips')
-                img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
-                img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space tooltip
+            //- .check.click(@click='toggleTooltips')
+            //-     img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
+            //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
+            //-     span.space tooltip
             .check.click(@click='toggleGuides')
                 img.checkmark(v-if='$store.getters.member.guides'  src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space guide
+                span.space guides
             //- .check.click(@click='toggleMuted')
             //-     img.checkmark(v-if='!$store.getters.member.muted', src='../assets/images/completed.svg')
             //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
@@ -39,7 +39,7 @@
             .check.click(@click='toggleStacks')
                 img.checkmark(v-if='$store.getters.member.stacks === 5', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space color
+                span.space colors
     .breathing
 </template>
 
@@ -205,6 +205,9 @@ export default {
 @import '../styles/title'
 @import '../styles/button'
 @import '../styles/input'
+
+#settings
+    overflow: scroll
 
 button
     background: main

@@ -7,7 +7,6 @@ const calculations = require( '../calculations')
 const events = require( './events')
 const connector = require( './connector')
 const lightning = require( './lightning')
-
 const router = express.Router()
 
 router.post('/events', (req, res, next) => {
@@ -498,7 +497,7 @@ router.post('/events', (req, res, next)=>{
             validators.isNotes(req.body.name, errRes) &&
             validators.isNotes(req.body.color, errRes) &&
             validators.isNotes(req.body.deck, errRes) &&
-            validators.isTaskId(req.body.inId)
+            validators.isTaskId(req.body.inId, errRes)
           ){
               events.taskCreated(
                   req.body.name,

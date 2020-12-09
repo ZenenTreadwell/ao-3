@@ -10,16 +10,13 @@
     div(v-if='b.taskId !== $store.getters.contextCard.taskId')
         simple-priorities(:taskId="b.taskId")
     .passed
-        div.totop(v-if='b.passed.length + links.length > 0  && $store.state.upgrades.bird')
+        div.totop(v-if='b.passed.length > 0  && $store.state.upgrades.bird')
             div(@click='toggleBird')
                 template(v-for='n in b.passed')
                     .row.pad.centered
                         current(:memberId='n[0]')
                         img.send(src='../assets/images/send.svg')
                         current(:memberId='n[1]')
-                template(v-for='l in links')
-                    .row.pad.centered
-                        h6 {{l}}
     div
         .copydiv
             img.copied(src='../assets/images/loggedOut.svg'  :class='{hidden:!showCopied}'  @click.stop='copyCardToClipboard')
@@ -27,11 +24,8 @@
             img.scrolly(src='../assets/images/downboat.svg'  :class='{hidden:!$store.getters.member.guides}')
         .vine(@click.stop='pop')
             img.viney(src='../assets/images/explode.svg'  :class='{hidden:!$store.getters.member.guides}')
-        .singlebird(v-if='links.length + b.passed.length > 0'  @click.stop='toggleBird'  v-show='!$store.state.upgrades.bird')
+        .singlebird(v-if='b.passed.length > 0'  @click.stop='toggleBird'  v-show='!$store.state.upgrades.bird')
             .row.pad.centered()
-                span(v-if='links.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
-                    img.send(src='../assets/images/send.svg')
-                    span {{ links.length}}
                 span(v-if='b.passed.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
                     img.send(src='../assets/images/send.svg')
                     span {{ b.passed.length}}
@@ -154,15 +148,6 @@ export default {
         },
         w(){
             return this.$store.getters.weights[this.b.taskId]
-        },
-        links(){
-            let links = []
-            this.$store.state.ao.forEach(a => {
-              if (a.links.indexOf(this.b.taskId) > -1) {
-                links.push(a.address)
-              }
-            })
-            return links
         },
         cardInputSty(){
           if(!this.b) {

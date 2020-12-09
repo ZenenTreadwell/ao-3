@@ -5,7 +5,7 @@
       .four.grid.dot(@click.stop='prevMonth')
       .four.grid(@click='clickDateBar')
           .soft {{ monthName }} - {{year}}
-                  span(v-if='chosenDay') - {{ chosenDay }}
+              span(v-if='chosenDay') - {{ chosenDay }}
       .four.grid.dot(@click.stop='nextMonth')
   .calmonth(v-if='!chosenDay')
       .weekday(v-for='day in DAYS_OF_WEEK') {{ day }}
@@ -211,9 +211,7 @@ export default {
         allTasks = _.uniq(allTasks)
         return allTasks
             .map(tId => {
-                let ttttt = this.$store.state.tasks[this.$store.state.hashMap[tId]]
-                console.log(tId, ttttt)
-                return ttttt
+                return this.$store.state.tasks[this.$store.state.hashMap[tId]]
             })
     },
     firstDay(){
