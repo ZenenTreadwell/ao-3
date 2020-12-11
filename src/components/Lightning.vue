@@ -6,7 +6,7 @@
         .four.grid(v-if='$store.state.cash.info.mempool')
             .section {{ $store.state.cash.info.blockheight.toLocaleString()}} blocks
             .section() {{ ( (Date.now() - $store.state.cash.info.blockfo.time * 1000  ) / 60 / 1000).toFixed(1) }}min since tip
-            .section tips fee percentiles (sat per byte)
+            .section tip's fee percentiles (sat/byte)
             .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[4])') 90th {{ $store.state.cash.info.blockfo.feerate_percentiles[4] }}
             .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[3])') 75th {{ $store.state.cash.info.blockfo.feerate_percentiles[3] }}
             .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[2])') 50th {{ $store.state.cash.info.blockfo.feerate_percentiles[2] }}

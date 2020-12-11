@@ -5,20 +5,21 @@
       .four.grid.dot(@click.stop='prevMonth')
       .four.grid(@click='clickDateBar')
           .soft {{ monthName }} - {{year}}
-              span(v-if='chosenDay') - {{ chosenDay }}
+              span(v-if='$store.state.upgrades.chosenDay') - {{ $store.state.upgrades.chosenDay }}
       .four.grid.dot(@click.stop='nextMonth')
-  .calmonth(v-if='!chosenDay')
+  .calmonth(v-if='$store.state.upgrades.mode === "timecube"')
       .weekday(v-for='day in DAYS_OF_WEEK') {{ day }}
       .placeholder(v-for='placeholder in firstDay')
       div.deh(v-for='day in days'  @click='chooseDay(day)')
           day(:day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
       .placeholder(v-for='placeholder in lastDay')
-  .calmonth(v-else)
+  .calmonth(v-else-if='$store.state.upgrades.mode === "boat"')
       .weekdayfull(@click='clickDateBar') {{ chosenWeekDay }}
       .grey
-          .datenumber  {{ chosenDay }}
+          .datenumber  {{ $store.state.upgrades.chosenDay }}
           .soft(v-for='n in selectedDaysEvs')
               div(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
+                  img.completedcheckmark(src='../assets/images/completed.svg')
                   current(:memberId='n.memberId')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }}
                   span - {{ getFromMap(n.taskId).name }}
@@ -30,10 +31,15 @@
               div(v-else-if='checkIsMember(n.name)'  @click='goIn(n.taskId)')
                   span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ checkIsMember(n.name) }}
               div(v-else  @click='goIn(n.taskId)')
-                  span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ n.name }}
+                  .row
+                      .two.grid
+                          img.completedcheckmark(src='../assets/images/uncompleted.svg')
+                          span {{ new Date(n.book.startTs).toString().slice(15,21) }} -
+                      .ten.grid
+                          simple-priority(:taskId='n.taskId'  :inId="$store.getters.contextCard.taskId"  :c='[]')
           div(v-if='selectedDaysEvs.length === 0')
-              .soft(@click='clickDateBar') - no activity
-          priorities(v-if='new Date().getDate() === chosenDay')
+              .soft(@click='clickDateBar') -
+          priorities(v-if='new Date().getDate() === $store.state.upgrades.chosenDay')
   .buffer
 </template>
 
@@ -43,6 +49,7 @@ import Day from './Day.vue'
 import Current from './Current.vue'
 import Currentr from './Currentr.vue'
 import Priorities from './Priorities.vue'
+import SimplePriority from './SimplePriority.vue'
 
 function getDMY(ts){
     let d = new Date(ts)
@@ -55,7 +62,7 @@ function getDMY(ts){
 export default {
   props: ['inId'],
   components: {
-    Day, Currentr, Current, Priorities
+    Day, Currentr, Current, Priorities, SimplePriority
   },
   methods: {
       checkIsMember(name){
@@ -69,8 +76,8 @@ export default {
           return mName
       },
       clickDateBar(){
-          if (this.chosenDay){
-              this.chooseDay(false)
+          if (this.$store.state.upgrades.chosenDay >= 0){
+              this.chooseDay(undefined)
           } else {
               this.chooseDay(this.today.day)
               this.month = this.today.month
@@ -101,14 +108,14 @@ export default {
           return this.$store.state.tasks[this.$store.state.hashMap[taskId]]
       },
       chooseDay(x){
-          if (x === this.chosenDay){
-              return this.$store.commit('chooseDay', "")
+          if (x === this.$store.state.upgrades.chosenDay){
+              return this.$store.commit('chooseDay', undefined)
           }
           this.$store.commit('chooseDay', x)
       },
       nextMonth(){
-          if (this.chosenDay){
-              return this.$store.commit('chooseDay', this.chosenDay + 1)
+          if (this.$store.state.upgrades.chosenDay){
+              return this.$store.commit('chooseDay', this.$store.state.upgrades.chosenDay + 1)
           }
           if (this.month == 11){
             this.year++
@@ -119,8 +126,8 @@ export default {
           }
       },
       prevMonth(){
-          if (this.chosenDay){
-              return this.$store.commit('chooseDay', this.chosenDay - 1)
+          if (this.$store.state.upgrades.chosenDay){
+              return this.$store.commit('chooseDay', this.$store.state.upgrades.chosenDay - 1)
           }
           if (this.month == 0){
               this.year--
@@ -143,15 +150,12 @@ export default {
   },
   computed: {
     chosenWeekDay(){
-        let date = new Date(this.year, this.month, this.chosenDay)
+        let date = new Date(this.year, this.month, this.$store.state.upgrades.chosenDay)
         let firstDay = date.getDay()
         return this.DAYS_OF_WEEK[firstDay]
     },
-    chosenDay(){
-        return this.$store.state.upgrades.chosenDay
-    },
     selectedDaysEvs(){
-        let selectDays = _.uniqBy(this.eventsByDay[this.chosenDay], u => u.taskId )
+        let selectDays = _.uniqBy(this.eventsByDay[this.$store.state.upgrades.chosenDay], u => u.taskId )
         selectDays.sort((a, b) => a.timestamp - b.timestamp)
         return selectDays
     },
@@ -222,7 +226,6 @@ export default {
     lastDay(){
         let date = new Date(this.year, this.month + 1, 0)
         let lastDay = date.getDay()
-        console.log({lastDay})
         return  6 - lastDay
     },
     days(){
@@ -390,5 +393,6 @@ tr, td
 .dot:before
     content: "\2022";
 
-
+img.completedcheckmark
+    height: .99em
 </style>

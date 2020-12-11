@@ -364,7 +364,7 @@ function tasksMuts(tasks, ev) {
             task.actions.forEach(a => {
               if (a.memberId === ev.memberId && a.isActive) {
                 a.isActive = false
-                a.total += (ev.timestamp - a.timestamp)
+                a.tthis.$store.state.upgrades.chosenDayotal += (ev.timestamp - a.timestamp)
               }
             })
           }
@@ -498,6 +498,9 @@ function tasksMuts(tasks, ev) {
         if (task.taskId === ev.inId) {
           task.subTasks = _.filter(task.subTasks, tId => tId !== ev.taskId)
           task.subTasks.push(ev.taskId)
+          if (task.stackView[ev.color] > -1){
+              task.stackView[ev.color] = 0
+          }
         }
       })
       break

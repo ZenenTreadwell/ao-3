@@ -45,6 +45,8 @@ export default {
 
 <style lang='stylus'>
 // adding scoped causes ui bugs in context rows I do not understand how (ghosts)
+.linky
+    word-wrap: break-word;
 
 .centered
     text-align: center

@@ -16,6 +16,11 @@ const state = {
 const mutations = {
     chooseDay(state, x){
         state.chosenDay = x
+        if (x >= 0){
+            state.mode = modes[1]
+        } else {
+            state.mode = modes[2]
+        }
     },
     setSearch(state, x){
         console.log('setsearch called', x)
@@ -36,6 +41,11 @@ const mutations = {
         state.mode = modes[prevIndex]
     },
     setMode(state, index) {
+        if (index === 1){
+            state.chosenDay = new Date().getDate()
+        } else if (index === 2){
+            state.chosenDay = undefined
+        }
         state.mode = modes[index]
     },
     closeUpgrades(state) {

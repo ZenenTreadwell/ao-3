@@ -1,18 +1,21 @@
 <template lang='pug'>
 
 .memberrow.membershipcard
-    .topleft(v-if='$store.getters.inbox.length > 1'  @click='goDoge')
-        img.smallguild(src='../assets/images/sendselected.svg')
-        label.stash {{ $store.getters.inbox.length }}
-    .row.center.clearboth(@click='$store.commit("setMode", 0)'   :class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
-        label.hackername(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }')
-            linky(:x='m.name')
-            span(v-if='m.guild') # {{m.guild}}
-    .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
     .bottomright()
         div(@click='$store.commit("setMode", 3)'  :class='{here: $store.state.upgrades.mode === "chest"}')
             .stash(v-if='card.boost > 0') {{ card.boost.toLocaleString() }}
             .stash(v-else) - -
+    .topleft(v-if='$store.getters.inbox.length > 1'  @click='goDoge')
+        img.smallguild(src='../assets/images/sendselected.svg')
+        label.stash {{ $store.getters.inbox.length }}
+    .row.center.clearboth(@click='$store.commit("setMode", 0)'   :class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
+        label(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }')
+            linky(:x='m.name')
+            span(v-if='m.guild') # {{m.guild}}
+    div
+        .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
+        .bottomleft(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}')
+        .bottomleft(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
     .clearboth
 </template>
 
@@ -56,6 +59,20 @@ export default {
         },
     },
     methods: {
+        toChest(){
+            if (this.$store.state.upgrades.mode === "chest"){
+                this.$store.commit("setMode", 0)
+            } else {
+                this.$store.commit("setMode", 3)
+            }
+        },
+        toTimeCube(){
+            if (this.$store.state.upgrades.mode === "timecube"){
+                this.$store.commit("setMode", 0)
+            } else {
+                this.$store.commit("setMode", 2)
+            }
+        },
         toBoat(){
             if (this.$store.state.upgrades.mode === "boat"){
                 this.$store.commit("setMode", 0)
@@ -150,7 +167,6 @@ label
 .membershipcard
     padding: 1em
     background: rgba(22, 22, 22, 0.2)
-    position: relative
 
 .smallguild
     height: 2em
@@ -173,13 +189,12 @@ label
 
 
 .bottomleft
-    position: relative;
-    bottom: 0;
-    left: 0;
+    display: inline-block
+    width: 33.3%
     font-size: 3.3em;
-    margin-bottom: -0.7em;
     cursor: pointer
     color: lightGrey
+    text-align: center
 .bottomleft:before
     content: "\2022"
 .bottomleft.activationsequence
@@ -187,8 +202,8 @@ label
 
 .bottomright
     width: fit-content
-    right: 0
-    bottom: 0.65em
+    right: 0.1em
+    top: 0.1em
     float: right
     cursor: pointer
 

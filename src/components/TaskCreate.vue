@@ -22,11 +22,11 @@
       #btnpanel.btnpanel
           .ping {{ $store.state.loader.reqStatus }}
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
-              .fifth(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" }').redtx.paperwrapper
-              .fifth(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" }').yellowtx.paperwrapper
-              .fifth(@click.stop='switchColor("green")'  :class='{ down : task.color === "green" }').greentx.paperwrapper
-              .fifth(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" }').purpletx.paperwrapper
-              .fifth(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" }').bluetx.paperwrapper
+              .fifth(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" && showCreate }').redtx.paperwrapper
+              .fifth(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" && showCreate }').yellowtx.paperwrapper
+              .fifth(@click.stop='switchColor("green")'  :class='{ down : task.color === "green"  && showCreate}').greentx.paperwrapper
+              .fifth(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" && showCreate }').purpletx.paperwrapper
+              .fifth(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" && showCreate }').bluetx.paperwrapper
       .scrollbarwrapper(v-show='showSearch')
           .searchresults
               .boatContainer
@@ -386,7 +386,7 @@ export default {
 
 textarea
     border-color: rgba(0, 0, 0, 0.4)
-    height: 12.5em
+    height: 6em
 textarea.inactive
     height: 2em
 
@@ -630,6 +630,8 @@ button.inactive
     width: 20%
     font-size: 4.44em
     color: lightGrey
+    margin-top:-0.5em
+    margin-bottom:-0.5em
 .fifth:before
     content: "\2022";
 </style>
