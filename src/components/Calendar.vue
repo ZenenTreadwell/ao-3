@@ -31,12 +31,8 @@
               div(v-else-if='checkIsMember(n.name)'  @click='goIn(n.taskId)')
                   span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ checkIsMember(n.name) }}
               div(v-else  @click='goIn(n.taskId)')
-                  .row
-                      .two.grid
-                          img.completedcheckmark(src='../assets/images/uncompleted.svg')
-                          span {{ new Date(n.book.startTs).toString().slice(15,21) }} -
-                      .ten.grid
-                          simple-priority(:taskId='n.taskId'  :inId="$store.getters.contextCard.taskId"  :c='[]')
+                  img.completedcheckmark(src='../assets/images/uncompleted.svg')
+                  span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{n.name}}
           div(v-if='selectedDaysEvs.length === 0')
               .soft(@click='clickDateBar') -
           priorities(v-if='new Date().getDate() === $store.state.upgrades.chosenDay')

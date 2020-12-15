@@ -575,6 +575,11 @@ label
 .copied
     height: 2em
 
+.copied.hidden
+    opacity: 0.02
+    cursor: pointer
+
+
 .copydiv
     padding-left: 50% - 2em
 

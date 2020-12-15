@@ -10,9 +10,9 @@
         label.stash {{ $store.getters.inbox.length }}
     .row.center.clearboth(@click='$store.commit("setMode", 0)'   :class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
         label(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }')
+            div(v-if='m.guild') # {{m.guild}}
             linky(:x='m.name')
-            span(v-if='m.guild') # {{m.guild}}
-    div
+    .hereswitcher
         .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
         .bottomleft(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}')
         .bottomleft(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
@@ -141,6 +141,10 @@ export default {
 
 @import '../styles/colours'
 
+.hereswitcher
+    background: rgba(22, 22, 22, 0.2)
+    border-radius: 2%
+
 .row.center.clearboth
     cursor: pointer
 
@@ -166,7 +170,11 @@ label
 
 .membershipcard
     padding: 1em
-    background: rgba(22, 22, 22, 0.2)
+    background-color: #fff;
+    box-shadow:
+        0 0 6px 3px white,  /* inner white */
+        0 0 7px 4px lightGrey, /* middle magenta */
+        0 0 8px 5px main; /* outer cyan */
 
 .smallguild
     height: 2em

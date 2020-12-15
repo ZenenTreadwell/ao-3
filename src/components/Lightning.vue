@@ -13,8 +13,7 @@
             .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[1])') 25th {{ $store.state.cash.info.blockfo.feerate_percentiles[1] }}
             .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[0])') 10th {{ $store.state.cash.info.blockfo.feerate_percentiles[0] }}
             .section recommend {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/byte
-            .section {{ $store.state.cash.info.mempool.size }} unconfirmed ({{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed() }} MB)
-            .section.sampler(@click='sampler') sample unconfirmed
+            .section.sampler(@click='sampler') {{ $store.state.cash.info.mempool.size }} unconfirmed ({{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed(1) }} MB)
         .eight.grid(v-if='$store.state.cash.info.channels')
             .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') in channels ({{ $store.state.cash.info.channels.length }})
             .row
@@ -25,14 +24,14 @@
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id'  :class='{spacer: selectedPeer === i}')
                     .localremote(v-show='selectedPeer === i'   @click='selectedPeer = false')
                         .localbar.tall(:style='l(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseFloat( n.channel_sat ).toLocaleString() }}
-                        .remotebar.tall(:style='r(n)')  {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
+                        .remotebar.tall(:style='r(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
                     .chanfo(v-show='selectedPeer === i')
                         div pubkey: {{ n.peer_id }}
                         div(@click='checkTxid(n.funding_txid)') txid: {{ n.funding_txid }}
                         div(v-if='n.state !== "CHANNELD_NORMAL"') state: {{ n.state }}
                     .localremote(v-show='selectedPeer !== i'   @click='selectedPeer = i')
                         .localbar(:style='l(n)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
-                        .remotebar(:style='r(n)')
+                        .remotebar(:style='r(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
                 //- .center(v-if='$store.state.cash.info.address.length > 0')
                 //-     span {{ $store.state.cash.info.id }}
                 //-     span @{{ $store.state.cash.info.address[0].address }}
@@ -384,6 +383,9 @@ h5
     height: 0.622em
     background: linear-gradient(rgba(0,0,0,0), wrexgreen)
     float: right
+
+.remotebar.abnormal
+    background: linear-gradient(rgba(0,0,0,0), wrexred)
 
 .breathing
     height: 3.5em

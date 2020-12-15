@@ -256,7 +256,7 @@ export default {
             }
             this.task.color = color
             if(refocus) {
-                this.refocus
+                this.refocus()
             }
         },
         refocus(){
@@ -462,6 +462,7 @@ button.inactive
    height: 3em
 
 .btnpanel
+    overflow: hidden
     button
         cursor: pointer
         min-height: 2.5em
@@ -630,8 +631,9 @@ button.inactive
     width: 20%
     font-size: 4.44em
     color: lightGrey
-    margin-top:-0.5em
-    margin-bottom:-0.5em
+    margin-top:-0.4em
+    margin-bottom:-0.4em
+    border-radius: 2%
 .fifth:before
     content: "\2022";
 </style>
