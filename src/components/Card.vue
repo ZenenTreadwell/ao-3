@@ -224,7 +224,8 @@ export default {
 .task
     margin:10px 0
     padding:20px
-    cursor: crosshair;
+    cursor: crosshair
+    border-radius: 2%
 .row
     width: 100%
     .mainColumn

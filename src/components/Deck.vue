@@ -14,7 +14,6 @@
             //-     context(:taskId='n')
             //- .centerer
             //-     .more.aftermore(v-if='panelSplit.after.length > 5') +{{ panelSplit.after.length - 5 }}
-            auth
             //- points-set(v-if='$store.state.upgrades.mode === "chest"'   :b='$store.getters.contextCard')
         .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"  ||  $store.getters.inbox.length > 0'  :class='{darkmode: $store.getters.member.stacks === 1}')
             zen(v-show='$store.state.upgrades.mode === "doge" && $store.getters.inbox.length > 0')

@@ -2,17 +2,14 @@
 
 #accounts
     .breathing
-    div {{ activeAccounts }} accounts, {{$store.state.resources.length}} resources, {{ $store.state.ao.length }} connections
+    div {{ activeAccounts }} accounts
+        span(v-if='$store.state.resources.length  > 0') , {{$store.state.resources.length}} resources
+        span(v-if='$store.state.ao.length > 0') , {{ $store.state.ao.length }} links
+    resource-row(v-for='r in $store.state.resources'  :r='r')
     .list
         member-row(v-for="m in coreMembers"  :m='m'  :key='m.memberId')
         member-row(v-for="m in pendingDeactivations"  :m='m'  :key='m.memberId')
         member-row(v-for="m in nonMembers"  :m='m'  :key='m.memberId')
-    .breathing
-    resource-row(v-for='r in $store.state.resources'  :r='r')
-    .breathing
-    connect
-    .breathing
-    projects
 </template>
 
 <script>

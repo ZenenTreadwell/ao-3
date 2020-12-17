@@ -9,6 +9,7 @@
         img.smallguild(src='../assets/images/sendselected.svg')
         label.stash {{ $store.getters.inbox.length }}
     .row.center.clearboth(@click='$store.commit("setMode", 0)'   :class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
+        auth
         label(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }')
             div(v-if='m.guild') # {{m.guild}}
             linky(:x='m.name')
@@ -24,10 +25,11 @@
 import Bird from './Bird'
 import Current from './Current'
 import Linky from './Linky'
+import Auth from './Auth'
 
 export default {
     props: ['m'],
-    components: {Bird, Current, Linky},
+    components: {Bird, Current, Linky, Auth},
     computed:{
         card(){
             return this.$store.getters.contextCard
