@@ -4,7 +4,7 @@ const express = require( 'express')
 const lightningRouter = express.Router()
 const allEvents = require('./events')
 const calculations = require( '../calculations')
-const LightningClient = require( 'lightning-client')
+const LightningClient = require( './lightning-client')
 const {serverState} = require( './state')
 const client = new LightningClient(config.clightning.dir, true);
 const Client = require('bitcoin-core');
@@ -20,10 +20,6 @@ function getDecode (rawx){
         .catch(console.log)
 }
 
-function onePercent(){
-   return Math.random() > 0.95
-}
-
 function newSample(){
     return { super: [], high: [], mid:[], low: [] }
 }
@@ -35,29 +31,26 @@ function getMempool(){
               return bitClient.getRawMempool()
                   .then(rawMemPool => {
                       sampleTxns = newSample()
-                      return rawMemPool.reduce( (prevPromise, txid) => {
-                          if (onePercent()){
-                              return prevPromise.then( x => {
-                                  return bitClient.getMempoolEntry(txid)
-                                      .then(mentry => {
-                                          let satFee = mentry.fee * 100000000 / mentry.vsize
-                                          if (satFee > 150){
-                                              sampleTxns.super.push(txid)
-                                          } else if (satFee > 50){
-                                              sampleTxns.high.push(txid)
-                                          } else if (satFee > 10){
-                                              sampleTxns.mid.push(txid)
-                                          } else {
-                                              sampleTxns.low.push(txid)
-                                          }
-                                          return Promise.resolve()
-                                      }).catch(noTx => {
-                                          return Promise.resolve()
-                                      })
+                      let sample = _.sampleSize(rawMemPool, 100)
+                      return sample.reduce( (prevPromise, txid) => {
+                          return prevPromise.then( x => {
+                              return bitClient.getMempoolEntry(txid)
+                                  .then(mentry => {
+                                      let satFee = mentry.fee * 100000000 / mentry.vsize
+                                      if (satFee > 150){
+                                          sampleTxns.super.push(txid)
+                                      } else if (satFee > 50){
+                                          sampleTxns.high.push(txid)
+                                      } else if (satFee > 10){
+                                          sampleTxns.mid.push(txid)
+                                      } else {
+                                          sampleTxns.low.push(txid)
+                                      }
+                                      return Promise.resolve()
+                                  }).catch(noTx => {
+                                      return Promise.resolve()
+                                  })
                               })
-                        } else {
-                            return prevPromise
-                        }
                       } , Promise.resolve())
                           .then(x => {
                               return bitClient.estimateSmartFee(6)
@@ -177,7 +170,6 @@ function checkFunds(){
 }
 
 function getInfo(){
-    let startAt = Date.now()
     return client
         .getinfo()
         .then(mainInfo => {
@@ -193,7 +185,6 @@ function getInfo(){
                                 mainInfo.mempool = mempool
                                 try {
                                     allEvents.getNodeInfo(mainInfo)
-                                    console.log('took ', Date.now() - startAt , 'ms'  )
                                 } catch (err) {
                                     console.log('getNodeInfo error:  ', err)
                                 }
