@@ -76,35 +76,10 @@ function reactions(ev){
             case 'resource-created':
                 break
             case 'task-created':
-                lightning.newAddress()
-                    .then(result => {
-                        events.addressUpdated(
-                            ev.taskId,
-                            result['p2sh-segwit'],
-                        )
-                    })
-                    .catch(err => console.log("newaddress error", err))
                 break
             case 'resource-created':
-                lightning.newAddress()
-                    .then(result => {
-                        events.addressUpdated(
-                            ev.resourceId,
-                            result['p2sh-segwit'],
-                        )
-                    })
-                    .catch(err => console.log("rcre newaddr", err))
                 break
             case 'member-created':
-                lightning.newAddress()
-                    .then(result => {
-                        events.addressUpdated(
-                            ev.memberId,
-                            result['p2sh-segwit'],
-                            utils.buildResCallback(res)
-                        )
-                    })
-                    .catch(err => console.log("mcr newaddr", err))
                 break
         }
     })

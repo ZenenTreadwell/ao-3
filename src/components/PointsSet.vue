@@ -1,9 +1,12 @@
 <template lang='pug'>
 
 div
+    .showaddr(@click='$store.commit("setPayMode", 1)')
+        img(src='../assets/images/bitcoin.svg')
     input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
     button(@click.stop='setValue')
         div(v-if='sats > 0  && sats !== Infinity') 0.01 {{ $store.state.cash.currency }} ~ {{ sats.toFixed(0) }}
+        img(src='../assets/images/lightning.svg')
 
 </template>
 
@@ -45,17 +48,26 @@ export default {
 @import '../styles/input'
 @import '../styles/colours'
 
-button
-    width: 50%
-    float: right
-    height: 2.2em
+img
+    height: 1em
 
+.showaddr
+    width: 20%
+    display: inline-block;
+    cursor: pointer
+
+
+button
+    width: 40%
+    height: 2.2em
+    display: inline-block;
 input
+    display: inline-block;
     border-color: rgba(22, 22, 22, 1)
     border-width: 1px
     background-color: rgba(22, 22, 22, 0.3)
     height: 2.2em
-    width: 50%
+    width: 40%
     color: lightGrey
 
 

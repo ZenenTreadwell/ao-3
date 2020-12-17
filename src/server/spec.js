@@ -21,6 +21,19 @@ router.post('/events', (req, res, next) => {
 router.post('/events', (req, res, next)=>{
   let errRes = []
   switch (req.body.type){
+      case "address-updated":
+          if (validators.isTaskId(req.body.taskId, errRes)){
+              lightning.newAddress()
+                  .then(result => {
+                      events.addressUpdated(
+                        req.body.taskId,
+                        result['p2sh-segwit'],
+                        utils.buildResCallback(res)
+                      )
+                  })
+              .catch(console.log)
+          }
+          break
       case "ao-link-disconnected":
           if (
             validators.isTaskId(req.body.taskId, errRes) &&

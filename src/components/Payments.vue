@@ -24,6 +24,14 @@ import PointsSet from './PointsSet'
 import Lightning from './Lightning'
 
 export default {
+    mounted(){
+        if (this.$store.state.upgrades.paymode === "bitcoin"  && !this.b.btcAddr){
+            this.$store.dispatch("makeEvent", {
+                type: 'address-updated',
+                taskId: this.b.taskId
+            })
+        }
+    },
     components:{
         Tag, Lightning, PointsSet
     },

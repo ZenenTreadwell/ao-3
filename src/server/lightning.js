@@ -101,34 +101,6 @@ lightningRouter.post('/lightning/channel',(req, res) => {
         })
 })
 
-function confirmTaskAddrs(){
-    serverState.tasks.forEach(t => {
-        if (!t.btcAddr){
-            newAddress()
-                .then(result => {
-                    allEvents.addressUpdated(
-                        t.taskId,
-                        result['p2sh-segwit'],
-                    )
-                })
-                .catch(err => console.log("confirm newaddr", err))
-        }
-    })
-}
-
-function nukePays(){
-    client.listpays().then(x => {
-        x.pays.reduce((pchain, p) => {
-            return pchain.then( () => {
-                if (p.status === 'failed'){
-                    return client.delpay(p.payment_hash, p.status)
-                }
-            })
-        }, Promise.resolve())
-
-    }).catch(console.log)
-}
-
 function createInvoice(sat, label, description, expiresInSec){
     return client.invoice(sat * 1000, label, description, expiresInSec)
 }
@@ -143,7 +115,6 @@ function updateAll(){
 }
 
 function watchOnChain(){
-    confirmTaskAddrs()
     setInterval(updateAll, 1000 * 111)
     setTimeout( () => {
         updateAll()
