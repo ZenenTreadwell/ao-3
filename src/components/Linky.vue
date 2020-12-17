@@ -6,7 +6,8 @@
 
 <script>
 
-import markdown from 'markdown'
+import markdown from 'markdown-it'
+let md = new markdown();
 
 export default {
     name: 'linky',
@@ -27,7 +28,7 @@ export default {
             return linkedtext
         },
         m(){
-            return markdown.markdown.toHTML(this.x)
+            return md.render(this.x)
         }
     },
     data: function() {

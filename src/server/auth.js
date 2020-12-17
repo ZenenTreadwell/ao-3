@@ -39,10 +39,14 @@ function socketAuth(socket, data, callback){
     let authorized
     state.serverState.sessions.forEach(session => {
         if (session.token === data.token){
-            authorized = true
+            state.serverState.members.forEach(m => {
+                if (m.memberId === session.ownerId){
+                    console.log("socket authorized for ", m.name)
+                    authorized = true
+                }
+            })
         }
     })
-    console.log("socket auth triggered:", authorized)
     callback(null, authorized)
 }
 
