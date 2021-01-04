@@ -56,7 +56,10 @@ function getMempool(){
                               return bitClient.estimateSmartFee(6)
                                   .then(smartFee => {
                                       memPoolInfo.smartFee = smartFee
-                                      memPoolInfo.sampleTxns = sampleTxns
+                                      memPoolInfo.sampleTxns = sampleTxns.super
+                                            .concat(sampleTxns.high)
+                                            .concat(sampleTxns.med)
+                                            .concat(sampleTxns.low)
                                       return memPoolInfo
                                   })
                           })
@@ -85,7 +88,7 @@ lightningRouter.post('/bitcoin/transaction',(req, res) => {
                           res.send(txn)
                         })
                     }
-                }).catch(console.log)
+                }).catch(inValidTxid => console.log('getDecode caught', req.body.txid, inValidTxid))
         })
 })
 
@@ -115,7 +118,7 @@ function updateAll(){
 }
 
 function watchOnChain(){
-    setInterval(updateAll, 1000 * 111)
+    setInterval(updateAll, 1000 * 60 * 13)
     setTimeout( () => {
         updateAll()
     }, 560)

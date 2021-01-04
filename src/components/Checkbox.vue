@@ -74,12 +74,11 @@ export default {
 .checkbox
     opacity: 0.5
     cursor: pointer
-
-    z-index: 105
-    position: absolute
-    right: 0.25em
-    top: 0.15em
-    display: block
+    // z-index: 105
+    // position: absolute
+    // right: 0.25em
+    // top: 0.15em
+    // display: block
     min-width: 0.75em
 
 img.checkmark

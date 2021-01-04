@@ -11,8 +11,6 @@
         a(:href='"bitcoin:" + b.btcAddr')
             tag(:d='b.btcAddr'  size='7')
         points-set(:b='$store.getters.contextCard')
-    .section(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "mempool"')
-    .section(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "channels"')
     .section(v-else) node unavailable :(
     br
 </template>
@@ -29,6 +27,12 @@ export default {
             this.$store.dispatch("makeEvent", {
                 type: 'address-updated',
                 taskId: this.b.taskId
+            })
+        } else if (this.$store.state.upgrades.paymode === "lightning"){
+            this.$store.dispatch("makeEvent", {
+                type: 'task-valued',
+                taskId: this.b.taskId,
+                value: this.b.completeValue ,
             })
         }
     },

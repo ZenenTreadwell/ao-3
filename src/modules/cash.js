@@ -27,7 +27,6 @@ const mutations = {
         state.usedTxIds = current.cash.usedTxIds
         state.outputs = current.cash.outputs
         state.channels = current.cash.channels
-        console.log('setting info: ', current.cash.info)
         state.info = current.cash.info
         state.pay_index = current.cash.pay_index
     },

@@ -22,7 +22,8 @@
                   img.completedcheckmark(src='../assets/images/completed.svg')
                   current(:memberId='n.memberId')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }}
-                  span - {{ getFromMap(n.taskId).name }}
+                  span(v-if='checkIsMember(n.taskId)  || n.taskId === $store.getters.contextCard.taskId')
+                  span(v-else) - {{ getFromMap(n.taskId).name }}
               div(v-else-if='n.type === "resource-used"'  @click='goIn(n.resourceId)')
                   current(:memberId='n.memberId')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }}
@@ -33,9 +34,9 @@
               div(v-else  @click='goIn(n.taskId)')
                   img.completedcheckmark(src='../assets/images/uncompleted.svg')
                   span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{n.name}}
-          div(v-if='selectedDaysEvs.length === 0')
-              .soft(@click='clickDateBar') -
-          priorities(v-if='new Date().getDate() === $store.state.upgrades.chosenDay')
+          div(v-if='new Date().getDate() === $store.state.upgrades.chosenDay')
+              checkbox(:b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
+              priorities
   .buffer
 </template>
 
@@ -46,6 +47,7 @@ import Current from './Current.vue'
 import Currentr from './Currentr.vue'
 import Priorities from './Priorities.vue'
 import SimplePriority from './SimplePriority.vue'
+import Checkbox from './Checkbox'
 
 function getDMY(ts){
     let d = new Date(ts)
@@ -58,7 +60,7 @@ function getDMY(ts){
 export default {
   props: ['inId'],
   components: {
-    Day, Currentr, Current, Priorities, SimplePriority
+    Day, Currentr, Current, Priorities, SimplePriority, Checkbox
   },
   methods: {
       checkIsMember(name){
@@ -151,7 +153,7 @@ export default {
         return this.DAYS_OF_WEEK[firstDay]
     },
     selectedDaysEvs(){
-        let selectDays = _.uniqBy(this.eventsByDay[this.$store.state.upgrades.chosenDay], u => u.taskId )
+        let selectDays = _.uniqBy(this.eventsByDay[this.$store.state.upgrades.chosenDay], u => (u.taskId, u.timestamp) )
         selectDays.sort((a, b) => a.timestamp - b.timestamp)
         return selectDays
     },

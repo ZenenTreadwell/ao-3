@@ -117,8 +117,6 @@ export default {
                 if (n.state === "CHANNELD_NORMAL"){
                     totals.channel_sat += n.channel_sat
                     totals.channel_total_sat += n.channel_total_sat
-                } else {
-                    console.log('abnormal', n)
                 }
             })
             return totals
@@ -132,13 +130,7 @@ export default {
             return {low: 1}
         },
         sampler(){
-            // merge this server side?, every click is obnoc
-            let allofem = this.$store.state.cash.info.mempool.sampleTxns.super
-                  .concat(this.$store.state.cash.info.mempool.sampleTxns.high)
-                  .concat(this.$store.state.cash.info.mempool.sampleTxns.med)
-                  .concat(this.$store.state.cash.info.mempool.sampleTxns.low)
-            let checkId = allofem[this.sampleIndex % allofem.length]
-            console.log('sampler samplin', {checkId})
+            let checkId = this.$store.state.cash.info.mempool.sampleTxns[this.sampleIndex % this.$store.state.cash.info.mempool.sampleTxns.length]
             this.checkTxid(checkId)
             this.sampleIndex ++
         },

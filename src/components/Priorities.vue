@@ -1,8 +1,6 @@
 <template lang='pug'>
 
 .priorities
-    div(v-if='priorities.length < 1')
-        h5 no todos
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer
@@ -19,7 +17,7 @@
               .clearboth.opensubcard
                   hyperpriority.closedcard(:taskId='st2'  :inId="st"  :inInId='t'  :c='getSubPriorities(st)')
     div.clearboth
-    div
+    div(v-if='priorities.length >= 1')
         img.boatAll.faded(src='../assets/images/downboat.svg'  @click='pileRefocused')
 </template>
 

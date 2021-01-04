@@ -69,7 +69,7 @@ function blankMember(memberId, name, fob, secret, lastUsed){
       payments: 0,
       boats: false,
       action: false,
-      guides:false,
+      guides:true,
     }
 }
 
