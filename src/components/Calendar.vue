@@ -23,7 +23,8 @@
                   current(:memberId='n.memberId')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }}
                   span(v-if='checkIsMember(n.taskId)  || n.taskId === $store.getters.contextCard.taskId')
-                  span(v-else) - {{ getFromMap(n.taskId).name }}
+                  span(v-else) -
+                      linky(:x='getFromMap(n.taskId).name')
               div(v-else-if='n.type === "resource-used"'  @click='goIn(n.resourceId)')
                   current(:memberId='n.memberId')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }}
@@ -48,6 +49,7 @@ import Currentr from './Currentr.vue'
 import Priorities from './Priorities.vue'
 import SimplePriority from './SimplePriority.vue'
 import Checkbox from './Checkbox'
+import Linky from './Linky'
 
 function getDMY(ts){
     let d = new Date(ts)
@@ -60,7 +62,7 @@ function getDMY(ts){
 export default {
   props: ['inId'],
   components: {
-    Day, Currentr, Current, Priorities, SimplePriority, Checkbox
+    Day, Currentr, Current, Priorities, SimplePriority, Checkbox, Linky
   },
   methods: {
       checkIsMember(name){
@@ -196,7 +198,6 @@ export default {
                 }
             })
         }
-
         return evs
     },
     card(){

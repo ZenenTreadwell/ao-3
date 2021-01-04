@@ -48,6 +48,7 @@ export default {
 // adding scoped causes ui bugs in context rows I do not understand how (ghosts)
 .linky
     word-wrap: break-word;
+    display: inline-block;
 
 .centered
     text-align: center
@@ -56,6 +57,7 @@ export default {
 .noheight p
     margin-top: 0
     margin-bottom: 1em
+    display: inline-block;
 
 .linky .noheight img
     max-width: 100%
