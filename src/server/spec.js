@@ -201,7 +201,7 @@ router.post('/events', (req, res, next)=>{
               )
           } else {
               res.status(400).send(errRes)
-          }
+          }memberCreated
           break
       case 'cap-set':
           if (
@@ -247,7 +247,7 @@ router.post('/events', (req, res, next)=>{
           } else {
               res.status(400).send(errRes)
           }
-          break
+          breakmemberCreated
       case 'ao-relay':
           let secret
           state.serverState.ao.forEach(a => {
@@ -283,9 +283,9 @@ router.post('/events', (req, res, next)=>{
           break
       case 'member-created':
           if (
-            validators.isNotes(req.body.name, errRes) &&
-            validators.isNotes(req.body.fob, errRes) &&
-            validators.isNotes(req.body.secret)
+              validators.isValidName(req.body.name, errRes) &&
+              validators.isNotes(req.body.fob, errRes) &&
+              validators.isNotes(req.body.secret)
           ){
             events.memberCreated(
               req.body.name,

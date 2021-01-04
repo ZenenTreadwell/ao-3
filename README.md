@@ -7,11 +7,10 @@ Beware of Codeghosts
     npm install
     npm run build #bundle vue app /src/App.vue
     npm start #Start server /src/server/app.js
-<!-- npm run decrypt <<<copy to clipboard via long press>>> -->
 
 An install [folder](/install) contains scripts to install all of these and go from a fresh linux to a globally accessible ao with local data (sqlite3), private communication (tor), verified currency (bitcoind), instant transactions (lightningd). Journey to checkmarktopia - ao.
 
-The political and financial establishment is about to be disintermediated. They have manipulated capital markets so excessively that any useful information is drowned out. Free money is not free, it is a reallocation of resources to there institutions, a reallocation from value creators to the institutionally connected. Digital scarcity - a unit universally accessible, secure, public, and impossible to debase breaks the oligopoly that has formed around money and provides a new way to exchange, transport, and save value. An anonymous creator released working code and a working network that was public, widely shared, and not preallocated. Good riddence to banks, democracy and civil rights will be more easily defended without systemic transfer of power and wealth to the centers.   
+The political and financial establishment is about to be disintermediated. They have manipulated capital markets so excessively that any useful information is drowned out. Free money is not free, it is a reallocation of resources from value creators to the institutionally connected. Digital scarcity - a unit universally accessible, secure, public, and impossible to debase breaks the oligopoly that has formed around money and provides a new way to exchange, transport, and save value. An anonymous creator released working code and a working network that was public, widely shared, and not preallocated. Good riddence to banks, democracy and civil rights will be more easily defended without systemic transfer of power and wealth to the centers.   
 
 Ao is an example of using open source everything on hardware under your control to participate fully in bitcoins network and to sovereignly communicate. All you need is a computer.
 

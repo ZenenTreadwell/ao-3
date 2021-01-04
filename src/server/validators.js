@@ -2,6 +2,21 @@ const _ = require( 'lodash')
 const state = require( './state')
 
 module.exports = {
+  isValidName(val, errRes){
+      let taken = state.serverState.members.some(m =>{
+          return val.toUpperCase() === m.name.toUpperCase()
+      })
+      if (taken) {
+          errRes.push('name already taken')
+          return false
+      }
+      if (val.length > 140){
+          errRes.push('name too long')
+          return false
+      }
+      console.log('valid name')
+      return true
+  },
   isAmount(val, errRes){
       let parsed = parseFloat(val)
       if (parsed !== 0 && !parsed) {
