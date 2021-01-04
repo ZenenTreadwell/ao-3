@@ -41,6 +41,7 @@
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span.space colors
     .breathing
+    label {{ $store.state.cash.address }}
 </template>
 
 <script>

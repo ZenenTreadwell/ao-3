@@ -120,66 +120,74 @@ export default {
   methods:{
     toggleOpen(){
         if (this.position !== -1){
-            this.$store.dispatch("makeEvent", {
+            let touchyOpen = {
               type: 'task-touched',
               taskId: this.$store.getters.contextCard.taskId,
               stack: this.stack,
               position: -1
-            })
+            }
+            this.$store.dispatch("makeEvent", touchyOpen)
+            this.$store.commit("applyEvent", touchyOpen)
         } else {
-            this.$store.dispatch("makeEvent", {
-                type: 'task-touched',
-                taskId: this.$store.getters.contextCard.taskId,
-                stack: this.stack,
-                position: 0
-            })
+            this.first()
         }
     },
     first() {
-        this.$store.dispatch("makeEvent", {
-          type: 'task-touched',
-          taskId: this.$store.getters.contextCard.taskId,
-          stack: this.stack,
-          position: 0
-        })
+        let touchyTop = {
+            type: 'task-touched',
+            taskId: this.$store.getters.contextCard.taskId,
+            stack: this.stack,
+            position: 0
+        }
+        this.$store.dispatch("makeEvent", touchyTop)
+        this.$store.commit("applyEvent", touchyTop)
+
     },
     previous(){
         let position = (this.sanePosition - 1)
         if (position <= -1){
             position = this.c.length - 1
         }
-        this.$store.dispatch("makeEvent", {
+        let touchyBack =  {
           type: 'task-touched',
           taskId: this.$store.getters.contextCard.taskId,
           stack: this.stack,
           position,
-        })
+        }
+        this.$store.dispatch("makeEvent", touchyBack)
+        this.$store.commit("applyEvent", touchyBack)
     },
     next(){
-      this.$store.dispatch("makeEvent", {
+      let touchyForward = {
         type: 'task-touched',
         taskId: this.$store.getters.contextCard.taskId,
         stack: this.stack,
         position: (this.position + 1) % this.c.length
-      })
+      }
+      this.$store.dispatch("makeEvent", touchyForward)
+      this.$store.commit("applyEvent", touchyForward)
     },
     last() {
-      this.$store.dispatch("makeEvent", {
+      let touchyLast = {
         type: 'task-touched',
         taskId: this.$store.getters.contextCard.taskId,
         stack: this.stack,
         position: this.c.length - 1
-      })
+      }
+      this.$store.dispatch("makeEvent", touchyLast)
+      this.$store.commit("applyEvent", touchyLast)
     },
     orbswap(swapId1){
         let swapId2 = this.panelIds[ this.panelIds.indexOf(swapId1) - 1 ]
-        this.$store.dispatch("makeEvent", {
+        let touchyOrby = {
             type: 'task-swapped',
             taskId: this.taskId,
             swapId1,
             swapId2,
-            direction: 'up',
-        })
+        }
+        this.$store.dispatch("makeEvent", touchyOrby)
+        this.$store.commit("applyEvent", touchyOrby)  // causes doubleback
+
     },
     swap(direction){
         let cardIndex
@@ -194,14 +202,15 @@ export default {
         } else if (swapIndex > this.c.length - 1) {
             swapIndex = 0
         }
-
-        this.$store.dispatch("makeEvent", {
+        let touchySwap = {
             type: 'task-swapped',
             taskId: this.taskId,
             swapId1: this.topCard.taskId,
             swapId2: this.c[swapIndex].taskId,
-            direction: 'up',
-        })
+        }
+        this.$store.dispatch("makeEvent", touchySwap)
+        this.$store.commit("applyEvent", touchySwap) // causes doubleback
+
     },
     playSound(){
       if (!this.$store.getters.member.muted){
