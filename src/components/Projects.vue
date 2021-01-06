@@ -170,6 +170,8 @@ ul
     color: main
     font-style: italic;
     border-radius: 3%
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: main;
 
 .projects h3
     text-align: center
@@ -217,8 +219,5 @@ ul.none.indent
 
 span.nl.gui.smallest
     font-size: 1.1em
-
-li:nth-child(2n)
-    float: right
 
 </style>

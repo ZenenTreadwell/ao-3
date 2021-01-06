@@ -16,6 +16,7 @@
             .section.sampler(@click='sampler') {{ $store.state.cash.info.mempool.size }} unconfirmed ({{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed(1) }} MB)
         .eight.grid(v-if='$store.state.cash.info.channels')
             .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') in channels ({{ $store.state.cash.info.channels.length }})
+            .chanfo {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
             .row
                 .localremote(@click='selectedPeer = false'  v-if='nn')
                     .localbar.tall(:style='l(nn)')  {{ parseFloat( nn.channel_sat ).toLocaleString() }}

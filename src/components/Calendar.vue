@@ -18,21 +18,21 @@
       .grey
           .datenumber  {{ $store.state.upgrades.chosenDay }}
           .soft(v-for='n in selectedDaysEvs')
-              div(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
+              span(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
                   img.completedcheckmark(src='../assets/images/completed.svg')
                   current(:memberId='n.memberId')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }}
                   span(v-if='checkIsMember(n.taskId)  || n.taskId === $store.getters.contextCard.taskId')
                   span(v-else) -
                       linky(:x='getFromMap(n.taskId).name')
-              div(v-else-if='n.type === "resource-used"'  @click='goIn(n.resourceId)')
+              span(v-else-if='n.type === "resource-used"'  @click='goIn(n.resourceId)')
                   current(:memberId='n.memberId')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }}
                   currentr(:resourceId='n.resourceId')
                   span - {{ n.notes }}
-              div(v-else-if='checkIsMember(n.name)'  @click='goIn(n.taskId)')
+              span(v-else-if='checkIsMember(n.name)'  @click='goIn(n.taskId)')
                   span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ checkIsMember(n.name) }}
-              div(v-else  @click='goIn(n.taskId)')
+              span(v-else  @click='goIn(n.taskId)')
                   img.completedcheckmark(src='../assets/images/uncompleted.svg')
                   span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{n.name}}
           div(v-if='new Date().getDate() === $store.state.upgrades.chosenDay')

@@ -1,7 +1,7 @@
 <template lang='pug'>
 
-.linky
-    div.noheight(v-html='m')
+span.linky
+    span.noheight(v-html='m')
 </template>
 
 <script>
@@ -13,32 +13,10 @@ export default {
     name: 'linky',
     props: ['x'],
     computed: {
-        linkifiedName(){
-            var text = this.x
-            var regex = /((http|ftp|https):\/\/)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z0-9]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/gi;
-            var linkedtext = text.replace(regex, function (url) {
-              var linkedurl = url
-              var hasprotocolregex = /((http|ftp|https):\/\/)/i
-              if(hasprotocolregex.exec(url) === null) {
-                linkedurl = "http://" + url
-              }
-              linkedurl = "<a href='" + linkedurl + "' target='_blank'>" + url + "</a>"
-              return linkedurl
-            } );
-            return linkedtext
-        },
         m(){
             return md.render(this.x)
         }
     },
-    data: function() {
-        return {
-            anchorAttributes: {
-                target: '_blank',
-                rel: 'noopener noreferrer nofollow'
-            },
-        }
-    }
 }
 
 </script>

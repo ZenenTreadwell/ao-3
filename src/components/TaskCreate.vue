@@ -413,15 +413,17 @@ button.inactive
 
 #createtask
   width: 81%
-  background-color: rgba(51, 51, 51, 0.3)
+  background-color: rgba(251, 251, 251, 0.3)
   margin: 0 auto 0 auto
   text-align: center
-  padding: 0.5em
+  padding: 0.05em
   position: fixed
   z-index: 149
   bottom: 2em
   left: 50%
   transform: translateX(-50%)
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: main;
 
 .lit
     opacity: 0.69

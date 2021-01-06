@@ -12,7 +12,10 @@
         auth
         label(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }')
             div(v-if='m.guild') # {{m.guild}}
-            linky(:x='m.name')
+            div(v-if='$store.getters.contextMember')
+                img.doge(src='../assets/images/doge.svg')
+                linky(:x='m.name')
+            card(v-else  :b='card')
     .hereswitcher
         .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
         .bottomleft(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}')
@@ -26,10 +29,11 @@ import Bird from './Bird'
 import Current from './Current'
 import Linky from './Linky'
 import Auth from './Auth'
+import Card from './Card'
 
 export default {
     props: ['m'],
-    components: {Bird, Current, Linky, Auth},
+    components: {Bird, Current, Linky, Auth, Card},
     computed:{
         card(){
             return this.$store.getters.contextCard
@@ -142,6 +146,9 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
+
+.doge
+    height: 1.111em
 
 .hereswitcher
     background: rgba(22, 22, 22, 0.2)

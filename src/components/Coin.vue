@@ -1,7 +1,7 @@
 <template lang='pug'>
 .d(ref='hodlcoin')
     //- p.hodlcount(v-if='isBull'  :class="{ grabbedhodlcount: isGrabbed }") {{ (b.deck.length > 1) ? b.deck.length : '' }}
-    img.dogepepecoin(:class="{ ungrabbedcoin : !isGrabbed, highlight: inHand }" src='../assets/images/doge.svg'  draggable='false')
+    img.dogepepecoin(:class="{ ungrabbedcoin : !isGrabbed, highlight: inHand }" src='../assets/images/thumbsup.svg'  draggable='false')
 </template>
 
 <script>
@@ -155,7 +155,7 @@ export default {
 
 .ungrabbedcoin
     opacity: 0.169
-
+    transform: rotate(180deg)
 .suggest
     font-style: italic
     margin-top: 1em
