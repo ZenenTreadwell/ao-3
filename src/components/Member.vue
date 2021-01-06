@@ -11,7 +11,6 @@
     .row.center.clearboth(@click='$store.commit("setMode", 0)'   :class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
         auth
         label(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }')
-            div(v-if='m.guild') # {{m.guild}}
             div(v-if='$store.getters.contextMember')
                 img.doge(src='../assets/images/doge.svg')
                 linky(:x='m.name')
@@ -169,7 +168,6 @@ img
     height: 2em
 
 label
-    font-size: 1.246em
     font-weight: normal;
     margin: 1em
     display: block

@@ -4,14 +4,14 @@
     div(@click='toggleSend')
         img.birdy(v-if='!showSend && !b.guild' src='../assets/images/badge.svg'  :class='{hidden:!$store.getters.member.guides}')
         div.birdy.smallguild(v-else  :class='{ open : showSend }')
-    guild-create(v-if='showSend'   :b='b')
-    div(v-if='showSend')
-        .give
-            select(v-model='toMember')
-                option(v-for='n in $store.getters.recentMembers', :value="n.memberId") {{ n.name }}
-                option(v-for='g in $store.getters.guilds'  :value="g.taskId") # {{ g.guild }}
-                option(v-for='n in $store.state.ao'  :value='n.address')  {{ n.address }}
-            button.small(@click='dispatchMakeEvent') show
+    guild-create(v-if='showSend'   :b='b'  :showSendOff='showSendOff')
+        //- div(v-if='showSend')
+        //-     .give
+        //-         select(v-model='toMember')
+        //-             option(v-for='n in $store.getters.recentMembers', :value="n.memberId") {{ n.name }}
+        //-             option(v-for='g in $store.getters.guilds'  :value="g.taskId") # {{ g.guild }}
+        //-             option(v-for='n in $store.state.ao'  :value='n.address')  {{ n.address }}
+        //-         button.small(@click='dispatchMakeEvent') show
         //- .play(v-if='$store.getters.guilds.length > 0')
         //-     select(v-model='toGuild')
         //-         template()
@@ -23,15 +23,17 @@
         //-     button.small(@click='dispatchMakeEvent(aoLink)') link
     .theTitle(v-if='b.guild && !showSend') {{ b.guild }}
     .count
+    tally
 </template>
 
 <script>
 import GuildCreate from './GuildCreate'
+import Tally from './Tally'
 
 export default {
     props: ['b', 'inId'],
     components: {
-        GuildCreate
+        GuildCreate, Tally
     },
     data() {
         if (this.$store.getters.recentMembers.length > 0 && this.$store.getters.guilds.length > 0){
@@ -53,6 +55,9 @@ export default {
         }
     },
     methods: {
+        showSendOff(){
+            this.showSend = false
+        },
         dispatchMakeEvent(){
             let isMem = false
             this.$store.state.members.forEach(m => {
@@ -174,9 +179,6 @@ select.shorten
 
 .theTitle
     color: main
-    position: absolute
-    left: 3.3em
-    top: 1.3em
 
 .small
     display: inline-block

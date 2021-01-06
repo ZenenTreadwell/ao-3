@@ -12,7 +12,7 @@
               v-model='task.name'
               type='text'
               :class='cardInputSty'
-              placeholder="textarea"
+              placeholder="create card"
               @keyup.enter.exact='createOrFindTask'
               @keydown.enter.exact.prevent
               row='10'

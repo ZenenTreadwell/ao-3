@@ -2,13 +2,13 @@
 
 .guildcreate(:class='{ bumpup : editing }')
     input(v-model='task.guild'  type='text'  :placeholder='task.guild'  @keypress.enter='titleIt(false)')
-    button(v-if='this.task.guild.length > 0'  @click='titleIt') {{ detectRename }}
+    button(@click='titleIt') #
 </template>
 
 <script>
 
 export default {
-    props: ['b'],
+    props: ['b', 'showSendOff'],
     data() {
         return {
             task: {
@@ -17,36 +17,28 @@ export default {
         }
     },
     methods: {
-        titleIt(clear = true) {
+        titleIt() {
             if(this.b.guild === this.task.guild) {
-                if(!clear) {
-                    this.$emit('closeit')
-                    return
-                }
                 this.task.guild = ''
                 this.$store.dispatch("makeEvent", {
                     type: 'task-guilded',
                     taskId: this.b.taskId,
                     guild: false,
                 })
-
-                this.$emit('closeit')
-                return
             }
-            this.$emit('closeit')
-
             this.$store.dispatch("makeEvent", {
                 type: 'task-guilded',
                 taskId: this.b.taskId,
                 guild: this.task.guild,
             })
+            this.showSendOff()
         }
     },
     computed: {
         detectRename(){
             if(this.b.guild === this.task.guild) {
                 return "clear"
-            } 
+            }
             return "label"
         }
     },
@@ -59,6 +51,9 @@ export default {
 @import '../styles/button'
 @import '../styles/input'
 
+img
+    height: 1.1em
+
 button
     width: 3em
     display: inline
@@ -66,14 +61,13 @@ button
 .guildcreate
     background: transparent
     padding: 0
-
     input
-        width: 67%
-    button 
-        width: 33%
+        width: 69%
+        display: inline-block;
+    button
+        width: 20%
 
 .guildcreate button
-    width: 40%
     height: 2.2em
     padding: 0
 

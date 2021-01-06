@@ -2,11 +2,12 @@
 
 div
     .showaddr(@click='$store.commit("setPayMode", 1)')
-        img(src='../assets/images/bitcoin.svg')
-    input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
-    button(@click.stop='setValue')
-        div(v-if='sats > 0  && sats !== Infinity') 0.01 {{ $store.state.cash.currency }} ~ {{ sats.toFixed(0) }}
-        img(src='../assets/images/lightning.svg')
+        img(:class='{faded: $store.state.upgrades.paymode !== "bitcoin"}'  src='../assets/images/bitcoin.svg')
+    div
+        input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
+        button(@click.stop='setValue')
+            div(v-if='sats > 0  && sats !== Infinity') 0.01 {{ $store.state.cash.currency }} ~ {{ sats.toFixed(0) }}
+            img.lightbtn(v-else  src='../assets/images/lightning.svg')
 
 </template>
 
@@ -49,16 +50,22 @@ export default {
 @import '../styles/colours'
 
 img
+    height: 3em
+
+img.lightbtn
     height: 1em
 
 .showaddr
     width: 20%
     display: inline-block;
     cursor: pointer
-
+    img
+        display: inline-block;
+.faded
+    opacity: 0.23456789
 
 button
-    width: 40%
+    width: 30%
     height: 2.2em
     display: inline-block;
 input
