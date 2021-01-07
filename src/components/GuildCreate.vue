@@ -2,7 +2,9 @@
 
 .guildcreate(:class='{ bumpup : editing }')
     input(v-model='task.guild'  type='text'  :placeholder='task.guild'  @keypress.enter='titleIt(false)')
-    button(@click='titleIt') #
+    button(@click='titleIt')
+        span(v-if='b.guild === task.guild') X
+        span(v-else) #
 </template>
 
 <script>

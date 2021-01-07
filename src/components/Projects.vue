@@ -2,7 +2,7 @@
 
 .projects
     ul.none
-        li.spaced(v-for='p in $store.getters.guilds'  :key='p.taskId')
+        li.spaced(v-for='p in $store.getters.uniqGuilds'  :key='p.taskId')
             span(@click='goIn(p.taskId)')
                 img.floatleft(src='../assets/images/badge.svg')
             span(@click='goIn(p.taskId)')
@@ -11,32 +11,22 @@
 
 <script>
 
-
 export default {
     components: {},
     methods: {
-        goIn(taskId, guild = undefined){
-            let parents = []
+        goIn(taskId){
+            let t = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
+            let parents = [this.$store.getters.contextCard.taskId]
             let panel = [taskId]
             let top = 0
 
-            let t = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
-            let panelColor = this.$store.getters[t.color]
-            let topColor = panelColor.indexOf(taskId)
-
-            if (topColor > -1){
-                panel = panelColor
-                top = topColor
-            }
-
-            if (this.$store.getters.contextCard.taskId){
-                parents.push(this.$store.getters.contextCard.taskId)
-            } else if (this.$store.getters.memberCard.taskId){
-                parents.push(this.$store.getters.memberCard.taskId)
-            }
-            if(guild) parents.push(guild)
-
-            this.$store.dispatch("goIn", {panel, top, parents})
+            this.$store.getters.guilds.forEach(g => {
+                if (g.guild === t.guild  && g.taskId !== t.taskId){
+                    parents.push(g.taskId)
+                }
+            })
+            let goInObj = {panel, top, parents}
+            this.$store.dispatch("goIn", goInObj)
         },
     },
 }

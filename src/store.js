@@ -156,8 +156,20 @@ export default createStore({
           return state.resources.map(c => c.resourceId)
       },
       guilds(state) {
-          let gg = state.tasks.filter(p => p.guild)
+          let gg = state.tasks
+              .filter(p => p.guild)
           return gg.sort( (a, b) => b.deck.length - a.deck.length )
+      },
+      uniqGuilds(state, getters) {
+          let uniq = []
+          return getters.guilds.filter(g => {
+              let isUniq = uniq.indexOf(g.guild) === -1
+              if (isUniq){
+                  uniq.push(g.guild)
+                  return true
+              }
+              return false
+          })
       },
       isLoggedIn(state, getters){
           let isLoggedIn = !!getters.member.memberId

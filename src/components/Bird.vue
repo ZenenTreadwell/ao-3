@@ -23,7 +23,7 @@
         //-     button.small(@click='dispatchMakeEvent(aoLink)') link
     .theTitle(v-if='b.guild && !showSend') {{ b.guild }}
     .count
-    tally
+    //- tally
 </template>
 
 <script>
