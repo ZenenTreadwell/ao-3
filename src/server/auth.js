@@ -2,6 +2,7 @@ const utils = require('./utils')
 const events = require('./events')
 const cryptoUtils = require('../crypto')
 const state = require('./state')
+const chalk = require('chalk');
 
 const getIdSecret = function(identifier){
     var ownerId, secret
@@ -41,7 +42,7 @@ function socketAuth(socket, data, callback){
         if (session.token === data.token){
             state.serverState.members.forEach(m => {
                 if (m.memberId === session.ownerId){
-                    console.log("socket authorized for ", m.name)
+                    console.log(chalk.bold.red(m.name, "connected"))
                     authorized = true
                 }
             })

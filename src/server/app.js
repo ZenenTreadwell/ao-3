@@ -14,19 +14,20 @@ const rent = require('./rent')
 const link = require('./link')
 const lightning = require('./lightning')
 const applyRouter = require('./router')
-const app = express()
+const chalk = require('chalk');
+const connector = require('./connector')
 
+const app = express()
 applyRouter(app)
 startDctrlAo()
 
 function startDctrlAo(){
-    console.log('starting db')
     dctrlDb.startDb( (err, conn) => {
         if (err) return console.log('db initialize failed:', err)
 
         let start = Date.now()
         state.initialize( err => {
-          if (err) return console.log('state initialize failed:', err)
+          if (err) return console.log(chalk.bold.red('ao state initialization failed:'), err)
 
           watchSpot()
           rent()
@@ -39,7 +40,14 @@ function startDctrlAo(){
               .onValue(reactions)
 
           const server = app.listen(PORT, err => {
-              console.log("ao on port: ", PORT)
+              console.log(chalk.bold.green("ao at http://localhost:" + PORT))
+
+              connector.checkHash(conf.tor.hostname, 'wrong', 'wrroonng', (err, resulthash) => {
+                  if (err === 'unauthorized'){
+                      console.log(chalk.magenta("ao at", conf.tor.hostname))
+                  }
+              })
+
               const io = socketIo(server)
               socketProtector(io, {
                   authenticate: socketAuth,
@@ -50,7 +58,19 @@ function startDctrlAo(){
               fullEvStream.onValue( ev => {
                     state.applyEvent(state.pubState, ev)
                     io.emit('eventstream', ev)
-                    console.log("event: ", ev.type)
+                    switch (ev.type) {
+                        case 'get-node-info':
+                            let channelReducer = (accumulator,current) => accumulator + current.channel_sat
+                            let outputReducer = (accumulator,current) => accumulator + current.value
+                            let totalInChannels = ev.info.channels.reduce(channelReducer, 0)
+                            let totalInOutputs = ev.info.outputs.reduce(outputReducer, 0)
+                            console.log(chalk.yellow('lightning updated:'), chalk.blue(totalInChannels.toLocaleString()), chalk.yellow("in channels"), chalk.blue(totalInOutputs.toLocaleString()), chalk.yellow("in outputs"))
+                            break
+                        default:
+                            console.log(chalk.green(ev.type))
+                            break
+                    }
+
               })
           })
         })

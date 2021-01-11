@@ -4,6 +4,7 @@ const M = require( '../mutations')
 const modules = require( '../modules')
 const config = require( '../../configuration')
 const crypto = require('../crypto')
+const chalk = require('chalk');
 
 let publicKey
 try {
@@ -76,17 +77,16 @@ function initialize(callback) {
           let ts = 0
           if (backup.length > 0){
               ts = backup[0].timestamp
-              console.log('using backup from ', Date(ts))
+              console.log(chalk.green('using backup from ', Date(ts)))
               applyBackup(backup[0])
           }
           dctrlDb.getAll(ts, (err, all) => {
               if (err) return callback(err)
-              console.log('applying ', all.length , ' events')
               all.forEach( ev => {
                   applyEvent(serverState, Object.assign({}, ev) )
                   applyEvent(pubState, removeSensitive( Object.assign({}, ev) ))
               })
-              console.log('finished in ', Date.now() - start , 'ms')
+              console.log(chalk.green( chalk.blue(all.length) , ' events loaded in ', chalk.blue(Date.now() - start) , 'ms'))
               callback(null)
           })
     })
