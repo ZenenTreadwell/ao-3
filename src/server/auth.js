@@ -42,7 +42,7 @@ function socketAuth(socket, data, callback){
         if (session.token === data.token){
             state.serverState.members.forEach(m => {
                 if (m.memberId === session.ownerId){
-                    console.log(chalk.bold.red(m.name, "connected"))
+                    console.log(chalk.bold.magenta(m.name, "connected"))
                     authorized = true
                 }
             })

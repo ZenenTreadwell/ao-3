@@ -17,7 +17,7 @@ const crypto = require('../crypto')
 bitClient.getBlockchainInfo().then(x => {
     console.log(chalk.yellow('blockchain detected ', chalk.blue(x.blocks.toLocaleString()), ' blocks'))
 }).catch( err => {
-    console.log(chalk.red('connection to bitcoind unestablished'), err)
+    console.log(chalk.red('cannot connect to bitcoind'))
 })
 
 

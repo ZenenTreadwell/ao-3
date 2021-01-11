@@ -44,7 +44,7 @@ function startDctrlAo(){
 
               connector.checkHash(conf.tor.hostname, 'wrong', 'wrroonng', (err, resulthash) => {
                   if (err === 'unauthorized'){
-                      console.log(chalk.magenta("ao at", conf.tor.hostname))
+                      console.log(chalk.bold.green("ao at", conf.tor.hostname))
                   }
               })
 

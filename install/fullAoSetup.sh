@@ -5,3 +5,4 @@ echo 'installing all, watch out'
 ./configure-tor.sh
 ./install-bitcoind.sh
 ./install-clightning.sh
+./create-config.sh

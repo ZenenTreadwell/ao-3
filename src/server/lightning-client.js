@@ -3,6 +3,7 @@ const net = require('net');
 const debug = require('debug')('lightning-client');
 const {EventEmitter} = require('events');
 const _ = require('lodash');
+const chalk = require('chalk')
 const methods = [
   "autocleaninvoice",
   "check",
@@ -105,7 +106,7 @@ class LightningClient extends EventEmitter {
             });
 
             _self.client.on('error', error => {
-                console.error(`Lightning client connection error`, error);
+                console.error(chalk.red(`Lightning cannot connect`));
                 _self.increaseWaitTime();
                 _self.reconnect();
             });
