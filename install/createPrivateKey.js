@@ -13,4 +13,6 @@ function genNewPrivKey(callback){
     }, callback)
 }
 
-genNewPrivKey(console.log)
+genNewPrivKey((err, pubkey, privkey) => {
+    console.log(privkey)
+})

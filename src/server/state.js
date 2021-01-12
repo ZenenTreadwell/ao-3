@@ -4,13 +4,19 @@ const M = require( '../mutations')
 const modules = require( '../modules')
 const config = require( '../../configuration')
 const crypto = require('../crypto')
-const chalk = require('chalk');
+const chalk = require('chalk')
+const fs = require('fs')
+
+console.log(config.publicKey)
+
 
 let publicKey
 try {
-    publicKey = crypto.derivePublicKey(config.privateKey)
+    let filekey = fs.readFileSync(config.privateKey, {encoding:'utf8'})
+    publicKey = crypto.derivePublicKey(filekey)
+    console.log(chalk.bold.blue('got public key for ao lock'))
 } catch (err){
-    console.log('key import error', err)
+    console.log(chalk.red('key import error'), err)
 }
 
 function baseState(){

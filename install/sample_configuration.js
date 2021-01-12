@@ -18,6 +18,6 @@ module.exports = {
             pub: '',
             secret: ''
         },
-        privateKey: `` // use node ./createPrivateKey.js
+        privateKey: `` // '/home/(**username**>)/.ao/key'
 `
     }
