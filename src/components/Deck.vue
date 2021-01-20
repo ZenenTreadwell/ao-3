@@ -23,8 +23,8 @@
         .fadey(v-if='$store.getters.all.length > 0'   :class='{ onestack : !requireFiveStacks, completedfadey : $store.state.context.completed }')
             panels
         .container
-            checkmarks
             projects(v-if='$store.getters.member.memberId === $store.getters.contextCard.taskId')
+            checkmarks(v-else)
 
 </template>
 

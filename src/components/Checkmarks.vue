@@ -6,13 +6,14 @@
     span(v-if='$store.getters.isLoggedIn  && $store.getters.member.memberId !== $store.getters.contextCard.taskId')
         div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
             button remove
-        div(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop')
-            button leave
-        div(v-else  @click='grab')
-            button enter
+        //- div(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop')
+        //-     button leave
+        //- div(v-else  @click='grab')
+        //-     button enter
 </template>
 
 <script>
+
 import CurrentChecks from './CurrentChecks'
 import MemberRow from './MemberRow'
 import GuildCreate from './GuildCreate'
@@ -63,6 +64,11 @@ export default {
 
 .upgrades
     padding: 1em
+    background: lightGrey
+    box-shadow:
+        0 0 6px 3px white,
+        0 0 7px 4px lightGrey,
+        0 0 8px 5px main;
 
 h5
     text-align: center

@@ -364,7 +364,7 @@ function tasksMuts(tasks, ev) {
             task.actions.forEach(a => {
               if (a.memberId === ev.memberId && a.isActive) {
                 a.isActive = false
-                a.tthis.$store.state.upgrades.chosenDayotal += (ev.timestamp - a.timestamp)
+                a.total += (ev.timestamp - a.timestamp)
               }
             })
           }

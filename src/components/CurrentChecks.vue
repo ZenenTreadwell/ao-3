@@ -5,7 +5,8 @@
         .two.grid
             span.name(@dblclick='goIn(memberId)'   @click.exact.stop='toggleHighlight()'  @click.ctrl.exact.stop='toggleHighlight(true)'  :class='{ highlight : isHighlighted, lowdark : isLowdarked }') {{ member.name }}
         .seven.grid
-            span(v-if='checkmarks.length <= 0') -
+            coin(v-if='memberId === $store.getters.member.memberId'  :b='$store.getters.contextCard')
+            img.upboat(v-else  src='../assets/images/thumbsup.svg')
             span(v-for='c in checkmarks'  :key='c.taskId')
                 span.plain.completedcheckmark(@click='goIn(c.taskId)'  )
                     img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color)')
@@ -23,6 +24,7 @@
 <script>
 
 import Linky from './Linky'
+import Coin from './Coin'
 
 export default {
   data(){
@@ -34,7 +36,7 @@ export default {
       setInterval(() => this.updatePlz += 3, 3001)
   },
   props: ['memberId'],
-  components: { Linky },
+  components: { Linky, Coin },
   methods: {
     toggleActive(){
         let newfield = this.$store.getters.contextCard.taskId
@@ -165,6 +167,13 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/grid'
+
+.upboat
+  display:block
+  width: 35px
+  height: 35px
+  padding-top: .5em
+  padding-bottom: .5em
 
 .current
     width: 100%

@@ -102,9 +102,7 @@ export default createStore({
           getters.contextCard.deck.forEach(mId => {
               byCompletion.push(mId)
           })
-          // getters.contextCard.passed.map(p => {
-          //     byCompletion.push(p[1])
-          // })
+          byCompletion.push(getters.member.memberId)
           return _.uniq(byCompletion)
       },
       all(state, getters){

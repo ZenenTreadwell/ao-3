@@ -5,9 +5,9 @@
   div.secondbackground(@click='switchColor(task.color)')
       .cc(v-show='showCreate')
           .boatContainer
-              button.clear(@click.stop='toggleSearch'  :class='{selected: showSearch, inactive: task.name == ""}') find
-              button.lock(@click.stop='lockIt'  :class='{inactive: task.name == ""}') lock
-              button.create(@click.stop='createOrFindTask'  :class='{inactive: task.name == ""}') ship
+              button.clear(@click.stop='toggleSearch'  :class='{selected: showSearch, inactive: task.name == ""}') search
+              button.lock(@click.stop='lockIt'  :class='{inactive: task.name == ""}') encrypt
+              button.create(@click.stop='createOrFindTask'  :class='{inactive: task.name == ""}') post
           textarea#card.paperwrapper(
               v-model='task.name'
               type='text'
@@ -20,7 +20,7 @@
               @click.stop
           )
       #btnpanel.btnpanel
-          .ping {{ $store.state.loader.reqStatus }}
+          .ping(v-show='showCreate') {{ $store.state.loader.reqStatus }}
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
               .fifth(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" && showCreate }').redtx.paperwrapper
               .fifth(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" && showCreate }').yellowtx.paperwrapper
@@ -395,8 +395,7 @@ textarea.inactive
     color: white
 
 button.inactive
-    opacity: 0
-
+    opacity: 0.4321
 
 .lonestar
     height: 2em
@@ -413,7 +412,7 @@ button.inactive
 
 #createtask
   width: 81%
-  background-color: rgba(251, 251, 251, 0.3)
+  background-color: lightGrey
   margin: 0 auto 0 auto
   text-align: center
   padding: 0.05em
@@ -424,7 +423,10 @@ button.inactive
   transform: translateX(-50%)
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: main;
-
+  box-shadow:
+      0 0 6px 3px white,
+      0 0 7px 4px lightGrey, 
+      0 0 8px 5px main;
 .lit
     opacity: 0.69
 
@@ -624,6 +626,7 @@ button.inactive
     position: absolute
     left: 3px
     bottom: 3px
+    opacity: 0.77
 
 .pend
     float: right

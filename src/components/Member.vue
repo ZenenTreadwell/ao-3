@@ -15,7 +15,7 @@
                 img.doge(src='../assets/images/doge.svg')
                 linky(:x='m.name')
             card(v-else  :b='card')
-    .hereswitcher
+    div
         .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
         .bottomleft(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}')
         .bottomleft(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
@@ -149,10 +149,6 @@ export default {
 .doge
     height: 1.111em
 
-.hereswitcher
-    background: rgba(22, 22, 22, 0.2)
-    border-radius: 2%
-
 .row.center.clearboth
     cursor: pointer
 
@@ -204,6 +200,8 @@ label
 
 
 .bottomleft
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: main;
     display: inline-block
     width: 33.3%
     font-size: 3.3em;

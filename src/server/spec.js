@@ -21,6 +21,7 @@ router.post('/events', (req, res, next) => {
 router.post('/events', (req, res, next)=>{
   let errRes = []
   switch (req.body.type){
+
       case "address-updated":
           if (validators.isTaskId(req.body.taskId, errRes)){
               lightning.newAddress()
