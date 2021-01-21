@@ -192,7 +192,7 @@ export default {
                 let pubkey = this.$store.state.cash.publicKey
                 let potentialCard = cryptoUtils.encryptToPublic(pubkey, toHide)
                 this.$store.dispatch("makeEvent", {
-                  type: 'task-created',
+                  type: 'task-locked',
                   name: potentialCard,
                   color: this.task.color,
                   deck: [this.$store.getters.member.memberId],
@@ -425,7 +425,7 @@ button.inactive
   -webkit-text-stroke-color: main;
   box-shadow:
       0 0 6px 3px white,
-      0 0 7px 4px lightGrey, 
+      0 0 7px 4px lightGrey,
       0 0 8px 5px main;
 .lit
     opacity: 0.69

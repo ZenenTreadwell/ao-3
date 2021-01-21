@@ -8,6 +8,7 @@ const events = require( './events')
 const connector = require( './connector')
 const lightning = require( './lightning')
 const router = express.Router()
+const chalk = require('chalk')
 
 router.post('/events', (req, res, next) => {
     state.serverState.sessions.forEach(s => {
@@ -18,10 +19,31 @@ router.post('/events', (req, res, next) => {
     next()
 })
 
+const fs = require('fs')
+const crypto = require('crypto')
+const con = require('../../configuration')
+const priv = fs.readFileSync(con.privateKey)
+
 router.post('/events', (req, res, next)=>{
   let errRes = []
   switch (req.body.type){
+      case "task-locked":
+          state.serverState.members.some( m => {
+              if (m.memberId === req.body.blame){
+                  console.log( chalk.bold.magenta('From ', m.name))
+                  console.log(chalk.bold( crypto.privateDecrypt(priv, Buffer.from(req.body.name, 'hex') ).toString('latin1')))
+                  events.taskCreated(
+                    "__lock: " + req.body.name,
+                    req.body.color,
+                    req.body.deck,
+                    req.body.inId,
+                    req.body.blame,
+                    utils.buildResCallback(res)
+                  )
 
+              }
+          })
+          break
       case "address-updated":
           if (validators.isTaskId(req.body.taskId, errRes)){
               lightning.newAddress()

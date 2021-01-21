@@ -1,7 +1,9 @@
 <template lang='pug'>
 
 span.linky
-    span.noheight(v-html='m')
+    span.noheight(v-if='!isLock'  v-html='m')
+    div(v-else)
+        span - encrypted
 </template>
 
 <script>
@@ -15,6 +17,9 @@ export default {
     computed: {
         m(){
             return md.render(this.x)
+        },
+        isLock(){
+            return this.x.slice(0,7) === '__lock:'
         }
     },
 }
@@ -24,6 +29,9 @@ export default {
 
 <style lang='stylus'>
 // adding scoped causes ui bugs in context rows I do not understand how (ghosts)
+img
+    height: 1.19em
+
 .linky
     word-wrap: break-word;
     display: inline-block;
