@@ -1,0 +1,10 @@
+
+echo "module.exports = {"
+echo "openAo: true,"
+echo "bitcoind: { username: '', password: ''},"
+echo "sqlite3: {file: '"$HOME"/.ao/database.sqlite3'},"
+echo "tor: { hostname: '"`cat /var/lib/tor/ao/hostname`"'},"
+echo "clightning: {dir: '"$HOME"/.lightning/bitcoin'},"
+echo "bitcoinAverage: {pub: '',secret: ''},"
+echo "privateKey: '"$HOME"/.ao/key'"
+echo "}"

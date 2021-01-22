@@ -8,13 +8,13 @@ via [tor browser](https://www.torproject.org/download/)
 
 AO is a nodejs server, install via
 
-    npm run setup
+    npm run setup 
     npm install
     npm run build
     npm start
     npm run checkconfig
 
-AO requires tor, sqlite3, bitcoind, & lightningd running adjacent. Install shell scripts in install folder.
+AO requires tor, sqlite3, bitcoind, & lightningd running adjacent.
 
     tor
     bitcoind

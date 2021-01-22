@@ -1,7 +1,8 @@
 if  test -f ../configuration.js; then
     echo 'configuration.js exists'
 else
-    cp ./sample_configuration.js ../configuration.js
+    chmod +x ./sample_configuration.sh
+    ./sample_configuration.sh >  ../configuration.js
 fi
 
 if  test -f $HOME/.bitcoin/bitcoin.conf; then
