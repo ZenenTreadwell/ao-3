@@ -8,22 +8,18 @@ via [tor browser](https://www.torproject.org/download/)
 
 AO is a nodejs server, install via
 
+    npm run setup
     npm install
     npm run build
     npm start
+    npm run checkconfig
 
-AO relies on tor, sqlite3, bitcoind, & lightningd. Install via scripts in /install/
+AO requires tor, sqlite3, bitcoind, & lightningd running adjacent. Install shell scripts in install folder.
 
-    cd install
-    chmod +x fullAoSetup.sh
-    ./fullAoSetup.sh
-    ### individually
-    ./prepare-install.sh
-    ./install-node.sh
-    ./install-tor.sh
-    ./install-bitcoind.sh
-    ./install-clightning.sh
+    tor
+    bitcoind
+    lightningd
 
-AO can trigger hardware using gpio and read rfid tags with [pi](https://github.com/autonomousorganization/pi)  
+AO can trigger hardware using gpio pins and rfid tags with [pi](https://github.com/autonomousorganization/pi)  
 
-tip 3AA6s5MUnLjPzi2iPzUGVqWGAGBBJnBiWg
+tip 3AA6s5MUnLjPzi2iPzUGVqWGAGBBJnBiWg kthx

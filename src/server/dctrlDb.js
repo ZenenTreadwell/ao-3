@@ -33,7 +33,7 @@ function initializeSqlite(cb) {
     initBackups.run();
     createStatements()
   } catch(actualErr) {
-    console.log(actualErr);
+    console.log("err from table initialize: ", actualErr);
     err = actualErr;
   }
   if (err) {
@@ -57,9 +57,7 @@ function createStatements() {
 function recover(callback){
     try {
       let all = [];
-
       for (const ev of preparedStmts.recover.iterate()) {
-          console.log
           all.push(JSON.parse(ev.document))
       }
       callback(null, all)

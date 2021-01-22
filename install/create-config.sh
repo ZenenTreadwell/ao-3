@@ -18,9 +18,15 @@ else
     echo 'created sample lightning config'
 fi
 
+if test -d $HOME/.ao; then
+    echo 'default data dir exists'
+else
+    mkdir $HOME/.ao
+fi
+
 if  test -f $HOME/.ao/key; then
     echo 'ao privkey exists'
 else
     node ./createPrivateKey.js >> $HOME/.ao/key
-    echo 'created ao key'
+    echo 'created ao privkey'
 fi

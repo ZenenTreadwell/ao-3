@@ -14,7 +14,6 @@ module.exports = {
           errRes.push('name too long')
           return false
       }
-      console.log('valid name')
       return true
   },
   isAmount(val, errRes){

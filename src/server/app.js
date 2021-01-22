@@ -40,11 +40,11 @@ function startDctrlAo(){
               .onValue(reactions)
 
           const server = app.listen(PORT, err => {
-              console.log(chalk.bold.green("ao at http://localhost:" + PORT))
+              console.log(chalk.bold("ao @ http://localhost:" + PORT))
 
               connector.checkHash(conf.tor.hostname, 'wrong', 'wrroonng', (err, resulthash) => {
                   if (err === 'unauthorized'){
-                      console.log(chalk.bold.green("ao at", conf.tor.hostname))
+                      console.log(chalk.bold("ao @", conf.tor.hostname))
                   }
               })
 
@@ -64,13 +64,19 @@ function startDctrlAo(){
                             let outputReducer = (accumulator,current) => accumulator + current.value
                             let totalInChannels = ev.info.channels.reduce(channelReducer, 0)
                             let totalInOutputs = ev.info.outputs.reduce(outputReducer, 0)
-                            console.log(chalk.yellow('lightning updated:'), chalk.blue(totalInChannels.toLocaleString()), chalk.yellow("in channels"), chalk.blue(totalInOutputs.toLocaleString()), chalk.yellow("in outputs"))
+                            console.log(chalk.yellow(totalInChannels.toLocaleString() + "sat", "in", ev.info.channels.length, "channels"))
+                            console.log(chalk.yellow(totalInOutputs.toLocaleString() + "sat", "in", ev.info.outputs.length , "outputs"))
                             break
                         default:
-                            console.log(chalk.green(ev.type))
+                            let name = '~'
+                            state.serverState.members.some(m => {
+                                if (m.memberId === ev.memberId  || ev.blame === m.memberId){
+                                    name = m.name
+                                }
+                            })
+                            console.log(chalk.green(ev.type), chalk.bold.magenta(name))
                             break
                     }
-
               })
           })
         })

@@ -27,7 +27,7 @@ export default {
 </script>
 
 
-<style lang='stylus'>
+<style lang='stylus'  scoped>
 // adding scoped causes ui bugs in context rows I do not understand how (ghosts)
 img
     height: 1.19em

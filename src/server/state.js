@@ -7,16 +7,12 @@ const crypto = require('../crypto')
 const chalk = require('chalk')
 const fs = require('fs')
 
-console.log(config.publicKey)
-
-
 let publicKey
 try {
     let filekey = fs.readFileSync(config.privateKey, {encoding:'utf8'})
     publicKey = crypto.derivePublicKey(filekey)
-    console.log(chalk.bold.blue('got public key for ao lock'))
 } catch (err){
-    console.log(chalk.red('key import error'), err)
+    console.log(chalk.red('key import error from', config.privateKey), err)
 }
 
 function baseState(){
@@ -92,7 +88,11 @@ function initialize(callback) {
                   applyEvent(serverState, Object.assign({}, ev) )
                   applyEvent(pubState, removeSensitive( Object.assign({}, ev) ))
               })
-              console.log(chalk.green( chalk.blue(all.length) , ' events loaded in ', chalk.blue(Date.now() - start) , 'ms'))
+              console.log(chalk.green('loaded from ', all.length, 'events'))
+              console.log(chalk.green( 'loaded in ', Date.now() - start, 'ms'))
+              console.log(chalk.green(serverState.members.length, 'accounts'))
+              console.log(chalk.green(serverState.tasks.length, 'cards'))
+              console.log(chalk.green(serverState.resources.length, 'resources'))
               callback(null)
           })
     })

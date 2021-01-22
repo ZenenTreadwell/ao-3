@@ -1,4 +1,4 @@
-echo 'installing all, watch out'
+echo 'installing all, may take some time'
 ./prepare-install.sh
 ./install-node.sh
 ./install-tor.sh

@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "setup": "cd install; ./fullAoSetup.sh",
+    "checkconfig": "cd install; ./create-config.sh",
     "keygen": "node install/createPrivateKey.js",
     "decrypt": "node install/readCipher.js",
     "serve": "vue-cli-service serve",

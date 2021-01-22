@@ -15,11 +15,10 @@ const _ = require('lodash')
 const crypto = require('../crypto')
 
 bitClient.getBlockchainInfo().then(x => {
-    console.log(chalk.yellow('blockchain detected ', chalk.blue(x.blocks.toLocaleString()), ' blocks'))
+    console.log(chalk.yellow(x.blocks.toLocaleString(), 'verified blocks'))
 }).catch( err => {
     console.log(chalk.red('cannot connect to bitcoind'))
 })
-
 
 function getDecode (rawx){
     return bitClient.getRawTransaction(rawx)
