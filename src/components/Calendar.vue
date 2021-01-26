@@ -20,8 +20,8 @@
           .soft(v-for='n in selectedDaysEvs')
               span(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
                   img.completedcheckmark(src='../assets/images/completed.svg')
-                  current(:memberId='n.memberId')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }}
+                  current(:memberId='n.memberId')
                   span(v-if='checkIsMember(n.taskId)  || n.taskId === $store.getters.contextCard.taskId')
                   span(v-else) -
                       linky(:x='getFromMap(n.taskId).name')
@@ -251,6 +251,9 @@ export default {
 <style lang='stylus' scoped>
 @import '../styles/colours';
 @import '../styles/grid';
+
+p
+    display: inline-block;
 
 .row.menu
     cursor: pointer

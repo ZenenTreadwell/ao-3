@@ -2,6 +2,7 @@
 .day
     .date {{ day }}
     img.today(v-if='isToday'  src='../assets/images/orb.svg')
+    span(v-if='createdToday') created
     span(v-for='t in ev')
         .upgrade(v-if='!t.type')
             img.upgrade.doge(v-if='checkIsMember(t.name)'  @cdbllick="goIn(t.taskId)"  src='../assets/images/doge.svg')
@@ -11,7 +12,6 @@
         span.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goIn(t.taskId)'  :class='styl(getCardColor(t.taskId))')
             img.completedcheckmark(v-if='checkIsMember(t.taskId)'  src='../assets/images/doge.svg'  :class='{smaller: ev.length > 15}')
             img.completedcheckmark(v-else  :class='{smaller: ev.length > 15}'  src='../assets/images/completed.svg')
-        span(v-else-if='t.type === "task-created"') created
     img.upgrade(v-if='isToday'  v-for='t in $store.getters.contextCard.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
 </template>
 
@@ -33,6 +33,12 @@ function getDMY(ts){
 export default {
     components: { Linky, Current, Currentr },
     props: ['day', 'month', 'year', 'inId', 'ev', 'isToday'],
+    computed: {
+        createdToday(){
+            let createdDate = getDMY(this.$store.getters.contextCard.createdTs)
+            return createdDate.day === this.day && createdDate.month === this.month && createdDate.year === this.year
+        }
+    },
     methods: {
         styl(color){
             if (!color) return

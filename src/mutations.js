@@ -326,7 +326,7 @@ function tasksMuts(tasks, ev) {
         })
         if (!isExist){
             console.log('creating address connect card')
-            tasks.push(calculations.blankCard(ev.address, ev.address, 'blue'))
+            tasks.push(calculations.blankCard(ev.address, ev.address, 'blue', ev.timestamp))
         } else {
             console.log('found', ev.address)
         }
@@ -338,7 +338,7 @@ function tasksMuts(tasks, ev) {
             }
         })
         if (!isExisting){
-            tasks.push(calculations.blankCard(ev.address, ev.address, 'red'))
+            tasks.push(calculations.blankCard(ev.address, ev.address, 'red', ev.timestamp))
         }
         break
     case "member-field-updated":
@@ -487,13 +487,13 @@ function tasksMuts(tasks, ev) {
     case "ao-disconnected":
       break
     case "resource-created":
-      tasks.push(calculations.blankCard(ev.resourceId, ev.resourceId, 'red'))
+      tasks.push(calculations.blankCard(ev.resourceId, ev.resourceId, 'red', ev.timestamp))
       break
     case "member-created":
-      tasks.push(calculations.blankCard(ev.memberId, ev.memberId, 'blue'))
+      tasks.push(calculations.blankCard(ev.memberId, ev.memberId, 'blue', ev.timestamp))
       break
     case "task-created":
-      tasks.push(calculations.blankCard(ev.taskId, ev.name, ev.color, ev.deck))
+      tasks.push(calculations.blankCard(ev.taskId, ev.name, ev.color, ev.timestamp, ev.deck))
       tasks.forEach(task => {
         if (task.taskId === ev.inId) {
           task.subTasks = _.filter(task.subTasks, tId => tId !== ev.taskId)

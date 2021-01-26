@@ -30,13 +30,11 @@
                         div pubkey: {{ n.peer_id }}
                         div(@click='checkTxid(n.funding_txid)') txid: {{ n.funding_txid }}
                         div(v-if='n.state !== "CHANNELD_NORMAL"') state: {{ n.state }}
+                        div(v-if='n.connected') online
+                        div(v-else) offline
                     .localremote(v-show='selectedPeer !== i'   @click='selectedPeer = i')
                         .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
                         .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
-                //- .center(v-if='$store.state.cash.info.address.length > 0')
-                //-     span {{ $store.state.cash.info.id }}
-                //-     span @{{ $store.state.cash.info.address[0].address }}
-                //-     span :{{ $store.state.cash.info.address[0].port}}
             .section on chain
             .outputs(@click='toggleShowOutputs')
                 .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
