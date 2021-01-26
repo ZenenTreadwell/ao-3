@@ -112,8 +112,9 @@ export default {
     width: 15%;
     position: absolute;
     bottom: 0;
-    left: 40%
-    height: 2.2em
+    left: 11.11111%
+    height: 3em
+    overflow: hidden
 
 .tinyboat
     height: 15px

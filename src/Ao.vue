@@ -1,7 +1,12 @@
 <template lang='pug'>
 
 .app
-  router-view
+  .app2(:class='cardInputSty')
+  helm
+  contexts
+  deck
+  task-create
+  .breathingroom
 </template>
 
 <script>
@@ -55,7 +60,6 @@ export default {
     background: #404040
     min-height: 100vh;
     color: main
-    font-size: 1.22334455em
     font-family: monospace
 
 .app2

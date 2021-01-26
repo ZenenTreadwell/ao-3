@@ -3,13 +3,13 @@
 .upgrades
     .payreq(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"')
         .section {{b.bolt11}}
-        a(:href='"lightning:" + b.bolt11')
-            tag(:d='b.bolt11'  size='5')
+        // a(:href='"lightning:" + b.bolt11') // causes t is undefined global error
+        tag(:d='b.bolt11'  size='5')
         points-set(:b='$store.getters.contextCard')
     .payreq(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"')
         .section {{b.btcAddr}}
-        a(:href='"bitcoin:" + b.btcAddr')
-            tag(:d='b.btcAddr'  size='7')
+        // a(:href='"bitcoin:" + b.btcAddr') // causes t is undefined global error
+        tag(:d='b.btcAddr'  size='7')
         points-set(:b='$store.getters.contextCard')
     .section(v-else) node unavailable :(
     br
@@ -52,15 +52,20 @@ export default {
           return true
         },
         setPay(x){
-            if (x === 2){
-                this.$store.dispatch("makeEvent", {
+            try {
+                if (x === 2){
+                  this.$store.dispatch("makeEvent", {
                     type: 'task-valued',
                     taskId: this.b.taskId,
                     value: this.b.completeValue ,
-                })
+                  })
+                }
+                this.scrollTop()
+                this.$store.commit("setPayMode", x)
+
+            } catch (err){
+                console.log('caught?', err)
             }
-            this.scrollTop()
-            this.$store.commit("setPayMode", x)
         }
     }
 }

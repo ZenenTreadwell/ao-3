@@ -31,8 +31,8 @@
                         div(@click='checkTxid(n.funding_txid)') txid: {{ n.funding_txid }}
                         div(v-if='n.state !== "CHANNELD_NORMAL"') state: {{ n.state }}
                     .localremote(v-show='selectedPeer !== i'   @click='selectedPeer = i')
-                        .localbar(:style='l(n)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
-                        .remotebar(:style='r(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
+                        .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
+                        .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
                 //- .center(v-if='$store.state.cash.info.address.length > 0')
                 //-     span {{ $store.state.cash.info.id }}
                 //-     span @{{ $store.state.cash.info.address[0].address }}
@@ -172,14 +172,14 @@ export default {
                 })
             this.selectedPeer = false
         },
-        r(n){
+        r(n, nolimits){
             let local = parseFloat( n.channel_sat )
             let remote = parseFloat( n.channel_total_sat - n.channel_sat )
 
             let capacity = local + remote
             let remotePercent =  remote / capacity
 
-            if (remotePercent < 0.2 && remotePercent > 0) {
+            if (!nolimits && remotePercent < 0.2 && remotePercent > 0) {
                 remotePercent = 0.2
             }
 
@@ -188,14 +188,14 @@ export default {
                 width: w
             }
         },
-        l(n){
+        l(n, nolimits){
           let local = parseFloat( n.channel_sat )
           let remote = parseFloat( n.channel_total_sat - n.channel_sat )
 
           let capacity = local + remote
           let localPercent =  n.channel_sat / capacity
 
-          if (localPercent > 0.8 && localPercent < 1) {
+          if (!nolimits && localPercent > 0.8 && localPercent < 1) {
               localPercent = 0.8
           }
           let w = (localPercent * 100).toFixed(7) + "%"

@@ -577,7 +577,7 @@ label
     height: 2em
 
 .copied.hidden
-    opacity: 0.02
+    opacity: 0.1
     cursor: pointer
 
 

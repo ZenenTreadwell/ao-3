@@ -152,11 +152,8 @@ ul
     margin-block-end: 0
 
 .projects
-    margin-top: 2.7em
-    margin-right: 1em
-    margin-bottom: 1em
-    padding: 2em
-    background: lightGrey
+    margin-left: 2em
+    padding: 0.2em
     color: main
     font-style: italic;
     border-radius: 3%
