@@ -793,6 +793,7 @@ function tasksMuts(tasks, ev) {
           if (amount + boost > 0) {
             task.boost = amount + boost
           }
+          task.payments.push(ev)
         }
       })
       break
@@ -806,6 +807,7 @@ function tasksMuts(tasks, ev) {
             task.bolt11 = ""
             task.payment_hash = ""
           }
+          task.payments.push(ev)
         }
       })
       break

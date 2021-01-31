@@ -58,19 +58,43 @@ export default {
             })
         },
         upboat(){
-            this.$store.dispatch("makeEvent", {
-                type: 'task-prioritized',
-                taskId: this.b.taskId,
-                inId: this.inId,
-            })
+            if (this.$store.getters.contextCard.taskId === this.b.taskId){
+                let target = this.$store.getters.member.memberId
+                this.$store.dispatch("goUp", {
+                    target,
+                    panel: [target],
+                    top: 0
+                })
+                this.$store.dispatch("makeEvent", {
+                    type: 'task-prioritized',
+                    taskId: this.b.taskId,
+                    inId: target,
+                })
+            } else {
+                this.$store.dispatch("makeEvent", {
+                    type: 'task-prioritized',
+                    taskId: this.b.taskId,
+                    inId: this.inId,
+                })
+
+            }
             this.$store.commit('setMode', 1)
         },
         remove(){
-            this.$store.dispatch("makeEvent", {
-                type: 'task-de-sub-tasked',
-                subTask: this.b.taskId,
-                taskId: this.inId,
-            })
+            if (this.$store.getters.contextCard.taskId === this.b.taskId){
+              let target = this.$store.state.context.parent[this.$store.state.context.parent.length -1]
+              this.$store.dispatch("goUp", {
+                  target,
+                  panel: [target],
+                  top: 0
+              })
+            } else {
+                this.$store.dispatch("makeEvent", {
+                    type: 'task-de-sub-tasked',
+                    subTask: this.b.taskId,
+                    taskId: this.inId,
+                })
+            }
         },
         setAction(){
             if (this.$store.getters.member.action === this.b.taskId){

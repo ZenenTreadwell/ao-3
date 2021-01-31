@@ -17,7 +17,10 @@
           label password
           span.focus-border
       button(v-if='pass.length > 0'  @click="createSession") login
-  .existing(@click='toggleExisting') existing account?
+  .existing(@click='toggleExisting')
+      span(v-if='!existing') existing
+      span(v-else) new
+      span  account?
 </template>
 
 <script>

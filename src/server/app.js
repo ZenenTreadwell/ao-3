@@ -55,6 +55,8 @@ function startDctrlAo(){
               })
               const filteredStream = dctrlDb.changeFeed.map(state.removeSensitive)
               const fullEvStream = Kefir.merge([filteredStream, dctrlDb.shadowFeed])
+              let channelSatTotalTracker = 0
+              let outputSatTotalTracker = 0
               fullEvStream.onValue( ev => {
                     state.applyEvent(state.pubState, ev)
                     io.emit('eventstream', ev)
@@ -64,8 +66,18 @@ function startDctrlAo(){
                             let outputReducer = (accumulator,current) => accumulator + current.value
                             let totalInChannels = ev.info.channels.reduce(channelReducer, 0)
                             let totalInOutputs = ev.info.outputs.reduce(outputReducer, 0)
-                            console.log(chalk.yellow(totalInChannels.toLocaleString() + "sat", "in", ev.info.channels.length, "channels"))
-                            console.log(chalk.yellow(totalInOutputs.toLocaleString() + "sat", "in", ev.info.outputs.length , "outputs"))
+                            if (channelSatTotalTracker < totalInChannels){
+                                console.log(chalk.yellow(totalInChannels.toLocaleString() + "sat", "in", ev.info.channels.length, "channels"), chalk.green('+', totalInChannels - channelSatTotalTracker ))
+                            } else if (channelSatTotalTracker > totalInChannels){
+                                console.log(chalk.yellow(totalInChannels.toLocaleString() + "sat", "in", ev.info.channels.length, "channels"), chalk.red('-', channelSatTotalTracker - totalInChannels))
+                            }
+                            if (outputSatTotalTracker < totalInOutputs){
+                                console.log(chalk.yellow(totalInOutputs.toLocaleString() + "sat", "in", ev.info.outputs.length , "outputs"), chalk.green('+',totalInOutputs - outputSatTotalTracker))
+                            } else if (outputSatTotalTracker > totalInOutputs){
+                                console.log(chalk.yellow(totalInOutputs.toLocaleString() + "sat", "in", ev.info.outputs.length , "outputs"), chalk.red('-',outputSatTotalTracker - totalInOutputs))
+                            }
+                            outputSatTotalTracker = totalInOutputs
+                            channelSatTotalTracker = totalInChannels
                             break
                         default:
                             let name = '~'

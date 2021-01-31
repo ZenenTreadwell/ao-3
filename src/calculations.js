@@ -104,8 +104,7 @@ function blankCard(taskId, name, color, createdTs, deck = []) {
             green: -1,
             purple: -1,
         },
-        // actions: [], //
-        // clocks: [],
+        payments: [],
     }
     return newCard
 }

@@ -40,7 +40,10 @@ const actions = {
             commit("addParent", p)
         })
     },
-    goUp({commit}, pContext){
+    goUp({state, commit}, pContext){
+        if (state.parent.indexOf(pContext.target) === -1){
+            commit("addParent", pContext.target)
+        }
         commit("goToParent", pContext.target)
         commit("setPanel", pContext.panel)
         commit("setTop", pContext.top)
