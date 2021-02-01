@@ -39,6 +39,7 @@ const actions = {
         pContext.parents.forEach(p => {
             commit("addParent", p)
         })
+        commit('setMode', 0)
     },
     goUp({state, commit}, pContext){
         if (state.parent.indexOf(pContext.target) === -1){

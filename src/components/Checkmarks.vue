@@ -42,6 +42,21 @@ export default {
                 type: 'task-removed',
                 taskId: this.$store.getters.contextCard.taskId,
             })
+            let target = this.$store.state.context.parent[this.$store.state.context.parent.length - 1]
+            if (target){
+                this.$store.dispatch('goUp', {
+                    target,
+                    panel: [target],
+                    top: 0
+                })
+            } else {
+                target = this.$store.getters.member.memberId
+                this.$store.dispatch('goIn', {
+                    target,
+                    panel: [target],
+                    top: 0
+                })
+            }
         },
         getMemberCard(mId){
             let card

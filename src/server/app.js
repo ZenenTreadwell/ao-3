@@ -40,11 +40,11 @@ function startDctrlAo(){
               .onValue(reactions)
 
           const server = app.listen(PORT, err => {
-              console.log(chalk.bold("ao @ http://localhost:" + PORT))
+              console.log(chalk.blue.bold("ao server available at http://localhost:" + PORT))
 
               connector.checkHash(conf.tor.hostname, 'wrong', 'wrroonng', (err, resulthash) => {
                   if (err === 'unauthorized'){
-                      console.log(chalk.bold("ao @", conf.tor.hostname))
+                      console.log(chalk.blue.bold("ao server available at", conf.tor.hostname))
                   }
               })
 
@@ -57,6 +57,7 @@ function startDctrlAo(){
               const fullEvStream = Kefir.merge([filteredStream, dctrlDb.shadowFeed])
               let channelSatTotalTracker = 0
               let outputSatTotalTracker = 0
+              let priceTracker = 0
               fullEvStream.onValue( ev => {
                     state.applyEvent(state.pubState, ev)
                     io.emit('eventstream', ev)
@@ -67,17 +68,25 @@ function startDctrlAo(){
                             let totalInChannels = ev.info.channels.reduce(channelReducer, 0)
                             let totalInOutputs = ev.info.outputs.reduce(outputReducer, 0)
                             if (channelSatTotalTracker < totalInChannels){
-                                console.log(chalk.yellow(totalInChannels.toLocaleString() + "sat", "in", ev.info.channels.length, "channels"), chalk.green('+', totalInChannels - channelSatTotalTracker ))
+                                console.log(chalk.yellow(totalInChannels.toLocaleString() + "sat", "in", ev.info.channels.length, "channels"), chalk.bold.green('+', totalInChannels - channelSatTotalTracker ))
                             } else if (channelSatTotalTracker > totalInChannels){
-                                console.log(chalk.yellow(totalInChannels.toLocaleString() + "sat", "in", ev.info.channels.length, "channels"), chalk.red('-', channelSatTotalTracker - totalInChannels))
+                                console.log(chalk.yellow(totalInChannels.toLocaleString() + "sat", "in", ev.info.channels.length, "channels"), chalk.bold.red('-', channelSatTotalTracker - totalInChannels))
                             }
                             if (outputSatTotalTracker < totalInOutputs){
-                                console.log(chalk.yellow(totalInOutputs.toLocaleString() + "sat", "in", ev.info.outputs.length , "outputs"), chalk.green('+',totalInOutputs - outputSatTotalTracker))
+                                console.log(chalk.yellow(totalInOutputs.toLocaleString() + "sat", "in", ev.info.outputs.length , "outputs"), chalk.bold.green('+',totalInOutputs - outputSatTotalTracker))
                             } else if (outputSatTotalTracker > totalInOutputs){
-                                console.log(chalk.yellow(totalInOutputs.toLocaleString() + "sat", "in", ev.info.outputs.length , "outputs"), chalk.red('-',outputSatTotalTracker - totalInOutputs))
+                                console.log(chalk.yellow(totalInOutputs.toLocaleString() + "sat", "in", ev.info.outputs.length , "outputs"), chalk.bold.red('-',outputSatTotalTracker - totalInOutputs))
                             }
                             outputSatTotalTracker = totalInOutputs
                             channelSatTotalTracker = totalInChannels
+                            break
+                        case 'spot-updated':
+                            if (priceTracker < ev.spot){
+                                console.log(chalk.yellow(ev.type, ev.spot, "CAD/BTC", chalk.bold.green(ev.spot - priceTracker)))
+                            } else if (priceTracker > ev.spot){
+                                console.log(chalk.yellow(ev.type, ev.spot, "CAD/BTC", chalk.bold.red(priceTracker - ev.spot)))
+                            }
+                            priceTracker = ev.spot
                             break
                         default:
                             let name = '~'

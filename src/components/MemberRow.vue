@@ -59,12 +59,6 @@ export default {
                     })
             }
         },
-        purgeAccount(){
-            this.$store.dispatch("makeEvent", {
-                type: 'member-purged',
-                memberId: this.m.memberId,
-            })
-       }
     },
     computed:{
         isLoggedIn(){

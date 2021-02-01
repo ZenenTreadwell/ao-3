@@ -1,15 +1,16 @@
 <template lang='pug'>
 
 .upgrades
+    div(v-for='p in b.payments') {{p.amount.toLocaleString()}} - {{ getDateString(p.timestamp) }}
     .payreq(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"')
-        .section {{b.bolt11}}
         // a(:href='"lightning:" + b.bolt11') // causes t is undefined global error
         tag(:d='b.bolt11'  size='5')
+        .section {{b.bolt11}}
         points-set(:b='$store.getters.contextCard')
     .payreq(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"')
-        .section {{b.btcAddr}}
         // a(:href='"bitcoin:" + b.btcAddr') // causes t is undefined global error
         tag(:d='b.btcAddr'  size='7')
+        .section {{b.btcAddr}}
         points-set(:b='$store.getters.contextCard')
     .section(v-else) node unavailable :(
     br
@@ -23,17 +24,19 @@ import Lightning from './Lightning'
 
 export default {
     mounted(){
-        if (this.$store.state.upgrades.paymode === "bitcoin"  && !this.b.btcAddr){
-            this.$store.dispatch("makeEvent", {
-                type: 'address-updated',
-                taskId: this.b.taskId
-            })
-        } else if (this.$store.state.upgrades.paymode === "lightning"){
-            this.$store.dispatch("makeEvent", {
-                type: 'task-valued',
-                taskId: this.b.taskId,
-                value: this.b.completeValue ,
-            })
+        if (this.b.taskId){
+            if (this.$store.state.upgrades.paymode === "bitcoin"  && !this.b.btcAddr){
+                this.$store.dispatch("makeEvent", {
+                    type: 'address-updated',
+                    taskId: this.b.taskId
+                })
+            } else if (this.$store.state.upgrades.paymode === "lightning"){
+                this.$store.dispatch("makeEvent", {
+                    type: 'task-valued',
+                    taskId: this.b.taskId,
+                    value: this.b.completeValue? this.b.completeValue : 1,
+                })
+            }
         }
     },
     components:{
@@ -45,6 +48,10 @@ export default {
         },
     },
     methods: {
+        getDateString(ts){
+            let d = new Date(ts)
+            return d.toString().slice(0,15)
+        },
         scrollTop(){
           console.log('scroll top')
           document.body.scrollTop = 0;
@@ -87,7 +94,6 @@ export default {
     display: inline-block
     width: 25%
     font-size: 4.44em
-    color: lightGrey
     max-height: 2em
     margin-top: -0.35em;
     content-align: center
@@ -100,7 +106,6 @@ export default {
     color: wrexgreen
 
 .section
-    color:lightGrey
     font-size: 0.9em
     margin-bottom: 0.9em
     overflow-wrap: break-word
