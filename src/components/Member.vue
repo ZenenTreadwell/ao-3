@@ -9,7 +9,6 @@
         img.smallguild(src='../assets/images/sendselected.svg')
         label.stash {{ $store.getters.inbox.length }}
     .row.center.clearboth(@click='$store.commit("setMode", 0)'   :class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
-        auth
         label(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }')
             div(v-if='$store.getters.contextMember')
                 img.doge(src='../assets/images/doge.svg')

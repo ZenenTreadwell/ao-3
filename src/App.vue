@@ -1,16 +1,13 @@
 <template lang='pug'>
 
 .app
+  auth
   router-view
 </template>
 
 <script>
 
-import EventFeed from './components/EventFeed'
-import Helm from './components/Helm'
-import Contexts from './components/Contexts'
-import TaskCreate from './components/TaskCreate'
-import Deck from './components/Deck'
+import Auth from './components/Auth'
 
 export default {
     mounted() {
@@ -23,7 +20,7 @@ export default {
         this.$store.dispatch('loadCurrent')
     },
     components: {
-        EventFeed, Helm, TaskCreate, Contexts, Deck
+        Auth
     },
     computed: {
         cardInputSty(){

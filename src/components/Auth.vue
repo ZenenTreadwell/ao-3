@@ -1,10 +1,11 @@
 <template lang='pug'>
 
-#auth.container(v-if='!confirmed')
+#auth(v-if='!confirmed')
+  h3 Welcome to ao, create account or log in
   div(v-if='!existing')
       .input-container
           input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
-          label choose name
+          label choose new name
           span.focus-border
       button(v-if='name.length > 0'  @click="createAccount") new account
   div(v-if='existing')
@@ -18,9 +19,8 @@
           span.focus-border
       button(v-if='pass.length > 0'  @click="createSession") login
   .existing(@click='toggleExisting')
-      span(v-if='!existing') existing
-      span(v-else) new
-      span  account?
+      span(v-if='!existing') switch to login
+      span(v-else) switch to create new
 </template>
 
 <script>
@@ -112,9 +112,15 @@ h1
     text-align: center
 
 input
+    font-size: 16px
     border: 2px solid wrexyellow
     margin-bottom: 0.5em
     border-radius: 0.25em
+input:focus
+    -webkit-text-size-adjust: 100%
+    font-size: 16px
+    zoom: 1
+    -moz-transform: scale(1)
 
 .secret
     -webkit-text-fill-color: transparent; /* sets just the text color */
