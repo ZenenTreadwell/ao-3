@@ -139,7 +139,6 @@ export default {
                 .send({txid : x})
                 .set("Authorization", this.$store.state.loader.token)
                 .end((err, res)=>{
-                    console.log('setting fetched txn', err, res.body)
                     if (!err){
                         this.fetchedTxn = res.body
                     }
@@ -149,7 +148,6 @@ export default {
         toggleOpen(){
             this.open = !this.open
         },
-
         toggleShowOutputs(){
             this.showOutputs = !this.showOutputs
             console.log('toggleded' , this.showOutputs)

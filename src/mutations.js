@@ -720,12 +720,9 @@ function tasksMuts(tasks, ev) {
       tasks.forEach(task => {
         if (task.taskId === ev.subTask) {
           task.passed = _.filter(task.passed, d => d[1] !== ev.memberId)
-          task.deck = _.filter(task.deck, d => ev.memberId !== d)
         }
         if (task.taskId === ev.taskId) {
           task.subTasks = _.filter(task.subTasks, tId => tId !== ev.subTask)
-          task.completed = _.filter(task.completed, tId => tId !== ev.subTask)
-
           if (task.priorities.some(tId => tId === ev.subTask)) {
             task.priorities = _.filter(task.priorities, tId => tId !== ev.subTask)
             task.subTasks.push(ev.subTask)

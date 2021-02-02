@@ -50,7 +50,7 @@ router.post('/events', (req, res, next)=>{
                   .then(result => {
                       events.addressUpdated(
                         req.body.taskId,
-                        result['p2sh-segwit'],
+                        result['address'],
                         utils.buildResCallback(res)
                       )
                   })

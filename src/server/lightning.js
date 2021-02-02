@@ -25,7 +25,7 @@ function getDecode (rawx){
         .then((rawTransaction) => {
               return bitClient.decodeRawTransaction(rawTransaction)
         })
-        .catch(console.log)
+        .catch(err => {})
 }
 
 function newSample(){
@@ -96,28 +96,28 @@ lightningRouter.post('/bitcoin/transaction',(req, res) => {
                           res.send(txn)
                         })
                     }
-                }).catch(inValidTxid => console.log('getDecode caught', req.body.txid, inValidTxid))
+                }).catch(err => {
+                    res.status(400).end()
+                })
         })
 })
 
-lightningRouter.post('/lightning/channel',(req, res) => {
-    client.fundchannel(req.body.id, 'all', 'normal', true, 0)
-        .then(channel => {
-            console.log("channel funded", channel)
-            res.send(true)
-        })
-        .catch(err => {
-            console.log(err)
-            res.send(false)
-        })
-})
+// lightningRouter.post('/lightning/channel',(req, res) => {
+//     client.fundchannel(req.body.id, 'all', 'normal', true, 0)
+//         .then(channel => {
+//             res.send(true)
+//         })
+//         .catch(err => {
+//             res.send(false)
+//         })
+// })
 
 function createInvoice(sat, label, description, expiresInSec){
     return client.invoice(sat * 1000, label, description, expiresInSec)
 }
 
 function newAddress(){
-    return client.newaddr('p2sh-segwit')
+    return client.newaddr()
 }
 
 function updateAll(){
@@ -148,7 +148,7 @@ function checkFunds(){
                 })
             } catch (err) {console.log("lighting error; maybe lightningd (c-lightning) is not running")}
         })
-        .catch(console.log)
+        .catch(err => {})
 }
 
 function getInfo(){
@@ -193,7 +193,7 @@ function recordEveryInvoice(start){
             })
             recordEveryInvoice(start + 1) // is this recurr broken?
         })
-        .catch(console.log)
+        .catch(err => {})
 }
 
 module.exports = {
