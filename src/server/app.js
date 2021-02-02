@@ -82,9 +82,9 @@ function startDctrlAo(){
                             break
                         case 'spot-updated':
                             if (priceTracker < ev.spot){
-                                console.log(chalk.yellow(ev.type, ev.spot, "CAD/BTC", chalk.bold.green(ev.spot - priceTracker)))
+                                console.log(chalk.yellow(ev.type, ev.spot, "CAD/BTC", chalk.bold.green('+', (ev.spot - priceTracker).toFixed(2))))
                             } else if (priceTracker > ev.spot){
-                                console.log(chalk.yellow(ev.type, ev.spot, "CAD/BTC", chalk.bold.red(priceTracker - ev.spot)))
+                                console.log(chalk.yellow(ev.type, ev.spot, "CAD/BTC", chalk.bold.red('-', (priceTracker - ev.spot).toFixed(2))))
                             }
                             priceTracker = ev.spot
                             break

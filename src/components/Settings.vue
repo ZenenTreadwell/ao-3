@@ -13,15 +13,16 @@
                 label new value
                 span.focus-border
             br
-            .input-container(v-if='inputType === "password"   &&  change.newfield.length > 0')
+            .input-container(v-if='inputType === "password"')
                 input.input-effect(:type='inputType', v-model='change.confirmNewfield'  :class='{"has-content":!!change.confirmNewfield}')
                 label repeat
                 span.focus-border
-            .check(v-if='inputType === "password"  &&  change.confirmNewfield.length > 0')
+            .check(v-if='inputType === "password"')
                 img.checkmark(v-if='matched', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span - repeat correctly
-            button(@click='update'  v-if='change.newfield') update
+            button(@click='update'  v-if='change.newfield  && inputType !== "password"') update {{ change.field }}
+            button(@click='update'  v-else-if='change.newfield  && change.confirmNewfield.length > 0 && matched') update password
         .six.columns
             .section preferences
             //- .check.click(@click='toggleTooltips')
@@ -40,6 +41,7 @@
                 img.checkmark(v-if='$store.getters.member.stacks === 5', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span.space colors
+            button(@click='logout') log out
     .breathing
     label {{ $store.state.cash.address }}
 </template>
@@ -66,6 +68,16 @@ export default {
       }
     },
     methods: {
+        logout(){
+            console.log('removing session? ? ?', this.$store.state.loader.session)
+            this.$store.dispatch('makeEvent', {
+                type: 'session-killed',
+                session: this.$store.state.loader.session,
+            })
+            setTimeout(()=>{
+                location.reload()
+            }, 1234)
+        },
         toggleStacks(){
             let newfield = 5
             if (this.$store.getters.member.stacks === 5){
@@ -212,6 +224,7 @@ export default {
 
 button
     background: main
+    color: white
 
 .breathing
     height: 1.12em
