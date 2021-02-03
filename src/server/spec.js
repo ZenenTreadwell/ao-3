@@ -30,8 +30,8 @@ router.post('/events', (req, res, next)=>{
       case "task-locked":
           state.serverState.members.some( m => {
               if (m.memberId === req.body.blame){
-                  console.log( chalk.bold.magenta('From ', m.name))
                   console.log(chalk.bold( crypto.privateDecrypt(priv, Buffer.from(req.body.name, 'hex') ).toString('latin1')))
+                  console.log( chalk.bold.magenta('-', m.name))
                   events.taskCreated(
                     "__lock: " + req.body.name,
                     req.body.color,

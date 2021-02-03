@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.memberrow.membershipcard
+.memberrow.membershipcard(:ondrop="drop"   :ondragover="allowDrop" )
     .bottomright()
         div(@click='$store.commit("setMode", 3)'  :class='{here: $store.state.upgrades.mode === "chest"}')
             .stash(v-if='card.boost > 0') {{ card.boost.toLocaleString() }}
@@ -63,6 +63,19 @@ export default {
         },
     },
     methods: {
+        allowDrop(ev){
+            ev.preventDefault()
+        },
+        drop(ev){
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("taskId")
+            this.$store.dispatch("makeEvent", {
+                type: 'task-prioritized',
+                inId: this.$store.getters.contextCard.taskId,
+                taskId: data,
+            })
+            this.$store.commit("setMode", 1)
+        },
         toChest(){
             if (this.$store.state.upgrades.mode === "chest"){
                 this.$store.commit("setMode", 0)
@@ -209,6 +222,9 @@ label
     text-align: center
 .bottomleft:before
     content: "\2022"
+.bottomleft:hover
+    background: softerGrey
+
 .bottomleft.activationsequence
     color: main
 

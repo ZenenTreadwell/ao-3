@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.priorities
+.priorities(:ondrop='drop'    :ondragover="allowDrop")
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer
@@ -35,6 +35,19 @@ export default {
       }
   },
   methods:{
+    allowDrop(ev){
+        ev.preventDefault()
+    },
+    drop(ev){
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("taskId")
+        this.$store.dispatch("makeEvent", {
+            type: 'task-prioritized',
+            inId: this.$store.getters.contextCard.taskId,
+            taskId: data,
+        })
+        this.$store.commit("setMode", 1)
+    },
     hasCompleted(tId){
         let card = this.$store.state.tasks[this.$store.state.hashMap[tId]]
         if(card && card.claimed){

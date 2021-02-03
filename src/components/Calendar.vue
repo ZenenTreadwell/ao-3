@@ -13,7 +13,7 @@
       div.deh(v-for='day in days'  @click='chooseDay(day)')
           day(:day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
       .placeholder(v-for='placeholder in lastDay')
-  .calmonth(v-else-if='$store.state.upgrades.mode === "boat"')
+  .calmonth(v-else-if='$store.state.upgrades.mode === "boat"'  :ondrop='drop'    :ondragover="allowDrop")
       .weekdayfull(@click='clickDateBar') {{ chosenWeekDay }}
       .grey
           .datenumber  {{ $store.state.upgrades.chosenDay }}
@@ -65,6 +65,18 @@ export default {
     Day, Currentr, Current, Priorities, SimplePriority, Checkbox, Linky
   },
   methods: {
+      allowDrop(ev){
+          ev.preventDefault()
+      },
+      drop(ev){
+          ev.preventDefault();
+          var data = ev.dataTransfer.getData("taskId")
+          this.$store.dispatch("makeEvent", {
+              type: 'task-prioritized',
+              inId: this.$store.getters.contextCard.taskId,
+              taskId: data,
+          })
+      },
       checkIsMember(name){
           let mName = false
           this.$store.state.members.some(m => {

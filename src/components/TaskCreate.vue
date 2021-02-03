@@ -3,11 +3,11 @@
 
 #createtask(ref="closeable" @keydown='testAll' @keyup.tab='testTab'  @keyup.esc='testEscape')
   div.secondbackground(@click='switchColor(task.color)')
+      .boatContainer
+          button.clear(@click.stop='toggleSearch'  :class='{selected: showSearch, inactive: task.name == ""}') search
+          button.lock(@click.stop='lockIt'  :class='{inactive: task.name == ""}') encrypt
+          button.create(@click.stop='createOrFindTask'  :class='{inactive: task.name == ""}') post
       .cc(v-show='showCreate')
-          .boatContainer
-              button.clear(@click.stop='toggleSearch'  :class='{selected: showSearch, inactive: task.name == ""}') search
-              button.lock(@click.stop='lockIt'  :class='{inactive: task.name == ""}') encrypt
-              button.create(@click.stop='createOrFindTask'  :class='{inactive: task.name == ""}') post
           textarea#card.paperwrapper(
               v-model='task.name'
               type='text'
@@ -178,6 +178,9 @@ export default {
             this.matches = { guilds, doges, cards}
         },
         toggleSearch(){
+            if (!this.showCreate){
+                return this.openCreate()
+            }
             if (this.showSearch && this.search !== this.task.name.trim()){
                 return this.loadResult()
             }
@@ -187,6 +190,9 @@ export default {
             this.showSearch = !this.showSearch
         },
         lockIt(){
+            if (!this.showCreate){
+                return this.openCreate()
+            }
             let toHide = this.task.name.trim()
             if (toHide){
                 let pubkey = this.$store.state.cash.publicKey
@@ -209,7 +215,6 @@ export default {
             })
         },
         boatAll(){
-            console.log(this.matchIds.length, ' shipments')
             this.$store.dispatch("makeEvent", {
                 type: 'pile-prioritized',
                 tasks: this.matchIds,
@@ -278,6 +283,9 @@ export default {
             })
         },
         createOrFindTask(){
+            if (!this.showCreate){
+                return this.openCreate()
+            }
             this.showSearch = false
             let potentialCard = this.task.name.trim()
             let foundId = false
@@ -317,6 +325,7 @@ export default {
         },
         openCreate() {
             this.showCreate = true
+            this.refocus()
         },
         closeCreate() {
             this.showCreate = false
@@ -621,6 +630,9 @@ button.inactive
     background: lightGrey
     color: main
 
+.boatContainer button:hover
+    background: softerGrey
+
 .ping
     padding-top: 0.789em
     position: absolute
@@ -641,4 +653,8 @@ button.inactive
     border-radius: 2%
 .fifth:before
     content: "\2022";
+
+.fifth:hover
+    background: softerGrey
+
 </style>

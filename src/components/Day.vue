@@ -1,5 +1,5 @@
 <template lang="pug">
-.day
+.day( :ondrop='drop'    :ondragover="allowDrop")
     .date {{ day }}
     img.today(v-if='isToday'  src='../assets/images/orb.svg')
     span(v-if='createdToday') created
@@ -40,6 +40,23 @@ export default {
         }
     },
     methods: {
+        allowDrop(ev){
+            ev.preventDefault()
+        },
+        drop(ev){
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("taskId")
+            let d = new Date(this.year, this.month, this.day)
+            let startTs = d.getTime()
+            this.$store.dispatch("makeEvent", {
+                type: 'resource-booked',
+                inId: this.$store.getters.contextCard.taskId,
+                memberId: this.$store.getters.member.memberId,
+                resourceId: data,
+                startTs,
+                endTs: startTs + 123123,
+            })
+        },
         styl(color){
             if (!color) return
             return {

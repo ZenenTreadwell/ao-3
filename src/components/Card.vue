@@ -1,5 +1,5 @@
 <template lang='pug'>
-.task(:class="cardInputSty" @click='goIn').dont-break-out.agedwrapper
+.task(:class="cardInputSty"  @click='goIn'  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart').dont-break-out.agedwrapper
     bird(:b='b', :inId='inId')
     img.flaggy(@click.stop='upboat'  src='../assets/images/upboat.svg'  :class='{hidden:!$store.getters.member.guides}')
     .buffertop
@@ -50,6 +50,26 @@ export default {
     props: ['b', 'inId', 'c'],
     components: { PreviewDeck, Bird, Linky, SimplePriorities, Current, Tally},
     methods: {
+        drop(ev){
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("taskId")
+            this.$store.dispatch("makeEvent", {
+                type: 'task-de-sub-tasked',
+                taskId: this.$store.getters.contextCard.taskId,
+                subTask: data,
+            })
+            this.$store.dispatch("makeEvent", {
+                type: 'task-sub-tasked',
+                taskId: this.b.taskId,
+                subTask: data,
+            })
+        },
+        allowDrop(ev){
+            ev.preventDefault()
+        },
+        dragStart(ev){
+            ev.dataTransfer.setData("taskId", this.b.taskId);
+        },
         pop(){
             this.$store.dispatch("makeEvent", {
                 type: 'task-popped',
