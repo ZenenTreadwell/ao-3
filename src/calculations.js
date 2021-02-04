@@ -37,7 +37,7 @@ function crawler(tasks, taskId){
 
 function shortName(name) {
     let limit = 280
-    let shortened = name.substring(0, limit)
+    let shortened = name.substring(0, limit).toLowerCase()
     if(name.length > limit) {
         shortened += '…'
     }

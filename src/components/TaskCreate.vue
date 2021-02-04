@@ -29,17 +29,16 @@
               .fifth(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" && showCreate }').bluetx.paperwrapper
       .scrollbarwrapper(v-show='showSearch')
           .searchresults
-              .boatContainer
-                  img.boatAll.faded(src='../assets/images/downboat.svg'  @click='deBoatAll')
-                  .searchtotal(@click='goInSearchPanel') {{ searchTotal }} of {{ $store.state.tasks.length }}
-                  img.boatAll.boatR.faded(src='../assets/images/upboat.svg'  @click='boatAll')
+              .searchtotal(@click='boatAll') {{ searchTotal }} of {{ $store.state.tasks.length }}
               .result(v-for='t in matches.guilds'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)')
                   img.smallguild(src='../assets/images/badge.svg')
                   span {{ t.guild }}
-                  div {{ shortName(t.name) }}
               .result(v-for='t in matches.doges'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)')
                   current(:memberId='t.memberId')
-              .result(v-for='t in matches.cards'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)') {{ shortName(t.name) }}
+              .result(v-for='t in matches.cards'  @click.stop='goIn(t.taskId)')
+                  span {{ shortName(t.name)[0] }}
+                  span(:class='resultInputSty(t)') {{ $store.state.upgrades.search }}
+                  span {{ shortName(t.name)[1] }}
 </template>
 
 <script>
@@ -345,7 +344,9 @@ export default {
             this.$store.commit('setSearch', this.task.name.trim())
         },
         shortName(theName) {
-            return calculations.shortName(theName)
+            let shortname = calculations.shortName(theName)
+            let splitty = shortname.split(this.$store.state.upgrades.search.toLowerCase())
+            return splitty
         },
     },
     computed: {
@@ -414,10 +415,10 @@ button.inactive
     left: 50%
     transform: translateX(-50%)
 .searchtotal
-    position: absolute
-    top: 0
-    right: calc(50%-1em)
     cursor: pointer
+    border-bottom-style: solid
+    border-color: main
+    margin-bottom: 0.23456em
 
 #createtask
   width: 81%
@@ -555,6 +556,7 @@ button.inactive
     background: lightGrey
     padding: 1em 0
     border-radius: 20px
+    cursor: default
 
 @media only screen and (max-width: 68em)
     .scrollbarwrapper
@@ -577,7 +579,7 @@ button.inactive
     margin-left: 4em
     margin-right: 4em
     margin-bottom: 0.3em
-    cursor: pointer
+    cursor: crosshair
 
 .smallguild
     height: 1em
