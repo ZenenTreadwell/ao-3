@@ -1,25 +1,25 @@
 <template lang='pug'>
 
-.panel(v-if='$store.getters.all.length > 0'  :class='{fullwidth: !requireFiveStacks}')
-    div(v-if='requireFiveStacks')
-      .row
-        .four.columns
-            card-panel(v-if='$store.getters.red.length === 0'   stack='yellow',  :position='$store.getters.contextCard.stackView["yellow"]', :taskId='$store.getters.contextCard.taskId')
-            card-panel(v-else  stack='red', :position='$store.getters.contextCard.stackView["red"]',  :taskId='$store.getters.contextCard.taskId')
-        .four.columns
-            card-panel(stack='green', :position='$store.getters.contextCard.stackView["green"]',  :taskId='$store.getters.contextCard.taskId')
-        .four.columns
-            card-panel(v-if='$store.getters.blue.length === 0'  stack='purple',  :position='$store.getters.contextCard.stackView["purple"]', :taskId='$store.getters.contextCard.taskId')
-            card-panel(v-else  stack='blue', :position='$store.getters.contextCard.stackView["blue"]',  :taskId='$store.getters.contextCard.taskId')
-      .row
-        .two.columns
-        .four.columns(v-if='$store.getters.yellow.length > 0  &&  $store.getters.red.length > 0')
-            card-panel(stack='yellow', :position='$store.getters.contextCard.stackView["yellow"]',  :taskId='$store.getters.contextCard.taskId')
-        .four.columns.stay(v-else)
-        .four.columns(v-if='$store.getters.purple.length > 0 && $store.getters.blue.length > 0')
-            card-panel(stack='purple', :position='$store.getters.contextCard.stackView["purple"]',  :taskId='$store.getters.contextCard.taskId')
-    .padonestack(v-else)
-        card-panel(v-if='$store.getters.all.length > 0'  stack='all', :position='$store.getters.contextCard.stackView["all"]',  :taskId='$store.getters.contextCard.taskId')
+.panel
+    .row
+      .four.columns
+          card-panel(v-if='$store.getters.red.length === 0'   stack='yellow',  :position='$store.getters.contextCard.stackView["yellow"]', :taskId='$store.getters.contextCard.taskId')
+          card-panel(v-else  stack='red', :position='$store.getters.contextCard.stackView["red"]',  :taskId='$store.getters.contextCard.taskId')
+          span &nbsp;
+      .four.columns
+          card-panel(stack='green', :position='$store.getters.contextCard.stackView["green"]',  :taskId='$store.getters.contextCard.taskId')
+          span &nbsp;
+      .four.columns
+          card-panel(v-if='$store.getters.blue.length === 0'  stack='purple',  :position='$store.getters.contextCard.stackView["purple"]', :taskId='$store.getters.contextCard.taskId')
+          card-panel(v-else  stack='blue', :position='$store.getters.contextCard.stackView["blue"]',  :taskId='$store.getters.contextCard.taskId')
+    .row
+      .two.columns
+      .four.columns(v-if='$store.getters.yellow.length > 0  &&  $store.getters.red.length > 0')
+          card-panel(stack='yellow', :position='$store.getters.contextCard.stackView["yellow"]',  :taskId='$store.getters.contextCard.taskId')
+      .four.columns.stay(v-else)
+      .four.columns(v-if='$store.getters.purple.length > 0 && $store.getters.blue.length > 0')
+          card-panel(stack='purple', :position='$store.getters.contextCard.stackView["purple"]',  :taskId='$store.getters.contextCard.taskId')
+
 </template>
 
 <script>
@@ -30,20 +30,6 @@ import CardPanel from './CardPanel'
 export default {
   components:{
       CardPanel,Projects
-  },
-  computed: {
-      requireFiveStacks(){
-          return this.usedStacks > 1
-      },
-      usedStacks(){
-          let usedStacks = 0
-          if (this.$store.getters.green.length > 0) usedStacks++
-          if (this.$store.getters.red.length > 0) usedStacks++
-          if (this.$store.getters.blue.length > 0) usedStacks++
-          if (this.$store.getters.purple.length > 0) usedStacks++
-          if (this.$store.getters.yellow.length > 0) usedStacks++
-          return usedStacks
-      }
   },
   methods: {
       getArchive(){

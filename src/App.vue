@@ -15,28 +15,13 @@ export default {
         let session = window.localStorage.session
         if (token && session){
             this.$store.commit('setAuth', {token, session})
+            this.$store.dispatch("connectSocket")
+            this.$store.dispatch('loadCurrent')
         }
-        this.$store.dispatch("connectSocket")
-        this.$store.dispatch('loadCurrent')
     },
     components: {
         Auth
     },
-    computed: {
-        cardInputSty(){
-            if (this.$store.getters.member.stacks === 5) return {
-                redwx : this.$store.getters.contextCard.color == 'red',
-                bluewx : this.$store.getters.contextCard.color == 'blue',
-                greenwx : this.$store.getters.contextCard.color == 'green',
-                yellowwx : this.$store.getters.contextCard.color == 'yellow',
-                purplewx : this.$store.getters.contextCard.color == 'purple',
-                blackwx : this.$store.getters.contextCard.color == 'black',
-            }
-            return {
-                nowx: true
-            }
-        },
-    }
 }
 
 </script>

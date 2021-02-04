@@ -83,7 +83,7 @@ export default {
 
           window.localStorage.setItem("token", token)
           window.localStorage.setItem("session", session)
-
+          this.$store.dispatch("connectSocket")
           this.$store.dispatch('loadCurrent')
       }
   }
@@ -119,7 +119,6 @@ input
 input:focus
     -webkit-text-size-adjust: 100%
     font-size: 16px
-    zoom: 1
     -moz-transform: scale(1)
 
 .secret

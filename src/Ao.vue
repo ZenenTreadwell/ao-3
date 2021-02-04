@@ -18,15 +18,6 @@ import TaskCreate from './components/TaskCreate'
 import Deck from './components/Deck'
 
 export default {
-    mounted() {
-        let token = window.localStorage.token
-        let session = window.localStorage.session
-        if (token && session){
-            this.$store.commit('setAuth', {token, session})
-        }
-        this.$store.dispatch("connectSocket")
-        this.$store.dispatch('loadCurrent')
-    },
     components: {
         EventFeed, Helm, TaskCreate, Contexts, Deck
     },

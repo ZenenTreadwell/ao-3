@@ -53,6 +53,9 @@ export default {
         drop(ev){
             ev.preventDefault();
             var data = ev.dataTransfer.getData("taskId")
+            if (this.b.taskId === data){
+                return
+            }
             this.$store.dispatch("makeEvent", {
                 type: 'task-de-sub-tasked',
                 taskId: this.$store.getters.contextCard.taskId,

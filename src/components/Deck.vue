@@ -20,7 +20,7 @@
             payments(v-show='$store.state.upgrades.mode === "chest"')
             planning(v-show='$store.state.upgrades.mode === "boat" || $store.state.upgrades.mode === "timecube"')
     div
-        .fadey(v-if='$store.getters.all.length > 0'   :class='{ onestack : !requireFiveStacks, completedfadey : $store.state.context.completed }')
+        .fadey(v-if='$store.getters.all.length > 0'   :class='{ completedfadey : $store.state.context.completed }')
             panels
         .container
             checkmarks(v-if='$store.getters.member.memberId !== $store.getters.contextCard.taskId')
