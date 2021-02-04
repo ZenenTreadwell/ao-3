@@ -1,8 +1,8 @@
 <template lang='pug'>
 
 .projects
-    ul.none
-        li.spaced(v-for='p in $store.getters.uniqGuilds'  :key='p.taskId')
+    ul.none()
+        li.spaced(v-for='p in $store.getters.uniqGuilds'  :key='p.taskId'  :ondrop="dropLoader(p.taskId)"  :ondragover="allowDrop")
             span(@click='goIn(p.taskId)')
                 img.floatleft(src='../assets/images/badge.svg')
             span(@click='goIn(p.taskId)')
@@ -14,6 +14,25 @@
 export default {
     components: {},
     methods: {
+        dropLoader(guildId){
+            return (ev) => {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("taskId")
+                this.$store.dispatch("makeEvent", {
+                  type: 'task-de-sub-tasked',
+                  taskId: this.$store.getters.contextCard.taskId,
+                  subTask: data,
+                })
+                this.$store.dispatch("makeEvent", {
+                  type: 'task-sub-tasked',
+                  taskId: guildId,
+                  subTask: data,
+                })
+            }
+        },
+        allowDrop(ev){
+            ev.preventDefault()
+        },
         goIn(taskId){
             let t = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
             let parents = [this.$store.getters.contextCard.taskId]

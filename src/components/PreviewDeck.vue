@@ -90,7 +90,7 @@ export default {
 <style lang="stylus" scoped>
 // this means the colour import overwrites
 .bead
-    opacity: .5;
+    opacity: .7237;
     padding: 0
     margin:0
     height:.77em
@@ -99,7 +99,6 @@ export default {
     border-radius: 50%;
     display: inline-block;
     border-width: 2px
-    border-color: rgba(255, 255, 255, 0.11)
     border-style: solid
     cursor: pointer
     background: lightGrey
