@@ -1,21 +1,20 @@
 <template lang='pug'>
-
 .app
-  .app2(:class='cardInputSty')
-  helm
-  contexts
-  deck
-  task-create
-  .breathingroom
+    .app2(:class='cardInputSty')
+    helm
+    contexts
+    deck
+    task-create
+    .breathingroom
 </template>
 
 <script>
 
-import EventFeed from './components/EventFeed'
-import Helm from './components/Helm'
-import Contexts from './components/Contexts'
-import TaskCreate from './components/TaskCreate'
-import Deck from './components/Deck'
+import EventFeed from './EventFeed'
+import Helm from './Helm'
+import Contexts from './Contexts'
+import TaskCreate from './TaskCreate'
+import Deck from './Deck'
 
 export default {
     components: {
@@ -40,18 +39,11 @@ export default {
 
 </script>
 
-<style lang="stylus">
-@import "./styles/normalize";
-@import "./styles/colours";
+<style lang="stylus"  scoped>
+@import "../styles/colours";
 
 .breathingroom
     height: 27em
-
-.app
-    background: #404040
-    min-height: 100vh;
-    color: main
-    font-family: monospace
 
 .app2
     position: fixed
