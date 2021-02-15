@@ -22,11 +22,11 @@
       #btnpanel.btnpanel
           .ping(v-show='showCreate') {{ $store.state.loader.reqStatus }}
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
-              .fifth(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" && showCreate }').redtx.paperwrapper
-              .fifth(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" && showCreate }').yellowtx.paperwrapper
-              .fifth(@click.stop='switchColor("green")'  :class='{ down : task.color === "green"  && showCreate}').greentx.paperwrapper
-              .fifth(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" && showCreate }').purpletx.paperwrapper
-              .fifth(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" && showCreate }').bluetx.paperwrapper
+              .fifth(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" && showCreate  || $store.state.loader.pendingFlash[0] }').redtx.paperwrapper
+              .fifth(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" && showCreate  || $store.state.loader.pendingFlash[1]}').yellowtx.paperwrapper
+              .fifth(@click.stop='switchColor("green")'  :class='{ down : task.color === "green"  && showCreate || $store.state.loader.pendingFlash[2]}').greentx.paperwrapper
+              .fifth(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" && showCreate  || $store.state.loader.pendingFlash[3]}').purpletx.paperwrapper
+              .fifth(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" && showCreate  || $store.state.loader.pendingFlash[4]}').bluetx.paperwrapper
       .scrollbarwrapper(v-show='showSearch')
           .searchresults
               .searchtotal(@click='boatAll') {{ searchTotal }} of {{ $store.state.tasks.length }}
@@ -273,7 +273,6 @@ export default {
             this.showSearch = false
         },
         subTaskTask(taskId) {
-
             this.$store.dispatch("makeEvent", {
                 type: 'task-sub-tasked',
                 taskId: this.taskId,

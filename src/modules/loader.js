@@ -67,6 +67,8 @@ const actions = {
         if (state.connected !== "connected"){
             socket.connect()
         }
+        commit("setReqStatus", "pending")
+        commit("pendFlasher")
         request
             .post('/tasks/gg')
             .set("Authorization", state.token)
@@ -81,6 +83,7 @@ const actions = {
                     })
                 }
             })
+        let startTs = Date.now()
         request
             .post('/state')
             .set("Authorization", state.token)
@@ -89,6 +92,7 @@ const actions = {
                     console.log('task load post err: ', err)
                 } else {
                     commit('setCurrent', res.body)
+                    commit("setReqStatus", Date.now() - startTs)
                     res.body.sessions.forEach(s => {
                         if (s.session === state.session){
                             commit("setPanel", [ s.ownerId ])
@@ -100,6 +104,7 @@ const actions = {
     makeEvent({commit, state}, newEv){
         let startTs = Date.now()
         commit("setReqStatus", "pending")
+        commit("pendFlasher")
         request
             .post('/events')
             .send(newEv)
@@ -122,9 +127,22 @@ const state = {
     connected: 'disconnected',
     connectionError: '',
     reqStatus: 'ready',
+    pendingFlash: [0,0,0,0,0],
 }
 
 const mutations = {
+    pendFlasher(loader){
+        let i = 0
+        let flasher = setInterval(()=> {
+            loader.pendingFlash[i] = 0
+            i = (i  + 1) % 5
+            loader.pendingFlash[i] = 1
+            if (loader.reqStatus !== "pending"){
+                clearInterval(flasher)
+                loader.pendingFlash = [0,0,0,0,0]
+            }
+        }, 123)
+    },
     setReqStatus(loader, status){
         loader.reqStatus = status
     },
