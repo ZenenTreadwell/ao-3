@@ -41,6 +41,6 @@ function deactivate(){
 }
 
 module.exports = function (){
-    rentJob.start()
-    deactivateJob.start()
+    // rentJob.start()
+    // deactivateJob.start()
 }

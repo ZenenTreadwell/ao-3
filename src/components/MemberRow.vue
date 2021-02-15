@@ -1,11 +1,11 @@
 <template lang='pug'>
 
-.memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId}')
-    .absoright(v-if='b.boost > 0'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}') {{b.boost.toLocaleString()}}
+.memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId}'  @click='goIn(m.memberId)')
+    .absoright(:class='{loggedInText: m.memberId === $store.getters.member.memberId}') {{m.active > 0 ? "active" : "inactive"}} - {{b.boost.toLocaleString()}}
     .row(v-if='b')
         .three.grid.ptr
-            current(:memberId='m.memberId')
-        .one.grid
+            current(:memberId='m.memberId' @click.stop)
+        .one.grid(@click.stop)
             coin(:b='b')
         .grid.eight
             simple-priorities(:taskId='m.memberId')
@@ -17,7 +17,6 @@ import PreviewDeck from './PreviewDeck'
 import SimplePriorities from './SimplePriorities'
 import Coin from './Coin'
 import Current from './Current'
-
 
 export default {
     props: ['m'],
@@ -127,6 +126,7 @@ label
     margin-bottom: 8px
     min-height: 37px
     background: lightGrey
+    cursor: pointer
 
 .fw
     width: 100%
@@ -193,7 +193,6 @@ label
 
 .loggedIn
     background: main
-.loggedInText
     color: lightGrey
 
 </style>
