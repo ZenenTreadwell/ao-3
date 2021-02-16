@@ -7,6 +7,9 @@ const state = {
     paymodes,
     mode: modes[0],
     paymode: paymodes[1],
+    showAccounts: false,
+    showNodeInfo: false,
+    showSettings: false,
     bird: false,
     barking: false,
     pinging: false,
@@ -14,6 +17,27 @@ const state = {
 }
 
 const mutations = {
+    closeAll(state){
+        state.showAccounts = false;
+        state.showNodeInfo = false;
+        state.showSettings = false;
+        console.log('close all triggereddd')
+    },
+    toggleNodeInfo(state){
+        state.showNodeInfo = !state.showNodeInfo
+        state.showAccounts = false
+        state.showSettings = false
+    },
+    toggleAccounts(state){
+        state.showAccounts = !state.showAccounts
+        state.showSettings = false
+        state.showNodeInfo = false
+    },
+    toggleSettings(state){
+        state.showSettings = !state.showSettings
+        state.showNodeInfo = false
+        state.showAccounts = false
+    },
     chooseDay(state, x){
         state.chosenDay = x
         if (x >= 0){
@@ -46,6 +70,7 @@ const mutations = {
         } else if (index === 2){
             state.chosenDay = undefined
         }
+        console.log('setmode ', modes[index])
         state.mode = modes[index]
     },
     closeUpgrades(state) {

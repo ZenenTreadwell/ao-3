@@ -1,12 +1,12 @@
 <template lang='pug'>
 
 .helm
-    img.gear(@click='toggleSettings'  src='../assets/images/gear.svg')
-    img.bull(@click='toggleNodeInfo'  src='../assets/images/bull.svg'   :class='{hidden:!$store.getters.member.guides && !showNodeInfo}')
-    img.doge(@click='toggleAccounts'  src='../assets/images/doge.svg'   :class='{hidden:!$store.getters.member.guides && !showAccounts}')
-    settings(v-if='showSettings').settings
-    lightning(v-if='showNodeInfo').lightning
-    accounts(v-if='showAccounts').accounts
+    img.gear(@click.stop='$store.commit("toggleSettings")'  src='../assets/images/gear.svg')
+    img.bull(@click.stop='$store.commit("toggleNodeInfo")'  src='../assets/images/bull.svg'   :class='{hidden:!$store.getters.member.guides && !$store.state.upgrades.showNodeInfo}')
+    img.doge(@click.stop='$store.commit("toggleAccounts")'  src='../assets/images/doge.svg'   :class='{hidden:!$store.getters.member.guides && !$store.state.upgrades.showAccounts}')
+    settings(@click.stop  v-if='$store.state.upgrades.showSettings').settings
+    lightning(@click.stop  v-if='$store.state.upgrades.showNodeInfo').lightning
+    accounts(@click.stop  v-if='$store.state.upgrades.showAccounts').accounts
 
 </template>
 
@@ -17,54 +17,8 @@ import Lightning from './Lightning'
 import Accounts from './Accounts'
 
 export default {
-    data(){
-        return {
-            showAccounts: false,
-            showNodeInfo: false,
-            showSettings: false
-        }
-    },
     components: {
         Settings, Lightning, Accounts
-    },
-    methods: {
-        closeAll(){
-            this.showAccounts = false;
-            this.showNodeInfo = false;
-            this.showSettings = false;
-            console.log('closeall called')
-        },
-        toggleNodeInfo(){
-            this.showNodeInfo = !this.showNodeInfo
-            this.showAccounts = false
-            this.showSettings = false
-        },
-        toggleAccounts(){
-            this.showAccounts = !this.showAccounts
-            this.showSettings = false
-            this.showNodeInfo = false
-        },
-        toggleSettings(){
-            this.showSettings = !this.showSettings
-            this.showNodeInfo = false
-            this.showAccounts = false
-
-        },
-        scrollTop(){
-          document.body.scrollTop = 0;
-          document.documentElement.scrollTop = 0;
-        },
-        nextMode() {
-            this.scrollTop()
-            this.$store.commit('nextMode')
-        },
-        chooseMode(x){
-          this.scrollTop()
-          if (this.$store.state.upgrades.modes[x] === this.$store.state.upgrades.mode){
-              return this.$store.commit('setMode', 0)
-          }
-          this.$store.commit('setMode', x)
-        }
     },
 }
 

@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 .memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId}'  @click='goIn(m.memberId)')
-    .absoright(:class='{loggedInText: m.memberId === $store.getters.member.memberId}') {{m.active > 0 ? "active" : "inactive"}} - {{b.boost.toLocaleString()}}
+    .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}') {{m.active > 0 ? "active" : "inactive"}} - {{b.boost.toLocaleString()}}
     .row(v-if='b')
         .three.grid.ptr
             current(:memberId='m.memberId' @click.stop)
@@ -22,8 +22,13 @@ export default {
     props: ['m'],
     components: {PreviewDeck, SimplePriorities, Coin, Current},
     methods:{
+        delayedPaymode(){
+            setTimeout(()=> {
+                this.$store.commit("setMode", 3)
+            },7)
+        },
         goIn(taskId){
-
+            this.$store.commit("closeAll")
             let panel = [taskId]
             let parents = [  ]
             let top = 0

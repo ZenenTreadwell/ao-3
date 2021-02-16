@@ -1,5 +1,5 @@
 <template lang='pug'>
-.app
+.app(@click='$store.commit("closeAll")')
     .app2(:class='cardInputSty')
     helm
     contexts
