@@ -8,7 +8,7 @@
         span.third(:class='{hidden:open}'  ref='next')
     .open(v-if='open')
         div(v-for='(b, i) in c'  :key="b.taskId")
-            img.orby.fadey.ro(v-if='i > 0'  src='../assets/images/orb.svg'  @click='orbswap(b.taskId)')
+            .donut.orby.fadey.ro(v-if='i > 0'  @click='orbswap(b.taskId)')
             hypercard(:b="b"  :key="b.taskId"  :inId='taskId'  :c='panelIds')
     .box(v-else)
         hypercard(:b="c[sanePosition]"  :inId='taskId'  :key='c[sanePosition].taskId')
@@ -270,6 +270,7 @@ export default {
 @import '../styles/colours'
 @import '../styles/grid'
 @import '../styles/button'
+@import '../styles/dot'
 
 h3
     font-size: 0.54em

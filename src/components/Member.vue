@@ -23,7 +23,6 @@
 
 <script>
 
-import Bird from './Bird'
 import Current from './Current'
 import Linky from './Linky'
 import Auth from './Auth'
@@ -31,7 +30,7 @@ import Card from './Card'
 
 export default {
     props: ['m'],
-    components: {Bird, Current, Linky, Auth, Card},
+    components: {Current, Linky, Auth, Card},
     computed:{
         card(){
             return this.$store.getters.contextCard

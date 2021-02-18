@@ -189,4 +189,9 @@ select.shorten
 .hidden
     opacity: 0
 
+.birdy
+    border-style: solid
+    border-color: rgba(0,0,0,0)
+    border-width: 1em
+    border-radius: 100%
 </style>

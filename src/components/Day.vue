@@ -1,7 +1,7 @@
 <template lang="pug">
 .day( :ondrop='drop'    :ondragover="allowDrop")
     .date {{ day }}
-    img.today(v-if='isToday'  src='../assets/images/orb.svg')
+    img.today(v-if='isToday'  src='../assets/images/down.svg')
     span(v-if='createdToday') created
     span(v-for='t in ev')
         .upgrade(v-if='!t.type')

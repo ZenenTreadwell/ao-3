@@ -4,10 +4,10 @@
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer
-              img.boatAll.boatL(src='../assets/images/downboat.svg'  @click='refocused(t)'  :class='{hidden:!$store.getters.member.guides}')
+              .donut.boatAll.boatL(@click='refocused(t)'  :class='{hidden:!$store.getters.member.guides}')
               hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId'  :c='priorities')
               div(v-if='i > 0')
-                  img.boatAll.boatR.faded(src='../assets/images/upboat.svg'  @click='prioritized(t)'  :class='{hidden:!$store.getters.member.guides}')
+                  .donut.boatAll.boatR.faded(@click='prioritized(t)'  :class='{hidden:!$store.getters.member.guides}')
               div(v-else-if='hasCompleted(t)')
                   img.boatAll.boatR.faded(src='../assets/images/completed.svg'  @click='completed(t)')
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
@@ -18,7 +18,7 @@
                   hyperpriority.closedcard(:taskId='st2'  :inId="st"  :inInId='t'  :c='getSubPriorities(st)')
     div.clearboth
     div(v-if='priorities.length >= 1')
-        img.boatAll.faded(src='../assets/images/downboat.svg'  @click='pileRefocused')
+        .donut.boatAll.faded(@click='pileRefocused')
 </template>
 
 <script>
@@ -118,6 +118,7 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 @import '../styles/button'
+@import '../styles/dot'
 
 .fw
     width: 100%

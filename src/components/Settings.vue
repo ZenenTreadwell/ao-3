@@ -215,7 +215,6 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 @import '../styles/breakpoints'
-@import '../styles/title'
 @import '../styles/button'
 @import '../styles/input'
 

@@ -83,7 +83,6 @@ export default {
 @import '../styles/skeleton'
 @import '../styles/grid'
 @import '../styles/button'
-@import '../styles/title'
 @import '../styles/input'
 
 span

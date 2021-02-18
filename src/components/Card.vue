@@ -1,14 +1,14 @@
 <template lang='pug'>
 .task(:class="cardInputSty"  @click='goIn'  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart').dont-break-out.agedwrapper
     bird(:b='b', :inId='inId')
-    img.flaggy(@click.stop='upboat'  src='../assets/images/upboat.svg'  :class='{hidden:!$store.getters.member.guides}')
+    .donut.flaggy(@click.stop='upboat'  :class='{hidden:!$store.getters.member.guides}')
     .buffertop
       .cardbody
           linky.cardhud(:x='b.name' v-if='!member')
           span.sml
               current(v-for='n in actions'  :memberId='n')
-    div(v-if='b.taskId !== $store.getters.contextCard.taskId')
-        simple-priorities(:taskId="b.taskId")
+          div(v-if='b.taskId !== $store.getters.contextCard.taskId')
+              simple(:taskId="b.taskId")
     .passed
         div.totop(v-if='b.passed.length > 0  && $store.state.upgrades.bird')
             div(@click='toggleBird')
@@ -21,9 +21,9 @@
         .copydiv
             img.copied(src='../assets/images/loggedOut.svg'  :class='{hidden:!showCopied}'  @click.stop='copyCardToClipboard')
         .scrol(@click.stop='remove')
-            img.scrolly(src='../assets/images/downboat.svg'  :class='{hidden:!$store.getters.member.guides}')
+            .donut.scrolly(:class='{hidden:!$store.getters.member.guides}')
         .vine(@click.stop='pop')
-            img.viney(src='../assets/images/explode.svg'  :class='{hidden:!$store.getters.member.guides}')
+            .donut.viney(:class='{hidden:!$store.getters.member.guides}')
         .singlebird(v-if='b.passed.length > 0'  @click.stop='toggleBird'  v-show='!$store.state.upgrades.bird')
             .row.pad.centered()
                 span(v-if='b.passed.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
@@ -37,9 +37,9 @@ import _ from 'lodash'
 import Tally from './Tally'
 import Linky from './Linky'
 import Current from './Current'
-import SimplePriorities from './SimplePriorities'
 import Bird from './Bird'
 import PreviewDeck from './PreviewDeck'
+import Simple from './SimplePriorities'
 
 export default {
     data(){
@@ -48,7 +48,7 @@ export default {
         }
     },
     props: ['b', 'inId', 'c'],
-    components: { PreviewDeck, Bird, Linky, SimplePriorities, Current, Tally},
+    components: { PreviewDeck, Bird, Linky, Simple, Current, Tally},
     methods: {
         drop(ev){
             ev.preventDefault();
@@ -244,6 +244,7 @@ export default {
 @import '../styles/grid'
 @import '../styles/button'
 @import '../styles/spinners'
+@import '../styles/dot'
 
 .sml
     font-size: .73em
@@ -369,7 +370,6 @@ label
     bottom: 0.5em
     right: 0.5em
     cursor: pointer
-    opacity: 0.8321
 
 .row
     width: 100%
@@ -627,14 +627,13 @@ label
     opacity: 0.1
     cursor: pointer
 
-
 .copydiv
     padding-left: 50% - 2em
 
 .flaggy
     position: absolute
-    right: 1em
-    top: 1em
+    right: 0.5em
+    top: 0.5em
     height: 1em
     cursor: pointer
 

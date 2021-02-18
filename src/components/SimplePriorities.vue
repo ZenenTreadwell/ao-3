@@ -9,7 +9,6 @@
 
 <script>
 
-import Hypercard from './Card'
 import SimplePriority from './SimplePriority'
 
 export default {
@@ -27,7 +26,7 @@ export default {
       },
   },
   components:{
-      SimplePriority, Hypercard,
+      SimplePriority,
   },
 }
 
@@ -43,6 +42,7 @@ export default {
     padding-bottom: 0.5em
     clear: both
     overflow: hidden
+    color: main
 
 .deck
     width: 100%

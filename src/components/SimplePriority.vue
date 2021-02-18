@@ -17,12 +17,11 @@ import Hammer from 'hammerjs'
 import Propagating from 'propagating-hammerjs'
 
 import Linky from './Linky'
-import Hypercard from './Card'
 import Tally from './Tally'
 
 export default {
     props: ['taskId', 'inId', 'c'],
-    components: { Hypercard, Linky, Tally },
+    components: { Linky, Tally },
     mounted() {
         let el = this.$refs.wholeCard
         if(!el) return
