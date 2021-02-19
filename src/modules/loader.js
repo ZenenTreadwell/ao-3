@@ -115,7 +115,6 @@ const actions = {
                     console.log({err, res})
                 } else {
                     commit("setReqStatus", Date.now() - startTs)
-                    console.log("make event res", res.body)
                 }
             })
     }

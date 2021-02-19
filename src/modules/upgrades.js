@@ -21,7 +21,6 @@ const mutations = {
         state.showAccounts = false;
         state.showNodeInfo = false;
         state.showSettings = false;
-        console.log('close all triggereddd')
     },
     toggleNodeInfo(state){
         state.showNodeInfo = !state.showNodeInfo
@@ -70,7 +69,6 @@ const mutations = {
         } else if (index === 2){
             state.chosenDay = undefined
         }
-        console.log('setmode ', modes[index])
         state.mode = modes[index]
     },
     closeUpgrades(state) {

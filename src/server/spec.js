@@ -33,7 +33,7 @@ router.post('/events', (req, res, next)=>{
                   console.log(chalk.bold( crypto.privateDecrypt(priv, Buffer.from(req.body.name, 'hex') ).toString('latin1')))
                   console.log( chalk.bold.magenta('-', m.name))
                   events.taskCreated(
-                    "__lock: " + req.body.name,
+                    "__lock:" + req.body.name,
                     req.body.color,
                     req.body.deck,
                     req.body.inId,

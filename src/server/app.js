@@ -40,11 +40,11 @@ function startDctrlAo(){
               .onValue(reactions)
 
           const server = app.listen(PORT, err => {
-              console.log(chalk.blue.bold("ao server available at http://localhost:" + PORT))
+              console.log(chalk.blue.bold("ao available at http://localhost:" + PORT))
 
               connector.checkHash(conf.tor.hostname, 'wrong', 'wrroonng', (err, resulthash) => {
                   if (err === 'unauthorized'){
-                      console.log(chalk.blue.bold("ao server available at", conf.tor.hostname))
+                      console.log(chalk.blue.bold("ao available at", conf.tor.hostname))
                   }
               })
 

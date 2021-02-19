@@ -176,12 +176,12 @@ export default {
         copyCardToClipboard(){
           console.log('navigator', navigator.clipboard, this.b.name)
           navigator.clipboard.writeText(this.b.name)
-              .then(x => {
-                  console.log('success', x)
+              .then(() => {
                   this.showCopied = true
               })
               .catch(err => {
-                  console.log('failed to copy: ' + this.b.name, {err}) // XXX firefox, null error
+                  console.log(err, 'copy attempt failed, printing to console:')
+                  console.log(this.b.name)
               })
         },
     },
