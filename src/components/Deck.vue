@@ -24,7 +24,7 @@
             panels
         .container
             checkmarks(v-if='$store.getters.member.memberId !== $store.getters.contextCard.taskId')
-    projects
+            projects
 
 </template>
 

@@ -78,7 +78,7 @@ h3
 
 .spaced
     clear: both
-    margin-top: 0.555em
+    margin-top: 0.9555em
 
 .fr
     float: right

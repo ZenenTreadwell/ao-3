@@ -4,11 +4,15 @@
     .spaceroom(v-if='c.length < 2')
     .ptr(v-show="c.length > 1"  ref='swipebar')
         span.third(:class='{hidden:open}'  ref='previous')
+            .donut( :class='{hidden:!$store.getters.member.guides}')
         span.third(ref='mandelorb')
+            .donut( :class='{hidden:!$store.getters.member.guides}')
         span.third(:class='{hidden:open}'  ref='next')
+            .donut( :class='{hidden:!$store.getters.member.guides}')
     .open(v-if='open')
         div(v-for='(b, i) in c'  :key="b.taskId")
-            .donut.orby.fadey.ro(v-if='i > 0'  @click='orbswap(b.taskId)')
+            .orby(v-if='i > 0'  @click='orbswap(b.taskId)'  :class='{hidden:!$store.getters.member.guides}')
+                .donut
             hypercard(:b="b"  :key="b.taskId"  :inId='taskId'  :c='panelIds')
     .box(v-else)
         hypercard(:b="c[sanePosition]"  :inId='taskId'  :key='c[sanePosition].taskId')
@@ -270,7 +274,7 @@ export default {
 @import '../styles/colours'
 @import '../styles/grid'
 @import '../styles/button'
-@import '../styles/dot'
+@import '../styles/donut'
 
 h3
     font-size: 0.54em
@@ -279,24 +283,17 @@ h3
 .one
     cursor:pointer
 
-.ro
-    transform: rotate(100deg)
-
 .orby
-    height: 2.02em
-    margin-top: -1em
-    margin-bottom: -1em
-    margin-left: 4.45em
+    height: 2.72em
+    margin-top: -0.41em
+    margin-bottom: -0.41em
+    cursor: pointer
+.orby .donut
+    position: relative;
+    left: 33%
 
 #tasks
     width: 100%
-    // border-bottom: solid;
-    // border-left: solid;
-    // border-right: solid;
-    // border-bottom: 20px;
-    // border-radius: 40px 40px 0px 0px;
-    // border-color: rgba(255, 255,255, .17)
-
 tr
     border-color: accent4
     border-top-style: solid
@@ -388,9 +385,6 @@ img
     margin-left: 0.5em
     cursor: pointer
 
-.fadey
-    opacity: 0.36
-
 .box
     min-height: 1em
 
@@ -422,9 +416,9 @@ img
     display: inline-block
     text-align: center
     width: 33%
-    font-size: 4.44em
-.third:before
-    content: "\2022";
-    color: lightGrey
+.third .donut
+    position: relative;
+    left: 33%
+    margin-bottom: 0.8em
 
 </style>

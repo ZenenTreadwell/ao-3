@@ -76,30 +76,35 @@ function getMempool(){
 }
 
 lightningRouter.post('/bitcoin/transaction',(req, res) => {
-    bitClient.getMempoolEntry(req.body.txid)
-        .then(memPool => {
-            getDecode(req.body.txid).then(txn => {
-                txn.memPool = memPool
-                res.send(txn)
-            })
-        })
-        .catch(notInMempool => {
-            getDecode(req.body.txid)
-                .then(txn => {
-                    if (txn.vout) {
-                        Promise.all(txn.vout.map((output, i) => {
-                          return bitClient.getTxOut(req.body.txid, i)
-                        })).then(outs => {
-                          if (outs.some(x => x !== null)){
-                            txn.utxo = outs
+      bitClient.getMempoolEntry(req.body.txid)
+          .then(memPool => {
+              getDecode(req.body.txid).then(txn => {
+                  txn.memPool = memPool
+                  res.send(txn)
+              })
+          })
+          .catch(notInMempool => {
+              getDecode(req.body.txid)
+                  .then(txn => {
+                      if (txn.vout) {
+                          try {
+                              Promise.all(txn.vout.map((output, i) => {
+                                return bitClient.getTxOut(req.body.txid, i)
+                              })).then(outs => {
+                                if (outs.some(x => x !== null)){
+                                  txn.utxo = outs
+                                }
+                                res.send(txn)
+                              })
+                          } catch (err){
+                              res.status(400).end()
                           }
-                          res.send(txn)
-                        })
-                    }
-                }).catch(err => {
-                    res.status(400).end()
-                })
-        })
+                      }
+                  }).catch(err => {
+                      res.status(400).end()
+                  })
+          })
+
 })
 
 // lightningRouter.post('/lightning/channel',(req, res) => {

@@ -174,7 +174,6 @@ export default {
           })
         },
         copyCardToClipboard(){
-          console.log('navigator', navigator.clipboard, this.b.name)
           navigator.clipboard.writeText(this.b.name)
               .then(() => {
                   this.showCopied = true
@@ -214,12 +213,6 @@ export default {
               blackwx : this.b.color == 'black',
           }
         },
-        cardAge(){
-          let now = Date.now()
-          let msSince = now - this.b.timestamp
-          let days = msSince / (1000 * 60 * 60 * 24)
-          return days
-        },
         member(){
           let mc
           this.$store.state.members.forEach( m => {
@@ -244,7 +237,7 @@ export default {
 @import '../styles/grid'
 @import '../styles/button'
 @import '../styles/spinners'
-@import '../styles/dot'
+@import '../styles/donut'
 
 .sml
     font-size: .73em

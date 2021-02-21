@@ -118,7 +118,7 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 @import '../styles/button'
-@import '../styles/dot'
+@import '../styles/donut'
 
 .fw
     width: 100%

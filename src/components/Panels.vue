@@ -3,33 +3,33 @@
 .panel
     .row
       .four.columns
-          card-panel(v-if='$store.getters.red.length === 0'   stack='yellow',  :position='$store.getters.contextCard.stackView["yellow"]', :taskId='$store.getters.contextCard.taskId')
-          card-panel(v-else  stack='red', :position='$store.getters.contextCard.stackView["red"]',  :taskId='$store.getters.contextCard.taskId')
+          stack(v-if='$store.getters.red.length === 0'   stack='yellow',  :position='$store.getters.contextCard.stackView["yellow"]', :taskId='$store.getters.contextCard.taskId')
+          stack(v-else  stack='red', :position='$store.getters.contextCard.stackView["red"]',  :taskId='$store.getters.contextCard.taskId')
           span &nbsp;
       .four.columns
-          card-panel(stack='green', :position='$store.getters.contextCard.stackView["green"]',  :taskId='$store.getters.contextCard.taskId')
+          stack(stack='green', :position='$store.getters.contextCard.stackView["green"]',  :taskId='$store.getters.contextCard.taskId')
           span &nbsp;
       .four.columns
-          card-panel(v-if='$store.getters.blue.length === 0'  stack='purple',  :position='$store.getters.contextCard.stackView["purple"]', :taskId='$store.getters.contextCard.taskId')
-          card-panel(v-else  stack='blue', :position='$store.getters.contextCard.stackView["blue"]',  :taskId='$store.getters.contextCard.taskId')
+          stack(v-if='$store.getters.blue.length === 0'  stack='purple',  :position='$store.getters.contextCard.stackView["purple"]', :taskId='$store.getters.contextCard.taskId')
+          stack(v-else  stack='blue', :position='$store.getters.contextCard.stackView["blue"]',  :taskId='$store.getters.contextCard.taskId')
     .row
       .two.columns
       .four.columns(v-if='$store.getters.yellow.length > 0  &&  $store.getters.red.length > 0')
-          card-panel(stack='yellow', :position='$store.getters.contextCard.stackView["yellow"]',  :taskId='$store.getters.contextCard.taskId')
+          stack(stack='yellow', :position='$store.getters.contextCard.stackView["yellow"]',  :taskId='$store.getters.contextCard.taskId')
       .four.columns.stay(v-else)
       .four.columns(v-if='$store.getters.purple.length > 0 && $store.getters.blue.length > 0')
-          card-panel(stack='purple', :position='$store.getters.contextCard.stackView["purple"]',  :taskId='$store.getters.contextCard.taskId')
+          stack(stack='purple', :position='$store.getters.contextCard.stackView["purple"]',  :taskId='$store.getters.contextCard.taskId')
 
 </template>
 
 <script>
 import _ from 'lodash'
 import Projects from './Projects'
-import CardPanel from './CardPanel'
+import Stack from './Stack'
 
 export default {
   components:{
-      CardPanel,Projects
+      Stack,Projects
   },
   methods: {
       getArchive(){
