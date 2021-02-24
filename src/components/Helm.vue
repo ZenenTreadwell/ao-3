@@ -2,8 +2,8 @@
 
 .helm
     img.gear(@click.stop='$store.commit("toggleSettings")'  src='../assets/images/gear.svg')
-    img.bull(@click.stop='$store.commit("toggleNodeInfo")'  src='../assets/images/bull.svg'   :class='{hidden:!$store.getters.member.guides && !$store.state.upgrades.showNodeInfo}')
-    img.doge(@click.stop='$store.commit("toggleAccounts")'  src='../assets/images/doge.svg'   :class='{hidden:!$store.getters.member.guides && !$store.state.upgrades.showAccounts}')
+    img.bull(@click.stop='$store.commit("toggleNodeInfo")'  src='../assets/images/bull.svg')
+    img.doge(@click.stop='$store.commit("toggleAccounts")'  src='../assets/images/doge.svg')
     settings(@click.stop  v-if='$store.state.upgrades.showSettings').settings
     lightning(@click.stop  v-if='$store.state.upgrades.showNodeInfo').lightning
     accounts(@click.stop  v-if='$store.state.upgrades.showAccounts').accounts

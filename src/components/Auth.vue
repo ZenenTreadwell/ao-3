@@ -1,13 +1,14 @@
 <template lang='pug'>
 
 #auth(v-if='!confirmed')
-  h3 Welcome to ao, create account or log in
+  h3 Welcome to ao,
+      span(@click='toggleExisting') create account or log in
   div(v-if='!existing')
       .input-container
           input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
-          label choose new name
+          label new account name
           span.focus-border
-      button(v-if='name.length > 0'  @click="createAccount") new account
+      button(v-if='name.length > 0'  @click="createAccount") create account
   div(v-if='existing')
       .input-container
           input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="username", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
@@ -97,9 +98,12 @@ export default {
 @import '../styles/input'
 @import '../styles/skeleton'
 
+h3 span
+    cursor:pointer
+
 #auth
+    margin-top: 5.33333em
     background: lightGrey
-    border-radius: 3%
     padding: 2em
 
 .existing

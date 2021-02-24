@@ -18,7 +18,7 @@
             .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') in channels ({{ $store.state.cash.info.channels.length }})
             .chanfo {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
             .row
-                .localremote(@click='selectedPeer = false'  v-if='nn')
+                .localremote(@click='selectedPeer = false')
                     .localbar.tall(:style='l(nn)')  {{ parseFloat( nn.channel_sat ).toLocaleString() }}
                     .remotebar.tall(:style='r(nn)')  {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }}
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
@@ -118,6 +118,10 @@ export default {
                     totals.channel_total_sat += n.channel_total_sat
                 }
             })
+            if (totals.channel_sat + totals.channel_total_sat === 0){
+                totals.channel_sat = 0.5
+                totals.channel_total_sat = 1
+            }
             return totals
         }
     },
