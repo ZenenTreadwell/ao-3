@@ -16,7 +16,6 @@
             .section.sampler(@click='sampler') {{ $store.state.cash.info.mempool.size }} unconfirmed ({{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed(1) }} MB)
         .eight.grid(v-if='$store.state.cash.info.channels')
             .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') in channels ({{ $store.state.cash.info.channels.length }})
-            .chanfo {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
             .row
                 .localremote(@click='selectedPeer = false')
                     .localbar.tall(:style='l(nn)')  {{ parseFloat( nn.channel_sat ).toLocaleString() }}
@@ -24,8 +23,8 @@
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id'  :class='{spacer: selectedPeer === i}')
                     .localremote(v-show='selectedPeer === i'   @click='selectedPeer = false')
-                        .localbar.tall(:style='l(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseFloat( n.channel_sat ).toLocaleString() }}
-                        .remotebar.tall(:style='r(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseFloat( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
+                        .localbar.tall(:style='l(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseInt( n.channel_sat ).toLocaleString() }}
+                        .remotebar.tall(:style='r(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseInt( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
                     .chanfo(v-show='selectedPeer === i')
                         div pubkey: {{ n.peer_id }}
                         div(@click='checkTxid(n.funding_txid)') txid: {{ n.funding_txid }}
@@ -55,6 +54,7 @@
                 div(v-if='u && u.value > 0 && u.scriptPubKey.addresses') {{ u.value }} : {{u.scriptPubKey.addresses}} - unspent
             div(v-for='outp in filteredOut') {{ outp.value }} : {{outp.scriptPubKey.addresses}}
         .breathing
+        .chanfo {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
 </template>
 
 <script>

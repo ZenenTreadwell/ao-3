@@ -84,7 +84,6 @@ export default {
 
           window.localStorage.setItem("token", token)
           window.localStorage.setItem("session", session)
-          this.$store.dispatch("connectSocket")
           this.$store.dispatch('loadCurrent')
       }
   }

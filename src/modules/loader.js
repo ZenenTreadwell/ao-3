@@ -1,74 +1,30 @@
-const request = require( 'superagent')
-const io = require( 'socket.io-client')
+const request = require('superagent')
+const io = require('socket.io-client')
 const socket = io()
 
-var attached = false
 function attachSocket(commit, dispatch){
-    if (!attached){
+    socket.on('connect', ()=> {
+        socket.off('eventstream')
+        socket.emit('authentication', {
+            session: state.session,
+            token: state.token
+        })
+    })
 
-        socket.on('unauthorized', (reason)=> {
-            commit('setConnectionError', 'Unauthorized: ' + JSON.stringify(reason))
+    socket.on('authenticated', ()=> {
+        socket.on('eventstream', ev => {
+            commit('applyEvent', ev)
+            dispatch('displayEvent', ev)
         })
-
-        socket.on('connect', ()=> {
-            commit('setConnected', 'connecting')
-            socket.emit('authentication', {
-                session: state.session,
-                token: state.token
-            })
-        })
-
-        socket.on('authenticated', ()=> {
-            commit('setConnected', 'connected')
-            commit('setConnectionError', '')
-            socket.on('eventstream', ev => {
-                commit('applyEvent', ev)
-                dispatch('displayEvent', ev)
-            })
-        })
-        socket.on('disconnect', (reason) => {
-            commit('setConnected', 'disconnected')
-            commit('setConnectionError', 'disconnect: ' + reason)
-        })
-        socket.on('connect_error', (error)=> {
-            commit('setConnectionError', error.message)
-        })
-
-        socket.on('error', (error)=> {
-            commit('setConnectionError', error.message)
-        })
-
-        socket.on('connect_timeout', (timeout)=> {
-            commit('setConnectionError', 'Timed out: ' + timeout + 'ms')
-        })
-
-        socket.on('reconnect_attempt', () => {
-            commit('setConnected', 'connecting')
-            commit('setConnectionError', 'reconnect attempt')
-        })
-
-        socket.on('reconnect', () => {
-            commit('setConnected', 'connected')
-            commit('setConnectionError', '')
-        })
-
-        socket.on('reconnect_error', (error)=> {
-            commit('setConnectionError', error.message)
-        })
-        attached = true
-    }
+    })
 }
 
 const actions = {
-    connectSocket({commit, dispatch}){
+    loadCurrent({ commit, dispatch, state }){
         attachSocket(commit, dispatch)
-    },
-    loadCurrent({ commit, state }){
-        if (state.connected !== "connected"){
-            socket.connect()
-        }
         commit("setReqStatus", "pending")
         commit("pendFlasher")
+        let startTs = Date.now()
         request
             .post('/tasks/gg')
             .set("Authorization", state.token)
@@ -83,7 +39,6 @@ const actions = {
                     })
                 }
             })
-        let startTs = Date.now()
         request
             .post('/state')
             .set("Authorization", state.token)
@@ -95,6 +50,7 @@ const actions = {
                     commit("setReqStatus", Date.now() - startTs)
                     res.body.sessions.forEach(s => {
                         if (s.session === state.session){
+                            console.log('penel set by seshesh')
                             commit("setPanel", [ s.ownerId ])
                         }
                     })
@@ -123,8 +79,6 @@ const actions = {
 const state = {
     token: '',
     session: '',
-    connected: 'disconnected',
-    connectionError: '',
     reqStatus: 'ready',
     pendingFlash: [0,0,0,0,0],
 }
@@ -140,7 +94,7 @@ const mutations = {
                 clearInterval(flasher)
                 loader.pendingFlash = [0,0,0,0,0]
             }
-        }, 123)
+        }, 1523)
     },
     setReqStatus(loader, status){
         loader.reqStatus = status
@@ -149,16 +103,6 @@ const mutations = {
         loader.token = auth.token
         loader.session = auth.session
     },
-    setConnected(loader, connected){
-        loader.connected = connected
-    },
-    setConnectionError(loader, error){
-        if(error === '') {
-            loader.connectionError = ''
-            return
-        }
-        loader.connectionError = error
-    }
 }
 
 module.exports = {

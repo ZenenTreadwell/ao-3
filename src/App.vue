@@ -15,7 +15,6 @@ export default {
         let session = window.localStorage.session
         if (token && session){
             this.$store.commit('setAuth', {token, session})
-            this.$store.dispatch("connectSocket")
             this.$store.dispatch('loadCurrent')
         }
     },

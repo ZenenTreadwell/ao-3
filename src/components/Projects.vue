@@ -19,11 +19,6 @@ export default {
                 ev.preventDefault();
                 var data = ev.dataTransfer.getData("taskId")
                 this.$store.dispatch("makeEvent", {
-                  type: 'task-de-sub-tasked',
-                  taskId: this.$store.getters.contextCard.taskId,
-                  subTask: data,
-                })
-                this.$store.dispatch("makeEvent", {
                   type: 'task-sub-tasked',
                   taskId: guildId,
                   subTask: data,

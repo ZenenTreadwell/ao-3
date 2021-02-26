@@ -20,7 +20,7 @@
               @click.stop
           )
       #btnpanel.btnpanel
-          .ping(v-show='showCreate') {{ $store.state.loader.reqStatus }}
+          .ping {{ $store.state.loader.reqStatus }}
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
               .fifth(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" && showCreate  || $store.state.loader.pendingFlash[0] }').redtx.paperwrapper
               .fifth(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" && showCreate  || $store.state.loader.pendingFlash[1]}').yellowtx.paperwrapper
