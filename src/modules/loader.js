@@ -1,21 +1,33 @@
 const request = require('superagent')
 const io = require('socket.io-client')
-const socket = io()
+let socket = io()
+
+function attachEventStream(commit, dispatch){
+    socket.off('eventstream')
+    socket.on('eventstream', ev => {
+        console.log('event stream rec')
+        commit('applyEvent', ev)
+        dispatch('displayEvent', ev)
+    })
+}
+
 
 function attachSocket(commit, dispatch){
+    console.log('attach socker caller')
+    socket = io()
+    socket.off('connect')
     socket.on('connect', ()=> {
-        socket.off('eventstream')
+        console.log('socket connect')
         socket.emit('authentication', {
             session: state.session,
             token: state.token
         })
     })
 
+    socket.off('authenticated')
     socket.on('authenticated', ()=> {
-        socket.on('eventstream', ev => {
-            commit('applyEvent', ev)
-            dispatch('displayEvent', ev)
-        })
+        console.log('socket authenticated')
+        attachEventStream(commit, dispatch)
     })
 }
 
@@ -29,9 +41,7 @@ const actions = {
             .post('/tasks/gg')
             .set("Authorization", state.token)
             .end((err, res)=> {
-                if (err || !res.body) {
-                    console.log('task load post err: ', err)
-                } else {
+                if (!(err || !res.body)) {
                     console.log('loaded ', res.body.length, 'cards')
                     commit('applyEvent', {
                         type: 'tasks-received',
@@ -43,14 +53,11 @@ const actions = {
             .post('/state')
             .set("Authorization", state.token)
             .end((err, res)=>{
-                if (err || !res.body) {
-                    console.log('task load post err: ', err)
-                } else {
+                if (!(err || !res.body)) {
                     commit('setCurrent', res.body)
                     commit("setReqStatus", Date.now() - startTs)
                     res.body.sessions.forEach(s => {
                         if (s.session === state.session){
-                            console.log('penel set by seshesh')
                             commit("setPanel", [ s.ownerId ])
                         }
                     })
@@ -85,16 +92,18 @@ const state = {
 
 const mutations = {
     pendFlasher(loader){
-        let i = 0
-        let flasher = setInterval(()=> {
-            loader.pendingFlash[i] = 0
-            i = (i  + 1) % 5
-            loader.pendingFlash[i] = 1
-            if (loader.reqStatus !== "pending"){
+        if (this.getters.isLoggedIn){
+            let i = 0
+            let flasher = setInterval(()=> {
+              loader.pendingFlash[i] = 0
+              i = (i  + 1) % 5
+              loader.pendingFlash[i] = 1
+              if (loader.reqStatus !== "pending"){
                 clearInterval(flasher)
                 loader.pendingFlash = [0,0,0,0,0]
-            }
-        }, 1523)
+              }
+            }, 193)
+        }
     },
     setReqStatus(loader, status){
         loader.reqStatus = status

@@ -22,11 +22,11 @@
       #btnpanel.btnpanel
           .ping {{ $store.state.loader.reqStatus }}
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
-              .fifth(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" && showCreate  || $store.state.loader.pendingFlash[0] }').redtx.paperwrapper
-              .fifth(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" && showCreate  || $store.state.loader.pendingFlash[1]}').yellowtx.paperwrapper
-              .fifth(@click.stop='switchColor("green")'  :class='{ down : task.color === "green"  && showCreate || $store.state.loader.pendingFlash[2]}').greentx.paperwrapper
-              .fifth(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" && showCreate  || $store.state.loader.pendingFlash[3]}').purpletx.paperwrapper
-              .fifth(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" && showCreate  || $store.state.loader.pendingFlash[4]}').bluetx.paperwrapper
+              .fifth(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" && showCreate, loadin: $store.state.loader.pendingFlash[0] }').redtx.paperwrapper
+              .fifth(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" && showCreate, loadin: $store.state.loader.pendingFlash[1]}').yellowtx.paperwrapper
+              .fifth(@click.stop='switchColor("green")'  :class='{ down : task.color === "green"  && showCreat, loadin: $store.state.loader.pendingFlash[2]}').greentx.paperwrapper
+              .fifth(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" && showCreate, loadin: $store.state.loader.pendingFlash[3]}').purpletx.paperwrapper
+              .fifth(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" && showCreate, loadin: $store.state.loader.pendingFlash[4]}').bluetx.paperwrapper
       .scrollbarwrapper(v-show='showSearch')
           .searchresults
               .searchtotal(@click='boatAll') {{ searchTotal }} of {{ $store.state.tasks.length }}
@@ -531,6 +531,12 @@ button.inactive
 
 .down:before
     color: main
+
+.loadin
+    color: softerGrey
+
+.loadin:before
+    color: softerGrey
 
 .currentColor
     opacity: 1
