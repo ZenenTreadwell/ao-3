@@ -1,47 +1,71 @@
 <template lang='pug'>
 
 #nodes
+    .price(v-if='sats > 0  && sats !== Infinity') 0.01 {{ $store.state.cash.currency }} ~ {{ (sats/100).toFixed(0) }}
+    .price(v-else) 1.0 BTC = 100,000,000
     .breathing
     .row
         .four.grid(v-if='$store.state.cash.info.mempool')
-            .section {{ $store.state.cash.info.blockheight.toLocaleString()}} blocks
-            .section() {{ ( (Date.now() - $store.state.cash.info.blockfo.time * 1000  ) / 60 / 1000).toFixed(1) }}min since tip
-            .section tip's fee percentiles (sat/byte)
-            .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[4])') 90th {{ $store.state.cash.info.blockfo.feerate_percentiles[4] }}
-            .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[3])') 75th {{ $store.state.cash.info.blockfo.feerate_percentiles[3] }}
-            .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[2])') 50th {{ $store.state.cash.info.blockfo.feerate_percentiles[2] }}
-            .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[1])') 25th {{ $store.state.cash.info.blockfo.feerate_percentiles[1] }}
-            .section.chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[0])') 10th {{ $store.state.cash.info.blockfo.feerate_percentiles[0] }}
-            .section recommend {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }} sat/byte
+            .section on chain
+            .outputs(@click='toggleShowOutputs')
+                .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
+                    .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
+            .section {{ $store.state.cash.info.blockheight.toLocaleString()}} verified blocks
             .section.sampler(@click='sampler') {{ $store.state.cash.info.mempool.size }} unconfirmed ({{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed(1) }} MB)
+            .section min feerate {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }}
+            .section fee percentile {{ ((Date.now() - ($store.state.cash.info.blockfo.time * 1000)) / 60 / 1000).toFixed(1) }}min old
+            .section
+                .grid
+                    .three.grid
+                        p 90th
+                    .nine.grid
+                        .chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[4])')  {{ $store.state.cash.info.blockfo.feerate_percentiles[4] }}
+            .section
+                .grid
+                    .three.grid
+                        p 75th
+                    .nine.grid
+                        .chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[3])')  {{ $store.state.cash.info.blockfo.feerate_percentiles[3] }}
+            .section
+                .grid
+                    .three.grid
+                        p 50th
+                    .nine.grid
+                        .chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[2])')  {{ $store.state.cash.info.blockfo.feerate_percentiles[2] }}
+            .section
+                .grid
+                    .three.grid
+                        p 25th
+                    .nine.grid
+                        .chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[1])')  {{ $store.state.cash.info.blockfo.feerate_percentiles[1] }}
+            .section
+                .grid
+                    .three.grid
+                        p 10th
+                    .nine.grid
+                        .chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[0])')  {{ $store.state.cash.info.blockfo.feerate_percentiles[0] }}
         .eight.grid(v-if='$store.state.cash.info.channels')
-            .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') in channels ({{ $store.state.cash.info.channels.length }})
+            .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') in channels
             .row
                 .localremote(@click='selectedPeer = false')
                     .localbar.tall(:style='l(nn)')  {{ parseFloat( nn.channel_sat ).toLocaleString() }}
                     .remotebar.tall(:style='r(nn)')  {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }}
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
-                .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id'  :class='{spacer: selectedPeer === i}')
+                .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id')
                     .localremote(v-show='selectedPeer === i'   @click='selectedPeer = false')
                         .localbar.tall(:style='l(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseInt( n.channel_sat ).toLocaleString() }}
                         .remotebar.tall(:style='r(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseInt( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
-                    .chanfo(v-show='selectedPeer === i')
-                        div pubkey: {{ n.peer_id }}
-                        div(@click='checkTxid(n.funding_txid)') txid: {{ n.funding_txid }}
-                        div(v-if='n.state !== "CHANNELD_NORMAL"') state: {{ n.state }}
-                        div(v-if='n.connected') online
-                        div(v-else) offline
                     .localremote(v-show='selectedPeer !== i'   @click='selectedPeer = i')
                         .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
                         .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
-            .section on chain
-            .outputs(@click='toggleShowOutputs')
-                .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
-                    .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
-            .chanfo(v-if='showOutputs'  v-for='n in $store.state.cash.info.outputs'  @click='checkTxid(n.txid)') txid: {{n.txid}} : {{n.output}}
-            .price(v-if='sats > 0  && sats !== Infinity') 0.01 {{ $store.state.cash.currency }} ~ {{ (sats/100).toFixed(0) }}
-            .price(v-else) 1.0 BTC = 100,000,000
     .row
+        .chanfo(v-if='selectedPeer >= 0 && areChannels && selectedChannel')
+            div pubkey: {{ selectedChannel.peer_id }}
+            div(@click='checkTxid(selectedChannel.funding_txid)') txid: {{ selectedChannel.funding_txid }}
+                span(v-if='selectedChannel.connected') online
+                span(v-else) offline
+            div(v-if='selectedChannel.state !== "CHANNELD_NORMAL"') state: {{ selectedChannel.state }}
+        .chanfo(v-if='showOutputs'  v-for='n in $store.state.cash.info.outputs'  @click='checkTxid(n.txid)') txid: {{n.txid}} : {{n.output}}
         .breathing1
         input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
         button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
@@ -80,6 +104,9 @@ export default {
          Tag, PointsSet
     },
     computed: {
+        selectedChannel(){
+            return this.$store.state.cash.info.channels[this.selectedPeer]
+        },
         filteredOut(){
             if (this.fetchedTxn.utxo){
                 console.log('filtering outs becasuse there are unspents' , this.fetchedTxn.utxo.length)
@@ -318,22 +345,23 @@ p
 .chain
     height: 2.2em
     margin: 0
-    background: linear-gradient(wrexyellow, rgba(0,0,0,0))
+    background:wrexyellow
     text-align: center
     position: relative
     padding-top: 0.6em
+    opacity: 0.8
 
 .outputs
   cursor: pointer
 
 .chain.high
-  background: linear-gradient(wrexred, rgba(0,0,0,0))
+  background: wrexred
 .chain.midhigh
-  background: linear-gradient(wrexyellow, rgba(0,0,0,0))
+  background: wrexyellow
 .chain.mid
-  background: linear-gradient(wrexblue, rgba(0,0,0,0))
+  background: wrexblue
 .chain.low
-  background: linear-gradient(wrexgreen, rgba(0,0,0,0))
+  background: wrexgreen
 
 
 .break

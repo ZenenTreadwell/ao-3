@@ -29,6 +29,9 @@ export default {
 @import '../styles/grid';
 @import '../styles/colours';
 
+.helm
+    z-index: 9001
+
 .hidden
     opacity: 0
 

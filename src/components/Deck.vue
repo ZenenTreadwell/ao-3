@@ -1,5 +1,6 @@
 <template lang='pug'>
 .deck(v-if='$store.getters.contextCard.taskId'   :key='$store.getters.contextCard.taskId')
+    projects.rell(v-if='$store.state.upgrades.mode === "doge"')
     .paperwrapper.padsides
         .card.openwidth(:class='{ adjustwidth : $store.state.upgrades.mode !== "doge", closedwidth : $store.state.upgrades.mode === "doge"  && $store.getters.inbox.length === 0}')
             member-row(v-if='$store.getters.contextMember', :m='$store.getters.contextMember'  :key='card.taskId')
@@ -24,7 +25,6 @@
             panels
         .container
             checkmarks(v-if='$store.getters.member.memberId !== $store.getters.contextCard.taskId')
-            projects
 
 </template>
 
@@ -142,6 +142,10 @@ export default {
 @import '../styles/colours';
 @import '../styles/button';
 @import '../styles/skeleton';
+
+.rell
+    position: relative;
+    float: left
 
 .ro
     transform: rotate(100deg)

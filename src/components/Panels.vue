@@ -14,6 +14,7 @@
           stack(v-else  stack='blue', :position='$store.getters.contextCard.stackView["blue"]',  :taskId='$store.getters.contextCard.taskId')
     .row
       .two.columns
+
       .four.columns(v-if='$store.getters.yellow.length > 0  &&  $store.getters.red.length > 0')
           stack(stack='yellow', :position='$store.getters.contextCard.stackView["yellow"]',  :taskId='$store.getters.contextCard.taskId')
       .four.columns.stay(v-else)

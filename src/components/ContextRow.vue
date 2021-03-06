@@ -8,7 +8,7 @@
             span.front(v-else-if='card.guild')  {{ card.guild }}
             linky.front(v-else  :x='name'  :key='name')
     img.front(v-if='card.guild'  src="../assets/images/badge.svg")
-    img.front(v-if='isMember' src="../assets/images/loggedIn.svg")
+    img.front(v-if='isMember' src="../assets/images/doge.svg")
     div.right.front(v-if='card.book.startTs')
         tally(:b='card')
     slot
