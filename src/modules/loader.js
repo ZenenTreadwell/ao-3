@@ -7,12 +7,13 @@ function attachEventStream(commit, dispatch){
     socket.on('eventstream', ev => {
         console.log('event stream rec')
         commit('applyEvent', ev)
-        dispatch('displayEvent', ev)
+        dispatch('displayEvent', ev) // not being used remove?
+
     })
 }
 
 
-function attachSocket(commit, dispatch){
+function attachSocket(commit, dispatch, callback){
     console.log('attach socker caller')
     socket = io()
     socket.off('connect')
@@ -28,41 +29,44 @@ function attachSocket(commit, dispatch){
     socket.on('authenticated', ()=> {
         console.log('socket authenticated')
         attachEventStream(commit, dispatch)
+        callback()
     })
 }
 
 const actions = {
     loadCurrent({ commit, dispatch, state }){
-        attachSocket(commit, dispatch)
-        commit("setReqStatus", "pending")
-        commit("pendFlasher")
-        let startTs = Date.now()
-        request
-            .post('/tasks/gg')
-            .set("Authorization", state.token)
-            .end((err, res)=> {
-                if (!(err || !res.body)) {
+        attachSocket(commit, dispatch, () =>{
+            commit("setReqStatus", "pending")
+            commit("pendFlasher")
+            let startTs = Date.now()
+            request
+                .post('/tasks/gg')
+                .set("Authorization", state.token)
+                .end((err, res)=> {
+                  if (!(err || !res.body)) {
                     console.log('loaded ', res.body.length, 'cards')
                     commit('applyEvent', {
-                        type: 'tasks-received',
-                        tasks: res.body
+                      type: 'tasks-received',
+                      tasks: res.body
                     })
-                }
-            })
-        request
-            .post('/state')
-            .set("Authorization", state.token)
-            .end((err, res)=>{
-                if (!(err || !res.body)) {
+                  }
+                })
+            request
+                .post('/state')
+                .set("Authorization", state.token)
+                .end((err, res)=>{
+                  if (!(err || !res.body)) {
                     commit('setCurrent', res.body)
                     commit("setReqStatus", Date.now() - startTs)
                     res.body.sessions.forEach(s => {
-                        if (s.session === state.session){
-                            commit("setPanel", [ s.ownerId ])
-                        }
+                      if (s.session === state.session){
+                        commit("setPanel", [ s.ownerId ])
+                      }
                     })
-                }
-            })
+                  }
+                })
+
+        })
     },
     makeEvent({commit, state}, newEv){
         let startTs = Date.now()
