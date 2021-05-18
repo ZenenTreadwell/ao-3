@@ -1,19 +1,12 @@
 <template lang='pug'>
 
 #nodes
-    .price(v-if='sats > 0  && sats !== Infinity') 0.01 {{ $store.state.cash.currency }} ~ {{ (sats/100).toFixed(0) }}
-    .price(v-else) 1.0 BTC = 100,000,000
     .breathing
     .row
         .four.grid(v-if='$store.state.cash.info.mempool')
-            .section on chain
-            .outputs(@click='toggleShowOutputs')
-                .chain {{ $store.getters.confirmedBalance.toLocaleString() }}
-                    .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
-            .section {{ $store.state.cash.info.blockheight.toLocaleString()}} verified blocks
-            .section.sampler(@click='sampler') {{ $store.state.cash.info.mempool.size }} unconfirmed ({{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed(1) }} MB)
-            .section min feerate {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }}
-            .section fee percentile {{ ((Date.now() - ($store.state.cash.info.blockfo.time * 1000)) / 60 / 1000).toFixed(1) }}min old
+            .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
+            .section block {{ $store.state.cash.info.blockheight.toLocaleString()}}, {{ ((Date.now() - ($store.state.cash.info.blockfo.time * 1000)) / 60 / 1000).toFixed(1) }}min old
+            .section percentile fees
             .section
                 .grid
                     .three.grid
@@ -44,12 +37,19 @@
                         p 10th
                     .nine.grid
                         .chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[0])')  {{ $store.state.cash.info.blockfo.feerate_percentiles[0] }}
+            .section
+                .grid
+                    .three.grid
+                        p smartfee
+                    .nine.grid
+                        .chain(:class='getFeeColor($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000)')  {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }}
+            .section.sampler(@click='sampler') {{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed(1) }} MB pending
         .eight.grid(v-if='$store.state.cash.info.channels')
-            .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') in channels
+            .section {{ $store.getters.confirmedBalance.toLocaleString() }} chain
+            .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') {{ parseFloat( nn.channel_sat ).toLocaleString() }} local
+            .section {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }} remote
+            .section {{ $store.state.cash.info.channels.length }} channels
             .row
-                .localremote(@click='selectedPeer = false')
-                    .localbar.tall(:style='l(nn)')  {{ parseFloat( nn.channel_sat ).toLocaleString() }}
-                    .remotebar.tall(:style='r(nn)')  {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }}
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id')
                     .localremote(v-show='selectedPeer === i'   @click='selectedPeer = false')
@@ -58,17 +58,19 @@
                     .localremote(v-show='selectedPeer !== i'   @click='selectedPeer = i')
                         .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
                         .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
+            .chanfo(v-if='selectedPeer >= 0 && areChannels && selectedChannel')
+                div(v-if='selectedChannel.connected') online
+                div(v-else) offline
+                div pubkey: {{ selectedChannel.peer_id }}
+                div(@click='checkTxid(selectedChannel.funding_txid)') txid: {{ selectedChannel.funding_txid }}
+                div(v-if='selectedChannel.state !== "CHANNELD_NORMAL"') state: {{ selectedChannel.state }}
+
+
     .row
-        .chanfo(v-if='selectedPeer >= 0 && areChannels && selectedChannel')
-            div pubkey: {{ selectedChannel.peer_id }}
-            div(@click='checkTxid(selectedChannel.funding_txid)') txid: {{ selectedChannel.funding_txid }}
-                span(v-if='selectedChannel.connected') online
-                span(v-else) offline
-            div(v-if='selectedChannel.state !== "CHANNELD_NORMAL"') state: {{ selectedChannel.state }}
         .chanfo(v-if='showOutputs'  v-for='n in $store.state.cash.info.outputs'  @click='checkTxid(n.txid)') txid: {{n.txid}} : {{n.output}}
         .breathing1
-        input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
-        button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
+        //- input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
+        //- button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
         .chanfo(v-if='fetchedTxn.txid')
             div txid: {{ fetchedTxn.txid }}
             div status: {{ fetchedTxnStatus }}
@@ -146,8 +148,8 @@ export default {
                 }
             })
             if (totals.channel_sat + totals.channel_total_sat === 0){
-                totals.channel_sat = 0.5
-                totals.channel_total_sat = 1
+                totals.channel_sat = 0
+                totals.channel_total_sat = 0
             }
             return totals
         }
@@ -253,7 +255,6 @@ export default {
     word-break: break-all
     overflow-wrap: break-word;
     text-align: left
-    font-size: 0.7em
 .ptr
     cursor: pointer
 
@@ -300,10 +301,6 @@ h1
 label
     word-break: break-all
 
-#nodes
-    max-height: 100vh - 3.5em
-    overflow: scroll
-
 .break
     overflow-wrap: break-word;
 
@@ -333,19 +330,18 @@ p
 
 .local
     margin: 0
-    background: linear-gradient('up', wrexpurple, rgba(0,0,0,0))
+    background: green
     padding: 1em
 
 .remote
     margin: 0
-    background: linear-gradient('up', wrexgreen, rgba(0,0,0,0))
+    background: blue
     text-align: right
     padding: 1em
 
 .chain
-    height: 2.2em
+    height: 1.7em
     margin: 0
-    background:wrexyellow
     text-align: center
     position: relative
     padding-top: 0.6em
@@ -394,19 +390,19 @@ h5
 
 .localbar
     height: 0.622em
-    background: linear-gradient(rgba(0,0,0,0), wrexpurple)
+    background: green
     float: left
 
 .localbar.abnormal
-    background: linear-gradient(rgba(0,0,0,0), wrexred)
+    background: red
 
 .remotebar
     height: 0.622em
-    background: linear-gradient(rgba(0,0,0,0), wrexgreen)
+    background: blue
     float: right
 
 .remotebar.abnormal
-    background: linear-gradient(rgba(0,0,0,0), wrexred)
+    background: red
 
 .breathing
     height: 3.5em

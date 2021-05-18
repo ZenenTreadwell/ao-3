@@ -187,7 +187,7 @@ label
 
 .membershipcard
     // padding: 1em
-    // background-color: #fff;
+    background-color: softGrey
     // box-shadow:
     //     0 0 6px 3px white,  /* inner white */
     //     0 0 7px 4px lightGrey, /* middle magenta */
@@ -218,19 +218,17 @@ label
     -webkit-text-stroke-color: main;
     display: inline-block
     width: 33.3%
-    font-size: 3.3em;
-    min-height: 3.3em
     cursor: pointer
     color: lightGrey
     text-align: center
     img
-        height: 0.33em
+        height: 1.11em
 .bottomleft:hover
     opacity: 0.7
 
 .bottomleft.activationsequence
     img
-        height: 0.77em
+        height: 1.77em
 
 .bottomright
     width: fit-content

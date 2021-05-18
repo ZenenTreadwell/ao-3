@@ -48,33 +48,23 @@ img
     bottom: 0
     right: 0
     width: 89%
-    background: lightGrey
     padding: 1.5em
-    border-style: solid
-    border-width: 4px
-    border-color: main
+    background: softGrey
 .lightning
     position: fixed
     z-index: 8009
     top: 0
     right: 0
     width: 89%
-    background: lightGrey
     padding: 1.5em
-    border-style: solid
-    border-width: 4px
-    border-color: main
+    background: softGrey
 .accounts
     position: fixed
     z-index: 8009
     top: 0
     left: 0
     width: 89%
-    background: lightGrey
-    padding: 1.5em
-    border-style: solid
-    border-width: 4px
-    border-color: main
+    background: softGrey
 
 .gear
     bottom: 0

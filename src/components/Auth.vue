@@ -1,12 +1,10 @@
 <template lang='pug'>
 
 #auth(v-if='!confirmed')
-  h3 Welcome to ao,
-      span(@click='toggleExisting') create account or log in
   div(v-if='!existing')
       .input-container
           input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
-          label new account name
+          label name
           span.focus-border
       button(v-if='name.length > 0'  @click="createAccount") create account
   div(v-if='existing')
@@ -107,7 +105,6 @@ h3 span
 
 .existing
     text-align: right
-    font-size: 0.7em
     color: main
     cursor: pointer
 

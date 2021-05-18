@@ -169,8 +169,7 @@ export default {
 @import '../styles/input'
 
 #accounts
-    max-height: 100vh - 3.5em
-    overflow: scroll
+    padding : 1.5em
 
 .section
     color:main

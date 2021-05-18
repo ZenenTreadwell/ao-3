@@ -218,9 +218,6 @@ export default {
 @import '../styles/button'
 @import '../styles/input'
 
-#settings
-    overflow: scroll
-
 button
     background: main
     color: white

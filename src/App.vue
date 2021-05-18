@@ -1,8 +1,8 @@
 <template lang='pug'>
 
 .app
-  auth
-  router-view
+  auth(v-if='!$store.getters.isLoggedIn')
+  router-view(v-else)
 </template>
 
 <script>
@@ -31,9 +31,9 @@ export default {
 
 .app
     background: #404040
-    min-height: 100vh;
     color: main
-    font-size: 1.22334455em
+    font-size: 1.12334455em
     font-family: monospace
+    min-height: 100vh
 
 </style>

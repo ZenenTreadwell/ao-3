@@ -197,6 +197,7 @@ label
     margin-right: 2em
 
 .loggedIn
-    background: softGrey
+    border-style: dashed
+    border-color: main
 
 </style>
