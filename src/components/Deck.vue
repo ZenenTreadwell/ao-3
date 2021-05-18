@@ -1,8 +1,7 @@
 <template lang='pug'>
 .deck(v-if='$store.getters.contextCard.taskId'   :key='$store.getters.contextCard.taskId')
-    projects.rell(v-if='$store.state.upgrades.mode === "doge"')
     .paperwrapper.padsides
-        .card.openwidth(:class='{ adjustwidth : $store.state.upgrades.mode !== "doge", closedwidth : $store.state.upgrades.mode === "doge"  && $store.getters.inbox.length === 0}')
+        .card.openwidth(:class='{ adjustwidth : $store.state.upgrades.mode !== "doge", closedwidth : $store.state.upgrades.mode === "doge"}')
             member-row(v-if='$store.getters.contextMember', :m='$store.getters.contextMember'  :key='card.taskId')
             //- .centerer
             //-     .more(v-if='panelSplit.before.length > 5') +{{ panelSplit.before.length - 5 }}
@@ -16,15 +15,14 @@
             //- .centerer
             //-     .more.aftermore(v-if='panelSplit.after.length > 5') +{{ panelSplit.after.length - 5 }}
             //- points-set(v-if='$store.state.upgrades.mode === "chest"'   :b='$store.getters.contextCard')
-        .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"  ||  $store.getters.inbox.length > 0'  :class='{darkmode: $store.getters.member.stacks === 1}')
+        .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"'  :class='{darkmode: $store.getters.member.stacks === 1}')
             zen(v-show='$store.state.upgrades.mode === "doge" && $store.getters.inbox.length > 0')
             payments(v-show='$store.state.upgrades.mode === "chest"')
             planning(v-show='$store.state.upgrades.mode === "boat" || $store.state.upgrades.mode === "timecube"')
     div
         .fadey(v-if='$store.getters.all.length > 0'   :class='{ completedfadey : $store.state.context.completed }')
             panels
-        .container
-            checkmarks(v-if='$store.getters.member.memberId !== $store.getters.contextCard.taskId')
+    projects.rell
 
 </template>
 
@@ -144,9 +142,9 @@ export default {
 @import '../styles/skeleton';
 
 .rell
-    position: relative;
-    float: left
-
+    position: fixed;
+    left: 0
+    bottom: 0
 .ro
     transform: rotate(100deg)
     opacity: 0.11

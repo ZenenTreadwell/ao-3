@@ -16,8 +16,11 @@
             card(v-else  :b='card')
     div
         .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
+            img(src='../assets/images/completed.svg')
         .bottomleft(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}')
+            img(src='../assets/images/timecube.svg')
         .bottomleft(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
+            img(src='../assets/images/bitcoin.svg')
     .clearboth
 </template>
 
@@ -183,12 +186,12 @@ label
     margin-bottom: 3em
 
 .membershipcard
-    padding: 1em
-    background-color: #fff;
-    box-shadow:
-        0 0 6px 3px white,  /* inner white */
-        0 0 7px 4px lightGrey, /* middle magenta */
-        0 0 8px 5px main; /* outer cyan */
+    // padding: 1em
+    // background-color: #fff;
+    // box-shadow:
+    //     0 0 6px 3px white,  /* inner white */
+    //     0 0 7px 4px lightGrey, /* middle magenta */
+    //     0 0 8px 5px main; /* outer cyan */
 
 .smallguild
     height: 2em
@@ -216,16 +219,18 @@ label
     display: inline-block
     width: 33.3%
     font-size: 3.3em;
+    min-height: 3.3em
     cursor: pointer
     color: lightGrey
     text-align: center
-.bottomleft:before
-    content: "\2022"
+    img
+        height: 0.33em
 .bottomleft:hover
-    background: softerGrey
+    opacity: 0.7
 
 .bottomleft.activationsequence
-    color: main
+    img
+        height: 0.77em
 
 .bottomright
     width: fit-content

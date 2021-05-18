@@ -127,10 +127,10 @@ label
     margin: 1em
 
 .memberrow
-    box-shadow: 3px 1px 7px 1px main
-    margin-bottom: 8px
-    min-height: 37px
-    background: lightGrey
+    // box-shadow: 3px 1px 7px 1px main
+    // margin-bottom: 8px
+    // min-height: 37px
+    // background: lightGrey
     cursor: pointer
 
 .fw
@@ -197,7 +197,6 @@ label
     margin-right: 2em
 
 .loggedIn
-    background: main
-    color: lightGrey
+    background: softGrey
 
 </style>

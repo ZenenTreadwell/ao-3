@@ -77,14 +77,6 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 
-.upgrades
-    padding: 1em
-    background: lightGrey
-    box-shadow:
-        0 0 6px 3px white,
-        0 0 7px 4px lightGrey,
-        0 0 8px 5px main;
-
 h5
     text-align: center
     color: lightGrey

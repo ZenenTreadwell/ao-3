@@ -4,15 +4,15 @@
 #createtask(ref="closeable" @keydown='testAll' @keyup.tab='testTab'  @keyup.esc='testEscape')
   div.secondbackground(@click='switchColor(task.color)')
       .boatContainer
-          button.clear(@click.stop='toggleSearch'  :class='{selected: showSearch, inactive: task.name == ""}') search
-          button.lock(@click.stop='lockIt'  :class='{inactive: task.name == ""}') encrypt
-          button.create(@click.stop='createOrFindTask'  :class='{inactive: task.name == ""}') post
+          button.clear(@click.stop='toggleSearch'  :class='{selected: showSearch}') search
+          button.lock(@click.stop='lockIt') to terminal
+          button.create(@click.stop='createOrFindTask') post
       .cc(v-show='showCreate')
           textarea#card.paperwrapper(
               v-model='task.name'
               type='text'
               :class='cardInputSty'
-              placeholder="create card"
+              placeholder=" "
               @keyup.enter.exact='createOrFindTask'
               @keydown.enter.exact.prevent
               row='10'
@@ -20,13 +20,12 @@
               @click.stop
           )
       #btnpanel.btnpanel
-          .ping {{ $store.state.loader.reqStatus }}
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
-              .fifth(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" && showCreate, loadin: $store.state.loader.pendingFlash[0] }').redtx.paperwrapper
-              .fifth(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" && showCreate, loadin: $store.state.loader.pendingFlash[1]}').yellowtx.paperwrapper
-              .fifth(@click.stop='switchColor("green")'  :class='{ down : task.color === "green"  && showCreat, loadin: $store.state.loader.pendingFlash[2]}').greentx.paperwrapper
-              .fifth(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" && showCreate, loadin: $store.state.loader.pendingFlash[3]}').purpletx.paperwrapper
-              .fifth(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" && showCreate, loadin: $store.state.loader.pendingFlash[4]}').bluetx.paperwrapper
+              //- .fifth(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" && showCreate, loadin: $store.state.loader.pendingFlash[0] }').redtx.paperwrapper
+              //- .fifth(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" && showCreate, loadin: $store.state.loader.pendingFlash[1]}').yellowtx.paperwrapper
+              //- .fifth(@click.stop='switchColor("green")'  :class='{ down : task.color === "green"  && showCreat, loadin: $store.state.loader.pendingFlash[2]}').greentx.paperwrapper
+              //- .fifth(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" && showCreate, loadin: $store.state.loader.pendingFlash[3]}').purpletx.paperwrapper
+              //- .fifth(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" && showCreate, loadin: $store.state.loader.pendingFlash[4]}').bluetx.paperwrapper
       .scrollbarwrapper(v-show='showSearch')
           .searchresults
               .searchtotal(@click='boatAll') {{ searchTotal }} of {{ $store.state.tasks.length }}
@@ -402,10 +401,6 @@ textarea.inactive
 .boatContainer button
     background-color: main
     color: white
-
-button.inactive
-    opacity: 0.4321
-
 .lonestar
     height: 2em
     background-color : lightGrey
@@ -421,7 +416,6 @@ button.inactive
 
 #createtask
   width: 81%
-  background-color: lightGrey
   margin: 0 auto 0 auto
   text-align: center
   padding: 0.05em
@@ -432,10 +426,10 @@ button.inactive
   transform: translateX(-50%)
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: main;
-  box-shadow:
-      0 0 6px 3px white,
-      0 0 7px 4px lightGrey,
-      0 0 8px 5px main;
+  // box-shadow:
+  //     0 0 6px 3px white,
+  //     0 0 7px 4px lightGrey,
+  //     0 0 8px 5px main;
 .lit
     opacity: 0.69
 
@@ -634,8 +628,8 @@ button.inactive
     cursor: pointer
 
 .boatContainer button.selected
-    background: lightGrey
-    color: main
+    background: main
+    color: softGrey
 
 .boatContainer button:hover
     background: softerGrey
@@ -645,7 +639,6 @@ button.inactive
     position: absolute
     left: 3px
     bottom: 3px
-    opacity: 0.77
 
 .pend
     float: right
@@ -663,5 +656,10 @@ button.inactive
 
 .fifth:hover
     background: softerGrey
+
+.ping
+    position: absolute
+    bottom: 0
+    left: 0
 
 </style>

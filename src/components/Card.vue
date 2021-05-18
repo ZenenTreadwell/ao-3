@@ -266,7 +266,7 @@ export default {
     margin:10px 0
     padding:20px
     cursor: crosshair
-    border-radius: 2%
+    // border-radius: 2%
 .row
     width: 100%
     .mainColumn
@@ -418,7 +418,7 @@ label
     margin-bottom: .25em
     padding:1em
     //border-radius: 12px
-    box-shadow: -7px 7px 7px 1px rgba(21, 21, 21, 0.5)
+    // box-shadow: -7px 7px 7px 1px rgba(21, 21, 21, 0.5)
     position: relative
 
 .dont-break-out

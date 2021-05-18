@@ -38,11 +38,14 @@
           div(v-if='new Date().getDate() === $store.state.upgrades.chosenDay')
               checkbox(:b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
               priorities
+              div
+                  checkmarks
   .buffer
 </template>
 
 <script>
 import _ from 'lodash'
+import Checkmarks from './Checkmarks'
 import Day from './Day.vue'
 import Current from './Current.vue'
 import Currentr from './Currentr.vue'
@@ -62,7 +65,9 @@ function getDMY(ts){
 export default {
   props: ['inId'],
   components: {
-    Day, Currentr, Current, Priorities, SimplePriority, Checkbox, Linky
+    Day, Currentr, Current, Priorities,
+    SimplePriority, Checkbox, Linky,
+    Checkmarks
   },
   methods: {
       allowDrop(ev){
