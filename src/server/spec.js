@@ -40,7 +40,6 @@ router.post('/events', (req, res, next)=>{
                     req.body.blame,
                     utils.buildResCallback(res)
                   )
-
               }
           })
           break

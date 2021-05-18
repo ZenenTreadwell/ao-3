@@ -3,16 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "setup": "cd install; ./fullAoSetup.sh",
+    "setup": "cd install; ./fresh-setup.sh",
     "checkconfig": "cd install; ./create-config.sh",
-    "keygen": "node install/createPrivateKey.js",
-    "decrypt": "node install/readCipher.js",
+    "keygen": "node src/createPrivateKey.js",
+    "decrypt": "node src/readCipher.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "recompile": "npm run build; npm run start",
     "ao": "node src/server/app.js",
-    "start": "node src/server/app.js"
+    "start": "npm run ao"
   },
   "dependencies": {
     "better-sqlite3": "^7.1.0",
