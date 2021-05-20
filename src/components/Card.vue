@@ -1,7 +1,7 @@
 <template lang='pug'>
 .task(:class="cardInputSty"  @click='goIn'  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart').dont-break-out.agedwrapper
     bird(:b='b', :inId='inId')
-    .donut.flaggy(@click.stop='upboat'  :class='{hidden:!$store.getters.member.guides}')
+    .donut.flaggy.hidden(@click.stop='upboat')
     .buffertop
       .cardbody
           linky.cardhud(:x='b.name' v-if='!member')
@@ -21,9 +21,9 @@
         .copydiv
             img.copied(src='../assets/images/loggedOut.svg'  :class='{hidden:!showCopied}'  @click.stop='copyCardToClipboard')
         .scrol(@click.stop='remove')
-            .donut.scrolly(:class='{hidden:!$store.getters.member.guides}')
+            .donut.scrolly.hidden
         .vine(@click.stop='pop')
-            .donut.viney(:class='{hidden:!$store.getters.member.guides}')
+            .donut.viney.hidden
         .singlebird(v-if='b.passed.length > 0'  @click.stop='toggleBird'  v-show='!$store.state.upgrades.bird')
             .row.pad.centered()
                 span(v-if='b.passed.length > 0'  :class='{faded:!$store.state.upgrades.bird}')

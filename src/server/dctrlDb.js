@@ -128,6 +128,7 @@ function startDb(callback){
     conn = dbengine(dblocation, { });
     var checkTable = conn.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='events'");
 
+    console.log('using database', dblocation)
     if(checkTable.all().length == 0){
        initializeSqlite(callback);
     } else {

@@ -36,10 +36,9 @@
                   img.completedcheckmark(src='../assets/images/uncompleted.svg')
                   span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{n.name}}
           div(v-if='new Date().getDate() === $store.state.upgrades.chosenDay')
-              checkbox(:b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
+              //- checkbox(:b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
               priorities
-              div
-                  checkmarks
+              checkmarks
   .buffer
 </template>
 

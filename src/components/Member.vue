@@ -4,16 +4,11 @@
     .bottomright()
         div(@click='$store.commit("setMode", 3)'  :class='{here: $store.state.upgrades.mode === "chest"}')
             .stash(v-if='card.boost > 0') {{ card.boost.toLocaleString() }}
-            .stash(v-else) - -
-    .topleft(v-if='$store.getters.inbox.length > 1'  @click='goDoge')
-        img.smallguild(src='../assets/images/sendselected.svg')
-        label.stash {{ $store.getters.inbox.length }}
     .row.center.clearboth(@click='$store.commit("setMode", 0)'   :class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
         label(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }')
             div(v-if='$store.getters.contextMember')
-                img.doge(src='../assets/images/doge.svg')
                 linky(:x='m.name')
-            card(v-else  :b='card')
+            linky(v-else  :x='card.name')
     div
         .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
             img(src='../assets/images/completed.svg')
@@ -187,7 +182,7 @@ label
 
 .membershipcard
     // padding: 1em
-    background-color: softGrey
+    background-color: lightGrey
     // box-shadow:
     //     0 0 6px 3px white,  /* inner white */
     //     0 0 7px 4px lightGrey, /* middle magenta */

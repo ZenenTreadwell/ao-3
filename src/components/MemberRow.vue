@@ -8,7 +8,7 @@
         .one.grid(@click.stop)
             coin(:b='b')
         .grid.eight
-            simple-priorities(:taskId='m.memberId')
+            //- simple-priorities(:taskId='m.memberId')
 </template>
 
 <script>
@@ -128,9 +128,9 @@ label
 
 .memberrow
     // box-shadow: 3px 1px 7px 1px main
-    // margin-bottom: 8px
+    margin-bottom: 0.33em
     // min-height: 37px
-    // background: lightGrey
+    background: lightGrey
     cursor: pointer
 
 .fw
@@ -197,6 +197,7 @@ label
     margin-right: 2em
 
 .loggedIn
+    background: softGrey
     border-style: dashed
     border-color: main
 

@@ -24,12 +24,12 @@ export default {
     computed: {
         cardInputSty(){
             if (this.$store.getters.member.stacks === 5) return {
-                redwx : this.$store.getters.contextCard.color == 'red',
-                bluewx : this.$store.getters.contextCard.color == 'blue',
-                greenwx : this.$store.getters.contextCard.color == 'green',
-                yellowwx : this.$store.getters.contextCard.color == 'yellow',
-                purplewx : this.$store.getters.contextCard.color == 'purple',
-                blackwx : this.$store.getters.contextCard.color == 'black',
+                redwxd : this.$store.getters.contextCard.color == 'red',
+                bluewxd : this.$store.getters.contextCard.color == 'blue',
+                greenwxd : this.$store.getters.contextCard.color == 'green',
+                yellowwxd : this.$store.getters.contextCard.color == 'yellow',
+                purplewxd : this.$store.getters.contextCard.color == 'purple',
+                blackwxd : this.$store.getters.contextCard.color == 'black',
             }
             return {
                 nowx: true
@@ -52,6 +52,18 @@ export default {
     min-height: 100vh;
     min-width: 100vw;
     pointer-events: none;
-    opacity: 0.36
+
+.redwxd
+    background: #22070d
+.bluewxd
+    background: #070722
+.greenwxd
+    background: #07220b
+.yellowwxd
+    background: #221f07
+.purplewxd
+    background: #1d082c
+.blackwxd
+    background: #1d082c
 
 </style>

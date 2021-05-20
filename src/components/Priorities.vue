@@ -4,10 +4,10 @@
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer
-              .donut.boatAll.boatL(@click='refocused(t)'  :class='{hidden:!$store.getters.member.guides}')
+              .donut.boatAll.boatL.hidden(@click='refocused(t)')
               hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId'  :c='priorities')
               div(v-if='i > 0')
-                  .donut.boatAll.boatR.faded(@click='prioritized(t)'  :class='{hidden:!$store.getters.member.guides}')
+                  .donut.boatAll.boatR.faded.hidden(@click='prioritized(t)')
               div(v-else-if='hasCompleted(t)')
                   img.boatAll.boatR.faded(src='../assets/images/completed.svg'  @click='completed(t)')
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
@@ -16,9 +16,6 @@
           .row.subsubpriority(v-for='(st2, k) of getSubPriorities(st)'  :key='st2')
               .clearboth.opensubcard
                   hyperpriority.closedcard(:taskId='st2'  :inId="st"  :inInId='t'  :c='getSubPriorities(st)')
-    div.clearboth
-    div(v-if='priorities.length >= 1')
-        .donut.boatAll.faded(@click='pileRefocused')
 </template>
 
 <script>

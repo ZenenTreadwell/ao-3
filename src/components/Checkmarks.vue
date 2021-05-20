@@ -1,8 +1,8 @@
 <template lang='pug'>
 
 .upgrades
-    div(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
-        current-checks(:memberId='n')
+    span(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
+        span {{ n.name }} | 
     span(v-if='$store.getters.isLoggedIn  && $store.getters.member.memberId !== $store.getters.contextCard.taskId')
         div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
             button remove

@@ -15,7 +15,12 @@ const _ = require('lodash')
 const crypto = require('../crypto')
 
 bitClient.getBlockchainInfo().then(x => {
-    console.log(chalk.yellow(x.blocks.toLocaleString(), 'verified blocks'))
+    if (x.initialblockdownload){
+        console.log(chalk.yellow('initial block sync detected, ') ,  (100 * x.verificationprogress).toFixed(2), '% complete')
+
+    } else {
+        console.log(chalk.yellow(x.blocks.toLocaleString(), 'blocks synced'))
+    }
 }).catch( err => {
     console.log(chalk.red('cannot connect to bitcoind'))
 })
@@ -106,16 +111,6 @@ lightningRouter.post('/bitcoin/transaction',(req, res) => {
           })
 
 })
-
-// lightningRouter.post('/lightning/channel',(req, res) => {
-//     client.fundchannel(req.body.id, 'all', 'normal', true, 0)
-//         .then(channel => {
-//             res.send(true)
-//         })
-//         .catch(err => {
-//             res.send(false)
-//         })
-// })
 
 function createInvoice(sat, label, description, expiresInSec){
     return client.invoice(sat * 1000, label, description, expiresInSec)

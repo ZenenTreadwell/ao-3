@@ -1,18 +1,18 @@
 <template lang='pug'>
 
-#tasks(v-if='c && c.length > 0')
-    .spaceroom(v-if='c.length < 2')
-    .ptr(v-show="c.length > 1"  ref='swipebar')
+#tasks
+    .fixedstatus(v-if='c.length > 1  && sanePosition !== -1') {{ sanePosition + 1 }} of {{ c.length }}
+    .ptr(ref='swipebar')
         span.third(:class='{hidden:open}'  ref='previous')
-            .donut( :class='{hidden:!$store.getters.member.guides}')
+            .donut.hidden
         span.third(ref='mandelorb')
-            .donut( :class='{hidden:!$store.getters.member.guides}')
+            .donut
         span.third(:class='{hidden:open}'  ref='next')
-            .donut( :class='{hidden:!$store.getters.member.guides}')
+            .donut.hidden
     .open(v-if='open')
         div(v-for='(b, i) in c'  :key="b.taskId")
             .orby(v-if='i > 0'  @click='orbswap(b.taskId)'  :class='{hidden:!$store.getters.member.guides}')
-                .donut
+                .donut.hidden
             hypercard(:b="b"  :key="b.taskId"  :inId='taskId'  :c='panelIds')
     .box(v-else)
         hypercard(:b="c[sanePosition]"  :inId='taskId'  :key='c[sanePosition].taskId')
@@ -367,7 +367,6 @@ img
     width: 100%
     margin: 0
     margin-bottom: -.6em
-    opacity: 0.4;
     margin-bottom: -.6em;
 
 .fr
@@ -420,5 +419,11 @@ img
     position: relative;
     left: 33%
     margin-bottom: 0.8em
+
+.fixedstatus
+    position: relative;
+    color: lightGrey
+    top: 3em
+    right: -2em
 
 </style>

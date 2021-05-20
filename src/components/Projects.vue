@@ -168,7 +168,7 @@ ul
 .projects
     margin-left: 2em
     padding: 0.2em
-    color: main
+    color: lightGrey
     font-style: italic;
     border-radius: 3%
     -webkit-text-stroke-width: 1px;

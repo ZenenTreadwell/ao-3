@@ -68,14 +68,14 @@ function startDctrlAo(){
                             let totalInChannels = ev.info.channels.reduce(channelReducer, 0)
                             let totalInOutputs = ev.info.outputs.reduce(outputReducer, 0)
                             if (channelSatTotalTracker < totalInChannels){
-                                console.log(chalk.yellow(totalInChannels.toLocaleString() + "sat", "in", ev.info.channels.length, "channels"), chalk.bold.green('+', totalInChannels - channelSatTotalTracker ))
+                                console.log(chalk.yellow(totalInChannels.toLocaleString(), "local"), chalk.bold.green('+', totalInChannels - channelSatTotalTracker ))
                             } else if (channelSatTotalTracker > totalInChannels){
-                                console.log(chalk.yellow(totalInChannels.toLocaleString() + "sat", "in", ev.info.channels.length, "channels"), chalk.bold.red('-', channelSatTotalTracker - totalInChannels))
+                                console.log(chalk.yellow(totalInChannels.toLocaleString(), "local"), chalk.bold.red('-', channelSatTotalTracker - totalInChannels))
                             }
                             if (outputSatTotalTracker < totalInOutputs){
-                                console.log(chalk.yellow(totalInOutputs.toLocaleString() + "sat", "in", ev.info.outputs.length , "outputs"), chalk.bold.green('+',totalInOutputs - outputSatTotalTracker))
+                                console.log(chalk.yellow(totalInOutputs.toLocaleString(), "chain"), chalk.bold.green('+',totalInOutputs - outputSatTotalTracker))
                             } else if (outputSatTotalTracker > totalInOutputs){
-                                console.log(chalk.yellow(totalInOutputs.toLocaleString() + "sat", "in", ev.info.outputs.length , "outputs"), chalk.bold.red('-',outputSatTotalTracker - totalInOutputs))
+                                console.log(chalk.yellow(totalInOutputs.toLocaleString(), "chain"), chalk.bold.red('-',outputSatTotalTracker - totalInOutputs))
                             }
                             outputSatTotalTracker = totalInOutputs
                             channelSatTotalTracker = totalInChannels

@@ -153,7 +153,7 @@ select.shorten
 
 .birdy
     float: left
-    height: .777em
+    height: 1.4777em
     cursor: pointer
 
 .faded

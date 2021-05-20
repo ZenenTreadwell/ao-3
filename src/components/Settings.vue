@@ -24,23 +24,23 @@
             button(@click='update'  v-if='change.newfield  && inputType !== "password"') update {{ change.field }}
             button(@click='update'  v-else-if='change.newfield  && change.confirmNewfield.length > 0 && matched') update password
         .six.columns
-            .section preferences
-            //- .check.click(@click='toggleTooltips')
-            //-     img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
+            //- .section preferences
+            //- //- .check.click(@click='toggleTooltips')
+            //- //-     img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
+            //- //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
+            //- //-     span.space tooltip
+            //- .check.click(@click='toggleGuides')
+            //-     img.checkmark(v-if='$store.getters.member.guides'  src='../assets/images/completed.svg')
             //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-            //-     span.space tooltip
-            .check.click(@click='toggleGuides')
-                img.checkmark(v-if='$store.getters.member.guides'  src='../assets/images/completed.svg')
-                img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space guides
-            //- .check.click(@click='toggleMuted')
-            //-     img.checkmark(v-if='!$store.getters.member.muted', src='../assets/images/completed.svg')
+            //-     span.space guides
+            //- //- .check.click(@click='toggleMuted')
+            //- //-     img.checkmark(v-if='!$store.getters.member.muted', src='../assets/images/completed.svg')
+            //- //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
+            //- //-     span.space sound
+            //- .check.click(@click='toggleStacks')
+            //-     img.checkmark(v-if='$store.getters.member.stacks === 5', src='../assets/images/completed.svg')
             //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-            //-     span.space sound
-            .check.click(@click='toggleStacks')
-                img.checkmark(v-if='$store.getters.member.stacks === 5', src='../assets/images/completed.svg')
-                img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span.space colors
+            //-     span.space colors
             button(@click='logout') log out
     .breathing
     label {{ $store.state.cash.address }}

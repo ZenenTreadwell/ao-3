@@ -6,7 +6,7 @@
         .four.grid(v-if='$store.state.cash.info.mempool')
             .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
             .section block {{ $store.state.cash.info.blockheight.toLocaleString()}}, {{ ((Date.now() - ($store.state.cash.info.blockfo.time * 1000)) / 60 / 1000).toFixed(1) }}min old
-            .section percentile fees
+            .section percentile sat/byte
             .section
                 .grid
                     .three.grid
@@ -49,6 +49,12 @@
             .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') {{ parseFloat( nn.channel_sat ).toLocaleString() }} local
             .section {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }} remote
             .section {{ $store.state.cash.info.channels.length }} channels
+            .chanfo(v-if='selectedPeer >= 0 && areChannels && selectedChannel')
+                div(v-if='selectedChannel.connected') online
+                div(v-else) offline
+                div pubkey: {{ selectedChannel.peer_id }}
+                div(@click='checkTxid(selectedChannel.funding_txid)') txid: {{ selectedChannel.funding_txid }}
+                div(v-if='selectedChannel.state !== "CHANNELD_NORMAL"') state: {{ selectedChannel.state }}
             .row
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id')
@@ -58,14 +64,6 @@
                     .localremote(v-show='selectedPeer !== i'   @click='selectedPeer = i')
                         .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
                         .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
-            .chanfo(v-if='selectedPeer >= 0 && areChannels && selectedChannel')
-                div(v-if='selectedChannel.connected') online
-                div(v-else) offline
-                div pubkey: {{ selectedChannel.peer_id }}
-                div(@click='checkTxid(selectedChannel.funding_txid)') txid: {{ selectedChannel.funding_txid }}
-                div(v-if='selectedChannel.state !== "CHANNELD_NORMAL"') state: {{ selectedChannel.state }}
-
-
     .row
         .chanfo(v-if='showOutputs'  v-for='n in $store.state.cash.info.outputs'  @click='checkTxid(n.txid)') txid: {{n.txid}} : {{n.output}}
         .breathing1
@@ -80,7 +78,7 @@
                 div(v-if='u && u.value > 0 && u.scriptPubKey.addresses') {{ u.value }} : {{u.scriptPubKey.addresses}} - unspent
             div(v-for='outp in filteredOut') {{ outp.value }} : {{outp.scriptPubKey.addresses}}
         .breathing
-        .chanfo {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
+        .chanfo(v-if='$store.state.cash.info.address') {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
 </template>
 
 <script>
@@ -111,13 +109,11 @@ export default {
         },
         filteredOut(){
             if (this.fetchedTxn.utxo){
-                console.log('filtering outs becasuse there are unspents' , this.fetchedTxn.utxo.length)
                 let unspents = this.fetchedTxn.utxo.filter(x => x !== null).map(x => x.txid)
                 return this.fetchedTxn.vout.filter( y => {
                     return unspents.indexOf(y.txid) === -1
                 })
             } else {
-                console.log('returing vout?')
                 return this.fetchedTxn.vout.filter(() => true)
             }
         },
@@ -183,23 +179,12 @@ export default {
         },
         toggleShowOutputs(){
             this.showOutputs = !this.showOutputs
-            console.log('toggleded' , this.showOutputs)
         },
         selectPeer(pId){
             if (pId === this.selectedPeer){
                 return this.selectedPeer = false
             }
             this.selectedPeer = pId
-        },
-        requestChannel(){
-            request
-                .post('/lightning/channel')
-                .send({id : this.selectedPeer})
-                .set("Authorization", this.$store.state.loader.token)
-                .end((err, res)=>{
-                    console.log("response from channel", res.body)
-                })
-            this.selectedPeer = false
         },
         r(n, nolimits){
             let local = parseFloat( n.channel_sat )

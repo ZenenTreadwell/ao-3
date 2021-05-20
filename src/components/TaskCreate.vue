@@ -1,10 +1,9 @@
 <template lang='pug'>
 
-
 #createtask(ref="closeable" @keydown='testAll' @keyup.tab='testTab'  @keyup.esc='testEscape')
   div.secondbackground(@click='switchColor(task.color)')
       .boatContainer
-          button.clear(@click.stop='toggleSearch'  :class='{selected: showSearch}') search
+          button.clear(@click.stop='toggleSearch'  :class='{selected: showSearch}') recall {{ searchTotal }}
           button.lock(@click.stop='lockIt') to terminal
           button.create(@click.stop='createOrFindTask') post
       .cc(v-show='showCreate')
@@ -21,23 +20,21 @@
           )
       #btnpanel.btnpanel
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
-              //- .fifth(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" && showCreate, loadin: $store.state.loader.pendingFlash[0] }').redtx.paperwrapper
-              //- .fifth(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" && showCreate, loadin: $store.state.loader.pendingFlash[1]}').yellowtx.paperwrapper
-              //- .fifth(@click.stop='switchColor("green")'  :class='{ down : task.color === "green"  && showCreat, loadin: $store.state.loader.pendingFlash[2]}').greentx.paperwrapper
-              //- .fifth(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" && showCreate, loadin: $store.state.loader.pendingFlash[3]}').purpletx.paperwrapper
-              //- .fifth(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" && showCreate, loadin: $store.state.loader.pendingFlash[4]}').bluetx.paperwrapper
-      .scrollbarwrapper(v-show='showSearch')
-          .searchresults
-              .searchtotal(@click='boatAll') {{ searchTotal }} of {{ $store.state.tasks.length }}
-              .result(v-for='t in matches.guilds'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)')
-                  img.smallguild(src='../assets/images/badge.svg')
-                  span {{ t.guild }}
-              .result(v-for='t in matches.doges'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)')
-                  current(:memberId='t.memberId')
-              .result(v-for='t in matches.cards'  @click.stop='goIn(t.taskId)')
-                  span {{ shortName(t.name)[0] }}
-                  span(:class='resultInputSty(t)') {{ $store.state.upgrades.search }}
-                  span {{ shortName(t.name)[1] }}
+              .fifth(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" && showCreate }').redtx.paperwrapper
+              .fifth(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" && showCreate}').yellowtx.paperwrapper
+              .fifth(@click.stop='switchColor("green")'  :class='{ down : task.color === "green"  && showCreate}').greentx.paperwrapper
+              .fifth(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" && showCreate}').purpletx.paperwrapper
+              .fifth(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" && showCreate}').bluetx.paperwrapper
+  //- .searchresults
+  //-     .result(v-for='t in matches.guilds'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)')
+  //-         img.smallguild(src='../assets/images/badge.svg')
+  //-         span {{ t.guild }}
+  //-     .result(v-for='t in matches.doges'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)')
+  //-         current(:memberId='t.memberId')
+  //-     .result(v-for='t in matches.cards'  @click.stop='goIn(t.taskId)')
+  //-         span {{ shortName(t.name)[0] }}
+  //-         span(:class='resultInputSty(t)') {{ $store.state.upgrades.search }}
+  //-         span {{ shortName(t.name)[1] }}
 </template>
 
 <script>
@@ -106,6 +103,27 @@ export default {
         });
     },
     methods: {
+        toChest(){
+            if (this.$store.state.upgrades.mode === "chest"){
+                this.$store.commit("setMode", 0)
+            } else {
+                this.$store.commit("setMode", 3)
+            }
+        },
+        toTimeCube(){
+            if (this.$store.state.upgrades.mode === "timecube"){
+                this.$store.commit("setMode", 0)
+            } else {
+                this.$store.commit("setMode", 2)
+            }
+        },
+        toBoat(){
+            if (this.$store.state.upgrades.mode === "boat"){
+                this.$store.commit("setMode", 0)
+            } else {
+                this.$store.commit("setMode", 1)
+            }
+        },
         testAll(){
             if (this.showCreate === false){
                 this.showCreate = true
@@ -521,10 +539,10 @@ textarea.inactive
     opacity: 0.2
 
 .down
-    color: main
+    color: lightGrey
 
 .down:before
-    color: main
+    color: lightGrey
 
 .loadin
     color: softerGrey
@@ -632,7 +650,7 @@ textarea.inactive
     color: softGrey
 
 .boatContainer button:hover
-    background: softerGrey
+    opacity: 0.9
 
 .ping
     padding-top: 0.789em
@@ -647,7 +665,7 @@ textarea.inactive
     display: inline-block
     width: 20%
     font-size: 4.44em
-    color: lightGrey
+    color: main
     margin-top:-0.4em
     margin-bottom:-0.4em
     border-radius: 2%
@@ -655,11 +673,29 @@ textarea.inactive
     content: "\2022";
 
 .fifth:hover
-    background: softerGrey
+    opacity: 0.9
 
 .ping
     position: absolute
     bottom: 0
     left: 0
+
+.bottomleft
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: main;
+    display: inline-block
+    width: 33.3%
+    cursor: pointer
+    color: lightGrey
+    text-align: center
+    img
+        height: 1.11em
+.bottomleft:hover
+    opacity: 0.7
+
+.bottomleft.activationsequence
+    img
+        height: 1.77em
+
 
 </style>

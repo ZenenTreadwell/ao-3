@@ -2,7 +2,7 @@
 .day( :ondrop='drop'    :ondragover="allowDrop")
     .date {{ day }}
     img.today(v-if='isToday'  src='../assets/images/down.svg')
-    span(v-if='createdToday') created
+    span(v-if='createdToday') *
     span(v-for='t in ev')
         .upgrade(v-if='!t.type')
             img.upgrade.doge(v-if='checkIsMember(t.name)'  @cdbllick="goIn(t.taskId)"  src='../assets/images/doge.svg')
@@ -144,9 +144,11 @@ export default {
 .day
     position: relative
     overflow: visible
+    background-color: softGrey
 
 .day:hover
-    background-color: softerGrey
+    border-style: dashed
+    border-color: lightGrey
 
 .date
     text-align:right

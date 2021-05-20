@@ -10,7 +10,6 @@ import uuidv1 from 'uuid/v1'
 import Hammer from 'hammerjs'
 import Propagating from 'propagating-hammerjs'
 
-
 export default {
     props: ['b', 'inId'],
     data() {
@@ -84,7 +83,7 @@ export default {
 img.checkmark
     margin-bottom: -0.25em
     margin-left: 0.25em
-    height: 1.58em
+    height: 2.2em
 
 .checkmark
     position: relative

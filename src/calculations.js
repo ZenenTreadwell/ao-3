@@ -97,12 +97,12 @@ function blankCard(taskId, name, color, createdTs, deck = []) {
         highlights: [],
         claims: [],
         stackView: {
-            all: -1,
-            red: -1,
-            blue: -1,
-            yellow: -1,
-            green: -1,
-            purple: -1,
+            all: 0,
+            red: 0,
+            blue: 0,
+            yellow: 0,
+            green: 0,
+            purple: 0,
         },
         payments: [],
     }

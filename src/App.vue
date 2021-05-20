@@ -33,7 +33,7 @@ export default {
     background: #404040
     color: main
     font-size: 1.12334455em
-    font-family: monospace
+    font-family: ubuntu
     min-height: 100vh
 
 </style>

@@ -20,8 +20,7 @@
             payments(v-show='$store.state.upgrades.mode === "chest"')
             planning(v-show='$store.state.upgrades.mode === "boat" || $store.state.upgrades.mode === "timecube"')
     div
-        .fadey(v-if='$store.getters.all.length > 0'   :class='{ completedfadey : $store.state.context.completed }')
-            panels
+        panels
     projects.rell
 
 </template>
