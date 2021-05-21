@@ -104,20 +104,11 @@ export default {
             this.$store.commit('setMode', 1)
         },
         remove(){
-            if (this.$store.getters.contextCard.taskId === this.b.taskId){
-              let target = this.$store.state.context.parent[this.$store.state.context.parent.length -1]
-              this.$store.dispatch("goUp", {
-                  target,
-                  panel: [target],
-                  top: 0
-              })
-            } else {
-                this.$store.dispatch("makeEvent", {
-                    type: 'task-de-sub-tasked',
-                    subTask: this.b.taskId,
-                    taskId: this.inId,
-                })
-            }
+            this.$store.dispatch("makeEvent", {
+                type: 'task-de-sub-tasked',
+                subTask: this.b.taskId,
+                taskId: this.inId,
+            })
         },
         setAction(){
             if (this.$store.getters.member.action === this.b.taskId){

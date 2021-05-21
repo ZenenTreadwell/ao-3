@@ -1,10 +1,11 @@
 <template lang='pug'>
 
-.upgrades(v-if='!$store.getters.contextMember')
+.upgrades
+    span -
     span(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
         current(:memberId='n')
     span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop') *leave*
-    span.ptr(v-else  @click='grab') | *join*
+    span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click='grab') *join*
     //- span(v-if='$store.getters.isLoggedIn  && $store.getters.member.memberId !== $store.getters.contextCard.taskId')
     //-     div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
     //-         button remove

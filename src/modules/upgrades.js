@@ -2,6 +2,7 @@ const modes = ["doge", "boat", "timecube", "chest", "badge"]
 const paymodes = ["mempool", "bitcoin", "lightning", "channels"]
 
 const state = {
+    color: 'red',
     create: false,
     search: '',
     modes,

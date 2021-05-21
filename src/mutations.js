@@ -423,14 +423,10 @@ function tasksMuts(tasks, ev) {
       tasks.forEach(task => {
         if (task.taskId === ev.inId) {
           ev.tasks.forEach(tId => {
-            if (task.subTasks.indexOf(tId) === -1 && task.completed.indexOf(tId) === -1) {
               task.subTasks.push(tId)
-            } else {
-              task.subTasks = _.filter(task.subTasks, tId2 => tId2 !== tId)
-              task.priorities.push(tId)
-            }
+              task.priorities = _.filter(task.priorities, d => d === tId)
           })
-          task.priorities = _.uniq(task.priorities)
+          task.subTasks = _.uniq(task.subTasks)
         }
       })
       break

@@ -65,7 +65,7 @@ export default {
         Current
     },
     mounted() {
-        setInterval(this.matchCards, 2222)
+        setInterval(this.matchCards, 2222) // battery drain issue for mobile  ???
         var el = document.getElementById('btnpanel')
         var mc = new Hammer.Manager(el)
 
@@ -104,6 +104,10 @@ export default {
     },
     methods: {
         pilePrioritized() {
+          if (!this.$store.state.upgrades.create){
+              return this.$store.commit('toggleCreate')
+          }
+
           if (this.matchIds.length > 0){
               this.$store.dispatch("makeEvent", {
                   type: "pile-prioritized",
@@ -218,6 +222,10 @@ export default {
             this.showSearch = !this.showSearch
         },
         lockIt(){
+            if (!this.$store.state.upgrades.create){
+                return this.$store.commit('toggleCreate')
+            }
+
             if (!this.showCreate){
                 return this.openCreate()
             }
@@ -310,11 +318,14 @@ export default {
             })
         },
         createOrFindTask(){
-            if (!this.showCreate){
-                return this.openCreate()
+            if (!this.$store.state.upgrades.create){
+                return this.$store.commit('toggleCreate')
             }
             this.showSearch = false
             let potentialCard = this.task.name.trim()
+            if (potentialCard.length === 0){
+                return
+            }
             let foundId = false
             this.$store.state.tasks.some(t => {
                 if (t.name === potentialCard){
