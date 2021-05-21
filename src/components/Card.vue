@@ -7,8 +7,8 @@
           linky.cardhud(:x='b.name' v-if='!member')
           span.sml
               current(v-for='n in actions'  :memberId='n')
-          div(v-if='b.taskId !== $store.getters.contextCard.taskId')
-              simple(:taskId="b.taskId")
+          //- div(v-if='b.taskId !== $store.getters.contextCard.taskId')
+          //-     simple(:taskId="b.taskId")
     .passed
         div.totop(v-if='b.passed.length > 0  && $store.state.upgrades.bird')
             div(@click='toggleBird')
@@ -518,7 +518,6 @@ label
     font-weight: bolder
 
 .cardhud
-    margin-bottom: 1em
     position: relative
     z-index: 14
 

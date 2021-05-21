@@ -102,7 +102,6 @@ export default createStore({
           getters.contextCard.deck.forEach(mId => {
               byCompletion.push(mId)
           })
-          byCompletion.push(getters.member.memberId)
           return _.uniq(byCompletion)
       },
       all(state, getters){

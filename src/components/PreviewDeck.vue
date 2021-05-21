@@ -111,7 +111,7 @@ export default {
     width: 15%;
     position: absolute;
     bottom: 0;
-    left: 11.11111%
+    right: 11.11111%
     height: 3em
     overflow: hidden
 

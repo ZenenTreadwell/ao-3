@@ -155,6 +155,7 @@ select.shorten
     float: left
     height: 1.4777em
     cursor: pointer
+    opacity:0.5
 
 .faded
     opacity: 0.235654

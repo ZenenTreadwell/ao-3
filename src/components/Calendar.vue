@@ -318,7 +318,7 @@ h5
     height: 100px
     border-style:solid
     border-width: 1px
-    border-color: softGrey
+    border-color: lightGrey
 .placeholder
     @extends .calendar-column
 .day

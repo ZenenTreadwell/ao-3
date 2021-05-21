@@ -2,6 +2,7 @@ const modes = ["doge", "boat", "timecube", "chest", "badge"]
 const paymodes = ["mempool", "bitcoin", "lightning", "channels"]
 
 const state = {
+    create: false,
     search: '',
     modes,
     paymodes,
@@ -45,12 +46,18 @@ const mutations = {
             state.mode = modes[2]
         }
     },
+    setColor(state, x){
+        state.color = x
+    },
     setSearch(state, x){
         console.log('setsearch called', x)
         state.search = x
     },
     toggleBird(state){
         state.bird = !state.bird
+    },
+    toggleCreate(state){
+        state.create = !state.create
     },
     nextMode(state) {
         let currentIndex = modes.indexOf(state.mode)

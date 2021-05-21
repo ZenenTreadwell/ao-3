@@ -18,7 +18,7 @@
         .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"'  :class='{darkmode: $store.getters.member.stacks === 1}')
             zen(v-show='$store.state.upgrades.mode === "doge" && $store.getters.inbox.length > 0')
             payments(v-show='$store.state.upgrades.mode === "chest"')
-            planning(v-show='$store.state.upgrades.mode === "boat" || $store.state.upgrades.mode === "timecube"')
+            calendar(v-show='$store.state.upgrades.mode === "boat" || $store.state.upgrades.mode === "timecube"')
     div
         panels
     projects.rell
@@ -29,6 +29,7 @@
 import MemberRow from './Member'
 import ResourceRow from './ResourceRow'
 import ResourceBook from './ResourceBook'
+import Calendar from './Calendar'
 import PointsSet from './PointsSet'
 import Context from './ContextRow'
 import Hypercard from "./Card"
@@ -36,7 +37,6 @@ import Panels from './Panels'
 import Priorities from './Priorities'
 import Checkmarks from './Checkmarks'
 import Payments from './Payments'
-import Planning from './Planning'
 import Projects from './Projects'
 import Zen from './Zen'
 import Auth from './Auth'
@@ -44,11 +44,10 @@ import Auth from './Auth'
 export default {
   components:{
       Hypercard,
-      Panels, MemberRow,
+      Panels, MemberRow, Calendar,
       ResourceRow, Context, Priorities, ResourceBook, PointsSet,
       Checkmarks, Projects,
       Payments,
-      Planning,
       Zen, Auth
   },
   methods:{
@@ -182,6 +181,7 @@ export default {
     margin-right: 1em
     flex-grow: 2.77
     flex-basis: 55%
+    background: softGrey
     padding: 0.07789em
 
 .darkmode

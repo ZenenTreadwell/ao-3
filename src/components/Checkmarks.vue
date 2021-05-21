@@ -1,11 +1,13 @@
 <template lang='pug'>
 
-.upgrades
+.upgrades(v-if='!$store.getters.contextMember')
     span(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
-        span {{ n.name }} | 
-    span(v-if='$store.getters.isLoggedIn  && $store.getters.member.memberId !== $store.getters.contextCard.taskId')
-        div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
-            button remove
+        current(:memberId='n')
+    span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop') *leave*
+    span.ptr(v-else  @click='grab') | *join*
+    //- span(v-if='$store.getters.isLoggedIn  && $store.getters.member.memberId !== $store.getters.contextCard.taskId')
+    //-     div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
+    //-         button remove
         //- div(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop')
         //-     button leave
         //- div(v-else  @click='grab')
@@ -19,10 +21,11 @@ import MemberRow from './MemberRow'
 import GuildCreate from './GuildCreate'
 import Accounts from './Accounts'
 import Connect from './Connect'
+import Current from './Current'
 
 export default {
     components:{
-        CurrentChecks, MemberRow, GuildCreate, Accounts, Connect
+        CurrentChecks, MemberRow, GuildCreate, Accounts, Connect, Current
     },
     methods: {
         grab(){
@@ -76,6 +79,9 @@ export default {
 <style lang='stylus' scoped>
 @import '../styles/colours'
 @import '../styles/skeleton'
+
+.ptr
+    cursor: pointer;
 
 h5
     text-align: center

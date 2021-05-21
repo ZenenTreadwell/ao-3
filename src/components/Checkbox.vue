@@ -83,7 +83,7 @@ export default {
 img.checkmark
     margin-bottom: -0.25em
     margin-left: 0.25em
-    height: 2.2em
+    height: 2.5em
 
 .checkmark
     position: relative

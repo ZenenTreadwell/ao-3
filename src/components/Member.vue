@@ -5,7 +5,7 @@
         div(@click='$store.commit("setMode", 3)'  :class='{here: $store.state.upgrades.mode === "chest"}')
             .stash(v-if='card.boost > 0') {{ card.boost.toLocaleString() }}
     .row.center.clearboth(@click='$store.commit("setMode", 0)'   :class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
-        label(:class='{ spacer: $store.state.upgrades.mode !== "doge" || $store.getters.contextCard.priorities.length < 1 }')
+        label
             div(v-if='$store.getters.contextMember')
                 linky(:x='m.name')
             linky(v-else  :x='card.name')
@@ -183,6 +183,8 @@ label
 .membershipcard
     // padding: 1em
     background-color: lightGrey
+    margin-bottom: 1em
+    padding-bottom: 1em
     // box-shadow:
     //     0 0 6px 3px white,  /* inner white */
     //     0 0 7px 4px lightGrey, /* middle magenta */
@@ -222,6 +224,9 @@ label
     opacity: 0.7
 
 .bottomleft.activationsequence
+    border-bottom-style: dotted
+    border-color: softGrey
+    border-radius: 3px
     img
         height: 1.77em
 

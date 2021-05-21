@@ -156,7 +156,7 @@ export default {
     margin-top: 0
     margin-bottom:-30px
     font-weight: bolder
-    font-size: .4em
+    font-size: .8em
     padding: 2px 2px 2px 2px
     float: right
     z-index: 5

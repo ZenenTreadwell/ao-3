@@ -1,6 +1,7 @@
 <template lang='pug'>
 
 .upgrades
+    div(v-if='b.payments.length === 0') no payments yet
     div(v-for='p in b.payments') {{p.amount.toLocaleString()}} - {{ getDateString(p.timestamp) }}
     .payreq(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"')
         // a(:href='"lightning:" + b.bolt11') // causes t is undefined global error

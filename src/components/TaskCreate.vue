@@ -3,7 +3,8 @@
 #createtask(ref="closeable" @keydown='testAll' @keyup.tab='testTab'  @keyup.esc='testEscape')
   div.secondbackground(@click='switchColor(task.color)')
       .boatContainer
-          button.clear(@click.stop='toggleSearch'  :class='{selected: showSearch}') recall {{ searchTotal }}
+          button.clear(@click.stop='pilePrioritized') recall
+              span(v-if='searchTotal > 0') &nbsp; {{ searchTotal }}
           button.lock(@click.stop='lockIt') to terminal
           button.create(@click.stop='createOrFindTask') post
       .cc(v-show='showCreate')
@@ -11,7 +12,7 @@
               v-model='task.name'
               type='text'
               :class='cardInputSty'
-              placeholder=" "
+              placeholder="love"
               @keyup.enter.exact='createOrFindTask'
               @keydown.enter.exact.prevent
               row='10'
@@ -20,18 +21,18 @@
           )
       #btnpanel.btnpanel
           div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
-              .fifth(@click.stop='switchColor("red")'  :class='{ down : task.color === "red" && showCreate }').redtx.paperwrapper
-              .fifth(@click.stop='switchColor("yellow")'  :class='{ down : task.color === "yellow" && showCreate}').yellowtx.paperwrapper
-              .fifth(@click.stop='switchColor("green")'  :class='{ down : task.color === "green"  && showCreate}').greentx.paperwrapper
-              .fifth(@click.stop='switchColor("purple")'  :class='{ down : task.color === "purple" && showCreate}').purpletx.paperwrapper
-              .fifth(@click.stop='switchColor("blue")'  :class='{ down : task.color === "blue" && showCreate}').bluetx.paperwrapper
+              .fifth(@click.stop='switchColor("red")'  :class='{ down : $store.state.upgrades.color === "red" && showCreate }').redtx.paperwrapper
+              .fifth(@click.stop='switchColor("yellow")'  :class='{ down : $store.state.upgrades.color === "yellow" && showCreate}').yellowtx.paperwrapper
+              .fifth(@click.stop='switchColor("green")'  :class='{ down : $store.state.upgrades.color === "green"  && showCreate}').greentx.paperwrapper
+              .fifth(@click.stop='switchColor("purple")'  :class='{ down : $store.state.upgrades.color === "purple" && showCreate}').purpletx.paperwrapper
+              .fifth(@click.stop='switchColor("blue")'  :class='{ down : $store.state.upgrades.color === "blue" && showCreate}').bluetx.paperwrapper
   //- .searchresults
   //-     .result(v-for='t in matches.guilds'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)')
   //-         img.smallguild(src='../assets/images/badge.svg')
   //-         span {{ t.guild }}
   //-     .result(v-for='t in matches.doges'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)')
   //-         current(:memberId='t.memberId')
-  //-     .result(v-for='t in matches.cards'  @click.stop='goIn(t.taskId)')
+  //-     .result(v-for='t in matchesearchs.cards'  @click.stop='goIn(t.taskId)')
   //-         span {{ shortName(t.name)[0] }}
   //-         span(:class='resultInputSty(t)') {{ $store.state.upgrades.search }}
   //-         span {{ shortName(t.name)[1] }}
@@ -47,12 +48,10 @@ import Current from './Current'
 export default {
     data(){
         return {
-            showCreate: false,
             task: {
                 name: '',
                 color: 'blue',
             },
-            search: '',
             swipeTimeout: 0,
             showSearch: false,
             matches: {
@@ -66,6 +65,7 @@ export default {
         Current
     },
     mounted() {
+        setInterval(this.matchCards, 2222)
         var el = document.getElementById('btnpanel')
         var mc = new Hammer.Manager(el)
 
@@ -103,6 +103,15 @@ export default {
         });
     },
     methods: {
+        pilePrioritized() {
+          if (this.matchIds.length > 0){
+              this.$store.dispatch("makeEvent", {
+                  type: "pile-prioritized",
+                  inId: this.$store.getters.contextCard.taskId,
+                  tasks: this.matchIds
+              })
+          }
+        },
         toChest(){
             if (this.$store.state.upgrades.mode === "chest"){
                 this.$store.commit("setMode", 0)
@@ -124,52 +133,54 @@ export default {
                 this.$store.commit("setMode", 1)
             }
         },
-        testAll(){
-            if (this.showCreate === false){
-                this.showCreate = true
-                this.refocus()
-            }
-        },
-        testEscape(){
-            if (this.showCreate){
-                this.showCreate = false
-                this.showSearch = false
-            }
-        },
-        testTab(){
-            this.refocus()
-            if (this.showCreate  && !this.searchEqual){
-                return this.toggleSearch()
-            }
-            if (this.showSearch){
-                return this.showSearch = false
-            }
-            switch (this.task.color){
-                case "blue":
-                    this.switchColor("green")
-                    break
-                case "green":
-                    this.switchColor("purple")
-                    break
-                case "purple":
-                    this.switchColor("yellow")
-                    break
-                case "yellow":
-                    this.switchColor("red")
-                    break
-                case "red":
-                    this.switchColor("blue")
-                    break
-            }
-        },
+        // testAll(){
+        //     if (this.showCreate === false){
+        //         this.showCreate = true
+        //         this.refocus()
+        //     }
+        // },
+        // testEscape(){
+        //     if (this.showCreate){
+        //         this.showCreate = false
+        //         this.showSearch = false
+        //     }
+        // },
+        // testTab(){
+        //     this.refocus()
+        //     if (this.showCreate  && !this.searchEqual){
+        //         return this.toggleSearch()
+        //     }
+        //     if (this.showSearch){
+        //         return this.showSearch = false
+        //     }
+        //     switch (this.$store.state.upgrades.color){
+        //         case "blue":
+        //             this.switchColor("green")
+        //             break
+        //         case "green":
+        //             this.switchColor("purple")
+        //             break
+        //         case "purple":
+        //             this.switchColor("yellow")
+        //             break
+        //         case "yellow":
+        //             this.switchColor("red")
+        //             break
+        //         case "red":
+        //             this.switchColor("blue")
+        //             break
+        //     }
+        // },
         matchCards() {
             let cards = []
             let guilds = []
             let doges = []
             let search = this.task.name.trim()
-            this.search = search
+            let dontsearch = this.$store.state.upgrades.search === search
+            if (dontsearch){
+                return this.matchCards
+            }
             if(search.length < 1) {
-                console.log('search empty match avoided')
                 return { guilds, doges, cards}
             }
             try {
@@ -190,6 +201,7 @@ export default {
             } catch (err){
                 console.log("regex in error: ", err)
             }
+            this.$store.commit('setSearch', search)
             console.log('got', guilds.length, doges.length, cards.length, 'match')
             this.matches = { guilds, doges, cards}
         },
@@ -216,7 +228,7 @@ export default {
                 this.$store.dispatch("makeEvent", {
                   type: 'task-locked',
                   name: potentialCard,
-                  color: this.task.color,
+                  color: this.$store.state.upgrades.color,
                   deck: [this.$store.getters.member.memberId],
                   inId: this.taskId,
                 })
@@ -267,15 +279,15 @@ export default {
             }
         },
         switchColor(color, refocus = true){
-            if (this.task.color === color){
-                this.showCreate = !this.showCreate
+            if (this.$store.state.upgrades.color === color){
+                this.$store.commit('toggleCreate')
                 this.showSearch = false
             } else if (this.showCreate) {
                 // don't close, switch
             } else {
-                this.showCreate = !this.showCreate
+                this.$store.commit('toggleCreate')
             }
-            this.task.color = color
+            this.$store.commit('setColor', color)
             if(refocus) {
                 this.refocus()
             }
@@ -315,7 +327,7 @@ export default {
                 this.$store.dispatch("makeEvent", {
                     type: 'task-created',
                     name: potentialCard,
-                    color: this.task.color,
+                    color: this.$store.state.upgrades.color,
                     deck: [this.$store.getters.member.memberId],
                     inId: this.taskId,
                 })
@@ -328,13 +340,13 @@ export default {
         },
         nextColor() {
             let colors = ['red', 'yellow', 'green', 'purple', 'blue']
-            let color = colors.indexOf(this.task.color)
+            let color = colors.indexOf(this.$store.state.upgrades.color)
             color++
             this.switchColor(colors[color > 4 ? 0 : color], false)
         },
         previousColor() {
             let colors = ['red', 'yellow', 'green', 'purple', 'blue']
-            let color = colors.indexOf(this.task.color)
+            let color = colors.indexOf(this.$store.state.upgrades.color)
             color--
             this.switchColor(colors[color < 0 ? 4 : color], false)
         },
@@ -366,6 +378,9 @@ export default {
         },
     },
     computed: {
+        showCreate(){
+            return this.$store.state.upgrades.create
+        },
         searchEqual(){
             return this.search == this.task.name
         },
@@ -384,12 +399,12 @@ export default {
         cardInputSty() {
             if (this.$store.getters.member.stacks === 5){
                 return {
-                    redwx : this.task.color == 'red',
-                    bluewx : this.task.color == 'blue',
-                    greenwx : this.task.color == 'green',
-                    yellowwx : this.task.color == 'yellow',
-                    purplewx : this.task.color == 'purple',
-                    blackwx : this.task.color == 'black',
+                    redwx : this.$store.state.upgrades.color == 'red',
+                    bluewx : this.$store.state.upgrades.color == 'blue',
+                    greenwx : this.$store.state.upgrades.color == 'green',
+                    yellowwx : this.$store.state.upgrades.color == 'yellow',
+                    purplewx : this.$store.state.upgrades.color == 'purple',
+                    blackwx : this.$store.state.upgrades.color == 'black',
                     inactive: this.task.name == ''
                 }
             }

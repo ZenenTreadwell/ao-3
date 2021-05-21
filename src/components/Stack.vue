@@ -6,7 +6,7 @@
         span.third(:class='{hidden:open}'  ref='previous')
             .donut.hidden
         span.third(ref='mandelorb')
-            .donut
+            .donut(:class='{pileselected:$store.state.upgrades.color===stack  && $store.state.upgrades.create}')
         span.third(:class='{hidden:open}'  ref='next')
             .donut.hidden
     .open(v-if='open')
@@ -34,7 +34,14 @@ export default {
         let orbTap = new Hammer.Tap({ time: 400 })
         orbmc.add(orbTap)
         orbmc.on('tap', (e) => {
-            this.toggleOpen()
+            if (this.$store.state.upgrades.create && this.$store.state.upgrades.color !== this.stack){
+                return this.$store.commit('setColor', this.stack)
+            }
+
+            this.$store.commit('toggleCreate')
+            this.$store.commit('setColor', this.stack)
+
+            // this.toggleOpen()
             e.stopPropagation()
         })
 
@@ -421,9 +428,13 @@ img
     margin-bottom: 0.8em
 
 .fixedstatus
+    height: 0
     position: relative;
     color: lightGrey
-    top: 3em
-    right: -2em
+    top: 1em
+    left: 2.222em
+
+.donut.pileselected
+    border-color: lightGrey
 
 </style>
