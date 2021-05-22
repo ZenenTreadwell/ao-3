@@ -17,6 +17,9 @@ npm start
 npm run remove <name>
 npm run activate <name>
 npm run deactivate <name>
+npm run createAccessKey
+npm run link <onion> <access-key>
+npm run unlink <onion>
 ```
 
 ### ao
@@ -29,14 +32,20 @@ Ultimately scarcity is the reality of existence and the biggest problem faced by
 
 Every political paper money in history has gone to zero. The Faustian arrangement between politicians and bankers to create risk free securities has only one catastrophic end. Systems that perpetuate wealth without creating value are unethical and ultimately *doomed*, *dooomed*.  
 
-top right shows current status of bitcoind and lightningd including current on chain fee conditions and channel balances.
+Bitcoin is a public money system with fixed supply. Its operation is decentralized; physical attempts to destroy it would fail. If adopted by a large amount of economic activity it will provide true market signals that can be used to make better decisions and open access to a store of value.
 
-top left shows created user accounts on the current server. These are the aliases of those that can create and receive the content.
+Autopilot will deploy all funds into the [lightning network](http://1ml.com). Channels are 2 of 2 contracts that benefit from being online so the intention once funds are put in should be to remain online.
 
-All addresses and invoices go directly to lightning wallet with root private key file `~/.lightning/bitcoin/hsm_secret`.
+Ao is an option to participate in Bitcoin in a way that will maximize your control and its usefulness. It validates the entire monetary system which takes a significant amount of time on first load; ~30 hours largely depending on hardware. Once up to date the cost of keeping up with the network is quite small.
 
-Autopilot will deploy all funds into channels.  
+Ao will create an onion that you can use to access from anywhere or advertise for others to access.
 
-Once value is on the device treat it accordingly.
+The top right shows the current on chain fee conditions and channel balances. It shows information directly from your nodes. The top left shows the aliases of those that have connected.
 
-Recommend new hardware, safe location.  
+Ao is receive only. All payments go directly to the c-lightning wallet. C-lightning creates a root private key file `~/.lightning/bitcoin/hsm_secret` that you should copy and backup redundantly. If you want to spend any value you have accumulated use the `lightning-cli` command line tool (`close` & `withdraw` on chain or `pay` on lightning). Or you could use other wallet user interfaces for c-lightning like [spark](https://github.com/shesek/spark-wallet) or [qt](https://github.com/darosior/lightning-qt).
+
+Once value is on the device treat it accordingly. Recovering from the hsm_seed is possible but requires channels to close and periods of anxiety.
+
+Has been known to work on a raspberry pi but would recommend something with a little more oomph.
+
+Ao divides reality into written vs done and if approached honestly could be useful in a process of self acknowledgment and growth.
