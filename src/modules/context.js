@@ -33,13 +33,15 @@ const mutations = {
 }
 
 const actions = {
-    goIn({commit}, pContext ){
+    goIn({state,commit}, pContext ){
         commit("setPanel", pContext.panel)
         commit("setTop", pContext.top)
+
         pContext.parents.forEach(p => {
-            commit("addParent", p)
+            if (state.panel[state.top] !== p){
+                commit("addParent", p)
+            }
         })
-        commit('setMode', 0)
     },
     goUp({state, commit}, pContext){
         if (state.parent.indexOf(pContext.target) === -1){

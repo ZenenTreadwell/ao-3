@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 #tasks
-    .fixedstatus(v-if='c.length > 1  && sanePosition !== -1') {{ sanePosition + 1 }} of {{ c.length }}
+    .fixedstatus(v-if='c.length > 1  && sanePosition !== -1'  ) {{ sanePosition + 1 }} of {{ c.length }}
     .ptr(ref='swipebar')
         span.third(:class='{hidden:open}'  ref='previous')
             .donut.hidden
@@ -433,6 +433,7 @@ img
     color: lightGrey
     top: 1em
     left: 2.222em
+    pointer-events: none;s
 
 .donut.pileselected
     border-color: lightGrey

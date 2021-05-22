@@ -2,13 +2,10 @@ const request = require('superagent')
 const io = require('socket.io-client')
 let socket = io()
 
-function attachEventStream(commit, dispatch){
+function attachEventStream(commit){
     socket.off('eventstream')
     socket.on('eventstream', ev => {
-        console.log('event stream rec')
         commit('applyEvent', ev)
-        dispatch('displayEvent', ev) // not being used remove?
-
     })
 }
 

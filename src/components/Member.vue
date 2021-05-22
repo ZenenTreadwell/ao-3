@@ -239,9 +239,9 @@ label
 
 .stash
     display: inline
-    margin-left: 0.5em
+    left: -0.212em
     position: relative
-    top: -0.35em
+    top: 0
 
 .clearboth
     clear: both

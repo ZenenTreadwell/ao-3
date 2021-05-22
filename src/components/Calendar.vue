@@ -175,7 +175,6 @@ export default {
     selectedDaysEvs(){
         let selectDays = _.uniqBy(this.eventsByDay[this.$store.state.upgrades.chosenDay], u => (u.taskId, u.timestamp) )
         selectDays.sort((a, b) => a.timestamp - b.timestamp)
-        console.log('do we have days ebemts ???', selectDays.length)
         return selectDays
     },
     today(){
@@ -186,7 +185,6 @@ export default {
     },
     eventsByDay(){
         let evs = {}
-        console.log('events by day? ', this.inId, this.todaysEvents.length)
         if (this.inId){
             this.todaysEvents.forEach(t => {
                 if (!t){
