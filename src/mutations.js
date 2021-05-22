@@ -430,7 +430,7 @@ function tasksMuts(tasks, ev) {
         }
       })
       break
-    case "pile-refocused":jkjkj
+    case "pile-refocused":
       tasks.forEach(task => {
         if (task.taskId === ev.inId) {
           task.priorities.forEach(stId => {
