@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.upgrades
+.upgrades(v-if='!$store.getters.contextMember')
     span -
     span(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
         current(:memberId='n')

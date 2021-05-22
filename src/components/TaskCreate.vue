@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-#createtask(ref="closeable" @keydown='testAll' @keyup.tab='testTab'  @keyup.esc='testEscape')
+#createtask(ref="closeable")
   div.secondbackground(@click='switchColor(task.color)')
       .boatContainer
           button.clear(@click.stop='pilePrioritized') recall
@@ -137,12 +137,10 @@ export default {
                 this.$store.commit("setMode", 1)
             }
         },
-        // testAll(){
-        //     if (this.showCreate === false){
-        //         this.showCreate = true
-        //         this.refocus()
-        //     }
-        // },
+        testAll(){
+            // console.log('but if doesnt have focus it wun focus')
+            // this.refocus()
+        },
         // testEscape(){
         //     if (this.showCreate){
         //         this.showCreate = false
