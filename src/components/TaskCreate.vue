@@ -7,12 +7,13 @@
               span(v-if='searchTotal > 0') &nbsp; {{ searchTotal }}
           button.lock(@click.stop='lockIt') to terminal
           button.create(@click.stop='createOrFindTask') post
+              span.hidden {{ refocusWatcher }}
       .cc(v-show='showCreate')
           textarea#card.paperwrapper(
               v-model='task.name'
               type='text'
               :class='cardInputSty'
-              placeholder="love"
+              placeholder="love  愛  любовь  عشق    사랑  Aşk  ਪਿਆਰ  အချစ်  ស្រឡាញ់  <3"
               @keyup.enter.exact='createOrFindTask'
               @keydown.enter.exact.prevent
               row='10'
@@ -137,42 +138,6 @@ export default {
                 this.$store.commit("setMode", 1)
             }
         },
-        testAll(){
-            // console.log('but if doesnt have focus it wun focus')
-            // this.refocus()
-        },
-        // testEscape(){
-        //     if (this.showCreate){
-        //         this.showCreate = false
-        //         this.showSearch = false
-        //     }
-        // },
-        // testTab(){
-        //     this.refocus()
-        //     if (this.showCreate  && !this.searchEqual){
-        //         return this.toggleSearch()
-        //     }
-        //     if (this.showSearch){
-        //         return this.showSearch = false
-        //     }
-        //     switch (this.$store.state.upgrades.color){
-        //         case "blue":
-        //             this.switchColor("green")
-        //             break
-        //         case "green":
-        //             this.switchColor("purple")
-        //             break
-        //         case "purple":
-        //             this.switchColor("yellow")
-        //             break
-        //         case "yellow":
-        //             this.switchColor("red")
-        //             break
-        //         case "red":
-        //             this.switchColor("blue")
-        //             break
-        //     }
-        // },
         matchCards() {
             let cards = []
             let guilds = []
@@ -254,8 +219,6 @@ export default {
                 tasks: this.matchIds,
                 inId: this.$store.getters.contextCard.taskId,
             })
-            this.showCreate = false
-            this.showSearch = false
         },
         deBoatAll(){
             this.$store.dispatch("makeEvent", {
@@ -284,7 +247,7 @@ export default {
                 this.$store.commit("setMode", 1)
             }
         },
-        switchColor(color, refocus = true){
+        switchColor(color){
             if (this.$store.state.upgrades.color === color){
                 this.$store.commit('toggleCreate')
                 this.showSearch = false
@@ -294,9 +257,6 @@ export default {
                 this.$store.commit('toggleCreate')
             }
             this.$store.commit('setColor', color)
-            if(refocus) {
-                this.refocus()
-            }
         },
         refocus(){
             setTimeout(()=>{
@@ -359,13 +319,6 @@ export default {
             color--
             this.switchColor(colors[color < 0 ? 4 : color], false)
         },
-        openCreate() {
-            this.showCreate = true
-            this.refocus()
-        },
-        closeCreate() {
-            this.showCreate = false
-        },
         resultInputSty(card) {
           return {
               redwx : card.color == 'red',
@@ -387,6 +340,13 @@ export default {
         },
     },
     computed: {
+        refocusWatcher(){
+            if (!this.showCreate){
+                this.$store.commit('toggleCreate')
+            }
+            this.refocus()
+            return this.$store.state.upgrades.refocus
+        },
         showCreate(){
             return this.$store.state.upgrades.create
         },
@@ -721,5 +681,7 @@ textarea.inactive
     img
         height: 1.77em
 
+.hidden
+    opacity: 0
 
 </style>

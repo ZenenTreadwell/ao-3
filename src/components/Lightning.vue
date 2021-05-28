@@ -68,8 +68,8 @@
                 div(@click='checkTxid(selectedChannel.funding_txid)') txid: {{ selectedChannel.funding_txid }}
                 div(v-if='selectedChannel.state !== "CHANNELD_NORMAL"') state: {{ selectedChannel.state }}
                 div
-                    div in activity:  {{ fetchedPeer.in_payments_offered }} / {{ fetchedPeer.in_payments_fulfilled }}
-                    div out activity: {{ fetchedPeer.out_payments_offered }} / {{ fetchedPeer.out_payments_fulfilled }}
+                    div in activity: {{ fetchedPeer.in_payments_fulfilled }} / {{ fetchedPeer.in_payments_offered }}
+                    div out activity: {{ fetchedPeer.out_payments_fulfilled }} / {{ fetchedPeer.out_payments_offered }}
             .row.channellimiter
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id')

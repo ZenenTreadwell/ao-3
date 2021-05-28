@@ -2,6 +2,8 @@ const modes = ["doge", "boat", "timecube", "chest", "badge"]
 const paymodes = ["mempool", "bitcoin", "lightning", "channels"]
 
 const state = {
+    refocus: 0,
+    keypressed: '',
     color: 'red',
     create: false,
     search: '',
@@ -19,6 +21,11 @@ const state = {
 }
 
 const mutations = {
+    focus(state, keypressed){
+        console.log('fucus updated, ', keypressed)
+        state.keypressed = keypressed
+        state.refocus ++
+    },
     closeAll(state){
         state.showAccounts = false;
         state.showNodeInfo = false;
