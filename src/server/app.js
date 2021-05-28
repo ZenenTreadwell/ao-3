@@ -64,7 +64,12 @@ function startDctrlAo(){
                     switch (ev.type) {
                         case 'get-node-info':
                             let channelReducer = (accumulator,current) => accumulator + current.channel_sat
-                            let outputReducer = (accumulator,current) => accumulator + current.value
+                            let outputReducer = (accumulator,current) => {
+                                if (current.status !== "confirmed"){
+                                    return accumulator
+                                }
+                                return accumulator + current.value
+                            }
                             let totalInChannels = ev.info.channels.reduce(channelReducer, 0)
                             let totalInOutputs = ev.info.outputs.reduce(outputReducer, 0)
                             if (channelSatTotalTracker < totalInChannels){

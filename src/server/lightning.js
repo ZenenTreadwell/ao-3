@@ -80,6 +80,16 @@ function getMempool(){
         })
 }
 
+lightningRouter.post('/lightning/peer', (req,res) => {
+    client.listpeers(req.body.pubkey).then(x => {
+        res.send(x.peers[0].channels[0])
+    })
+    .catch(err => {
+        res.status(400).end()
+    })
+})
+
+
 lightningRouter.post('/bitcoin/transaction',(req, res) => {
       bitClient.getMempoolEntry(req.body.txid)
           .then(memPool => {

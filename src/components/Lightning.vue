@@ -6,7 +6,7 @@
         .four.grid(v-if='$store.state.cash.info.mempool')
             .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
             .section block {{ $store.state.cash.info.blockheight.toLocaleString()}}, {{ ((Date.now() - ($store.state.cash.info.blockfo.time * 1000)) / 60 / 1000).toFixed(1) }}min old
-            .section percentile sat/byte
+            .section fees (sat/byte)
             .section
                 .grid
                     .three.grid
@@ -40,10 +40,22 @@
             .section
                 .grid
                     .three.grid
-                        p smartfee
+                        p smart
                     .nine.grid
                         .chain(:class='getFeeColor($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000)')  {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }}
-            .section.sampler(@click='sampler') {{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed(1) }} MB pending
+            .section.sampler(@click='sampler') {{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed(1) }} MB unconfirmed
+            .section check transaction id:
+            input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
+            button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
+            .chanfo(v-if='fetchedTxn.txid')
+                div txid: {{ fetchedTxn.txid }}
+                div status: {{ fetchedTxnStatus }}
+                div(v-if='fetchedTxn.memPool')
+                    .chain(:class='getFeeColor(fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize)') fee: {{ (fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize).toFixed() }}
+                template(v-if='fetchedTxn.utxo && fetchedTxn.utxo.length > 0'  v-for='u in fetchedTxn.utxo')
+                    div(v-if='u && u.value > 0 && u.scriptPubKey.addresses') {{ u.value }} : {{u.scriptPubKey.addresses}} - unspent
+                div(v-for='outp in filteredOut') {{ outp.value }} : {{outp.scriptPubKey.addresses}}
+                .chanfo(v-if='showOutputs'  v-for='n in $store.state.cash.info.outputs'  @click='checkTxid(n.txid)') txid: {{n.txid}} : {{n.output}}
         .eight.grid(v-if='$store.state.cash.info.channels')
             .section {{ $store.getters.confirmedBalance.toLocaleString() }} chain
             .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') {{ parseFloat( nn.channel_sat ).toLocaleString() }} local
@@ -55,30 +67,20 @@
                 div pubkey: {{ selectedChannel.peer_id }}
                 div(@click='checkTxid(selectedChannel.funding_txid)') txid: {{ selectedChannel.funding_txid }}
                 div(v-if='selectedChannel.state !== "CHANNELD_NORMAL"') state: {{ selectedChannel.state }}
-            .row
+                div
+                    div in activity:  {{ fetchedPeer.in_payments_offered }} / {{ fetchedPeer.in_payments_fulfilled }}
+                    div out activity: {{ fetchedPeer.out_payments_offered }} / {{ fetchedPeer.out_payments_fulfilled }}
+            .row.channellimiter
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id')
                     .localremote(v-show='selectedPeer === i'   @click='selectedPeer = false')
                         .localbar.tall(:style='l(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseInt( n.channel_sat ).toLocaleString() }}
                         .remotebar.tall(:style='r(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseInt( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
-                    .localremote(v-show='selectedPeer !== i'   @click='selectedPeer = i')
+                    .localremote(v-show='selectedPeer !== i'   @click='selectPeer(i)')
                         .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
                         .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
     .row
-        .chanfo(v-if='showOutputs'  v-for='n in $store.state.cash.info.outputs'  @click='checkTxid(n.txid)') txid: {{n.txid}} : {{n.output}}
-        .breathing1
-        //- input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
-        //- button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
-        .chanfo(v-if='fetchedTxn.txid')
-            div txid: {{ fetchedTxn.txid }}
-            div status: {{ fetchedTxnStatus }}
-            div(v-if='fetchedTxn.memPool')
-                .chain(:class='getFeeColor(fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize)') fee: {{ (fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize).toFixed() }}
-            template(v-if='fetchedTxn.utxo && fetchedTxn.utxo.length > 0'  v-for='u in fetchedTxn.utxo')
-                div(v-if='u && u.value > 0 && u.scriptPubKey.addresses') {{ u.value }} : {{u.scriptPubKey.addresses}} - unspent
-            div(v-for='outp in filteredOut') {{ outp.value }} : {{outp.scriptPubKey.addresses}}
-        .breathing
-        .chanfo(v-if='$store.state.cash.info.address') {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
+        .chanfo(v-if='$store.state.cash.info.address') lightning : {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
 </template>
 
 <script>
@@ -94,6 +96,7 @@ export default {
         return {
             showOutputs: false,
             fetchedTxn: {},
+            fetchedPeer: {},
             txnCheck: '',
             selectedPeer: false,
             open: false,
@@ -162,6 +165,19 @@ export default {
             this.checkTxid(checkId)
             this.sampleIndex ++
         },
+        checkPeer(x){
+            console.log('checking ' , x)
+            request
+                .post('/lightning/peer')
+                .send({pubkey: x})
+                .set("Authorization", this.$store.state.loader.token)
+                .end( (err, res) => {
+                    console.log({err,res})
+                    if (!err) {
+                        this.fetchedPeer = res.body
+                    }
+                })
+        },
         checkTxid(x){
             request
                 .post('/bitcoin/transaction')
@@ -185,6 +201,7 @@ export default {
                 return this.selectedPeer = false
             }
             this.selectedPeer = pId
+            this.checkPeer(this.selectedChannel.peer_id)
         },
         r(n, nolimits){
             let local = parseFloat( n.channel_sat )
@@ -399,4 +416,7 @@ h5
     margin-bottom: .7654321em
 .sampler
     cursor: pointer
+.channellimiter
+    max-height: 13em
+    overflow-y: scroll;
 </style>
