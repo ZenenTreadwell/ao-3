@@ -1,9 +1,3 @@
-if  test -f ../configuration.js; then
-    echo 'configuration.js exists'
-else
-    chmod +x ./sample_configuration.sh
-    ./sample_configuration.sh >  ../configuration.js
-fi
 
 if  test -f $HOME/.bitcoin/bitcoin.conf; then
     echo 'bitcoin.conf exists'

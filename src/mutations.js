@@ -318,6 +318,13 @@ function hashMapMuts(hashMap, ev){
 let explodingTask, absorbingTask, claimed, pirate, task, isExist, isExisting
 function tasksMuts(tasks, ev) {
   switch (ev.type) {
+    case "task-colored":
+        tasks.forEach(task => {
+            if (task.taskId === ev.taskId) {
+                task.color = ev.color
+            }
+        })
+        break
     case "ao-outbound-connected":
         isExist = tasks.some(x => {
             if (x.taskId === ev.address){

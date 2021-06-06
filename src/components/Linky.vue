@@ -33,7 +33,7 @@ img
     height: 1.19em
 
 .linky
-    word-wrap: break-word;
+    word-wrap: anywhere;
     display: inline-block;
 
 .centered

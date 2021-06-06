@@ -13,13 +13,19 @@ npm run checkconfig
 npm run build
 npm start
 
-## manage ao
+## manage ao accounts
 npm run remove <name>
 npm run activate <name>
 npm run deactivate <name>
+
+## manage links other aos
 npm run createAccessKey
-npm run link <onion> <access-key>
-npm run unlink <onion>
+npm run connect <onion> <access-key>
+npm run disconnect <onion>
+npm run link <task-id>
+
+## manual decryption
+npm run decrypt <lock>
 ```
 
 ### ao

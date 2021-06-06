@@ -2,7 +2,7 @@
 
 #tasks
     .fixedstatus(v-if='c.length > 1  && sanePosition !== -1'  ) {{ sanePosition + 1 }} of {{ c.length }}
-    .ptr(ref='swipebar')
+    .ptr(ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop")
         span.third(:class='{hidden:open}'  ref='previous')
             .donut.hidden
         span.third(ref='mandelorb')
@@ -79,8 +79,7 @@ export default {
         let orbPress = new Hammer.Press({ time: 400 })
         orbmc.add(orbPress)
         orbmc.on('press', (e) => {
-
-            this.toggleStacks()
+            this.toggleOpen()
             e.stopPropagation()
         })
 
@@ -129,6 +128,18 @@ export default {
       }
   },
   methods:{
+    allowDrop(ev){
+        ev.preventDefault()
+    },
+    drop(ev){
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("taskId")
+        this.$store.dispatch("makeEvent", {
+            type: 'task-colored',
+            taskId: data,
+            color: this.stack
+        })
+    },
     toggleOpen(){
         if (this.position !== -1){
             let touchyOpen = {

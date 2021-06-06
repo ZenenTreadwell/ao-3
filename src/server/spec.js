@@ -27,6 +27,20 @@ const priv = fs.readFileSync(con.privateKey)
 router.post('/events', (req, res, next)=>{
   let errRes = []
   switch (req.body.type){
+      case "task-colored":
+          if (
+            validators.isTaskId(req.body.taskId, errRes) &&
+            validators.isNotes(req.body.color, errRes)
+          ) {
+            events.taskColored(
+              req.body.taskId,
+              req.body.color,
+              utils.buildResCallback(res)
+            )
+          } else {
+            res.status(400).send(errRes);
+          }
+          break
       case "task-locked":
           state.serverState.members.some( m => {
               if (m.memberId === req.body.blame){
