@@ -17,15 +17,16 @@ export default {
             this.$store.commit('setAuth', {token, session})
             this.$store.dispatch('loadCurrent')
         }
-        window.addEventListener('keypress', this.alwaysFocus);
+        window.addEventListener('keypress', this.alwaysFocus)
     },
     components: {
         Auth
     },
     methods: {
         alwaysFocus(anypass){
+            console.log({anypass})
             if (anypass.target.id === "card"){
-                return console.log('already focused')
+                return // already focused
             }
             this.$store.commit('focus', anypass.key)
         }

@@ -442,9 +442,10 @@ img
     height: 0
     position: relative;
     color: lightGrey
-    top: 1em
-    left: 2.222em
-    pointer-events: none;s
+    left: 0
+    top: 2em;
+    pointer-events: none;
+    opacity: 0.5;
 
 .donut.pileselected
     border-color: lightGrey

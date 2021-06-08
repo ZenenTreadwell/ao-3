@@ -1,11 +1,13 @@
 <template lang='pug'>
 
 .upgrades(v-if='!$store.getters.contextMember')
-    span -
-    span(v-for='n in $store.getters.contextRelevantMembers'   :key='n')
-        current(:memberId='n')
+    img.doge(src='../assets/images/doge.svg')
+    span(v-for='n in $store.getters.contextRelevantMembers'   :key='n'  @click='toggleHighlight(n)'  @click.ctrl='toggleHighlight(n, true)')
+        span(:class='{highlight: isHighlighted(n), lowdark: isLowdarked(n) }') &nbsp; {{ getName(n) }} &nbsp;
     span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop') *leave*
     span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click='grab') *join*
+    .spacer
+    current-checks
     //- span(v-if='$store.getters.isLoggedIn  && $store.getters.member.memberId !== $store.getters.contextCard.taskId')
     //-     div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
     //-         button remove
@@ -22,13 +24,39 @@ import MemberRow from './MemberRow'
 import GuildCreate from './GuildCreate'
 import Accounts from './Accounts'
 import Connect from './Connect'
-import Current from './Current'
 
 export default {
     components:{
-        CurrentChecks, MemberRow, GuildCreate, Accounts, Connect, Current
+        CurrentChecks, MemberRow, GuildCreate, Accounts, Connect
     },
     methods: {
+        getName(x){
+            let name
+            this.$store.state.members.forEach(m => {
+                if (m.memberId === x){
+                    name = m.name
+                }
+            })
+            return name
+        },
+        toggleHighlight(x, invert = false) {
+            this.$store.dispatch("makeEvent", {
+                type: 'highlighted',
+                taskId: this.$store.getters.contextCard.taskId,
+                memberId:x,
+                valence: !invert
+            })
+        },
+        isHighlighted(x) {
+            return this.$store.getters.contextCard.highlights.some(h => {
+                return (h.valence && h.memberId === x)
+            })
+        },
+        isLowdarked(x) {
+            return this.$store.getters.contextCard.highlights.some(h => {
+                return (!h.valence && h.memberId === x)
+            })
+        },
         grab(){
             this.$store.dispatch("makeEvent", {
                 type: 'task-grabbed',
@@ -81,6 +109,13 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 
+.spacer
+    height: 0.5em
+
+.doge
+    height: 1.789em
+    display: inline-block
+
 .ptr
     cursor: pointer;
 
@@ -89,14 +124,16 @@ h5
     color: lightGrey
     opacity: 0.77
 
-.bdoge
-    width: 100%
-    opacity: 0.77
-    height: 5em
-    margin-top: 1em
-
 button
     width: 100%
     padding: 0.33em
     margin-top: 0.33em
+
+.highlight
+    text-shadow: 0 0 20px yellow, 0 0 20px yellow, 0 0 20px yellow
+
+.lowdark
+    text-shadow: 0 0 20px red, 0 0 20px red, 0 0 20px red
+
+
 </style>

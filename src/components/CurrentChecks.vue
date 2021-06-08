@@ -1,24 +1,20 @@
 <template lang='pug'>
 
-.current(v-if='memberId')
-    .row
-        .two.grid
-            span.name(@dblclick='goIn(memberId)'   @click.exact.stop='toggleHighlight()'  @click.ctrl.exact.stop='toggleHighlight(true)'  :class='{ highlight : isHighlighted, lowdark : isLowdarked }') {{ member.name }}
-        .seven.grid
-            coin(v-if='memberId === $store.getters.member.memberId'  :b='$store.getters.contextCard')
-            img.upboat(v-else  src='../assets/images/thumbsup.svg')
-            span(v-for='c in checkmarks'  :key='c.taskId')
-                span.plain.completedcheckmark(@click='goIn(c.taskId)'  )
-                    img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color)')
-        .three.grid(@click='toggleActive')
-            .workblue
-                img(v-if='member.action === $store.getters.contextCard.taskId'  src='../assets/images/timecube.svg')
-                span(v-else) -
-                div(:key='updatePlz')
-                    span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }} days,
-                    span(v-if='clockworkblue.hours > 0') {{ clockworkblue.hours }} hours,
-                    span(v-if='clockworkblue.minutes > 0') {{ Number(clockworkblue.minutes) }} minutes,
-                    span(v-if='clockworkblue.seconds > 0 && clockworkblue.days < 1') {{ Number(clockworkblue.seconds)}} seconds
+.current
+    span(v-for='c in checkmarks'  :key='c.taskId')
+        span.plain.completedcheckmark(@click='goIn(c.taskId)'  )
+            img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color)')
+    div(v-if='$store.getters.contextCard.highlights.length > 0 ')
+        ul
+            li(v-for='c in checkmarks') {{ c.name }}
+    //- .workblue
+    //-     img(v-if='member.action === $store.getters.contextCard.taskId'  src='../assets/images/timecube.svg')
+    //-     span(v-else) -
+    //-     div(:key='updatePlz')
+    //-         span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }} days,
+    //-         span(v-if='clockworkblue.hours > 0') {{ clockworkblue.hours }} hours,
+    //-         span(v-if='clockworkblue.minutes > 0') {{ Number(clockworkblue.minutes) }} minutes,
+    //-         span(v-if='clockworkblue.seconds > 0 && clockworkblue.days < 1') {{ Number(clockworkblue.seconds)}} seconds
 </template>
 
 <script>
@@ -27,15 +23,14 @@ import Linky from './Linky'
 import Coin from './Coin'
 
 export default {
-  data(){
-      return {
-          updatePlz: 1
-      }
-  },
-  mounted(){
-      setInterval(() => this.updatePlz += 3, 3001)
-  },
-  props: ['memberId'],
+  // data(){
+  //     return {
+  //         updatePlz: 1
+  //     }
+  // },
+  // mounted(){
+  //     // setInterval(() => this.updatePlz += 3, 3001)
+  // },
   components: { Linky, Coin },
   methods: {
     toggleActive(){
@@ -156,7 +151,7 @@ export default {
         })
     },
     checkmarks() {
-        return this.$store.getters.contextCompleted.filter(t => t.claimed.indexOf(this.memberId) > -1)
+        return this.$store.getters.contextCompleted
     },
   }
 }

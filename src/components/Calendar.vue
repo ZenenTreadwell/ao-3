@@ -19,11 +19,9 @@
           .datenumber  {{ $store.state.upgrades.chosenDay }}
           .soft(v-for='n in selectedDaysEvs')
               span(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
-                  img.completedcheckmark(src='../assets/images/completed.svg')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }}
-                  current(:memberId='n.memberId')
                   span(v-if='checkIsMember(n.taskId)  || n.taskId === $store.getters.contextCard.taskId')
-                  span(v-else) -
+                  span(v-else)
                       linky(:x='getFromMap(n.taskId).name')
               span(v-else-if='n.type === "resource-used"'  @click='goIn(n.resourceId)')
                   current(:memberId='n.memberId')
@@ -36,7 +34,6 @@
                   img.completedcheckmark(src='../assets/images/uncompleted.svg')
                   span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{n.name}}
           div(v-if='new Date().getDate() === $store.state.upgrades.chosenDay')
-              //- checkbox(:b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
               priorities
               checkmarks
   .buffer
@@ -305,6 +302,7 @@ h5
 
 .soft
     cursor: pointer
+    margin-bottom: -1.5em
 
 #calendar
     color: main
@@ -397,14 +395,10 @@ tr, td
     float: right
 
 .datenumber
-    text-align:right
-    margin-top: 0
+    float: right
     font-weight: bolder
     font-size: 1.3em
     z-index: 5
-    width: 100%
-    text-align: right
-
 
 .dot
     font-size: 1.9em

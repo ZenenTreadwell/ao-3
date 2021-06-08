@@ -11,14 +11,13 @@
 
 <script>
 import cryptoUtils from '../crypto'
-import Current from './Current'
 import MemberRow from './MemberRow'
 import Connect from './Connect'
 import ResourceRow from './ResourceRow'
 import Projects from './Projects'
 
 export default {
-    components: {Current, MemberRow, ResourceRow, Connect, Projects},
+    components: {MemberRow, ResourceRow, Connect, Projects},
     data() {
       return {
         change: {

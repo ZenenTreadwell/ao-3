@@ -28,7 +28,7 @@ export default {
 
 
 <style lang='stylus'  scoped>
-// adding scoped causes ui bugs in context rows I do not understand how (ghosts)
+
 img
     height: 1.19em
 
@@ -41,9 +41,7 @@ img
     width: 100%
 
 .noheight p
-    margin-top: 0
-    margin-bottom: 1em
-    display: inline-block;
+    margin: 0
 
 .linky .noheight img
     max-width: 100%
