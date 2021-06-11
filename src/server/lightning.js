@@ -16,10 +16,9 @@ const crypto = require('../crypto')
 
 bitClient.getBlockchainInfo().then(x => {
     if (x.initialblockdownload){
-        console.log(chalk.yellow('initial block sync detected, ') ,  (100 * x.verificationprogress).toFixed(2), '% complete')
-
+        console.log('Initial bitcoin sync detected', chalk.red((100 * x.verificationprogress).toFixed(2)), '% complete')
     } else {
-        console.log(chalk.yellow(x.blocks.toLocaleString(), 'blocks synced'))
+        console.log(chalk.yellow(x.blocks.toLocaleString()), 'bitcoin blocks')
     }
 }).catch( err => {
     console.log(chalk.red('cannot connect to bitcoind'))

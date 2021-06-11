@@ -284,7 +284,7 @@ img
     z-index: 105
 
 img.checkmark
-    height: 2.2em
+    height: 1.5em
     margin-top: -.15em
     margin-bottom: -0.25em
     margin-left: 0.25em

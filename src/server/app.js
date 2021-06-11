@@ -21,6 +21,9 @@ const app = express()
 applyRouter(app)
 startDctrlAo()
 
+let mostRecentAccount = null
+
+
 function startDctrlAo(){
     dctrlDb.startDb( (err, conn) => {
         if (err) return console.log(chalk.bold.red('db initialize failed:', err))
@@ -40,11 +43,11 @@ function startDctrlAo(){
               .onValue(reactions)
 
           const server = app.listen(PORT, err => {
-              console.log(chalk.blue.bold("ao available at http://localhost:" + PORT))
+              console.log("ao available at", chalk.blue.bold("http://localhost:" + PORT))
 
               connector.checkHash(conf.tor.hostname, 'wrong', 'wrroonng', (err, resulthash) => {
                   if (err === 'unauthorized'){
-                      console.log(chalk.blue.bold("ao available at", conf.tor.hostname))
+                      console.log("ao available at", chalk.blue.bold(conf.tor.hostname))
                   }
               })
 
@@ -73,23 +76,23 @@ function startDctrlAo(){
                             let totalInChannels = ev.info.channels.reduce(channelReducer, 0)
                             let totalInOutputs = ev.info.outputs.reduce(outputReducer, 0)
                             if (channelSatTotalTracker < totalInChannels){
-                                console.log(chalk.yellow(totalInChannels.toLocaleString(), "local"), chalk.bold.green('+', totalInChannels - channelSatTotalTracker ))
+                                console.log(chalk.yellow(totalInChannels.toLocaleString()), "local channel balance", chalk.bold.green('+', totalInChannels - channelSatTotalTracker ))
                             } else if (channelSatTotalTracker > totalInChannels){
-                                console.log(chalk.yellow(totalInChannels.toLocaleString(), "local"), chalk.bold.red('-', channelSatTotalTracker - totalInChannels))
+                                console.log(chalk.yellow(totalInChannels.toLocaleString()), "local channel balance", chalk.bold.red('-', channelSatTotalTracker - totalInChannels))
                             }
                             if (outputSatTotalTracker < totalInOutputs){
-                                console.log(chalk.yellow(totalInOutputs.toLocaleString(), "chain"), chalk.bold.green('+',totalInOutputs - outputSatTotalTracker))
+                                console.log(chalk.yellow(totalInOutputs.toLocaleString()), "on chain balance", chalk.bold.green('+',totalInOutputs - outputSatTotalTracker))
                             } else if (outputSatTotalTracker > totalInOutputs){
-                                console.log(chalk.yellow(totalInOutputs.toLocaleString(), "chain"), chalk.bold.red('-',outputSatTotalTracker - totalInOutputs))
+                                console.log(chalk.yellow(totalInOutputs.toLocaleString()), "on chain balance", chalk.bold.red('-',outputSatTotalTracker - totalInOutputs))
                             }
                             outputSatTotalTracker = totalInOutputs
                             channelSatTotalTracker = totalInChannels
                             break
                         case 'spot-updated':
                             if (priceTracker < ev.spot){
-                                console.log(chalk.green(ev.type, ev.spot, "CAD/BTC", chalk.bold.magenta('+', (ev.spot - priceTracker).toFixed(2))))
+                                console.log(ev.spot, "CAD/BTC", chalk.bold.magenta('+', (ev.spot - priceTracker).toFixed(2)))
                             } else if (priceTracker > ev.spot){
-                                console.log(chalk.green(ev.type, ev.spot, "CAD/BTC", chalk.bold.magenta('-', (priceTracker - ev.spot).toFixed(2))))
+                                console.log(ev.spot, "CAD/BTC", chalk.bold.magenta('-', (priceTracker - ev.spot).toFixed(2)))
                             }
                             priceTracker = ev.spot
                             break
@@ -100,7 +103,10 @@ function startDctrlAo(){
                                     name = m.name
                                 }
                             })
-                            console.log(chalk.green(ev.type), chalk.bold.magenta(name))
+                            if (mostRecentAccount !== name){
+                                mostRecentAccount = name
+                                console.log(chalk.bold.magenta(name), 'active')
+                            }
                             break
                     }
               })

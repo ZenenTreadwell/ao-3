@@ -88,8 +88,11 @@ function initialize(callback) {
                   applyEvent(serverState, Object.assign({}, ev) )
                   applyEvent(pubState, removeSensitive( Object.assign({}, ev) ))
               })
-              console.log(chalk.green('state built in ', chalk.blue(Date.now() - start), 'ms'))
-              console.log(chalk.green(serverState.members.length, 'accounts, '), chalk.green(serverState.tasks.length, 'cards, '), chalk.green(serverState.resources.length, 'resources'))
+              console.log('current state built in', Date.now() - start, 'ms with',
+                  chalk.green(serverState.tasks.length), 'cards',
+                  chalk.green(serverState.members.length), 'accounts and',
+                  chalk.green(serverState.resources.length), 'resources'
+              )
               callback(null)
           })
     })

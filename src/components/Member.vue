@@ -4,7 +4,7 @@
     .bottomright()
         div(@click='$store.commit("setMode", 3)'  :class='{here: $store.state.upgrades.mode === "chest"}')
             .stash(v-if='card.boost > 0') {{ card.boost.toLocaleString() }}
-    .row.center.clearboth(@click='$store.commit("setMode", 0)'   :class='{ pullup : $store.state.upgrades.mode !== "doge" && dukkha >= 1 }')
+    .row.center.clearboth(@click='$store.commit("setMode", 0)')
         label
             div(v-if='$store.getters.contextMember')
                 linky(:x='m.name')
@@ -276,6 +276,4 @@ ul.left
 .clearboth
     clear: both
 
-.pullup
-    margin-bottom: -2em
 </style>

@@ -19,7 +19,7 @@
           .datenumber  {{ $store.state.upgrades.chosenDay }}
           .soft(v-for='n in selectedDaysEvs')
               span(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
-                  span {{ new Date(n.timestamp).toString().slice(15,21) }}
+                  span {{ new Date(n.timestamp).toString().slice(15,21) }} &nbsp;
                   span(v-if='checkIsMember(n.taskId)  || n.taskId === $store.getters.contextCard.taskId')
                   span(v-else)
                       linky(:x='getFromMap(n.taskId).name')
@@ -302,7 +302,6 @@ h5
 
 .soft
     cursor: pointer
-    margin-bottom: -1.5em
 
 #calendar
     color: main

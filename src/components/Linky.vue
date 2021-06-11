@@ -16,7 +16,7 @@ export default {
     props: ['x'],
     computed: {
         m(){
-            return md.render(this.x)
+            return md.renderInline(this.x)
         },
         isLock(){
             return this.x.slice(0,7) === '__lock:'

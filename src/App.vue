@@ -24,7 +24,6 @@ export default {
     },
     methods: {
         alwaysFocus(anypass){
-            console.log({anypass})
             if (anypass.target.id === "card"){
                 return // already focused
             }

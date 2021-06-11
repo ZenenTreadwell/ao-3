@@ -169,7 +169,6 @@ export default {
                 console.log("regex in error: ", err)
             }
             this.$store.commit('setSearch', search)
-            console.log('got', guilds.length, doges.length, cards.length, 'match')
             this.matches = { guilds, doges, cards}
         },
         toggleSearch(){

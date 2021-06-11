@@ -22,7 +22,6 @@ const state = {
 
 const mutations = {
     focus(state, keypressed){
-        console.log('fucus updated, ', keypressed)
         state.keypressed = keypressed
         state.refocus ++
     },
@@ -58,7 +57,6 @@ const mutations = {
         state.color = x
     },
     setSearch(state, x){
-        console.log('setsearch called', x)
         state.search = x
     },
     toggleBird(state){

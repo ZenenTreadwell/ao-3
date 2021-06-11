@@ -6,10 +6,10 @@
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer
-              .donut.boatAll.boatL.hidden(@click='refocused(t)')
+              //- .donut.boatAll.boatL.hidden(@click='refocused(t)')
               hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId'  :c='priorities')
               div(v-if='i > 0')
-                  .donut.boatAll.boatR.faded.hidden(@click='prioritized(t)')
+                  //- .donut.boatAll.boatR.faded.hidden(@click='prioritized(t)')
               div(v-else-if='hasCompleted(t)')
                   img.boatAll.boatR.faded(src='../assets/images/completed.svg'  @click='completed(t)')
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
