@@ -35,6 +35,7 @@ router.post('/events', (req, res, next)=>{
             events.taskColored(
               req.body.taskId,
               req.body.color,
+              req.body.blame,
               utils.buildResCallback(res)
             )
           } else {
@@ -174,7 +175,7 @@ router.post('/events', (req, res, next)=>{
             validators.isTaskId(req.body.inId, errRes) &&
             req.body.tasks.every(tId => validators.isTaskId(tId, errRes))
         ) {
-            events.pilePrioritized(req.body.inId, req.body.tasks, utils.buildResCallback(res));
+            events.pilePrioritized(req.body.inId, req.body.tasks, req.body.blame, utils.buildResCallback(res));
         } else {
             res.status(400).send(errRes);
         }

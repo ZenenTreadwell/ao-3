@@ -430,8 +430,9 @@ function tasksMuts(tasks, ev) {
       tasks.forEach(task => {
         if (task.taskId === ev.inId) {
           ev.tasks.forEach(tId => {
-              task.subTasks.push(tId)
               task.priorities = _.filter(task.priorities, d => d === tId)
+              task.subTasks = _.filter(task.subTasks, d => d === tId)
+              task.subTasks.push(tId)
           })
           task.subTasks = _.uniq(task.subTasks)
         }

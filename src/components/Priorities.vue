@@ -6,18 +6,16 @@
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer
-              //- .donut.boatAll.boatL.hidden(@click='refocused(t)')
-              hyperpriority.closedcard.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId'  :c='priorities')
-              div(v-if='i > 0')
-                  //- .donut.boatAll.boatR.faded.hidden(@click='prioritized(t)')
-              div(v-else-if='hasCompleted(t)')
-                  img.boatAll.boatR.faded(src='../assets/images/completed.svg'  @click='completed(t)')
+              .dot(@click='refocused(t)')
+              hyperpriority.fw(:taskId='t'  :inId='$store.getters.contextCard.taskId'  :c='priorities')
+              .dot(v-if='!hasCompleted(t)'  @click='prioritized(t)')
+              .dot(v-else  @click='completed(t)')
       .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
           .clearboth.opensubcard
-              hyperpriority.closedcard(:taskId='st'  :inId="t"  :c='getSubPriorities(t)')
+              hyperpriority(:taskId='st'  :inId="t"  :c='getSubPriorities(t)')
           .row.subsubpriority(v-for='(st2, k) of getSubPriorities(st)'  :key='st2')
               .clearboth.opensubcard
-                  hyperpriority.closedcard(:taskId='st2'  :inId="st"  :inInId='t'  :c='getSubPriorities(st)')
+                  hyperpriority(:taskId='st2'  :inId="st"  :inInId='t'  :c='getSubPriorities(st)')
 </template>
 
 <script>
@@ -118,6 +116,17 @@ export default {
 @import '../styles/skeleton'
 @import '../styles/button'
 @import '../styles/donut'
+
+
+.dot
+    font-size: 1.9em
+    color: lightGrey
+    // min-width: 1.3em
+    min-height: 1.3em
+    cursor: pointer
+
+.dot:before
+    content: "\2022";
 
 .center
     text-align: center
@@ -221,9 +230,9 @@ img
     width: 100%
     position: relative
 
-  .subpriority
-    margin-left: calc(3.3724em * 2)
-    width: calc(100% - (3.3724em* 2))
+.subpriority
+    margin-left: 3.3724em
+    width: calc(100% - 3.3724em)
 
 .subsubpriority
     margin-left: 3.3724em

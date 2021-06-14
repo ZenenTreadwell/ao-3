@@ -5,11 +5,12 @@ const crypto = require('crypto')
 const { serverState } = require('./state')
 const dctrlDb = require('./dctrlDb')
 
-function taskColored(taskId, color, callback){
+function taskColored(taskId, color, blame, callback){
     let newEvent = {
         type: "task-colored",
         taskId,
         color,
+        blame,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
@@ -53,11 +54,12 @@ function taskCompleted(taskId, inId, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function pilePrioritized(inId, tasks, callback) {
+function pilePrioritized(inId, tasks, blame, callback) {
   let newEvent = {
     type: "pile-prioritized",
     inId,
     tasks,
+    blame,
   };
   dctrlDb.insertEvent(newEvent, callback);
 }
