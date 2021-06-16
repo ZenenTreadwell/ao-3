@@ -527,11 +527,11 @@ router.post('/events', (req, res, next)=>{
       case 'task-de-sub-tasked':
           if (
             validators.isTaskId(req.body.taskId, errRes) &&
-            validators.isTaskId(req.body.subTask, errRes)
+            validators.isTaskId(req.body.inId, errRes)
           ){
             events.taskDeSubTasked(
               req.body.taskId,
-              req.body.subTask,
+              req.body.inId,
               req.body.blame,
               utils.buildResCallback(res)
             )

@@ -712,8 +712,8 @@ function tasksMuts(tasks, ev) {
     case "task-de-sub-tasked":
       tasks.forEach(task => {
         if (task.taskId === ev.inId) {
-            task.priorities = _.filter(task.priorities, tId => tId !== ev.subTask)
-            task.subTasks = _.filter(task.subTasks, tId => tId !== ev.subTask)
+            task.priorities = _.filter(task.priorities, tId => tId !== ev.taskId)
+            task.subTasks = _.filter(task.subTasks, tId => tId !== ev.taskId)
         }
       })
       break
