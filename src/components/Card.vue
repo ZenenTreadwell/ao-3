@@ -63,8 +63,8 @@ export default {
             })
             this.$store.dispatch("makeEvent", {
                 type: 'task-sub-tasked',
-                taskId: this.b.taskId,
-                subTask: data,
+                inId: this.b.taskId,
+                taskId: data,
             })
         },
         allowDrop(ev){
