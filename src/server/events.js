@@ -54,25 +54,6 @@ function taskCompleted(taskId, inId, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function pilePrioritized(inId, tasks, blame, callback) {
-  let newEvent = {
-    type: "pile-prioritized",
-    inId,
-    tasks,
-    blame,
-  };
-  dctrlDb.insertEvent(newEvent, callback);
-}
-
-function pileRefocused(inId, blame, callback) {
-  let newEvent = {
-    type: "pile-refocused",
-    inId,
-    blame
-  };
-  dctrlDb.insertEvent(newEvent, callback);
-}
-
 function taskValued(taskId, value, blame, callback) {
   let newEvent = {
     type: "task-valued",
@@ -227,14 +208,6 @@ function memberFieldUpdated(memberId, field, newfield, callback){
   dctrlDb.insertEvent(newEvent, callback)
 }
 
-function dogeBarked(memberId, callback) {
-    let newEvent ={
-        type: "doge-barked",
-        memberId,
-    }
-    dctrlDb.insertEvent(newEvent, callback)
-}
-
 function resourceCreated(resourceId, name, charged, secret, trackStock, callback) {
     let newEvent = {
         type: "resource-created",
@@ -367,49 +340,31 @@ function taskGuilded(taskId, guild, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function taskGrabbed(taskId, memberId, callback){
-    let newEvent = {
-      type: "task-grabbed",
-      taskId,
-      memberId,
-    }
-    dctrlDb.insertEvent(newEvent, callback)
-}
-
-function pileGrabbed(taskId, memberId, callback){
-    let newEvent = {
-      type: "pile-grabbed",
-      taskId,
-      memberId,
-    }
-    dctrlDb.insertEvent(newEvent, callback)
-}
-
-function pileDropped(taskId, memberId, callback){
-    let newEvent = {
-      type: "pile-dropped",
-      taskId,
-      memberId,
-    }
-    dctrlDb.insertEvent(newEvent, callback)
-}
-
-function taskSubTasked(taskId, subTask, memberId, callback){
+function taskSubTasked(taskId, inId, memberId, callback){
     let newEvent = {
       type: "task-sub-tasked",
       taskId,
-      subTask,
+      inId,
       memberId,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function taskDeSubTasked(taskId, subTask, memberId, callback){
+function taskDeSubTasked(taskId, inId, memberId, callback){
     let newEvent = {
       type: "task-de-sub-tasked",
       taskId,
-      subTask,
+      inId,
       memberId,
+    }
+    dctrlDb.insertEvent(newEvent, callback)
+}
+
+function pileSubTasked(inId, tasks, callback){
+    let newEvent = {
+      type: "pile-sub-tasked",
+      inId,
+      tasks,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
@@ -433,6 +388,15 @@ function taskPrioritized(taskId, inId, memberId, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
+function pilePrioritized(inId, tasks, blame, callback) {
+  let newEvent = {
+    type: "pile-prioritized",
+    inId,
+    tasks,
+    blame,
+  };
+  dctrlDb.insertEvent(newEvent, callback);
+}
 
 function taskPopped(taskId, inId, callback){
     let newEvent = {
@@ -443,15 +407,13 @@ function taskPopped(taskId, inId, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-
-function taskRefocused(taskId, inId, blame, callback) {
-  let newEvent = {
-    type: "task-refocused",
-    taskId,
-    inId,
-    blame,
-  }
-  dctrlDb.insertEvent(newEvent, callback)
+function taskGrabbed(taskId, memberId, callback){
+    let newEvent = {
+      type: "task-grabbed",
+      taskId,
+      memberId,
+    }
+    dctrlDb.insertEvent(newEvent, callback)
 }
 
 function taskDropped(taskId, memberId, callback){
@@ -583,7 +545,6 @@ module.exports = {
     memberPurged,
     memberActivated,
     memberFieldUpdated,
-    dogeBarked,
     resourceCreated,
     resourceUsed,
     resourceStocked,
@@ -596,12 +557,9 @@ module.exports = {
     taskBoosted,
     taskClaimed,
     taskUnclaimed,
-    taskRefocused,
     taskRemoved,
     taskSwapped,
     taskGrabbed,
-    pileGrabbed,
-    pileDropped,
     taskPrioritized,
     taskPopped,
     taskDropped,
@@ -614,7 +572,7 @@ module.exports = {
     taskBoostedLightning,
     tasksReceived,
     pilePrioritized,
-    pileRefocused,
+    pileSubTasked,
     pileDeSubTasked,
     taskValued,
     taskCompleted,

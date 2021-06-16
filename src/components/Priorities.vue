@@ -58,11 +58,11 @@ export default {
           return card.priorities.slice().reverse()
       }
     },
-    refocused(taskId){
+    refocused(tId){
       this.$store.dispatch("makeEvent", {
-        type: 'task-refocused',
+        type: 'task-sub-tasked',
         inId: this.$store.getters.contextCard.taskId,
-        taskId,
+        taskId: tId,
       })
     },
     prioritized(taskId){

@@ -159,37 +159,36 @@ router.post('/events', (req, res, next)=>{
             res.status(400).send(errRes);
           }
           break
-      case "pile-refocused":
-        if (validators.isTaskId(req.body.inId, errRes)) {
-          events.pileRefocused(
-            req.body.inId,
-            req.body.blame,
-            utils.buildResCallback(res)
-          );
-        } else {
-          res.status(400).send(errRes);
-        }
-        break;
       case "pile-prioritized":
-        if (
-            validators.isTaskId(req.body.inId, errRes) &&
-            req.body.tasks.every(tId => validators.isTaskId(tId, errRes))
-        ) {
-            events.pilePrioritized(req.body.inId, req.body.tasks, req.body.blame, utils.buildResCallback(res));
-        } else {
-            res.status(400).send(errRes);
-        }
-        break
+          if (
+              validators.isTaskId(req.body.inId, errRes) &&
+              req.body.tasks.every(tId => validators.isTaskId(tId, errRes))
+          ) {
+              events.pilePrioritized(req.body.inId, req.body.tasks, req.body.blame, utils.buildResCallback(res));
+          } else {
+              res.status(400).send(errRes);
+          }
+          break
+      case "pile-sub-tasked":
+          if (
+              validators.isTaskId(req.body.inId, errRes) &&
+              req.body.tasks.every(tId => validators.isTaskId(tId, errRes))
+          ) {
+              events.pileSubTasked(req.body.inId, req.body.tasks, utils.buildResCallback(res));
+          } else {
+              res.status(400).send(errRes);
+          }
+          break
       case "pile-de-sub-tasked":
-        if (
-            validators.isTaskId(req.body.inId, errRes) &&
-            req.body.tasks.every(tId => validators.isTaskId(tId, errRes))
-        ) {
-            events.pileDeSubTasked(req.body.inId, req.body.tasks, utils.buildResCallback(res));
-        } else {
-            res.status(400).send(errRes);
-        }
-        break
+          if (
+              validators.isTaskId(req.body.inId, errRes) &&
+              req.body.tasks.every(tId => validators.isTaskId(tId, errRes))
+          ) {
+              events.pileDeSubTasked(req.body.inId, req.body.tasks, utils.buildResCallback(res));
+          } else {
+              res.status(400).send(errRes);
+          }
+          break
       case 'ao-linked':
           if (
               validators.isAddress(req.body.address, errRes) &&
@@ -374,71 +373,6 @@ router.post('/events', (req, res, next)=>{
               res.status(400).send(errRes)
           }
           break
-      case 'doge-barked':
-          if (
-            validators.isMemberId(req.body.memberId, errRes)
-          ){
-            events.dogeBarked(
-              req.body.memberId,
-              utils.buildResCallback(res)
-            )
-          } else {
-            res.status(400).send(errRes)
-          }
-          break
-      case 'doge-migrated':
-          let tasks = []
-          let memberCard
-          let taskIds = []
-          state.serverState.tasks.forEach(t => {
-              if(t.taskId === req.body.memberId) {
-                  memberCard = t
-              }
-              if(t.deck.indexOf(req.body.memberId) >= 0) {
-                  taskIds.push(t.taskId)
-                  taskIds = [...taskIds, ...t.subTasks, ...t.priorities, ...t.completed]
-              }
-          })
-
-          let name = "migrated doge"
-          let memberObject = state.serverState.members.some(m => {
-              if(m.memberId === req.body.memberId) {
-                  let name = m.name
-              }
-          })
-          let envelope = calculations.blankCard(uuidV1(), name, 'blue', Date.now())
-          envelope.name = memberCard.name
-          envelope.subTasks = [...new Set(taskIds)]
-          envelope.passed = [[req.body.address, req.body.toMemberId]]
-
-          tasks = state.serverState.tasks.filter(t => taskIds.indexOf(t.taskId) >= 0)
-          tasks.push(envelope)
-
-          let serverAddress
-          let serverSecret
-          state.serverState.ao.forEach(a => {
-              if (a.address === req.body.address) {
-                  serverAddress = a.address
-                  serverSecret = a.secret
-                }
-          })
-          console.log("tasks to be sent: ", tasks.length)
-          let next100 = tasks.splice(0, 50)
-          let delay = 0
-          while(next100.length > 0) {
-              let newEvent = {
-                  type: 'tasks-received',
-                  tasks: next100,
-              }
-              setTimeout(() => {
-                  connector.postEvent(serverAddress, serverSecret, newEvent, (connectorRes) => {
-                      console.log('migrate connection response', {connectorRes})
-                  })
-              }, delay)
-              next100 = tasks.splice(0, 50)
-              delay += 500
-          }
-          break
       case 'resource-created':
           console.log('trying',req.body.resourceId,req.body.name,req.body.charged,req.body.secret,req.body.trackStock)
           if (
@@ -576,11 +510,11 @@ router.post('/events', (req, res, next)=>{
       case 'task-sub-tasked':
           if (
             validators.isTaskId(req.body.taskId, errRes) &&
-            validators.isTaskId(req.body.subTask, errRes)
+            validators.isTaskId(req.body.inId, errRes)
           ){
             events.taskSubTasked(
               req.body.taskId,
-              req.body.subTask,
+              req.body.inId,
               req.body.blame,
               utils.buildResCallback(res)
             )
@@ -629,21 +563,6 @@ router.post('/events', (req, res, next)=>{
               req.body.taskId,
               req.body.blame,
               req.body.inId,
-              utils.buildResCallback(res)
-            )
-          } else {
-              res.status(400).send(errRes)
-          }
-          break
-      case 'task-refocused':
-          if (
-            validators.isTaskId(req.body.inId, errRes) &&
-            validators.isTaskId(req.body.taskId, errRes)
-          ){
-            events.taskRefocused(
-              req.body.taskId,
-              req.body.inId,
-              req.body.blame,
               utils.buildResCallback(res)
             )
           } else {
@@ -708,21 +627,6 @@ router.post('/events', (req, res, next)=>{
             res.status(400).send(errRes)
           }
           break
-      case 'pile-grabbed':
-          if (
-              validators.isTaskId(req.body.taskId, errRes) &&
-              validators.isMemberId(req.body.memberId, errRes) &&
-              req.body.memberId !== req.body.taskId
-          ){
-              events.pileGrabbed(
-                  req.body.taskId,
-                  req.body.blame,
-                  utils.buildResCallback(res)
-              )
-          } else {
-              res.status(400).send(errRes)
-          }
-          break
       case 'task-dropped':
           if (
               validators.isTaskId(req.body.taskId, errRes)
@@ -731,20 +635,6 @@ router.post('/events', (req, res, next)=>{
                   req.body.taskId,
                   req.body.blame,
                   utils.buildResCallback(res)
-              )
-          } else {
-              res.status(400).send(errRes)
-          }
-          break
-      case 'pile-dropped':
-          if (
-              validators.isTaskId(req.body.taskId, errRes) &&
-              validators.isMemberId(req.body.memberId, errRes)
-          ){
-              events.pileDropped(
-                req.body.taskId,
-                req.body.blame,
-                utils.buildResCallback(res)
               )
           } else {
               res.status(400).send(errRes)

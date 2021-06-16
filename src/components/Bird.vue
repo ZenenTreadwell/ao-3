@@ -5,25 +5,8 @@
         img.birdy(v-if='!showSend && !b.guild' src='../assets/images/badge.svg'  :class='{hidden:!$store.getters.member.guides}')
         div.birdy.smallguild(v-else  :class='{ open : showSend }')
     guild-create(v-if='showSend'   :b='b'  :showSendOff='showSendOff')
-        //- div(v-if='showSend')
-        //-     .give
-        //-         select(v-model='toMember')
-        //-             option(v-for='n in $store.getters.recentMembers', :value="n.memberId") {{ n.name }}
-        //-             option(v-for='g in $store.getters.guilds'  :value="g.taskId") # {{ g.guild }}
-        //-             option(v-for='n in $store.state.ao'  :value='n.address')  {{ n.address }}
-        //-         button.small(@click='dispatchMakeEvent') show
-        //- .play(v-if='$store.getters.guilds.length > 0')
-        //-     select(v-model='toGuild')
-        //-         template()
-        //-     button.small(@click='dispatchMakeEvent(playInfo)') send
-        //- .give(v-if='$store.state.ao.length > 0')
-        //-     select(v-model='toAo')
-        //-         option(disabled, value='') to ao
-        //-         option(v-for='n in $store.state.ao'  :value='n.address')  {{n.address}}
-        //-     button.small(@click='dispatchMakeEvent(aoLink)') link
     .theTitle(v-if='b.guild && !showSend') {{ b.guild }}
     .count
-    //- tally
 </template>
 
 <script>
@@ -57,29 +40,6 @@ export default {
     methods: {
         showSendOff(){
             this.showSend = false
-        },
-        dispatchMakeEvent(){
-            let isMem = false
-            this.$store.state.members.forEach(m => {
-                if (m.memberId === this.toMember){
-                    isMem = true
-                }
-            })
-
-            if (isMem){
-              this.$store.dispatch('makeEvent', {
-                  type: 'task-passed',
-                  taskId: this.b.taskId,
-                  fromMemberId: this.$store.getters.member.memberId,
-                  toMemberId: this.toMember,
-              })
-            } else {
-                this.$store.dispatch('makeEvent', {
-                    type: 'task-sub-tasked',
-                    taskId:  this.toMember,
-                    subTask: this.b.taskId,
-                })
-            }
         },
         toggleGuildCreate(){
             if(!this.showGuildCreate) {

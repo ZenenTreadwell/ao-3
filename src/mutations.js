@@ -430,11 +430,9 @@ function tasksMuts(tasks, ev) {
       tasks.forEach(task => {
         if (task.taskId === ev.inId) {
           ev.tasks.forEach(tId => {
-              task.priorities = _.filter(task.priorities, d => d === tId)
-              task.subTasks = _.filter(task.subTasks, d => d === tId)
-              task.subTasks.push(tId)
+              task.priorities.push(tId)
           })
-          task.subTasks = _.uniq(task.subTasks)
+          task.priorities = _.uniq(task.priorities)
         }
       })
       break
@@ -455,13 +453,21 @@ function tasksMuts(tasks, ev) {
     case "pile-de-sub-tasked":
       tasks.forEach(task => {
         if (task.taskId === ev.inId) {
-          task.subTasks = _.filter(task.subTasks, tId => ev.tasks.indexOf(tId) === -1)
+            task.subTasks = _.filter(task.subTasks, tId => ev.tasks.indexOf(tId) === -1)
+            task.priorities = _.filter(task.priorities, tId => ev.tasks.indexOf(tId) === -1)
+        }
+      })
+      break
+    case "pile-sub-tasked":
+      tasks.forEach(task => {
+        if (task.taskId === ev.inId) {
           ev.tasks.forEach(tId => {
             if (task.priorities.indexOf(tId) > -1) {
               task.subTasks.push(tId)
             }
           })
           task.priorities = _.filter(task.priorities, tId => ev.tasks.indexOf(tId) === -1)
+          task.subTasks = _.uniq(task.subTasks)
         }
       })
       break
@@ -664,19 +670,9 @@ function tasksMuts(tasks, ev) {
       break
     case "task-prioritized":
       tasks.forEach(task => {
-        if (task.taskId === ev.taskId) {
-          task.passed = _.filter(task.passed, d => d[1] !== ev.memberId)
-          if (ev.memberId && task.deck.indexOf(ev.memberId) === -1) {
-            if (ev.subTask !== ev.memberId) {
-              task.deck.push(ev.memberId)
-            }
-          }
-        }
-
         if (task.taskId === ev.inId) {
           task.priorities = _.filter(task.priorities, taskId => taskId !== ev.taskId)
           task.subTasks = _.filter(task.subTasks, taskId => taskId !== ev.taskId)
-          task.completed = _.filter(task.completed, taskId => taskId !== ev.taskId)
           task.priorities.push(ev.taskId)
         }
       })
@@ -706,31 +702,18 @@ function tasksMuts(tasks, ev) {
       break
     case "task-sub-tasked":
       tasks.forEach(task => {
-        if (task.taskId === ev.subTask) {
-          task.passed = _.filter(task.passed, d => d[1] !== ev.memberId)
-          if (ev.memberId && task.deck.indexOf(ev.memberId) === -1) {
-            if (ev.subTask !== ev.memberId) {
-              task.deck.push(ev.memberId)
-            }
-          }
-        }
-        if (task.taskId === ev.taskId) {
-          task.subTasks = _.filter(task.subTasks, tId => tId !== ev.subTask)
-          task.subTasks.push(ev.subTask)
+        if (task.taskId === ev.inId) {
+          task.priorities = _.filter(task.priorities, taskId => taskId !== ev.taskId)
+          task.subTasks = _.filter(task.subTasks, tId => tId !== ev.taskId)
+          task.subTasks.push(ev.taskId)
         }
       })
       break
     case "task-de-sub-tasked":
       tasks.forEach(task => {
-        if (task.taskId === ev.subTask) {
-          task.passed = _.filter(task.passed, d => d[1] !== ev.memberId)
-        }
-        if (task.taskId === ev.taskId) {
-          task.subTasks = _.filter(task.subTasks, tId => tId !== ev.subTask)
-          if (task.priorities.some(tId => tId === ev.subTask)) {
+        if (task.taskId === ev.inId) {
             task.priorities = _.filter(task.priorities, tId => tId !== ev.subTask)
-            task.subTasks.push(ev.subTask)
-          }
+            task.subTasks = _.filter(task.subTasks, tId => tId !== ev.subTask)
         }
       })
       break

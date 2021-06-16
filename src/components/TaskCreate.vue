@@ -3,7 +3,7 @@
 #createtask(ref="closeable")
   div.secondbackground(@click='switchColor(task.color)')
       .boatContainer
-          button.clear(@click.stop='pilePrioritized') recall
+          button.clear(@click.stop='pileRecalled') recall
               span(v-if='searchTotal > 0') &nbsp; {{ searchTotal }}
           button.lock(@click.stop='lockIt') to terminal
           button.create(@click.stop='createOrFindTask') post
@@ -104,14 +104,14 @@ export default {
         });
     },
     methods: {
-        pilePrioritized() {
+        pileRecalled() {
           if (!this.$store.state.upgrades.create){
               return this.$store.commit('toggleCreate')
           }
 
           if (this.matchIds.length > 0){
               this.$store.dispatch("makeEvent", {
-                  type: "pile-prioritized",
+                  type: "pile-sub-tasked",
                   inId: this.$store.getters.contextCard.taskId,
                   tasks: this.matchIds
               })

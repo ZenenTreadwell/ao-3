@@ -58,8 +58,8 @@ export default {
             }
             this.$store.dispatch("makeEvent", {
                 type: 'task-de-sub-tasked',
-                taskId: this.$store.getters.contextCard.taskId,
-                subTask: data,
+                inId: this.$store.getters.contextCard.taskId,
+                taskId: data,
             })
             this.$store.dispatch("makeEvent", {
                 type: 'task-sub-tasked',
@@ -106,8 +106,8 @@ export default {
         remove(){
             this.$store.dispatch("makeEvent", {
                 type: 'task-de-sub-tasked',
-                subTask: this.b.taskId,
-                taskId: this.inId,
+                taskId: this.b.taskId,
+                inId: this.inId,
             })
         },
         setAction(){
