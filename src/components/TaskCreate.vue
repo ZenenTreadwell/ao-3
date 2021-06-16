@@ -252,8 +252,8 @@ export default {
         subTaskTask(taskId) {
             this.$store.dispatch("makeEvent", {
                 type: 'task-sub-tasked',
-                taskId: this.taskId,
-                subTask: taskId,
+                inId: this.taskId,
+                taskId,
                 memberId: this.$store.getters.member.memberId,
             })
         },
