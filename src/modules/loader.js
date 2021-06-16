@@ -11,11 +11,10 @@ function attachEventStream(commit){
 
 
 function attachSocket(commit, dispatch, callback){
-    console.log('attach socker caller')
     socket = io()
     socket.off('connect')
     socket.on('connect', ()=> {
-        console.log('socket connect')
+        console.log('connected')
         socket.emit('authentication', {
             session: state.session,
             token: state.token
@@ -24,7 +23,7 @@ function attachSocket(commit, dispatch, callback){
 
     socket.off('authenticated')
     socket.on('authenticated', ()=> {
-        console.log('socket authenticated')
+        console.log('authenticated')
         attachEventStream(commit, dispatch)
         callback()
     })

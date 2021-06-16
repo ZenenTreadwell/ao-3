@@ -461,13 +461,9 @@ function tasksMuts(tasks, ev) {
     case "pile-sub-tasked":
       tasks.forEach(task => {
         if (task.taskId === ev.inId) {
-          ev.tasks.forEach(tId => {
-            if (task.priorities.indexOf(tId) > -1) {
-              task.subTasks.push(tId)
-            }
-          })
+          task.subTasks = _.filter(task.subTasks, tId => ev.tasks.indexOf(tId) === -1)
           task.priorities = _.filter(task.priorities, tId => ev.tasks.indexOf(tId) === -1)
-          task.subTasks = _.uniq(task.subTasks)
+          task.subTasks = task.subTasks.concat(ev.tasks)
         }
       })
       break

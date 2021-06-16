@@ -37,7 +37,6 @@ export default {
             if (this.$store.state.upgrades.create && this.$store.state.upgrades.color !== this.stack){
                 return this.$store.commit('setColor', this.stack)
             }
-
             this.$store.commit('toggleCreate')
             this.$store.commit('setColor', this.stack)
 

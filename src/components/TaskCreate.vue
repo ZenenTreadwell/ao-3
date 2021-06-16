@@ -27,16 +27,6 @@
               .fifth(@click.stop='switchColor("green")'  :class='{ down : $store.state.upgrades.color === "green"  && showCreate}').greentx.paperwrapper
               .fifth(@click.stop='switchColor("purple")'  :class='{ down : $store.state.upgrades.color === "purple" && showCreate}').purpletx.paperwrapper
               .fifth(@click.stop='switchColor("blue")'  :class='{ down : $store.state.upgrades.color === "blue" && showCreate}').bluetx.paperwrapper
-  //- .searchresults
-  //-     .result(v-for='t in matches.guilds'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)')
-  //-         img.smallguild(src='../assets/images/badge.svg')
-  //-         span {{ t.guild }}
-  //-     .result(v-for='t in matches.doges'  :class='resultInputSty(t)'  @click.stop='goIn(t.taskId)')
-  //-         current(:memberId='t.memberId')
-  //-     .result(v-for='t in matchesearchs.cards'  @click.stop='goIn(t.taskId)')
-  //-         span {{ shortName(t.name)[0] }}
-  //-         span(:class='resultInputSty(t)') {{ $store.state.upgrades.search }}
-  //-         span {{ shortName(t.name)[1] }}
 </template>
 
 <script>
@@ -171,18 +161,6 @@ export default {
             this.$store.commit('setSearch', search)
             this.matches = { guilds, doges, cards}
         },
-        toggleSearch(){
-            if (!this.showCreate){
-                return this.openCreate()
-            }
-            if (this.showSearch && this.search !== this.task.name.trim()){
-                return this.loadResult()
-            }
-            if (!this.showSearch){
-                this.loadResult()
-            }
-            this.showSearch = !this.showSearch
-        },
         lockIt(){
             if (!this.$store.state.upgrades.create){
                 return this.$store.commit('toggleCreate')
@@ -249,6 +227,7 @@ export default {
         switchColor(color){
             if (this.$store.state.upgrades.color === color){
                 this.$store.commit('toggleCreate')
+                this.task.name = ''
                 this.showSearch = false
             } else if (this.showCreate) {
                 // don't close, switch
@@ -257,9 +236,13 @@ export default {
             }
             this.$store.commit('setColor', color)
         },
-        refocus(){
+        refocus(keyp){
+            this.task.name += keyp
             setTimeout(()=>{
                 document.getElementById('card').focus()
+                if (!this.showCreate){
+                    this.$store.commit('toggleCreate')
+                }
             }, 1)
         },
         resetCard(){
@@ -340,10 +323,12 @@ export default {
     },
     computed: {
         refocusWatcher(){
-            if (!this.showCreate){
-                this.$store.commit('toggleCreate')
+            if (document.activeElement.id !== 'card'){
+                let keyp = this.$store.state.upgrades.keypressed.toString()
+                if (keyp){
+                    this.refocus(keyp)
+                }
             }
-            this.refocus()
             return this.$store.state.upgrades.refocus
         },
         showCreate(){
