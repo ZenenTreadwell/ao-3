@@ -32,8 +32,14 @@ npm run decrypt <lock>
 
 Our choices now will create the new characteristics of human power and will determine if the semiconductor ultimately realized or destroyed liberty.  
 
-Very simply the power goes to the entity in control of the computer. Social interaction on Zucky's computers concentrates power to him. Financial interaction on bank computers concentrates power to them. Take back your share of tech power by communicating using your own computer. You can only really say that a computer is yours if you can know everything the software on it is doing. From the operating system up it must be open source.  
+Social interaction on Facebook's computers, financial interaction on bank computers, website interactions on Amazon's computers: who controls the computer collects the power. As a society we need to take away the great aggregation of power that has happened by conveniently using centralized services.  
 
-There is a limited capacity for everything and our default state is complete ignorance about everything. Money and capitalism has created unprecedented wealth and efficiency because it functions as a conduit of information and autonomous actors can utilize that information. But globalization has completely coopted money with political manipulation, it no longer functions as a conduit of information. Systems that perpetuate wealth without creating value are unethical and ultimately *doomed*.  
+As well as physically controlling the computer a computer is only really yours if you **can** know everything the software on it is doing. From the operating system up it must be open source.  
 
-Bitcoin is a public money system. It is immune to political interference. It can revitalize capitalism. It gives property rights, access to a store of value, access to an international market to anyone with a computer.
+There is a limited capacity for everything and our default state is complete ignorance. Modern free markets were efficient mechanisms for progress because prices and profits were conduits of information. When free participants can react in real time to new information, whether they succeed or fail more information is created. Modern Monetary Theory has completely undermined money and markets. Political manipulation muddies the information conduit. It no longer possible to learn from our markets so society itself is in a downward spiral until we can free money from politics and salvage a pure conduit of information.  
+
+Bitcoin is a public money system. It is immune to political interference. It can revitalize capitalism and create markets that provide information again. Humanity needs only one uncompromised public money system: Bitcoin is it. It gives direct access to a store of value, access to an international market to everyone.   
+
+AO is a Nodejs server. It is a shared notepad that can be used to collect notes, ideas, tasks and a calendar to record when you have done the things that you want to do. It can be extended to control physical devices on the local network [(pi)](https://github.com/AutonomousOrganization/pi). It shows information about bitcoind and lightningd - a full bitcoin node and full lightning node that are completely uncompromising positive contributors to the bitcoin ecosystem. Each note can receive payments to address and invoice into your lightning node.  
+
+glhf

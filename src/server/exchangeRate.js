@@ -8,7 +8,7 @@ const validators = require('./validators')
 
 function watchSpot(){
     getRecordSpot()
-    setInterval( getRecordSpot, 500000 )
+    setInterval( getRecordSpot, 1000 * 60 * 60 )
 }
 
 function getRecordSpot(){

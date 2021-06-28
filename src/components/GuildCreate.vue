@@ -4,7 +4,7 @@
     input(v-model='task.guild'  type='text'  :placeholder='task.guild'  @keypress.enter='titleIt(false)')
     button(@click='titleIt')
         span(v-if='b.guild === task.guild') un
-        img(src='../assets/images/badge.svg')
+        span pin
 </template>
 
 <script>

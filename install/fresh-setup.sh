@@ -15,12 +15,6 @@ sudo apt install -y git
 echo 'Installing wget'
 sudo apt install -y wget
 
-echo 'Installing nodejs'
-sudo apt install -y nodejs
-
-echo 'Installing npm'
-sudo apt install -y npm
-
 echo 'Installing tor'
 sudo apt install -y tor
 
@@ -86,6 +80,11 @@ sudo apt install -y fakeroot
 
 echo 'Installing devscripts'
 sudo apt install -y devscripts
+
+echo 'Installing node'
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+source ~/.bashrc
+nvm install stable
 
 echo 'Installing bitcoind'
 wget https://bitcoincore.org/bin/bitcoin-core-0.21.0/bitcoin-0.21.0-x86_64-linux-gnu.tar.gz

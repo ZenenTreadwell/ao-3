@@ -1,7 +1,7 @@
 <template lang='pug'>
 .task(:class="cardInputSty"  @click='goIn'  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart').dont-break-out.agedwrapper
     bird(:b='b', :inId='inId')
-    .donut.flaggy.hidden(@click.stop='upboat')
+    .donut.flaggy.hidden.square(@click.stop='upboat')
     .buffertop
       .cardbody
           linky.cardhud(:x='b.name' v-if='!member')
@@ -21,9 +21,9 @@
         .copydiv
             img.copied(src='../assets/images/loggedOut.svg'  :class='{hidden:!showCopied}'  @click.stop='copyCardToClipboard')
         .scrol(@click.stop='remove')
-            .donut.scrolly.hidden
+            .donut.scrolly.hidden.square
         .vine(@click.stop='pop')
-            .donut.viney.hidden
+            .donut.viney.hidden.square
         .singlebird(v-if='b.passed.length > 0'  @click.stop='toggleBird'  v-show='!$store.state.upgrades.bird')
             .row.pad.centered()
                 span(v-if='b.passed.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
@@ -289,8 +289,8 @@ label
 
 .scrolly
     position: absolute
-    left: 0.5em
-    bottom: 0.5em
+    left: 0
+    bottom: 0
     height: 1.3em
     cursor: pointer
 
@@ -351,8 +351,8 @@ label
 .viney
     height: 1.3em
     position: absolute
-    bottom: 0.5em
-    right: 0.5em
+    bottom: 0
+    right: 0
     cursor: pointer
 
 .row
@@ -615,8 +615,8 @@ label
 
 .flaggy
     position: absolute
-    right: 0.5em
-    top: 0.5em
+    right: 0
+    top: 0
     height: 1em
     cursor: pointer
 
