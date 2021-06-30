@@ -47,7 +47,6 @@ import Current from './Current.vue'
 import Currentr from './Currentr.vue'
 import Priorities from './Priorities.vue'
 import SimplePriority from './SimplePriority.vue'
-import Checkbox from './Checkbox'
 import Linky from './Linky'
 
 function getDMY(ts){
@@ -61,7 +60,7 @@ function getDMY(ts){
 export default {
   components: {
     Day, Currentr, Current, Priorities,
-    SimplePriority, Checkbox, Linky,
+    SimplePriority, Linky,
     Checkmarks
   },
   methods: {

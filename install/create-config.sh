@@ -22,7 +22,7 @@ fi
 if  test -f $HOME/.ao/key; then
     echo 'ao privkey exists'
 else
-    node ./createPrivateKey.js >> $HOME/.ao/key
+    node ../manage/createPrivateKey.js >> $HOME/.ao/key
     echo 'created ao privkey'
 fi
 

@@ -5,8 +5,8 @@
   "scripts": {
     "setup": "cd install; ./fresh-setup.sh",
     "checkconfig": "cd install; ./create-config.sh",
-    "keygen": "node src/createPrivateKey.js",
-    "decrypt": "node src/readCipher.js",
+    "keygen": "node manage/createPrivateKey.js",
+    "decrypt": "node manage/readCipher.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",

@@ -11,7 +11,8 @@
             linky(v-else  :x='card.name')
     div
         .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
-            img(src='../assets/images/completed.svg')
+            img(v-if='$store.state.upgrades.mode !== "boat"'  src='../assets/images/completed.svg')
+            checkbox(v-else  :b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
         .bottomleft(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}')
             img(src='../assets/images/timecube.svg')
         .bottomleft(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
@@ -24,11 +25,12 @@
 import Current from './Current'
 import Linky from './Linky'
 import Auth from './Auth'
+import Checkbox from './Checkbox'
 import Card from './Card'
 
 export default {
     props: ['m'],
-    components: {Current, Linky, Auth, Card},
+    components: {Current, Linky, Auth, Card, Checkbox},
     computed:{
         card(){
             return this.$store.getters.contextCard
@@ -89,7 +91,7 @@ export default {
         },
         toBoat(){
             if (this.$store.state.upgrades.mode === "boat"){
-                this.$store.commit("setMode", 0)
+                // allow check
             } else {
                 this.$store.commit("setMode", 1)
             }
@@ -224,9 +226,14 @@ label
     opacity: 0.7
 
 .bottomleft.activationsequence
-    border-bottom-style: dotted
-    border-color: softGrey
-    border-radius: 3px
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    border: none;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    -webkit-box-shadow: 3px 3px 18px 3px softGrey ;
+    box-shadow: 3px 3px 18px 3px softGrey ;
     img
         height: 1.77em
 

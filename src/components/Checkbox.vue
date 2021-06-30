@@ -79,16 +79,16 @@ export default {
     // top: 0.15em
     // display: block
     min-width: 0.75em
+    text-align: center
 
 img.checkmark
     margin-bottom: -0.25em
     margin-left: 0.25em
-    height: 2.5em
+    height: 1.77em
+
 
 .checkmark
-    position: relative
     z-index: 106
     height: 100%
-    display: block
     min-width: 0.75em
 </style>

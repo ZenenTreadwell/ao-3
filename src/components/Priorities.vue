@@ -22,7 +22,6 @@
 
 import Hypercard from './Card'
 import Hyperpriority from './SimplePriority'
-import Checkbox from './Checkbox'
 import Connect from './Connect'
 
 export default {
@@ -104,7 +103,7 @@ export default {
   components:{
       Hyperpriority,
       Hypercard,
-      Checkbox, Connect
+      Connect
   },
 }
 
