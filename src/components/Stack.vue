@@ -135,6 +135,7 @@ export default {
         var data = ev.dataTransfer.getData("taskId")
         this.$store.dispatch("makeEvent", {
             type: 'task-colored',
+            inId: this.$store.getters.contextCard.taskId,
             taskId: data,
             color: this.stack
         })

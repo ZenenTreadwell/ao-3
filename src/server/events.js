@@ -5,10 +5,11 @@ const crypto = require('crypto')
 const { serverState } = require('./state')
 const dctrlDb = require('./dctrlDb')
 
-function taskColored(taskId, color, blame, callback){
+function taskColored(taskId, inId, color, blame, callback){
     let newEvent = {
         type: "task-colored",
         taskId,
+        inId,
         color,
         blame,
     }

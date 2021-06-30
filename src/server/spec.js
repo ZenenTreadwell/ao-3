@@ -30,10 +30,12 @@ router.post('/events', (req, res, next)=>{
       case "task-colored":
           if (
             validators.isTaskId(req.body.taskId, errRes) &&
+            validators.isTaskId(req.body.inId, errRes) &&
             validators.isNotes(req.body.color, errRes)
           ) {
             events.taskColored(
               req.body.taskId,
+              req.body.inId,
               req.body.color,
               req.body.blame,
               utils.buildResCallback(res)

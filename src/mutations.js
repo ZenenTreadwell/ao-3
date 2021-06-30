@@ -323,6 +323,11 @@ function tasksMuts(tasks, ev) {
             if (task.taskId === ev.taskId) {
                 task.color = ev.color
             }
+            if (task.taskId === ev.inId){
+                task.stackView[ev.color] = 0
+                task.subTasks = _.filter(task.subTasks, tId => tId !== ev.taskId)
+                task.subTasks.push(ev.taskId)
+            }
         })
         break
     case "ao-outbound-connected":
