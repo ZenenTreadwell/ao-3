@@ -64,9 +64,10 @@ router.post('/events', (req, res, next)=>{
           if (validators.isTaskId(req.body.taskId, errRes)){
               lightning.newAddress()
                   .then(result => {
+                      console.log({result})
                       events.addressUpdated(
                         req.body.taskId,
-                        result['address'],
+                        result['bech32'],
                         utils.buildResCallback(res)
                       )
                   })
