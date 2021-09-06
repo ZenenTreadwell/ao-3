@@ -94,9 +94,9 @@ sudo cp bitcoin-0.21.0/bin/* /usr/local/bin/
 echo 'Installing lightningd'
 git clone https://github.com/ElementsProject/lightning.git lightning
 cd lightning
-git checkout v0.10.0
+git checkout v0.10.1
 ./configure
-sudo make -R
+sudo make
 sudo make install
 cd ..
 
