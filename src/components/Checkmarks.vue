@@ -2,10 +2,12 @@
 
 .upgrades(v-if='!$store.getters.contextMember')
     img.doge(src='../assets/images/doge.svg')
-    span(v-for='n in $store.getters.contextRelevantMembers'   :key='n'  @click='toggleHighlight(n)'  @click.ctrl='toggleHighlight(n, true)')
-        span(:class='{highlight: isHighlighted(n), lowdark: isLowdarked(n) }') &nbsp; {{ getName(n) }} &nbsp;
-    span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop') *leave*
-    span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click='grab') *join*
+    span.bg
+        span(v-for='n in $store.getters.contextRelevantMembers'   :key='n'  @click='toggleHighlight(n)'  @click.ctrl='toggleHighlight(n, true)')
+            span(:class='{highlight: isHighlighted(n), lowdark: isLowdarked(n) }') &nbsp; {{ getName(n) }} &nbsp;
+        span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop') *leave*
+        span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click='grab') *join*
+        span.ptr(v-if='$store.getters.contextCard.deck.length === 0' @click='remove') &nbsp; *delete*
     .spacer
     current-checks
     //- span(v-if='$store.getters.isLoggedIn  && $store.getters.member.memberId !== $store.getters.contextCard.taskId')
@@ -108,6 +110,11 @@ export default {
 <style lang='stylus' scoped>
 @import '../styles/colours'
 @import '../styles/skeleton'
+
+.bg
+    background: lightGrey
+    padding: 0.33em
+    border-radius: 3%
 
 .spacer
     height: 0.5em

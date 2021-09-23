@@ -24,8 +24,8 @@ export default {
     },
     methods: {
         alwaysFocus(anypass){
-            if (anypass.target.id === "card"){
-                return // already focused
+            if (anypass.target.id === "card" || anypass.target.type === "text"){
+                return // skip focus
             }
             this.$store.commit('focus', anypass.key)
         }

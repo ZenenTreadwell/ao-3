@@ -6,6 +6,7 @@
             .stash(v-if='card.boost > 0') {{ card.boost.toLocaleString() }}
     .row.center.clearboth(@click='$store.commit("setMode", 0)')
         label
+            bird(:b='$store.getters.contextCard', :inId='$store.getters.contextCard.taskId')
             div(v-if='$store.getters.contextMember')
                 linky(:x='m.name')
             linky(v-else  :x='card.name')
@@ -27,10 +28,11 @@ import Linky from './Linky'
 import Auth from './Auth'
 import Checkbox from './Checkbox'
 import Card from './Card'
+import Bird from './Bird'
 
 export default {
     props: ['m'],
-    components: {Current, Linky, Auth, Card, Checkbox},
+    components: {Current, Linky, Auth, Card, Checkbox, Bird},
     computed:{
         card(){
             return this.$store.getters.contextCard

@@ -2,11 +2,11 @@
 
 #settings
     .row
-        .six.columns
+        .six.columns.bg
             .section update
             select(v-model='change.field', @change='empty')
-                option(value='name') name
                 option(value='secret') password
+                option(value='name') name
                 option(value='fob') fob
             .input-container
                 input.input-effect(:type='inputType' v-model='change.newfield'  :class='{"has-content":!!change.newfield}')
@@ -43,7 +43,7 @@
             //-     span.space colors
             button(@click='logout') log out
     .breathing
-    label {{ $store.state.cash.address }}
+    label.bg server onion: {{ $store.state.cash.address }}
 </template>
 
 <script>
@@ -217,6 +217,11 @@ export default {
 @import '../styles/breakpoints'
 @import '../styles/button'
 @import '../styles/input'
+
+.bg
+    background: lightGrey
+    padding: 0.33em
+    border-radius: 3%
 
 button
     background: main

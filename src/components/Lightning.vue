@@ -3,10 +3,17 @@
 #nodes
     .breathing
     .row
-        .four.grid(v-if='$store.state.cash.info.mempool')
+        .four.grid.bg(v-if='$store.state.cash.info.mempool')
+            div bitcoind
+            .section {{ $store.getters.confirmedBalance.toLocaleString() }} chain
             .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
             .section block {{ $store.state.cash.info.blockheight.toLocaleString()}}, {{ ((Date.now() - ($store.state.cash.info.blockfo.time * 1000)) / 60 / 1000).toFixed(1) }}min old
-            .section fees (sat/byte)
+            .section
+            .grid
+                .three.grid
+                    p percentile
+                .nine.grid
+                    p fees (sat/byte)
             .section
                 .grid
                     .three.grid
@@ -56,11 +63,12 @@
                     div(v-if='u && u.value > 0 && u.scriptPubKey.addresses') {{ u.value }} : {{u.scriptPubKey.addresses}} - unspent
                 div(v-for='outp in filteredOut') {{ outp.value }} : {{outp.scriptPubKey.addresses}}
                 .chanfo(v-if='showOutputs'  v-for='n in $store.state.cash.info.outputs'  @click='checkTxid(n.txid)') txid: {{n.txid}} : {{n.output}}
-        .eight.grid(v-if='$store.state.cash.info.channels')
-            .section {{ $store.getters.confirmedBalance.toLocaleString() }} chain
-            .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') {{ parseFloat( nn.channel_sat ).toLocaleString() }} local
-            .section {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }} remote
+        .eight.grid.bg(v-if='$store.state.cash.info.channels')
+            div lightningd
             .section {{ $store.state.cash.info.channels.length }} channels
+            .section.fr {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }} remote
+            .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') {{ parseFloat( nn.channel_sat ).toLocaleString() }} local
+            div
             .chanfo(v-if='selectedPeer >= 0 && areChannels && selectedChannel')
                 div(v-if='selectedChannel.connected') online
                 div(v-else) offline
@@ -79,8 +87,8 @@
                     .localremote(v-show='selectedPeer !== i'   @click='selectPeer(i)')
                         .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
                         .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
-    .row
-        .chanfo(v-if='$store.state.cash.info.address') lightning : {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
+    .row.bg
+        .chanfo(v-if='$store.state.cash.info.address') lightning connect : {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
 </template>
 
 <script>
@@ -246,6 +254,13 @@ export default {
 @import '../styles/button'
 @import '../styles/input'
 
+.fr
+    float: right
+
+.bg
+    background: lightGrey
+    padding: 0.33em
+    border-radius: 3%
 
 .section
     color:main

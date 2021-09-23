@@ -4,6 +4,7 @@
     span(v-for='c in checkmarks'  :key='c.taskId')
         span.plain.completedcheckmark(@click='goIn(c.taskId)'  )
             img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color)')
+    span.ptr(v-if='checkmarks.length > 0'  @click='relist') *re-list*
     div(v-if='$store.getters.contextCard.highlights.length > 0 ')
         ul
             li(v-for='c in checkmarks') {{ c.name }}
@@ -33,6 +34,13 @@ export default {
   // },
   components: { Linky, Coin },
   methods: {
+    relist(){
+        this.$store.dispatch("makeEvent", {
+            type: "pile-prioritized",
+            tasks: this.$store.getters.contextCard.completed,
+            inId: this.$store.getters.contextCard.taskId
+        })
+    },
     toggleActive(){
         let newfield = this.$store.getters.contextCard.taskId
         if (this.$store.getters.member.action === this.$store.getters.contextCard.taskId){
@@ -162,6 +170,9 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/grid'
+
+.ptr
+    cursor: pointer;
 
 .upboat
   display:block

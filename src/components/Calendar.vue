@@ -17,7 +17,7 @@
       .weekdayfull(@click='clickDateBar') {{ chosenWeekDay }}
       .grey
           .datenumber  {{ $store.state.upgrades.chosenDay }}
-          .soft(v-for='n in selectedDaysEvs')
+          .soft.bg(v-for='n in selectedDaysEvs')
               span(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }} &nbsp;
                   span(v-if='checkIsMember(n.taskId)  || n.taskId === $store.getters.contextCard.taskId')
@@ -266,6 +266,11 @@ export default {
 @import '../styles/colours';
 @import '../styles/grid';
 
+.bg
+    background: lightGrey
+    padding: 0.33em
+    border-radius: 3%
+
 p
     display: inline-block;
 
@@ -301,6 +306,7 @@ h5
 
 .soft
     cursor: pointer
+
 
 #calendar
     color: main

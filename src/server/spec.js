@@ -27,6 +27,18 @@ const priv = fs.readFileSync(con.privateKey)
 router.post('/events', (req, res, next)=>{
   let errRes = []
   switch (req.body.type){
+      case "member-purged":
+          if (
+            validators.isMemberId(req.body.memberId, errRes)
+          ) {
+            events.memberPurged(
+              req.body.memberId,
+              utils.buildResCallback(res)
+            )
+          } else {
+            res.status(400).send(errRes);
+          }
+          break
       case "task-colored":
           if (
             validators.isTaskId(req.body.taskId, errRes) &&

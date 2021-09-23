@@ -1,7 +1,10 @@
 <template lang='pug'>
 
 .memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId}'  @click='goIn(m.memberId)')
-    .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}') {{m.active > 0 ? "active" : "inactive"}} - {{b.boost.toLocaleString()}}
+    .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
+        span(v-if='m.active') active
+        span(v-else @click.stop='deleteUser').hover inactive
+        span - {{b.boost.toLocaleString()}}
     .row(v-if='b')
         .three.grid.ptr
             current(:memberId='m.memberId' @click.stop)
@@ -47,6 +50,12 @@ export default {
             if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
                 this.$store.commit("setMode", 1)
             }
+        },
+        deleteUser(){
+            this.$store.dispatch("makeEvent", {
+                type: 'member-purged',
+                memberId: this.m.memberId,
+            })
         },
         toggleGrab(){
             if (this.isVouched) {
@@ -115,6 +124,9 @@ export default {
 @import '../styles/grid'
 @import '../styles/spinners'
 
+.hover:hover
+    text-decoration: line-through;
+
 .absoright
     float: right
 
@@ -127,9 +139,7 @@ label
     margin: 1em
 
 .memberrow
-    // box-shadow: 3px 1px 7px 1px main
     margin-bottom: 0.33em
-    // min-height: 37px
     background: lightGrey
     cursor: pointer
 
