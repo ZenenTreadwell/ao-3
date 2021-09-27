@@ -6,10 +6,10 @@
       .statement
           div Thank you to everyone to supported Taylor Singleton-Fookes and the PPC in Vancouver Centre. I am humbled by your support.
           div The result is expected but disappointing nonetheless because the foundation of our democracy is being lost.
-          div I learned much from this experience. The PPC must be proud of its growth across the country. I was hesitent to put myself forward as a public figure, but am proud of standing up for the message of the People's Party of Canada and over the next few years I will try to build awareness of the PPC.
+          div I learned much from this experience. The PPC must be proud of its growth across the country. I was hesitant to put myself forward as a public figure, but am proud of standing up for the message of the People's Party of Canada and over the next few years I will try to build awareness of the PPC.
           div Welcome to an &nbsp;
               a(href='https://github.com/autonomousorganization/ao-3'  target="_blank") ao.
-              span &nbsp; Make an account above to contact me, explore our communities ideas, coordinate activism, test bitcoin lightning, and get ready for the next election.
+              span &nbsp; Make an account above to contact me, explore ideas, coordinate activism, test bitcoin lightning, and get ready for the next election.
           div Take care,
           div - Taylor Singleton-Fookes
   router-view(v-else)
