@@ -135,7 +135,7 @@ function updateAll(){
 }
 
 function watchOnChain(){
-    setInterval(updateAll, 1000 * 60 * 4)
+    setInterval(updateAll, 1000 * 60 * 60)
     setTimeout( () => {
         updateAll()
     }, 560)

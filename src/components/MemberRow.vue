@@ -207,7 +207,7 @@ label
     margin-right: 2em
 
 .loggedIn
-    background: softGrey
+    opacity: 0.9
     border-style: dashed
     border-color: main
 
