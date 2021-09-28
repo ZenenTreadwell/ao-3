@@ -6,7 +6,9 @@
             span(@click='goIn(p.taskId)')
                 img.floatleft(src='../assets/images/badge.svg')
             span(@click='goIn(p.taskId)')
+                span(v-if='p.taskId === $store.getters.contextCard.taskId') *
                 span.nl.gui.smaller {{ p.guild }}
+                span(v-if='p.taskId === $store.getters.contextCard.taskId') *
 </template>
 
 <script>

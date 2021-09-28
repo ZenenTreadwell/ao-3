@@ -1,17 +1,17 @@
 <template lang='pug'>
 
 .upgrades
-    div(v-if='b.payments.length === 0') no payments yet
-    div(v-for='p in b.payments') {{p.amount.toLocaleString()}} - {{ getDateString(p.timestamp) }}
+    .bg(v-if='b.payments.length === 0') no payments yet
+    .bg(v-for='p in b.payments') {{p.amount.toLocaleString()}} - {{ getDateString(p.timestamp) }}
     .payreq(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"')
         // a(:href='"lightning:" + b.bolt11') // causes t is undefined global error
         tag(:d='b.bolt11'  size='5')
-        .section {{b.bolt11}}
+        .section.bg {{b.bolt11}}
         points-set(:b='$store.getters.contextCard')
     .payreq(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"')
         // a(:href='"bitcoin:" + b.btcAddr') // causes t is undefined global error
         tag(:d='b.btcAddr'  size='7')
-        .section {{b.btcAddr}}
+        .section.bg {{b.btcAddr}}
         points-set(:b='$store.getters.contextCard')
     .section(v-else) node unavailable :(
     br
@@ -87,6 +87,11 @@ export default {
 @import '../styles/grid';
 @import '../styles/button';
 @import '../styles/spinners';
+
+.bg
+    background: lightGrey
+    padding: 0.33em
+    border-radius: 3%
 
 .hidden
     opacity: 0

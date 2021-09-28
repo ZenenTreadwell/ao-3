@@ -1,13 +1,10 @@
 <template lang='pug'>
 
 div
-    .showaddr(@click='$store.commit("setPayMode", 1)')
-        img(:class='{faded: $store.state.upgrades.paymode !== "bitcoin"}'  src='../assets/images/bitcoin.svg')
     div
-        input(v-model='task.points'  type='text'  placeholder='value'  @keypress.enter='setValue')
-        button(@click.stop='setValue')
-            div(v-if='sats > 0  && sats !== Infinity') 0.01 {{ $store.state.cash.currency }} ~ {{ sats.toFixed(0) }}
-            img.lightbtn(v-else  src='../assets/images/lightning.svg')
+        input(v-model='task.points'  type='text'  placeholder='sats'  @keypress.enter='setValue')
+        button(@click.stop='setValue') *create lightning*
+    .showaddr(@click='$store.commit("setPayMode", 1)' v-if='$store.state.upgrades.paymode !== "bitcoin"') *show btc address*
 
 </template>
 
@@ -35,7 +32,7 @@ export default {
             this.$store.dispatch("makeEvent", {
                 type: 'task-valued',
                 taskId: this.b.taskId,
-                value: Number(this.task.points),
+                value: '',
             })
         },
     },

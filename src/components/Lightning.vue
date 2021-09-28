@@ -5,7 +5,7 @@
     .row
         .four.grid.bg(v-if='$store.state.cash.info.mempool')
             div bitcoind
-            .section {{ $store.getters.confirmedBalance.toLocaleString() }} chain
+            .section {{ $store.getters.confirmedBalance.toLocaleString() }} chain sats
             .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
             .section block {{ $store.state.cash.info.blockheight.toLocaleString()}}, {{ ((Date.now() - ($store.state.cash.info.blockfo.time * 1000)) / 60 / 1000).toFixed(1) }}min old
             .section
@@ -66,12 +66,11 @@
         .eight.grid.bg(v-if='$store.state.cash.info.channels')
             div lightningd
             .section {{ $store.state.cash.info.channels.length }} channels
-            .section.fr {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }} remote
-            .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') {{ parseFloat( nn.channel_sat ).toLocaleString() }} local
+            .section.fr {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }} remote sats
+            .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') {{ parseFloat( nn.channel_sat ).toLocaleString() }} local sats
             div
             .chanfo(v-if='selectedPeer >= 0 && areChannels && selectedChannel')
-                div(v-if='selectedChannel.connected') online
-                div(v-else) offline
+                div connected: {{ selectedChannel.connected }}
                 div pubkey: {{ selectedChannel.peer_id }}
                 div(@click='checkTxid(selectedChannel.funding_txid)') txid: {{ selectedChannel.funding_txid }}
                 div(v-if='selectedChannel.state !== "CHANNELD_NORMAL"') state: {{ selectedChannel.state }}
@@ -81,14 +80,20 @@
             .row.channellimiter
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id')
-                    .localremote(v-show='selectedPeer === i'   @click='selectedPeer = false')
+                    .localremote.bordy(v-show='selectedPeer === i'   @click='selectedPeer = false')
                         .localbar.tall(:style='l(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseInt( n.channel_sat ).toLocaleString() }}
                         .remotebar.tall(:style='r(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseInt( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
                     .localremote(v-show='selectedPeer !== i'   @click='selectPeer(i)')
                         .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
                         .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
+            .row.bg(v-if='sats > 0') 1 CAD =
+                span {{ sats }} sats
+            .row.bg 1 BTC = 100 000 000 sats
+            .row.bg.ptr(@click='clicktopay') *click to pay*
     .row.bg
-        .chanfo(v-if='$store.state.cash.info.address') lightning connect : {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
+        .chanfo(v-if='$store.state.cash.info.address') lightning connect:
+            div
+                code {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
 </template>
 
 <script>
@@ -162,6 +167,10 @@ export default {
         }
     },
     methods:{
+        clicktopay(){
+            this.$store.commit("toggleNodeInfo")
+            this.$store.commit("setMode", 3)
+        },
         getFeeColor(x){
             if (x > 100) return { high : 1}
             if (x > 50) return { midhigh : 1}
@@ -197,12 +206,6 @@ export default {
                     }
                 })
             this.txnCheck = ''
-        },
-        toggleOpen(){
-            this.open = !this.open
-        },
-        toggleShowOutputs(){
-            this.showOutputs = !this.showOutputs
         },
         selectPeer(pId){
             if (pId === this.selectedPeer){
@@ -253,6 +256,10 @@ export default {
 @import '../styles/grid'
 @import '../styles/button'
 @import '../styles/input'
+
+.bordy
+    margin-top:0.2em
+    margin-left: 0.25em
 
 .fr
     float: right

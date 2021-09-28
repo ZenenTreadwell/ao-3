@@ -25,22 +25,23 @@
             button(@click='update'  v-else-if='change.newfield  && change.confirmNewfield.length > 0 && matched') update password
         .six.columns
             //- .section preferences
-            //- //- .check.click(@click='toggleTooltips')
-            //- //-     img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
-            //- //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-            //- //-     span.space tooltip
+            //- .check.click(@click='toggleTooltips')
+            //-     img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
+            //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
+            //-     span.space tooltip
             //- .check.click(@click='toggleGuides')
             //-     img.checkmark(v-if='$store.getters.member.guides'  src='../assets/images/completed.svg')
             //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
             //-     span.space guides
-            //- //- .check.click(@click='toggleMuted')
-            //- //-     img.checkmark(v-if='!$store.getters.member.muted', src='../assets/images/completed.svg')
-            //- //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-            //- //-     span.space sound
+            //- .check.click(@click='toggleMuted')
+            //-     img.checkmark(v-if='!$store.getters.member.muted', src='../assets/images/completed.svg')
+            //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
+            //-     span.space sound
             //- .check.click(@click='toggleStacks')
             //-     img.checkmark(v-if='$store.getters.member.stacks === 5', src='../assets/images/completed.svg')
             //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
             //-     span.space colors
+            div &nbsp;
             button(@click='logout') log out
     .breathing
     label.bg server onion: {{ $store.state.cash.address }}
@@ -56,7 +57,7 @@ export default {
     data() {
       return {
         change: {
-            field: 'name',
+            field: 'secret',
             newfield: '',
             confirmNewfield: ''
         },
