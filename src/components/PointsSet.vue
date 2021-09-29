@@ -32,7 +32,7 @@ export default {
             this.$store.dispatch("makeEvent", {
                 type: 'task-valued',
                 taskId: this.b.taskId,
-                value: '',
+                value: this.task.points,
             })
         },
     },

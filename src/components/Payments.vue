@@ -4,13 +4,12 @@
     .bg(v-if='b.payments.length === 0') no payments yet
     .bg(v-for='p in b.payments') {{p.amount.toLocaleString()}} - {{ getDateString(p.timestamp) }}
     .payreq(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"')
-        // a(:href='"lightning:" + b.bolt11') // causes t is undefined global error
         tag(:d='b.bolt11'  size='5')
         .section.bg {{b.bolt11}}
         points-set(:b='$store.getters.contextCard')
     .payreq(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"')
-        // a(:href='"bitcoin:" + b.btcAddr') // causes t is undefined global error
-        tag(:d='b.btcAddr'  size='7')
+        tag(v-if='b.btcAddr'  :d='b.btcAddr'  size='7')
+        .ptr(v-else  @click='getAddr') *create bitcoin*
         .section.bg {{b.btcAddr}}
         points-set(:b='$store.getters.contextCard')
     .section(v-else) node unavailable :(
@@ -24,22 +23,6 @@ import PointsSet from './PointsSet'
 import Lightning from './Lightning'
 
 export default {
-    mounted(){
-        if (this.b.taskId){
-            if (this.$store.state.upgrades.paymode === "bitcoin"  && !this.b.btcAddr){
-                this.$store.dispatch("makeEvent", {
-                    type: 'address-updated',
-                    taskId: this.b.taskId
-                })
-            } else if (this.$store.state.upgrades.paymode === "lightning"){
-                this.$store.dispatch("makeEvent", {
-                    type: 'task-valued',
-                    taskId: this.b.taskId,
-                    value: this.b.completeValue? this.b.completeValue : 1,
-                })
-            }
-        }
-    },
     components:{
         Tag, Lightning, PointsSet
     },
@@ -49,32 +32,16 @@ export default {
         },
     },
     methods: {
+        getAddr(){
+            this.$store.dispatch("makeEvent", {
+                type: 'address-updated',
+                taskId: this.b.taskId
+            })
+        },
         getDateString(ts){
             let d = new Date(ts)
             return d.toString().slice(0,15)
         },
-        scrollTop(){
-          console.log('scroll top')
-          document.body.scrollTop = 0;
-          document.documentElement.scrollTop = 0;
-          return true
-        },
-        setPay(x){
-            try {
-                if (x === 2){
-                  this.$store.dispatch("makeEvent", {
-                    type: 'task-valued',
-                    taskId: this.b.taskId,
-                    value: this.b.completeValue ,
-                  })
-                }
-                this.scrollTop()
-                this.$store.commit("setPayMode", x)
-
-            } catch (err){
-                console.log('caught?', err)
-            }
-        }
     }
 }
 
@@ -87,6 +54,11 @@ export default {
 @import '../styles/grid';
 @import '../styles/button';
 @import '../styles/spinners';
+
+.ptr
+    cursor: pointer
+    padding-top: 5em
+    padding-bottom: 5em
 
 .bg
     background: lightGrey
