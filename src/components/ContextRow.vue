@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.context.paperwrapper(:class="cardInputSty")
+.context.paperwrapper(:class="cardInputSty"  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart')
     .popup
         .here
             span.front(v-if='isMember')  {{ isMember }}
@@ -21,6 +21,31 @@ import Tally from './Tally'
 export default {
     props: ['taskId'],
     components: { Linky, Tally },
+    methods: {
+        drop(ev){
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("taskId")
+            if (this.taskId === data){
+                return
+            }
+            this.$store.dispatch("makeEvent", {
+                type: 'task-de-sub-tasked',
+                inId: this.$store.getters.contextCard.taskId,
+                taskId: data,
+            })
+            this.$store.dispatch("makeEvent", {
+                type: 'task-sub-tasked',
+                inId: this.taskId,
+                taskId: data,
+            })
+        },
+        allowDrop(ev){
+            ev.preventDefault()
+        },
+        dragStart(ev){
+            ev.dataTransfer.setData("taskId", this.taskId);
+        },
+    },
     computed: {
         isResource(){
             let is = false

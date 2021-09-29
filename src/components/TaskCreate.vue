@@ -5,7 +5,7 @@
       .boatContainer
           button.clear(@click.stop='pileRecalled') recall
               span(v-if='searchTotal > 0') &nbsp; {{ searchTotal }}
-          button.lock(@click.stop='lockIt') to terminal
+          button.lock(@click.stop='lockIt') encrypt
           button.create(@click.stop='createOrFindTask') post
               span.hidden {{ refocusWatcher }}
       .cc(v-show='showCreate')

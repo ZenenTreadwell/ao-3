@@ -5,6 +5,9 @@
     .buffertop
       .cardbody
           linky.cardhud(:x='b.name' v-if='!member')
+          div(v-else)
+              img.send(src='../assets/images/doge.svg')
+              span {{member.name}}
           span.sml
               current(v-for='n in actions'  :memberId='n')
           //- div(v-if='b.taskId !== $store.getters.contextCard.taskId')
