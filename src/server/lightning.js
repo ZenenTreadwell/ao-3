@@ -100,6 +100,7 @@ lightningRouter.post('/bitcoin/transaction',(req, res) => {
           .catch(notInMempool => {
               getDecode(req.body.txid)
                   .then(txn => {
+                      // only works if bitcoind txindex=1
                       if (txn.vout) {
                           try {
                               Promise.all(txn.vout.map((output, i) => {
@@ -135,7 +136,7 @@ function updateAll(){
 }
 
 function watchOnChain(){
-    setInterval(updateAll, 1000 * 60 * 60)
+    setInterval(updateAll, 1000 * 60 * 13)
     setTimeout( () => {
         updateAll()
     }, 560)

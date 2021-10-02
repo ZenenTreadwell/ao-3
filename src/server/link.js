@@ -22,8 +22,6 @@ function sortAddresses(a,b){
 function sync(){
     serverState.ao.forEach(a => {
         console.log('syncing ', a)
-
-
         // a.links.forEach(l => {
         //     let crawlered = calculations.crawler(serverState.tasks, l)
         //     let expectedHash = calculations.crawlerHash(serverState.tasks, l)

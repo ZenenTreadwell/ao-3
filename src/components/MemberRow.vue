@@ -35,12 +35,12 @@ export default {
             let panel = [taskId]
             let parents = [  ]
             let top = 0
-
-            if (this.$store.getters.contextCard.taskId){
-                parents.push(this.$store.getters.contextCard.taskId)
-            } else if (this.$store.getters.memberCard.taskId){
-                parents.push(this.$store.getters.memberCard.taskId)
-            }
+            // 
+            // if (this.$store.getters.contextCard.taskId){
+            //     parents.push(this.$store.getters.contextCard.taskId)
+            // } else if (this.$store.getters.memberCard.taskId){
+            //     parents.push(this.$store.getters.memberCard.taskId)
+            // }
 
             this.$store.dispatch("goIn", {
                 parents,
