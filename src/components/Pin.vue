@@ -43,6 +43,14 @@ export default {
             this.dropping = true
         },
         goInKeep(taskId){
+            if (taskId === this.$store.getters.contextCard.taskId){
+                this.$store.dispatch("goIn", {
+                    panel: [this.$store.getters.member.memberId],
+                    top: 0,
+                    parents: []
+                })
+                return
+            }
             let parents = this.$store.state.context.parent
             parents.push(this.$store.getters.contextCard.taskId)
             let panel = [taskId]
@@ -51,6 +59,14 @@ export default {
             this.$store.dispatch("goIn", goInObj)
         },
         goIn(taskId){
+            if (taskId === this.$store.getters.contextCard.taskId){
+                this.$store.dispatch("goIn", {
+                    panel: [this.$store.getters.member.memberId],
+                    top: 0,
+                    parents: []
+                })
+                return
+            }
             let t = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
             let parents = [] // [this.$store.getters.contextCard.taskId]
             let panel = [taskId]
