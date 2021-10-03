@@ -168,6 +168,7 @@ router.post('/events', (req, res, next)=>{
             events.taskPopped(
               req.body.taskId,
               req.body.inId,
+              req.body.blame,
               utils.buildResCallback(res)
             );
           } else {
@@ -189,7 +190,7 @@ router.post('/events', (req, res, next)=>{
               validators.isTaskId(req.body.inId, errRes) &&
               req.body.tasks.every(tId => validators.isTaskId(tId, errRes))
           ) {
-              events.pileSubTasked(req.body.inId, req.body.tasks, utils.buildResCallback(res));
+              events.pileSubTasked(req.body.inId, req.body.tasks, req.body.blame, utils.buildResCallback(res));
           } else {
               res.status(400).send(errRes);
           }
@@ -199,7 +200,7 @@ router.post('/events', (req, res, next)=>{
               validators.isTaskId(req.body.inId, errRes) &&
               req.body.tasks.every(tId => validators.isTaskId(tId, errRes))
           ) {
-              events.pileDeSubTasked(req.body.inId, req.body.tasks, utils.buildResCallback(res));
+              events.pileDeSubTasked(req.body.inId, req.body.tasks, req.body.blame, utils.buildResCallback(res));
           } else {
               res.status(400).send(errRes);
           }

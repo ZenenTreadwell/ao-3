@@ -13,7 +13,7 @@
               v-model='task.name'
               type='text'
               :class='cardInputSty'
-              placeholder="love  愛  любовь  عشق    사랑  Aşk  ਪਿਆਰ  အချစ်  ស្រឡាញ់  <3"
+              placeholder="愛  любовь  عشق  love  사랑  Aşk  ਪਿਆਰ  အချစ်  ស្រឡាញ់  <3"
               @keyup.enter.exact='createOrFindTask'
               @keydown.enter.exact.prevent
               row='10'

@@ -361,20 +361,22 @@ function taskDeSubTasked(taskId, inId, memberId, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function pileSubTasked(inId, tasks, callback){
+function pileSubTasked(inId, tasks, blame, callback){
     let newEvent = {
       type: "pile-sub-tasked",
       inId,
       tasks,
+      blame,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function pileDeSubTasked(inId, tasks, callback){
+function pileDeSubTasked(inId, tasks, blame, callback){
     let newEvent = {
       type: "pile-de-sub-tasked",
       inId,
       tasks,
+      blame,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
@@ -399,11 +401,12 @@ function pilePrioritized(inId, tasks, blame, callback) {
   dctrlDb.insertEvent(newEvent, callback);
 }
 
-function taskPopped(taskId, inId, callback){
+function taskPopped(taskId, inId, blame, callback){
     let newEvent = {
       type: "task-popped",
       taskId,
       inId,
+      blame
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
