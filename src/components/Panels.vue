@@ -22,12 +22,11 @@
 
 <script>
 import _ from 'lodash'
-import Projects from './Projects'
 import Stack from './Stack'
 
 export default {
   components:{
-      Stack,Projects
+      Stack
   },
   methods: {
       getArchive(){

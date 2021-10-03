@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId}'  @click='goIn(m.memberId)')
+.memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId, dropping}'  @click='goIn(m.memberId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='offDrop')
     .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
         span(v-if='m.active') active
         span(v-else @click.stop='deleteUser').hover inactive
@@ -22,9 +22,37 @@ import Coin from './Coin'
 import Current from './Current'
 
 export default {
+    data(){
+        return { dropping: false }
+    },
     props: ['m'],
     components: {PreviewDeck, SimplePriorities, Coin, Current},
     methods:{
+        offDrop(){
+            this.dropping = false
+        },
+        drop(ev){
+            ev.preventDefault();
+
+            var data = ev.dataTransfer.getData("taskId")
+            if (this.m.memberId === data){
+                return
+            }
+            this.$store.dispatch("makeEvent", {
+                type: 'task-de-sub-tasked',
+                inId: this.$store.getters.contextCard.taskId,
+                taskId: data,
+            })
+            this.$store.dispatch("makeEvent", {
+                type: 'task-sub-tasked',
+                inId:  this.m.memberId,
+                taskId: data,
+            })
+        },
+        allowDrop(ev){
+            ev.preventDefault()
+            this.dropping = true
+        },
         delayedPaymode(){
             setTimeout(()=> {
                 this.$store.commit("setMode", 3)
@@ -35,7 +63,7 @@ export default {
             let panel = [taskId]
             let parents = [  ]
             let top = 0
-            // 
+            //
             // if (this.$store.getters.contextCard.taskId){
             //     parents.push(this.$store.getters.contextCard.taskId)
             // } else if (this.$store.getters.memberCard.taskId){
@@ -124,6 +152,7 @@ export default {
 @import '../styles/grid'
 @import '../styles/spinners'
 
+
 .hover:hover
     text-decoration: line-through;
 
@@ -142,6 +171,9 @@ label
     margin-bottom: 0.33em
     background: lightGrey
     cursor: pointer
+.memberrow.dropping
+    background: blue
+
 
 .fw
     width: 100%

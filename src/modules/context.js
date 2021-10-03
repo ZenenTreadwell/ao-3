@@ -34,14 +34,19 @@ const mutations = {
 
 const actions = {
     goIn({state,commit}, pContext ){
+        console.log('goIn called ', pContext)
         commit("setPanel", pContext.panel)
         commit("setTop", pContext.top)
-
-        pContext.parents.forEach(p => {
-            if (state.panel[state.top] !== p){
+        if (pContext.parents.length > 0){
+            pContext.parents.forEach(p => {
+              console.log('add parent called ?')
+              if (state.panel[state.top] !== p){
                 commit("addParent", p)
-            }
-        })
+              }
+            })
+        } else {
+            commit("setParent", pContext.parents)
+        }
     },
     goUp({state, commit}, pContext){
         if (state.parent.indexOf(pContext.target) === -1){

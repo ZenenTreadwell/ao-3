@@ -14,10 +14,9 @@ import cryptoUtils from '../crypto'
 import MemberRow from './MemberRow'
 import Connect from './Connect'
 import ResourceRow from './ResourceRow'
-import Projects from './Projects'
 
 export default {
-    components: {MemberRow, ResourceRow, Connect, Projects},
+    components: {MemberRow, ResourceRow, Connect},
     data() {
       return {
         change: {

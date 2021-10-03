@@ -75,5 +75,5 @@ a
     height: 1em
 
 .clickable
-    cursor: pointer
+    cursor: crosshair;
 </style>

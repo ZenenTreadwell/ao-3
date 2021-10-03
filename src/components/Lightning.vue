@@ -183,13 +183,11 @@ export default {
             this.sampleIndex ++
         },
         checkPeer(x){
-            console.log('checking ' , x)
             request
                 .post('/lightning/peer')
                 .send({pubkey: x})
                 .set("Authorization", this.$store.state.loader.token)
                 .end( (err, res) => {
-                    console.log({err,res})
                     if (!err) {
                         this.fetchedPeer = res.body
                     }

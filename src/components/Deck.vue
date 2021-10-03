@@ -21,7 +21,7 @@
             calendar(v-show='$store.state.upgrades.mode === "boat" || $store.state.upgrades.mode === "timecube"')
     div
         panels
-    projects.rell
+    pins.rell
 
 </template>
 
@@ -37,7 +37,7 @@ import Panels from './Panels'
 import Priorities from './Priorities'
 import Checkmarks from './Checkmarks'
 import Payments from './Payments'
-import Projects from './Projects'
+import Pins from './Pins'
 import Zen from './Zen'
 import Auth from './Auth'
 
@@ -46,7 +46,7 @@ export default {
       Hypercard,
       Panels, MemberRow, Calendar,
       ResourceRow, Context, Priorities, ResourceBook, PointsSet,
-      Checkmarks, Projects,
+      Checkmarks, Pins,
       Payments,
       Zen, Auth
   },

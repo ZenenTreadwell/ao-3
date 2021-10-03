@@ -2,7 +2,8 @@
 
 .bird(@click.stop)
     div(@click='toggleSend')
-        img.birdy(v-if='!showSend && !b.guild' src='../assets/images/badge.svg'  :class='{hidden:!$store.getters.member.guides}')
+        // :class='{hidden:!$store.getters.member.guides}'
+        img.birdy(v-if='!showSend && !b.guild' src='../assets/images/badge.svg')
         div.birdy.smallguild(v-else  :class='{ open : showSend }')
     guild-create(v-if='showSend'   :b='b'  :showSendOff='showSendOff')
     .theTitle(v-if='b.guild && !showSend') {{ b.guild }}
