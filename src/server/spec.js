@@ -517,6 +517,7 @@ router.post('/events', (req, res, next)=>{
               events.taskGuilded(
                 req.body.taskId,
                 req.body.guild,
+                req.body.blame,
                 utils.buildResCallback(res)
               )
           } else {
@@ -676,11 +677,13 @@ router.post('/events', (req, res, next)=>{
       case 'task-prioritized':
           if (
               validators.isTaskId(req.body.inId, errRes) &&
+              validators.isTaskId(req.body.fromId, errRes) &&
               validators.isTaskId(req.body.taskId, errRes)
           ){
               events.taskPrioritized(
                 req.body.taskId,
                 req.body.inId,
+                req.body.fromId,
                 req.body.blame,
                 utils.buildResCallback(res)
               )

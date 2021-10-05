@@ -326,7 +326,13 @@ function tasksMuts(tasks, ev) {
             if (task.taskId === ev.inId){
                 task.stackView[ev.color] = 0
                 task.subTasks = _.filter(task.subTasks, tId => tId !== ev.taskId)
+                task.priorities = _.filter(task.priorities, tId => tId !== ev.taskId)
                 task.subTasks.push(ev.taskId)
+                tasks.forEach( taskLoop2 => {
+                    if ( task.priorities.indexOf(taskLoop2.taskId) >= 0){
+                        taskLoop2.priorities = _.filter(taskLoop2.priorities, tId => tId !== ev.taskId)
+                    }
+                })
             }
         })
         break
@@ -671,6 +677,15 @@ function tasksMuts(tasks, ev) {
       break
     case "task-prioritized":
       tasks.forEach(task => {
+        if (task.taskId === ev.fromId){
+            task.subTasks = _.filter(task.subTasks, taskId => taskId !== ev.taskId)
+            task.priorities = _.filter(task.priorities, taskId => taskId !== ev.taskId)
+            tasks.forEach( taskLoop2 => {
+                if ( task.priorities.indexOf(taskLoop2.taskId) >= 0){
+                    taskLoop2.priorities = _.filter(taskLoop2.priorities, tId => tId !== ev.taskId)
+                }
+            })
+        }
         if (task.taskId === ev.inId) {
           task.priorities = _.filter(task.priorities, taskId => taskId !== ev.taskId)
           task.subTasks = _.filter(task.subTasks, taskId => taskId !== ev.taskId)

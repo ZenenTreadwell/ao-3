@@ -94,12 +94,14 @@ export default {
                 this.$store.dispatch("makeEvent", {
                     type: 'task-prioritized',
                     taskId: this.b.taskId,
+                    fromId: this.b.taskId,
                     inId: target,
                 })
             } else {
                 this.$store.dispatch("makeEvent", {
                     type: 'task-prioritized',
                     taskId: this.b.taskId,
+                    fromId: this.b.taskId,
                     inId: this.inId,
                 })
 

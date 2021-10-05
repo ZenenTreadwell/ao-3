@@ -105,7 +105,7 @@ function startDctrlAo(){
                             })
                             if (mostRecentAccount !== name){
                                 mostRecentAccount = name
-                                console.log(chalk.bold.magenta(name), 'active')
+                                console.log(chalk.bold.magenta(name), 'active', ev.type)
                             }
                             break
                     }

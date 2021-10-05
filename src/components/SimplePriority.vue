@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.priority(@click='goIn(taskId)')
+.priority(@click='goIn(taskId)'  draggable="true"  :ondrop.stop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart')
     .row.agedwrapper(:class='cardInputSty')
         img.front.nopad(v-if='card.guild'  src="../assets/images/badge.svg")
         span.front.nudge(v-if='card.guild')  {{ card.guild }}
@@ -13,8 +13,6 @@
 </template>
 
 <script>
-import Hammer from 'hammerjs'
-import Propagating from 'propagating-hammerjs'
 
 import Linky from './Linky'
 import Tally from './Tally'
@@ -22,41 +20,28 @@ import Tally from './Tally'
 export default {
     props: ['taskId', 'inId', 'c'],
     components: { Linky, Tally },
-    mounted() {
-        let el = this.$refs.wholeCard
-        if(!el) return
-        let mc = Propagating(new Hammer.Manager(el))
-
-        let doubleTap = new Hammer.Tap({ event: 'doubletap', taps: 2, time: 400, interval: 400 })
-        let longPress = new Hammer.Press({ time: 600 })
-
-        mc.add([doubleTap, longPress])
-
-        longPress.recognizeWith([doubleTap])
-        longPress.requireFailure([doubleTap])
-
-        mc.on('doubletap', (e) => {
-            this.goIn(this.taskId)
-            e.stopPropagation()
-        })
-
-        mc.on('press', (e) => {
-            this.copyCardToClipboard()
-            e.stopPropagation()
-        })
-
-        let checkel = this.$refs.checkbox
-        if(!checkel) return
-        let checkmc = Propagating(new Hammer.Manager(checkel))
-
-        let Tap = new Hammer.Tap({ time: 400 })
-        checkmc.add(Tap)
-        checkmc.on('tap', (e) => {
-
-            e.stopPropagation()
-        })
-    },
     methods: {
+      drop(ev){
+          ev.preventDefault();
+          ev.stopPropagation();
+          // prioritize
+          var data = ev.dataTransfer.getData("taskId")
+          if (this.taskId === data){
+              return
+          }
+          this.$store.dispatch("makeEvent", {
+              type: 'task-prioritized',
+              inId: this.taskId,
+              fromId: this.$store.getters.contextCard.taskId,
+              taskId: data,
+          })
+      },
+      allowDrop(ev){
+          ev.preventDefault()
+      },
+      dragStart(ev){
+          ev.dataTransfer.setData("taskId", this.taskId);
+      },
       checky(){
           if(!this.isCompleted) {
               this.complete()

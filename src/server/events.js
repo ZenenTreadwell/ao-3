@@ -332,11 +332,12 @@ function addressUpdated(taskId, btcAddr, callback){
       }, callback)
 }
 
-function taskGuilded(taskId, guild, callback){
+function taskGuilded(taskId, guild, blame, callback){
     let newEvent = {
         type: "task-guilded",
         taskId,
         guild,
+        blame,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
@@ -381,11 +382,12 @@ function pileDeSubTasked(inId, tasks, blame, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function taskPrioritized(taskId, inId, memberId, callback){
+function taskPrioritized(taskId, inId, fromId, memberId, callback){
     let newEvent = {
       type: "task-prioritized",
       taskId,
       inId,
+      fromId,
       memberId,
     }
     dctrlDb.insertEvent(newEvent, callback)

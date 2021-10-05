@@ -378,11 +378,13 @@ export default {
 @import '../styles/breakpoints';
 @import '../styles/input';
 
+
 textarea
     border-color: rgba(0, 0, 0, 0.4)
     height: 6em
 textarea.inactive
     height: 2em
+    padding-bottom: 2.5em
 
 .boatContainer button
     background-color: main
@@ -461,6 +463,7 @@ textarea.inactive
         min-height: 2.5em
         width: 4.045085em
         margin: 0
+        padding-bottom: 2.5em
 
 .btnwrapper
     width: 100%

@@ -69,10 +69,12 @@ export default {
         },
         drop(ev){
             ev.preventDefault();
+            console.log(' Member Drop Trig')
             var data = ev.dataTransfer.getData("taskId")
             this.$store.dispatch("makeEvent", {
                 type: 'task-prioritized',
                 inId: this.$store.getters.contextCard.taskId,
+                fromId: this.$store.getters.contextCard.taskId,
                 taskId: data,
             })
             this.$store.commit("setMode", 1)

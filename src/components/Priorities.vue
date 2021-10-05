@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.priorities(:ondrop='drop'    :ondragover="allowDrop")
+.priorities
     div.center(v-if='priorities.length === 0') ~task list empty~
         //- span.ptr(v-if='$store.getters.contextCard.subTasks.length > 0'  @click='pilePrioritized') , *raise all {{$store.getters.contextCard.subTasks.length}}*
     .clearboth(v-for='(t, i) of priorities'  :key='t')
@@ -31,19 +31,6 @@ export default {
       }
   },
   methods:{
-    allowDrop(ev){
-        ev.preventDefault()
-    },
-    drop(ev){
-        ev.preventDefault();
-        var data = ev.dataTransfer.getData("taskId")
-        this.$store.dispatch("makeEvent", {
-            type: 'task-prioritized',
-            inId: this.$store.getters.contextCard.taskId,
-            taskId: data,
-        })
-        this.$store.commit("setMode", 1)
-    },
     hasCompleted(tId){
         let card = this.$store.state.tasks[this.$store.state.hashMap[tId]]
         if(card && card.claimed){
@@ -68,6 +55,7 @@ export default {
       this.$store.dispatch("makeEvent", {
         type: 'task-prioritized',
         inId: this.$store.getters.contextCard.taskId,
+        fromId: this.$store.getters.contextCard.taskId,
         taskId,
       })
     },
