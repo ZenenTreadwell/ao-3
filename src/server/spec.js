@@ -699,6 +699,7 @@ router.post('/events', (req, res, next)=>{
               events.taskCompleted(
                 req.body.taskId,
                 req.body.inId,
+                req.body.blame,
                 utils.buildResCallback(res)
               )
           } else {

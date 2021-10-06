@@ -3,17 +3,20 @@
 .memberrow.membershipcard(:ondrop="drop"   :ondragover="allowDrop" )
     .bottomright()
         div(@click='$store.commit("setMode", 3)'  :class='{here: $store.state.upgrades.mode === "chest"}')
-            .stash(v-if='card.boost > 0') {{ card.boost.toLocaleString() }}
+            .stash(v-if='$store.state.upgrades.mode === "chest"') {{ card.boost.toLocaleString() }}
+            .stash(v-else-if='$store.state.upgrades.mode === "boat"')
+                checkbox(:b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
+            .stash(v-else-if='$store.state.upgrades.mode === "timecube"') ~
     .row.center.clearboth(@click='$store.commit("setMode", 0)')
         label
             bird(:b='$store.getters.contextCard', :inId='$store.getters.contextCard.taskId')
             div(v-if='$store.getters.contextMember')
                 linky(:x='m.name')
             linky(v-else  :x='card.name')
+            span {{ $store.state.upgrades.mode }}
     div
         .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
-            img(v-if='$store.state.upgrades.mode !== "boat"'  src='../assets/images/completed.svg')
-            checkbox(v-else  :b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
+            img(src='../assets/images/completed.svg')
         .bottomleft(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}')
             img(src='../assets/images/timecube.svg')
         .bottomleft(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')

@@ -282,6 +282,7 @@ export default {
                     deck: [this.$store.getters.member.memberId],
                     inId: this.taskId,
                 })
+                this.nextColor()
             } else {
                 this.subTaskTask(foundId)
             }
@@ -381,7 +382,9 @@ export default {
 
 textarea
     border-color: rgba(0, 0, 0, 0.4)
-    height: 6em
+    height: 7em
+    max-height: 11vh
+    min-height: 2em;
 textarea.inactive
     height: 2em
     padding-bottom: 2.5em
@@ -403,13 +406,13 @@ textarea.inactive
     margin-bottom: 0.23456em
 
 #createtask
-  width: 81%
+  width: 69%
   margin: 0 auto 0 auto
   text-align: center
   padding: 0.05em
   position: fixed
-  z-index: 149
-  bottom: 2em
+  z-index: 1649
+  bottom: -1em
   left: 50%
   transform: translateX(-50%)
   -webkit-text-stroke-width: 1px;
@@ -637,8 +640,7 @@ textarea.inactive
     width: 20%
     font-size: 4.44em
     color: main
-    margin-top:-0.4em
-    margin-bottom:-0.4em
+    margin-top:-0.44em
     border-radius: 2%
 .fifth:before
     content: "\2022";

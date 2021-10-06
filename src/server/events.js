@@ -46,11 +46,12 @@ function taskTouched(taskId, stack, position, memberId, callback){
 }
 
 
-function taskCompleted(taskId, inId, callback){
+function taskCompleted(taskId, inId, blame, callback){
     let newEvent = {
       type: "task-completed",
       taskId,
       inId,
+      blame,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
