@@ -2,7 +2,7 @@
 
 .memberrow.membershipcard(:ondrop="drop"   :ondragover="allowDrop" )
     .bottomright()
-        div(@click='$store.commit("setMode", 3)'  :class='{here: $store.state.upgrades.mode === "chest"}')
+        div(:class='{here: $store.state.upgrades.mode === "chest"}')
             .stash(v-if='$store.state.upgrades.mode === "chest"') {{ card.boost.toLocaleString() }}
             .stash(v-else-if='$store.state.upgrades.mode === "boat"')
                 checkbox(:b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
@@ -231,6 +231,8 @@ label
         height: 1.11em
 .bottomleft:hover
     opacity: 0.7
+    img
+        height: 1.51em
 
 .bottomleft.activationsequence
     -webkit-box-sizing: content-box;

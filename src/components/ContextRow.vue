@@ -3,10 +3,10 @@
 .context.paperwrapper(:class="cardInputSty"  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart')
     .popup
         .here
-            span.front(v-if='isMember')  {{ isMember }}
-            span.front(v-else-if='isResource')  {{ isResource }}
-            span.front(v-else-if='card.guild')  {{ card.guild }}
-            linky.front(v-else  :x='name'  :key='name')
+            span.front(v-if='isMember')  {{ isMember }} &nbsp;
+            span.front(v-else-if='isResource')  {{ isResource }} &nbsp;
+            span.front(v-else-if='card.guild')  {{ card.guild }} &nbsp;
+            linky.front(:x='name'  :key='name')
     img.front(v-if='card.guild'  src="../assets/images/badge.svg")
     img.front(v-if='isMember' src="../assets/images/doge.svg")
     div.right.front(v-if='card.book.startTs')
@@ -180,6 +180,8 @@ img
 .popup .here
     // visibility: hidden
     opacity: 0.15
+.popup:hover .here
+    opacity: 1
 
 .here
     position: inline

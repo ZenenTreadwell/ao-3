@@ -772,16 +772,7 @@ function tasksMuts(tasks, ev) {
     case "task-unclaimed":
       tasks.forEach(task => {
         if (task.taskId === ev.taskId) {
-          task.claimed = task.claimed.filter(mId => mId !== ev.memberId)
-          if (task.claimed.length < 1) {
-            tasks.forEach(p => {
-              if (p.priorities.indexOf(ev.taskId) === -1 && p.completed.indexOf(ev.taskId) > -1) {
-                task.completed = task.completed.filter(taskId => taskId !== ev.taskId)
-                task.subTasks = task.subTasks.filter(taskId => taskId !== ev.taskId)
-                task.subTasks.push(ev.taskId)
-              }
-            })
-          }
+            task.claimed = task.claimed.filter(mId => mId !== ev.memberId)
         }
         if (task.taskId === ev.inId){
             task.completed = task.completed.filter(taskId => taskId !== ev.taskId)

@@ -11,6 +11,8 @@
         .one.grid(@click.stop)
             coin(:b='b')
         .grid.eight
+            span(v-for='x in rowsGuilds') {{x}} &nbsp;
+
             //- simple-priorities(:taskId='m.memberId')
 </template>
 
@@ -38,11 +40,6 @@ export default {
             if (this.m.memberId === data){
                 return
             }
-            this.$store.dispatch("makeEvent", {
-                type: 'task-de-sub-tasked',
-                inId: this.$store.getters.contextCard.taskId,
-                taskId: data,
-            })
             this.$store.dispatch("makeEvent", {
                 type: 'task-sub-tasked',
                 inId:  this.m.memberId,
@@ -113,11 +110,11 @@ export default {
         },
         rowsGuilds(){
             let g = []
-            // this.$store.getters.pubguilds.forEach(t => {
-            //     if (t.deck.indexOf(this.m.memberId) > -1){
-            //         g.push(t)
-            //     }
-            // })
+            this.$store.getters.uniqGuilds.forEach(t => {
+                if (t.deck.indexOf(this.m.memberId) > -1){
+                    g.push(t.guild)
+                }
+            })
             return g
         },
         b(){
