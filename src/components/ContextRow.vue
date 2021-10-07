@@ -5,8 +5,9 @@
         .here
             span.front(v-if='isMember')  {{ isMember }} &nbsp;
             span.front(v-else-if='isResource')  {{ isResource }} &nbsp;
-            span.front(v-else-if='card.guild')  {{ card.guild }} &nbsp;
-            linky.front(:x='name'  :key='name')
+            span(v-else)
+                span.front(v-if='card.guild')  {{ card.guild }} &nbsp;
+                linky.front(:x='name'  :key='name')
     img.front(v-if='card.guild'  src="../assets/images/badge.svg")
     img.front(v-if='isMember' src="../assets/images/doge.svg")
     div.right.front(v-if='card.book.startTs')

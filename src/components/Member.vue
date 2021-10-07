@@ -6,14 +6,17 @@
             .stash(v-if='$store.state.upgrades.mode === "chest"') {{ card.boost.toLocaleString() }}
             .stash(v-else-if='$store.state.upgrades.mode === "boat"')
                 checkbox(:b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
-            .stash(v-else-if='$store.state.upgrades.mode === "timecube"') ~
+            .stash(v-else-if='$store.state.upgrades.mode === "timecube"'  :key='card.taskId').points
+                span(v-if='cardStart.days > 1'  @click='clearSchedule') in {{ cardStart.days.toFixed(1) }} days
+                span(v-else-if='cardStart.hours > 1'  @click='clearSchedule') in {{ cardStart.hours.toFixed(1) }} hours
+                span(v-else-if='cardStart.minutes > 1'  @click='clearSchedule') in {{ cardStart.minutes.toFixed(1) }} minutes
+                resource-book(v-else)
     .row.center.clearboth(@click='$store.commit("setMode", 0)')
         label
             bird(:b='$store.getters.contextCard', :inId='$store.getters.contextCard.taskId')
             div(v-if='$store.getters.contextMember')
                 linky(:x='m.name')
             linky(v-else  :x='card.name')
-            span {{ $store.state.upgrades.mode }}
     div
         .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
             img(src='../assets/images/completed.svg')
@@ -32,11 +35,38 @@ import Auth from './Auth'
 import Checkbox from './Checkbox'
 import Card from './Card'
 import Bird from './Bird'
+import ResourceBook from './ResourceBook'
 
 export default {
-    props: ['m'],
-    components: {Current, Linky, Auth, Card, Checkbox, Bird},
+    components: {Current, Linky, Auth, Card, Checkbox, Bird, ResourceBook},
     computed:{
+        m(){
+            return this.$store.getters.contextMember
+        },
+        cardStart(){
+            let days = 0
+            let hours = 0
+            let minutes = 0
+            let cstar = {
+                days,
+                hours,
+                minutes
+            }
+            if ( this.card.book.startTs ){
+              let msTill = this.card.book.startTs - Date.now()
+              cstar.days = msTill / (1000 * 60 * 60 * 24)
+              if (cstar.days > 1){
+                  return cstar
+              }
+              cstar.hours = cstar.days * 24
+              if (cstar.hours > 1){
+                  return cstar
+              }
+              cstar.minutes = cstar.hours * 60
+              return cstar
+            }
+            return cstar
+        },
         card(){
             return this.$store.getters.contextCard
         },
@@ -67,6 +97,15 @@ export default {
         },
     },
     methods: {
+        clearSchedule(){
+            this.$store.dispatch('makeEvent', {
+                type: 'resource-booked',
+                resourceId: this.$store.getters.contextCard.taskId,
+                memberId: this.$store.getters.member.memberId,
+                startTs: 0,
+                endTs: 0,
+            })
+        },
         allowDrop(ev){
             ev.preventDefault()
         },
@@ -98,7 +137,7 @@ export default {
         },
         toBoat(){
             if (this.$store.state.upgrades.mode === "boat"){
-                // allow check
+                this.$store.commit("setMode", 0)
             } else {
                 this.$store.commit("setMode", 1)
             }
@@ -242,7 +281,7 @@ label
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     -webkit-box-shadow: 3px 3px 18px 3px softGrey ;
-    box-shadow: 3px 3px 18px 3px softGrey ;
+    box-shadow: 2px 2px 1px 2px softGrey;
     img
         height: 1.77em
 
@@ -251,7 +290,6 @@ label
     right: 0.1em
     top: 0.1em
     float: right
-    cursor: pointer
 
 .stash
     display: inline
@@ -291,5 +329,11 @@ ul.left
 
 .clearboth
     clear: both
+
+.stash:hover span
+    text-decoration: line-through;
+
+.stash span
+    cursor: pointer;
 
 </style>

@@ -1,7 +1,8 @@
 <template lang='pug'>
 
-#newresource
+#newresource(:class='{shown: showSetTime}')
     div(v-if='showSetTime')
+        .close(@click='showSetTime = false') x
         label select day
         input(v-model='ymd' type='date')
         label select hour
@@ -29,7 +30,6 @@
 <script>
 
 export default {
-    props:['tId', 'showSet'],
     methods: {
         book(){
             console.log("current start", this.calcTime.start)
@@ -46,7 +46,7 @@ export default {
     },
     data(){
         return {
-            showSetTime: this.showSet,
+            showSetTime: false,
             ymd: '',
             hour: 1,
             meridiem : 'pm',
@@ -55,6 +55,9 @@ export default {
         }
     },
     computed: {
+        tId(){
+            return this.$store.getters.contextCard.taskId
+        },
         calcTime(){
             const HOUR = 60 * 60 * 1000
             let d = new Date(this.ymd)
@@ -94,11 +97,25 @@ export default {
 @import '../styles/input'
 @import '../styles/button'
 
-#newresource
-    color: lightGrey
+.close
+    float: right;
+    padding: .3em;
+    cursor: pointer;
+    background: darkgray;
+    border-radius: 10%;
+    color: white;
+    margin-bottom: .3em;
+    width: 1.1em;
+    text-align: center;
     
+#newresource
+    margin-bottom: -.17em
+
+#newresource.shown
+    padding: 1em
+
 .br
-  padding-top: 1.9em
+    padding-top: 1.9em
 
 // TODO: fix strange style stuff going on padding/margin on label not having effect
 label
@@ -110,4 +127,8 @@ label
 
 .centerform
     margin: 0 auto 1em auto
+
+button
+    padding: 0
+    cursor: pointer
 </style>

@@ -156,7 +156,7 @@ export default {
                     }
                 })
             } catch (err){
-                console.log("regex in error: ", err)
+                return
             }
             this.$store.commit('setSearch', search)
             this.matches = { guilds, doges, cards}
