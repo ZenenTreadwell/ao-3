@@ -65,5 +65,7 @@ export default {
     background: #1d082c
 .blackwxd
     background: #1d082c
+.nowx
+    background: #404040
 
 </style>

@@ -4,7 +4,7 @@
   div(v-if='!existing')
       .input-container
           input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
-          label name
+          label choose name
           span.focus-border
       button(v-if='name.length > 0'  @click="createAccount") create account
   div(v-if='existing')
@@ -18,8 +18,8 @@
           span.focus-border
       button(v-if='pass.length > 0'  @click="createSession") login
   .existing(@click='toggleExisting')
-      span(v-if='!existing') switch to login
-      span(v-else) switch to create new
+      span(v-if='!existing') existing account? login
+      span(v-else) want a new account? new
 </template>
 
 <script>
@@ -27,6 +27,7 @@
 import request from 'superagent'
 import uuidV1 from 'uuid/v1'
 import cryptoUtils from '../crypto'
+
 
 export default {
   name: 'Auth',
@@ -99,14 +100,19 @@ h3 span
     cursor:pointer
 
 #auth
-    margin-top: 5.33333em
     background: lightGrey
-    padding: 2em
+    padding: 3em
+    border-style: solid
+    border-radius: 7%
+
 
 .existing
     text-align: right
     color: main
     cursor: pointer
+
+.existing:hover span
+    text-decoration: underline;
 
 h1
     text-align: center

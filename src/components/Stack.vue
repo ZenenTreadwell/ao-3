@@ -240,18 +240,6 @@ export default {
           flip.play()
       }
     },
-    toggleStacks(){
-        let newfield = 5
-        if (this.$store.getters.member.stacks === 5){
-            newfield = 1
-        }
-        this.$store.dispatch('makeEvent', {
-            type: "member-field-updated",
-            field: 'stacks',
-            newfield,
-            memberId: this.$store.getters.member.memberId
-        })
-    },
   },
   computed: {
     sanePosition(){
