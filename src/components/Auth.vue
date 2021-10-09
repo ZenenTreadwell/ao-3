@@ -110,6 +110,11 @@ h3 span
     text-align: right
     color: main
     cursor: pointer
+    padding: 0.38em
+
+.existing:hover
+    background: main
+    color: lightGrey
 
 .existing:hover span
     text-decoration: underline;
@@ -119,7 +124,6 @@ h1
 
 input
     font-size: 16px
-    border: 2px solid wrexyellow
     margin-bottom: 0.5em
     border-radius: 0.25em
 input:focus
