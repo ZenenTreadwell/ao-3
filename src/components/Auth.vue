@@ -17,6 +17,7 @@
           label password
           span.focus-border
       button(v-if='pass.length > 0'  @click="createSession") login
+  .warning(v-if='err') {{err}}
   .existing(@click='toggleExisting')
       span(v-if='!existing') existing account? login
       span(v-else) want a new account? new
@@ -47,10 +48,12 @@ export default {
   methods: {
       toggleExisting(){
           this.existing = !this.existing
+          this.err = ''
       },
       createAccount(){
           request.get('/newaccount/' + this.name)
               .end((err, res) => {
+                  console.log({err,res})
                   if (err) {
                       return this.err = err.message
                   }

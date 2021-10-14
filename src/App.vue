@@ -63,7 +63,7 @@ export default {
     },
     methods: {
         alwaysFocus(anypass){
-            if (anypass.target.id === "card" || anypass.target.type === "text"){
+            if (anypass.target.id === "card" || anypass.target.type === "text" || anypass.target.type === "password"){
                 return // skip focus
             }
             this.$store.commit('focus', anypass.key)
@@ -78,6 +78,11 @@ export default {
 @import "./styles/normalize";
 @import "./styles/skeleton";
 @import "./styles/colours";
+
+p
+    display: inline
+    margin: 0
+    padding: 0
 
 .four.columns.plac
     text-align: center

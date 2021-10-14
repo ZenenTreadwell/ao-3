@@ -5,7 +5,7 @@
         span.plain.completedcheckmark(@click='goIn(c.taskId)'  )
             img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color)')
     span.ptr(v-if='checkmarks.length > 0'  @click='relist') *re-list*
-    div(v-if='$store.getters.contextCard.highlights.length > 0 ')
+    .bg(v-if='$store.getters.contextCard.highlights.length > 0 ')
         ul
             li(v-for='c in checkmarks') {{ c.name }}
     //- .workblue
@@ -170,6 +170,11 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/grid'
+
+.bg
+    background: lightGrey
+    padding: 0.33em
+    border-radius: 3%
 
 .ptr
     cursor: pointer;

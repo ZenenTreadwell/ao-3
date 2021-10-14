@@ -9,14 +9,20 @@ span.linky
 <script>
 
 import markdown from 'markdown-it'
-let md = new markdown();
+let md = new markdown({
+  html: true,
+  linkify: true,
+  typographer: true,
+  breaks: true,
+});
 
 export default {
     name: 'linky',
     props: ['x'],
     computed: {
         m(){
-            return md.renderInline(this.x)
+            let m2 = md.render(this.x)
+            return m2
         },
         isLock(){
             return this.x.slice(0,7) === '__lock:'

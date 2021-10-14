@@ -12,15 +12,16 @@
                 input.input-effect(:type='inputType' v-model='change.newfield'  :class='{"has-content":!!change.newfield}')
                 label new value
                 span.focus-border
-            br
             .input-container(v-if='inputType === "password"')
-                input.input-effect(:type='inputType', v-model='change.confirmNewfield'  :class='{"has-content":!!change.confirmNewfield}')
-                label repeat
-                span.focus-border
-            .check(v-if='inputType === "password"')
-                img.checkmark(v-if='matched', src='../assets/images/completed.svg')
-                img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                span - repeat correctly
+                .row
+                    .six.columns
+                        input.input-effect(:type='inputType', v-model='change.confirmNewfield'  :class='{"has-content":!!change.confirmNewfield}')
+                        label repeat
+                        span.focus-border
+                    .check.six.columns(v-if='inputType === "password"')
+                        img.checkmark(v-if='matched', src='../assets/images/completed.svg')
+                        img.checkmark(v-else, src='../assets/images/uncompleted.svg')
+                        span - repeat correctly
             button(@click='update'  v-if='change.newfield  && inputType !== "password"') update {{ change.field }}
             button(@click='update'  v-else-if='change.newfield  && change.confirmNewfield.length > 0 && matched') update password
         .six.columns.bg
@@ -219,6 +220,15 @@ export default {
 @import '../styles/button'
 @import '../styles/input'
 
+input:-webkit-autofill {
+    -webkit-box-shadow:0 0 0 50px white inset; /* Change the color to your own background color */
+    -webkit-text-fill-color: #333;
+}
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: /*your box-shadow*/,0 0 0 50px white inset;
+    -webkit-text-fill-color: #333;
+}
+
 .bg
     background: lightGrey
     padding: 0.33em
@@ -257,8 +267,6 @@ li
 h3
     font-family: 'Open Sans', light, sans-serif
     font-size:1.6em
-a, input
-		margin-top: .5em
 .space
     padding-left: .654321em
 .click
