@@ -1,13 +1,14 @@
 <template lang='pug'>
 
-.current
-    span(v-for='c in checkmarks'  :key='c.taskId')
-        span.plain.completedcheckmark(@click='goIn(c.taskId)'  )
-            img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color)')
-    span.ptr(v-if='checkmarks.length > 0'  @click='relist') *re-list*
-    .bg(v-if='$store.getters.contextCard.highlights.length > 0 ')
-        ul
-            li(v-for='c in checkmarks') {{ c.name }}
+.current.bg(v-if='checkmarks.length > 0')
+    span#swipechecks
+        span(v-for='(c, index) in checkmarks'  :key='c.taskId ')
+            span.plain.completedcheckmark(@click='goIn(c.taskId)'  @mouseover='$store.commit("selectCheck", index)')
+                img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color, index)' )
+    span.ptr(v-if='checkmarks.length > 0'  @click='relist') *redo*
+    ul
+        li(v-if='$store.getters.contextCard.highlights.length > 0 '  v-for='(c, index) in checkmarks'  :class='{selectedCheckInList: c.name === $store.getters.selectedCheckName}'  @mouseover='$store.commit("selectCheck", index)') {{ c.name }}
+        li(v-else  v-if='$store.getters.selectedCheckName') {{ $store.getters.selectedCheckName }}
     //- .workblue
     //-     img(v-if='member.action === $store.getters.contextCard.taskId'  src='../assets/images/timecube.svg')
     //-     span(v-else) -
@@ -22,16 +23,26 @@
 
 import Linky from './Linky'
 import Coin from './Coin'
+import Hammer from 'hammerjs'
 
 export default {
-  // data(){
-  //     return {
-  //         updatePlz: 1
-  //     }
-  // },
-  // mounted(){
-  //     // setInterval(() => this.updatePlz += 3, 3001)
-  // },
+  mounted(){
+      var el = document.getElementById('swipechecks')
+      var mc = new Hammer.Manager(el)
+      var Swipe = new Hammer.Swipe()
+      mc.add(Swipe)
+      let newCheck
+      mc.on('swipeleft', () => {
+          newCheck = (this.$store.state.upgrades.selectedCheck - 1) % this.$store.getters.contextCompleted.length
+          if (newCheck < 0) newCheck = this.$store.getters.contextCompleted.length - 1
+          this.$store.commit('selectCheck', newCheck)
+      });
+
+      mc.on('swiperight', () => {
+          newCheck =  (this.$store.state.upgrades.selectedCheck + 1) % this.$store.getters.contextCompleted.length
+          this.$store.commit('selectCheck', newCheck)
+      })
+  },
   components: { Linky, Coin },
   methods: {
     relist(){
@@ -75,8 +86,9 @@ export default {
             notes: ''
         })
     },
-    cardInputSty(c){
+    cardInputSty(c, index){
         return {
+            selectedCheck: this.$store.state.upgrades.selectedCheck === index,
             redwx : c === 'red',
             bluewx : c === 'blue',
             greenwx : c === 'green',
@@ -171,6 +183,9 @@ export default {
 @import '../styles/colours'
 @import '../styles/grid'
 
+.selectedCheckInList
+    font-size: 1.69em
+
 .bg
     background: lightGrey
     padding: 0.33em
@@ -192,6 +207,7 @@ export default {
 img
     height: 0.7em
 
+
 .name
     font-size: 1.2em
     margin-right: 1em
@@ -208,6 +224,8 @@ img.checkmark
 img.completedcheckmark
     height: 1.5em
 
+img.completedcheckmark.selectedCheck
+    height: 2.2em
 
 .completedcheckmarks
     min-height: 1.5em

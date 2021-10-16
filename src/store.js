@@ -21,6 +21,13 @@ export default createStore({
       hashMap: modules.hashMap,
   },
   getters: {
+      selectedCheckName(state, getters){
+          let x = state.upgrades.selectedCheck
+          if (getters.contextCompleted[x]){
+              return getters.contextCompleted[x].name
+          }
+          return ''
+      },
       bountyList(state, getters){
           return state.tasks
               .filter(t => t.completeValue >= 1 && getters.memberIds.indexOf(t.taskId) === -1)

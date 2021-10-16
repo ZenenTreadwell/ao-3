@@ -17,10 +17,14 @@ const state = {
     bird: false,
     barking: false,
     pinging: false,
-    chosenDay: new Date().getDate()
+    chosenDay: new Date().getDate(),
+    selectedCheck:0,
 }
 
 const mutations = {
+    selectCheck(state, y){
+        state.selectedCheck = y
+    },
     focus(state, keypressed){
         state.keypressed = keypressed
         state.refocus ++
