@@ -2,9 +2,8 @@
 
 .memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId, dropping}'  @click='goIn(m.memberId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='offDrop')
     .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
-        span(v-if='m.active') active
-        span(v-else @click.stop='deleteUser').hover inactive
-        span - {{b.boost.toLocaleString()}}
+        span(v-if='!m.active'  @click.stop='deleteUser').hover delete
+        span {{b.boost.toLocaleString()}}
     .row(v-if='b')
         .three.grid.ptr
             current(:memberId='m.memberId' @click.stop)

@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.memberrow.membershipcard(:ondrop="drop"   :ondragover="allowDrop" )
+.memberrow.membershipcard(:ondrop="drop"   :ondragover="allowDrop"  )
     .bottomright()
         div(:class='{here: $store.state.upgrades.mode === "chest"}')
             .stash(v-if='$store.state.upgrades.mode === "chest"') {{ card.boost.toLocaleString() }}
@@ -11,7 +11,7 @@
                 span(v-else-if='cardStart.hours > 1'  @click='clearSchedule') in {{ cardStart.hours.toFixed(1) }} hours
                 span(v-else-if='cardStart.minutes > 1'  @click='clearSchedule') in {{ cardStart.minutes.toFixed(1) }} minutes
                 resource-book(v-else)
-    .row.center.clearboth(@click='$store.commit("setMode", 0)')
+    .row.center.clearboth(@click='$store.commit("setMode", 0)'  draggable="true"  :ondragstart='dragStart' )
         label
             bird(:b='$store.getters.contextCard', :inId='$store.getters.contextCard.taskId')
             div(v-if='$store.getters.contextMember')
@@ -97,6 +97,9 @@ export default {
         },
     },
     methods: {
+        dragStart(ev){
+            ev.dataTransfer.setData("taskId", this.$store.getters.contextCard.taskId);
+        },
         clearSchedule(){
             this.$store.dispatch('makeEvent', {
                 type: 'resource-booked',

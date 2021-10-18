@@ -4,6 +4,7 @@
     span
         span(v-if='cardStart').points {{ cardStart.days.toFixed(1) }} days
         span.hide(v-if='b.claimed.length > 0') -
+        img(v-if='!isPriority'  v-for='t in b.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
         img(v-for='n in clm.xmark'  src='../assets/images/xmark.svg')
         img(v-for='n in clm.mark'  src='../assets/images/mark.svg')
 </template>
@@ -13,9 +14,20 @@
 import Current from './Current'
 
 export default {
-    props: ['b'],
+    props: ['b', 'isPriority'],
     components: { Current },
     methods:{
+      styl(color){
+          if (!color) return
+          return {
+              redwx : color == 'red',
+              bluewx : color == 'blue',
+              greenwx : color == 'green',
+              yellowwx : color == 'yellow',
+              purplewx : color == 'purple',
+              blackwx : color == 'black',
+          }
+      },
       setAction(){
           if (this.$store.getters.member.action === this.b.taskId){
               return this.$store.dispatch("makeEvent", {
@@ -89,6 +101,7 @@ export default {
     font-size: 1em
     min-height: 2em
     min-width: 7em
+    text-align: right
 img
     height: 1em
     position: relative

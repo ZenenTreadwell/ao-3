@@ -1,7 +1,8 @@
 <template lang='pug'>
 .task(:class="cardInputSty"  @click='goIn'  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart').dont-break-out.agedwrapper
     bird(:b='b', :inId='inId')
-    .donut.flaggy.hidden.square(@click.stop='upboat')
+    tally(:b='b')
+    .donut.flaggy.square.hidden(@click.stop='upboat')
     .buffertop
       .cardbody
           linky.cardhud(:x='b.name' v-if='!member')
@@ -604,6 +605,10 @@ label
     position: absolute
     right: 2.5em
     top: 0.85em
+
+.square.hidden
+    opacity: 0.1234
+    border-color: lightGrey
 
 .hidden
     opacity: 0

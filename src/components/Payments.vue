@@ -9,8 +9,8 @@
         points-set(:b='$store.getters.contextCard')
     .payreq(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"')
         tag(v-if='b.btcAddr'  :d='b.btcAddr'  size='7')
-        .ptr(v-else  @click='getAddr') *create bitcoin*
-        .section.bg {{b.btcAddr}}
+        .ptr.bg(v-else  @click='getAddr') *create bitcoin*
+        .section.bg(v-if='b.btcAddr') {{b.btcAddr}}
         points-set(:b='$store.getters.contextCard')
     .section(v-else) node unavailable :(
     br

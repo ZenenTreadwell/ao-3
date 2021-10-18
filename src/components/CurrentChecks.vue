@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.current.bg(v-if='checkmarks.length > 0')
+.current.bg
     span#swipechecks
         span(v-for='(c, index) in checkmarks'  :key='c.taskId ')
             span.plain.completedcheckmark(@click='goIn(c.taskId)'  @mouseover='$store.commit("selectCheck", index)')

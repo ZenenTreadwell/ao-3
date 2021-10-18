@@ -9,7 +9,7 @@
         span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click='grab') *join*
         span.ptr(v-if='$store.getters.contextCard.deck.length === 0' @click='remove') &nbsp; *delete*
     .spacer
-    current-checks
+    current-checks(v-if='$store.getters.contextCompleted.length > 0')
     //- span(v-if='$store.getters.isLoggedIn  && $store.getters.member.memberId !== $store.getters.contextCard.taskId')
     //-     div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
     //-         button remove

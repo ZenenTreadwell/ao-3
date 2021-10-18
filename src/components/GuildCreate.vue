@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.guildcreate(:class='{ bumpup : editing }')
+.guildcreate(@click.stop  :class='{ bumpup : editing }')
     input(v-model='task.guild'  type='text'  :placeholder='task.guild'  @keypress.enter='titleIt(false)')
     button(@click='titleIt')
         span(v-if='b.guild === task.guild') un

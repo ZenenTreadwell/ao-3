@@ -5,17 +5,6 @@
       div &nbsp;
       auth
       .statement
-          div Welcome to AO, a shared recursive notepad for persistent, constructive, human collaboration.
-          div Make an account above to contribute your ideas, explore the calendar, plan what needs doing, and see who has been doing it. I'm working on making AO better, but I'm also ready to coordinate other types of activism.
-          div Each card is a landing pad for other cards, has a task list & calendar, can accept bitcoin (which is a gift to the AO operator, feel free to try that out :p). Read more about the app on &nbsp;
-              a(href='https://github.com/autonomousorganization/ao-3'  target="_blank") github. &nbsp;
-              span Accounts are open. They represent a unique connection. Make one from every device you intend to connect from. All connections can see all others. A tutorial video that explains more is in the works.
-          div Experiment, you can't break anything. Make a note, move a note into a note, navigate through the structure, make a checkmark. Don't forget to have fun. Write down what is important to you, not to get lost in a feed, but to return to, develop, expand upon, and most importantly, act on.
-          div Together we must protect what is most important.
-          div Take care,
-          div - Taylor Singleton-Fookes, PPC Candidate of Record in Vancouver Centre
-      .whatis
-      .statement
           .row Each card can:
           div &nbsp;
           .row

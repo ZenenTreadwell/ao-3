@@ -8,18 +8,20 @@
         .check(@click.stop='checky')
             img.checkmark.right.front(v-if='isCompleted' src='../assets/images/completed.svg')
             img.checkmark.right.front(v-else-if='!isCompleted' src='../assets/images/uncompleted.svg')
-        tally.right.front.lesspadding(:b='card')
+        tally.right.front.lesspadding(:b='card'  isPriority='1')
         linky.cardname.front(:x='card.name')
+    preview-deck(:task='card')
 </template>
 
 <script>
 
 import Linky from './Linky'
 import Tally from './Tally'
+import PreviewDeck from './PreviewDeck'
 
 export default {
     props: ['taskId', 'inId', 'c'],
-    components: { Linky, Tally },
+    components: { Linky, Tally, PreviewDeck },
     methods: {
       drop(ev){
           ev.preventDefault();

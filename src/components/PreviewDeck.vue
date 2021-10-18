@@ -1,21 +1,22 @@
 <template lang='pug'>
 
-.preview(@click.stop  v-if='deck.length > 0 && $store.getters.contextCard.taskId !== task.taskId')
+.preview(@click.stop   v-if='deck.length > 0 && $store.getters.contextCard.taskId !== task.taskId')
+    .prev(v-if='preview') {{ preview }}
     .row
         .one.grid
             span &nbsp;
         .two.grid
-            .bead(v-if='red.length > 0'   v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}')
+            .bead( v-if='red.length > 0'   v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='preview=b.name.slice(0,5)'  @mouseleave='preview=false')
         .two.grid
-            .bead(v-if='blue.length > 0' v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}')
+            .bead( v-if='blue.length > 0' v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='preview=b.name.slice(0,5)'  @mouseleave='preview=false')
         .two.grid
-            .bead(v-if='red.length === 0'  v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}')
-            .bead(v-for="(b,i) in red"  :b="b", @click='goto(b.taskId)'  :class='{redwx: $store.getters.member.stacks === 5}')
+            .bead( v-if='red.length === 0'  v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='preview=b.name.slice(0,5)'  @mouseleave='preview=false')
+            .bead( v-for="(b,i) in red"  :b="b", @click='goto(b.taskId)'  :class='{redwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='preview=b.name.slice(0,5)'  @mouseleave='preview=false')
         .two.grid
-            .bead(v-for="(b,i) in green", @click='goto(b.taskId)'  :class='{greenwx: $store.getters.member.stacks === 5}')
+            .bead( v-for="(b,i) in green", @click='goto(b.taskId)'  :class='{greenwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='preview=b.name.slice(0,5)'  @mouseleave='preview=false')
         .two.grid
-            .bead(v-if='blue.length === 0'  v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}')
-            .bead(v-for="(b,i) in blue", @click='goto(b.taskId)'  :class='{bluewx: $store.getters.member.stacks === 5}')
+            .bead( v-if='blue.length === 0'  v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='preview=b.name.slice(0,5)'  @mouseleave='preview=false')
+            .bead( v-for="(b,i) in blue", @click='goto(b.taskId)'  :class='{bluewx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='preview=b.name.slice(0,5)'  @mouseleave='preview=false')
         .one.grid
             span &nbsp;
 </template>
@@ -26,8 +27,17 @@ import Linky from './Linky'
 import calculations from '../calculations'
 
 export default {
+  data(){
+      return {preview: false}
+  },
   props: ['task'],
   methods:{
+      dragStartWrap(b){
+          return (ev) => {
+              ev.dataTransfer.setData("taskId", b.taskId);
+              ev.stopPropagation()
+          }
+      },
       getTask(taskId){
           return this.$store.state.tasks[this.$store.state.hashMap[taskId]]
       },
@@ -89,6 +99,13 @@ export default {
 
 <style lang="stylus" scoped>
 // this means the colour import overwrites
+.prev
+    position: absolute;
+    top: -1em
+    font-size: 1em
+    background: lightGrey
+    z-index: 200
+
 .bead
     opacity: .7237;
     padding: 0
@@ -107,13 +124,15 @@ export default {
 @import '../styles/colours'
 @import '../styles/grid'
 
+
 .preview
     width: 15%;
+    max-width: 5em
     position: absolute;
     bottom: 0;
     right: 11.11111%
     height: 3em
-    overflow: hidden
+    // overflow: hidden
 
 .tinyboat
     height: 15px

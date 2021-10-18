@@ -11,7 +11,7 @@ span.linky
 import markdown from 'markdown-it'
 let md = new markdown({
   html: true,
-  linkify: true,
+  linkify: false,
   typographer: true,
   breaks: true,
 });

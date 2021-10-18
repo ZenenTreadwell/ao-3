@@ -9,6 +9,8 @@ const calculations = require('./calculations')
 
 let inAddressConnect
 let outAddressConnect
+let color
+let colors
 
 function aoMuts(aos, ev) {
   switch (ev.type) {
@@ -315,7 +317,7 @@ function hashMapMuts(hashMap, ev){
     }
 }
 
-let explodingTask, absorbingTask, claimed, pirate, task, isExist, isExisting
+let explodingTask, absorbingTask, pirate, task, isExist, isExisting
 function tasksMuts(tasks, ev) {
   switch (ev.type) {
     case "task-colored":
@@ -470,11 +472,20 @@ function tasksMuts(tasks, ev) {
       })
       break
     case "pile-sub-tasked":
+      colors = []
+      tasks.forEach(task => {
+          if (ev.tasks.indexOf(task.taskId) >= 0){
+              colors.push(task.color)
+          }
+      })
       tasks.forEach(task => {
         if (task.taskId === ev.inId) {
           task.subTasks = _.filter(task.subTasks, tId => ev.tasks.indexOf(tId) === -1)
           task.priorities = _.filter(task.priorities, tId => ev.tasks.indexOf(tId) === -1)
           task.subTasks = task.subTasks.concat(ev.tasks)
+          colors.forEach( c => {
+              task.stackView[c] = 0
+          })
         }
       })
       break
@@ -703,25 +714,21 @@ function tasksMuts(tasks, ev) {
         }
       })
       break
-    case "task-refocused":
-      tasks.forEach(task => {
-        if (task.taskId === ev.inId) {
-          task.priorities = _.filter(task.priorities, taskId => taskId !== ev.taskId)
-          task.subTasks = _.filter(task.subTasks, taskId => taskId !== ev.taskId)
-          if (claimed && claimed.length >= 1) {
-            task.completed.push(ev.taskId)
-          } else {
-            task.subTasks.push(ev.taskId)
-          }
+    case "task-sub-tasked":
+      color = false
+      tasks.forEach(task => { // sorry need hashmap
+        if (task.taskId === ev.taskId){
+            color = task.color
         }
       })
-      break
-    case "task-sub-tasked":
       tasks.forEach(task => {
         if (task.taskId === ev.inId) {
           task.priorities = _.filter(task.priorities, taskId => taskId !== ev.taskId)
           task.subTasks = _.filter(task.subTasks, tId => tId !== ev.taskId)
           task.subTasks.push(ev.taskId)
+          if (color){
+              task.stackView[color] = 0
+          }
         }
       })
       break

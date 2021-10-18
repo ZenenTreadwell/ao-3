@@ -1,12 +1,12 @@
 <template lang='pug'>
 
-.bird(@click.stop)
-    div(@click='toggleSend')
+.bird
+    div(@click.stop='toggleSend')
         // :class='{hidden:!$store.getters.member.guides}'
         img.birdy(v-if='!showSend && !b.guild' src='../assets/images/badge.svg')
         div.birdy.smallguild(v-else  :class='{ open : showSend }')
     guild-create(v-if='showSend'   :b='b'  :showSendOff='showSendOff')
-    .theTitle(v-if='b.guild && !showSend') {{ b.guild }}
+    span.theTitle(v-if='b.guild && !showSend') {{ b.guild }}
     .count
 </template>
 
