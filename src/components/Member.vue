@@ -19,7 +19,8 @@
             linky(v-else  :x='card.name')
     div
         .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
-            img(src='../assets/images/completed.svg')
+            img(v-if='$store.state.upgrades.mode !== "boat"  && card.priorities.length > 0'  v-for='t in card.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
+            img(v-else  src='../assets/images/completed.svg')
         .bottomleft(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}')
             img(src='../assets/images/timecube.svg')
         .bottomleft(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
@@ -97,6 +98,17 @@ export default {
         },
     },
     methods: {
+        styl(color){
+            if (!color) return
+            return {
+                redwx : color == 'red',
+                bluewx : color == 'blue',
+                greenwx : color == 'green',
+                yellowwx : color == 'yellow',
+                purplewx : color == 'purple',
+                blackwx : color == 'black',
+            }
+        },
         dragStart(ev){
             ev.dataTransfer.setData("taskId", this.$store.getters.contextCard.taskId);
         },
