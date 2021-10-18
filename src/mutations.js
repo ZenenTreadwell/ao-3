@@ -429,6 +429,7 @@ function tasksMuts(tasks, ev) {
         if (task.taskId === ev.inId) {
           absorbingTask = task
         }
+
       })
       if (explodingTask, absorbingTask) {
         absorbingTask.priorities = _.filter(absorbingTask.priorities, taskId => taskId !== ev.taskId)
@@ -669,6 +670,7 @@ function tasksMuts(tasks, ev) {
       tasks.forEach(t => {
         t.subTasks = t.subTasks.filter(st => st !== ev.memberId)
         t.priorities = t.priorities.filter(st => st !== ev.memberId)
+        t.completed = t.completed.filter(st => st !== ev.memberId)
         t.claimed = t.claimed.filter(st => st !== ev.memberId)
         t.deck = t.deck.filter(st => st !== ev.memberId)
         t.passed = t.passed.filter(p => !(p[0] === ev.memberId || p[1] === ev.memberId))
@@ -681,9 +683,10 @@ function tasksMuts(tasks, ev) {
         }
       })
       tasks.forEach(t => {
-        t.subTasks = t.subTasks.filter(st => st !== ev.taskId)
-        t.priorities = t.priorities.filter(st => st !== ev.taskId)
+        t.subTasks = _.filter(t.subTasks, st => st !== ev.taskId)
+        t.priorities = _.filter(t.priorities, st => st !== ev.taskId)
         t.completed = _.filter(t.completed, st => st !== ev.taskId)
+        t.claims = _.filter(t.claims, cl => cl.taskId !== ev.taskId)
       })
       break
     case "task-prioritized":

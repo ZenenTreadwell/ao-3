@@ -12,7 +12,7 @@
         span.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goIn(t.taskId)'  :class='styl(getCardColor(t.taskId))')
             img.completedcheckmark(v-if='checkIsMember(t.taskId)'  src='../assets/images/doge.svg'  :class='{smaller: ev.length > 15}')
             img.completedcheckmark(v-else  :class='{smaller: ev.length > 15}'  src='../assets/images/completed.svg')
-    img.upgrade(v-if='isToday'  v-for='t in $store.getters.contextCard.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
+    img.upgrade(v-if='isToday'  v-for='t in $store.getters.contextCard.priorities'  src='../assets/images/uncompleted.svg'  :class='styl(getCardColor(t))')
 </template>
 
 <script>
