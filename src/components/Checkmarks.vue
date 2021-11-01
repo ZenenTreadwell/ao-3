@@ -1,15 +1,16 @@
 <template lang='pug'>
 
 .upgrades(v-if='!$store.getters.contextMember')
-    img.doge(src='../assets/images/doge.svg')
-    span.bg
-        span(v-for='n in $store.getters.contextRelevantMembers'   :key='n'  @click='toggleHighlight(n)'  @click.ctrl='toggleHighlight(n, true)')
-            span(:class='{highlight: isHighlighted(n), lowdark: isLowdarked(n) }') &nbsp; {{ getName(n) }} &nbsp;
-        span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop') *leave*
-        span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click='grab') *join*
-        span.ptr(v-if='$store.getters.contextCard.deck.length === 0' @click='remove') &nbsp; *delete*
-    .spacer
     current-checks(v-if='$store.getters.contextCompleted.length > 0')
+    div.tr
+        img.doge(src='../assets/images/doge.svg')
+        span.bg
+            span(v-for='n in $store.getters.contextRelevantMembers'   :key='n'  @click='toggleHighlight(n)'  @click.ctrl='toggleHighlight(n, true)')
+                span(:class='{highlight: isHighlighted(n), lowdark: isLowdarked(n) }') &nbsp; {{ getName(n) }} &nbsp;
+            span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop') *leave*
+            span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click='grab') *join*
+            span.ptr(v-if='$store.getters.contextCard.deck.length === 0' @click='remove') &nbsp; *delete*
+    .spacer
     //- span(v-if='$store.getters.isLoggedIn  && $store.getters.member.memberId !== $store.getters.contextCard.taskId')
     //-     div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
     //-         button remove
@@ -48,6 +49,7 @@ export default {
                 memberId:x,
                 valence: !invert
             })
+            window.scrollTo(0, 0);
         },
         isHighlighted(x) {
             return this.$store.getters.contextCard.highlights.some(h => {
@@ -110,6 +112,9 @@ export default {
 <style lang='stylus' scoped>
 @import '../styles/colours'
 @import '../styles/skeleton'
+
+.tr
+    text-align: right
 
 .bg
     background: lightGrey

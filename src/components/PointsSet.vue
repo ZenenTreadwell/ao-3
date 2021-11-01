@@ -1,10 +1,10 @@
 <template lang='pug'>
 
 div
+    .showaddr(@click='$store.commit("setPayMode", 1)' v-if='$store.state.upgrades.paymode !== "bitcoin"') *show on chain address*
     div
         input(v-model='task.points'  type='text'  placeholder='sats'  @keypress.enter='setValue')
-        button(@click.stop='setValue') *create lightning*
-    .showaddr(@click='$store.commit("setPayMode", 1)' v-if='$store.state.upgrades.paymode !== "bitcoin"') *show btc address*
+        button(@click.stop='setValue') *ln-invoice {{task.points}} sats*
 
 </template>
 
@@ -16,7 +16,7 @@ export default {
     data() {
         return {
             task: {
-                points: this.b.completeValue? this.b.completeValue : 1,
+                points: this.b.completeValue? this.b.completeValue : 123,
             }
         }
     },
@@ -65,6 +65,9 @@ button
     width: 30%
     height: 2.2em
     display: inline-block;
+    color: main
+    background: lightGrey
+
 input
     display: inline-block;
     border-color: rgba(22, 22, 22, 1)
@@ -72,7 +75,8 @@ input
     background-color: rgba(22, 22, 22, 0.3)
     height: 2.2em
     width: 40%
-    color: lightGrey
+    color: main
+    background: lightGrey
 
 
 </style>

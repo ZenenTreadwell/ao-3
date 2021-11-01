@@ -1,18 +1,18 @@
 <template lang="pug">
-.day( :ondrop='drop'    :ondragover="allowDrop")
+.day( :ondrop='drop'    :ondragover="allowDrop"   :ondragleave='offDrop'  :class='{dropping}')
     .date {{ day }}
-    img.today(v-if='isToday'  src='../assets/images/down.svg')
+    img.today(v-if='isToday'  src='../assets/images/down.svg'  draggable='false')
     span(v-if='createdToday') *
     span(v-for='t in ev')
         .upgrade(v-if='!t.type')
             img.upgrade.doge(v-if='checkIsMember(t.name)'  @cdbllick="goIn(t.taskId)"  src='../assets/images/doge.svg')
-            img.upgrade(v-else  @click="goIn(t.taskId)"  src='../assets/images/uncompleted.svg'  :class='styl(t.color)')
+            img.upgrade(v-else  @click="goIn(t.taskId)"  src='../assets/images/uncompleted.svg'  :class='styl(t.color)'  draggable="true"  :ondragstart='dragStartWrap(t.taskId)')
         .upgrade(v-else-if='t.type === "resource-used"')
             img.completedcheckmark(@dblclick="goIn(t.resourceId)"  src='../assets/images/doge.svg'  :class='styl(t.color)')
         span.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goIn(t.taskId)'  :class='styl(getCardColor(t.taskId))')
             img.completedcheckmark(v-if='checkIsMember(t.taskId)'  src='../assets/images/doge.svg'  :class='{smaller: ev.length > 15}')
             img.completedcheckmark(v-else  :class='{smaller: ev.length > 15}'  src='../assets/images/completed.svg')
-    img.upgrade(v-if='isToday'  v-for='t in $store.getters.contextCard.priorities'  src='../assets/images/uncompleted.svg'  :class='styl(getCardColor(t))')
+    //- img.upgrade(v-if='isToday'  v-for='t in $store.getters.contextCard.priorities'  src='../assets/images/uncompleted.svg'  :class='styl(getCardColor(t))')
 </template>
 
 <script>
@@ -31,6 +31,9 @@ function getDMY(ts){
 }
 
 export default {
+    data(){
+        return { dropping: false }
+    },
     components: { Linky, Current, Currentr },
     props: ['day', 'month', 'year', 'inId', 'ev', 'isToday'],
     computed: {
@@ -40,8 +43,17 @@ export default {
         }
     },
     methods: {
+        offDrop(){
+            this.dropping = false
+        },
+        dragStartWrap(tId){
+            return (ev) => {
+                ev.dataTransfer.setData("taskId", tId)
+            }
+        },
         allowDrop(ev){
             ev.preventDefault()
+            this.dropping = true
         },
         drop(ev){
             ev.preventDefault();
@@ -107,6 +119,9 @@ export default {
 <style lang='stylus' scoped>
 
 @import '../styles/colours';
+
+.day.dropping
+    background: blue
 
 .upgrade
     height: 0.99em

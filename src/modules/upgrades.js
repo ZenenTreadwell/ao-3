@@ -18,7 +18,7 @@ const state = {
     barking: false,
     pinging: false,
     chosenDay: new Date().getDate(),
-    selectedCheck:0,
+    selectedCheck:false,
 }
 
 const mutations = {
@@ -51,11 +51,6 @@ const mutations = {
     },
     chooseDay(state, x){
         state.chosenDay = x
-        if (x >= 0){
-            state.mode = modes[1]
-        } else {
-            state.mode = modes[2]
-        }
     },
     setColor(state, x){
         state.color = x
@@ -81,6 +76,7 @@ const mutations = {
         state.mode = modes[prevIndex]
     },
     setMode(state, index) {
+        window.scrollTo(0, 0);
         if (index === 1){
             state.chosenDay = new Date().getDate()
         } else if (index === 2){

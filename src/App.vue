@@ -72,6 +72,10 @@ p
     display: inline
     margin: 0
     padding: 0
+    img
+        max-width: 100%
+iframe
+    max-width: 100%
 
 .four.columns.plac
     text-align: center

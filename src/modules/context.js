@@ -45,6 +45,7 @@ const actions = {
         } else {
             commit("setParent", pContext.parents)
         }
+        window.scrollTo(0, 0);
     },
     goUp({state, commit}, pContext){
         if (state.parent.indexOf(pContext.target) === -1){
@@ -53,6 +54,7 @@ const actions = {
         commit("goToParent", pContext.target)
         commit("setPanel", pContext.panel)
         commit("setTop", pContext.top)
+        window.scrollTo(0, 0);
     },
 }
 

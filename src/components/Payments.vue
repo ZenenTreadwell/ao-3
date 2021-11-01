@@ -1,16 +1,18 @@
 <template lang='pug'>
 
 .upgrades
-    .bg(v-if='b.payments.length === 0') no payments yet
-    .bg(v-for='p in b.payments') {{p.amount.toLocaleString()}} - {{ getDateString(p.timestamp) }}
-    .payreq(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"')
+    .bg
+        div(v-for='p in b.payments') {{ getDateString(p.timestamp) }} ~ {{p.amount.toLocaleString()}}
+    .payreq.ptr(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"'  @click='copy(b.bolt11, true)')
         tag(:d='b.bolt11'  size='5')
-        .section.bg {{b.bolt11}}
+        .section.ptr {{b.bolt11}}
+            img(src='../assets/images/loggedOut.svg'  v-if='showCopiedBolt')
         points-set(:b='$store.getters.contextCard')
-    .payreq(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"')
+    .payreq.ptr(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"'  @click='copy(b.btcAddr)')
         tag(v-if='b.btcAddr'  :d='b.btcAddr'  size='7')
-        .ptr.bg(v-else  @click='getAddr') *create bitcoin*
-        .section.bg(v-if='b.btcAddr') {{b.btcAddr}}
+        .ptr.mh(v-else  @click='getAddr') *show bitcoin address*
+        .section.ptr(v-if='b.btcAddr'  ) {{b.btcAddr}}
+            img(src='../assets/images/loggedOut.svg'  v-if='showCopiedAddr')
         points-set(:b='$store.getters.contextCard')
     .section(v-else) node unavailable :(
     br
@@ -23,6 +25,12 @@ import PointsSet from './PointsSet'
 import Lightning from './Lightning'
 
 export default {
+    data(){
+        return {
+            showCopiedBolt: false,
+            showCopiedAddr: false,
+        }
+    },
     components:{
         Tag, Lightning, PointsSet
     },
@@ -32,6 +40,22 @@ export default {
         },
     },
     methods: {
+        copy(x, isBolt){
+          navigator.clipboard.writeText(x)
+              .then(() => {
+                  if (isBolt){
+                      this.showCopiedBolt = true
+                      this.showCopiedAddr = false
+                  } else {
+                      this.showCopiedBolt = false
+                      this.showCopiedAddr = true
+                  }
+              })
+              .catch(err => {
+                  console.log(err, 'copy attempt failed, printing to console:')
+              })
+
+        },
         getAddr(){
             this.$store.dispatch("makeEvent", {
                 type: 'address-updated',
@@ -55,14 +79,17 @@ export default {
 @import '../styles/button';
 @import '../styles/spinners';
 
+.mh
+    min-height: 3em
+
 .ptr
     cursor: pointer
-    padding-top: 5em
-    padding-bottom: 5em
 
+.section
+    img
+        height: 1.9em
 .bg
     background: lightGrey
-    padding: 0.33em
     border-radius: 3%
 
 .hidden

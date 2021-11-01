@@ -17,7 +17,10 @@
         .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"'  :class='{darkmode: $store.getters.member.stacks === 1}')
             zen(v-show='$store.state.upgrades.mode === "doge" && $store.getters.inbox.length > 0')
             payments(v-show='$store.state.upgrades.mode === "chest"')
-            calendar(v-show='$store.state.upgrades.mode === "boat" || $store.state.upgrades.mode === "timecube"')
+            calendar(v-show='$store.state.upgrades.mode === "timecube"')
+            div(v-show='$store.state.upgrades.mode === "boat"')
+                priorities
+                checkmarks
     div
         panels
     pins.rell

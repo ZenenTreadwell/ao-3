@@ -1,14 +1,16 @@
-<template lang='pug'>
+linky<template lang='pug'>
 
 .current.bg
     span#swipechecks
         span(v-for='(c, index) in checkmarks'  :key='c.taskId ')
-            span.plain.completedcheckmark(@click='goIn(c.taskId)'  @mouseover='$store.commit("selectCheck", index)')
+            span.plain.completedcheckmark(@click='$store.commit("selectCheck", index)'  @mouseover='$store.commit("selectCheck", index)')
                 img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color, index)' )
-    span.ptr(v-if='checkmarks.length > 0'  @click='relist') *redo*
-    ul
-        li(v-if='$store.getters.contextCard.highlights.length > 0 '  v-for='(c, index) in checkmarks'  :class='{selectedCheckInList: c.name === $store.getters.selectedCheckName}'  @mouseover='$store.commit("selectCheck", index)') {{ c.name }}
-        li(v-else  v-if='$store.getters.selectedCheckName') {{ $store.getters.selectedCheckName }}
+    //- span.ptr(v-if='checkmarks.length > 0'  @click='relist') *all up*
+    ul(v-if='$store.getters.selectedCheckName || $store.getters.contextCard.highlights.length > 0')
+        li.ptr(v-if='$store.getters.contextCard.highlights.length > 0 ' v-for='(c, index) in checkmarks'   @click='recallCard(c.taskId)')
+            linky(:x='c.name' :class='{selectedCheckInList: c.name === $store.getters.selectedCheckName}'  @mouseover='$store.commit("selectCheck", index)' )
+        li.ptr(v-else  @click='recallCard(checkmarks[$store.state.upgrades.selectedCheck].taskId)')
+            linky(v-if='$store.getters.selectedCheckName'  :x='$store.getters.selectedCheckName')
     //- .workblue
     //-     img(v-if='member.action === $store.getters.contextCard.taskId'  src='../assets/images/timecube.svg')
     //-     span(v-else) -
@@ -45,6 +47,13 @@ export default {
   },
   components: { Linky, Coin },
   methods: {
+    recallCard(taskId){
+        this.$store.dispatch("makeEvent", {
+            type: 'task-sub-tasked',
+            inId: this.$store.getters.contextCard.taskId,
+            taskId
+        })
+    },
     relist(){
         this.$store.dispatch("makeEvent", {
             type: "pile-prioritized",

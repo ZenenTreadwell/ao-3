@@ -7,13 +7,13 @@
           .soft {{ monthName }} - {{year}}
               span(v-if='$store.state.upgrades.chosenDay') - {{ $store.state.upgrades.chosenDay }}
       .four.grid.dot(@click.stop='nextMonth')
-  .calmonth(v-if='$store.state.upgrades.mode === "timecube"')
+  .calmonth(v-if='!$store.state.upgrades.chosenDay')
       .weekday(v-for='day in DAYS_OF_WEEK') {{ day }}
       .placeholder(v-for='placeholder in firstDay')
       div.deh(v-for='day in days'  @click='chooseDay(day)')
           day(:day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
       .placeholder(v-for='placeholder in lastDay')
-  .calmonth(v-else-if='$store.state.upgrades.mode === "boat"'  :ondrop='drop'    :ondragover="allowDrop")
+  .calmonth(v-else  :ondrop='drop'    :ondragover="allowDrop")
       .weekdayfull(@click='clickDateBar') {{ chosenWeekDay }}
       .grey
           .datenumber  {{ $store.state.upgrades.chosenDay }}
@@ -33,9 +33,6 @@
               span(v-else  @click='goIn(n.taskId)')
                   img.completedcheckmark(src='../assets/images/uncompleted.svg')
                   span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{n.name}}
-          div(v-if='new Date().getDate() === $store.state.upgrades.chosenDay')
-              priorities
-              checkmarks
   .buffer
 </template>
 
@@ -316,6 +313,8 @@ h5
 .menu
     text-align: center
     color: lightGrey
+    min-height: 3.3em
+    padding-top: 1.6em
 
 .calendar-column
     float: left

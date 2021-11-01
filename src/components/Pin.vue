@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.pin(:ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}")
+.pin(:ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}"  draggable="true"  :ondragstart='dragStart')
     span(@click='goInKeep(p.taskId)')
         img.floatleft(src='../assets/images/badge.svg')
     span(@click='goIn(p.taskId)')
@@ -17,6 +17,9 @@ export default {
     },
     props: ['p'],
     methods: {
+        dragStart(ev){
+            ev.dataTransfer.setData("taskId", this.p.taskId);
+        },
         offDrop(){
             this.dropping = false
         },

@@ -85,9 +85,10 @@ function initialize(callback) {
           dctrlDb.getAll(ts, (err, all) => {
               if (err) return callback(err)
               all.forEach( ev => {
+
                   if (ev.type === 'task-created' && ev.i !== serverState.tasks.length){
                       // this mismatch can occur because of manual interventions in the database
-                      // this is required because the mutations are scoped and it is wrong 
+                      // this is required because the mutations not atomic; it is wrong
                       ev.i = serverState.tasks.length
                   }
                   applyEvent(serverState, Object.assign({}, ev) )

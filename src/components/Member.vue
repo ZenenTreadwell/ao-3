@@ -18,10 +18,10 @@
                 linky(:x='m.name')
             linky(v-else  :x='card.name')
     div
-        .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
+        .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}'   :ondragover='toBoat')
             img(v-if='$store.state.upgrades.mode !== "boat"  && card.priorities.length > 0'  v-for='t in card.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
             img(v-else  src='../assets/images/completed.svg')
-        .bottomleft(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}')
+        .bottomleft(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}'  :ondragover='toTimeCube')
             img(src='../assets/images/timecube.svg')
         .bottomleft(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
             img(src='../assets/images/bitcoin.svg')
@@ -37,6 +37,8 @@ import Checkbox from './Checkbox'
 import Card from './Card'
 import Bird from './Bird'
 import ResourceBook from './ResourceBook'
+
+let debounce = false
 
 export default {
     components: {Current, Linky, Auth, Card, Checkbox, Bird, ResourceBook},
@@ -144,18 +146,28 @@ export default {
             }
         },
         toTimeCube(){
+            if (debounce){
+                return
+            }
+            debounce = true
             if (this.$store.state.upgrades.mode === "timecube"){
                 this.$store.commit("setMode", 0)
             } else {
                 this.$store.commit("setMode", 2)
             }
+            setTimeout(()=> debounce = false, 333)
         },
         toBoat(){
+            if (debounce){
+                return
+            }
+            debounce = true
             if (this.$store.state.upgrades.mode === "boat"){
                 this.$store.commit("setMode", 0)
             } else {
                 this.$store.commit("setMode", 1)
             }
+            setTimeout(()=> debounce = false, 333)
         },
         goDoge(){
             this.$store.commit('setMode', 0)
