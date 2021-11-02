@@ -319,6 +319,9 @@ function hashMapMuts(hashMap, ev){
 
 let explodingTask, absorbingTask, pirate, task, isExist, isExisting
 function tasksMuts(tasks, ev) {
+  if (ev.taskId && ev.taskId === ev.inId){
+      return // this should filter at spec
+  }
   switch (ev.type) {
     case "task-colored":
         tasks.forEach(task => {
@@ -392,6 +395,7 @@ function tasksMuts(tasks, ev) {
       }
       break
     case "task-seized":
+
       tasks.forEach(task => {
         if (task.taskId === ev.inId) {
           pirate = task.priorities[task.priorities.indexOf(ev.taskId) + 1]
@@ -429,7 +433,13 @@ function tasksMuts(tasks, ev) {
         if (task.taskId === ev.inId) {
           absorbingTask = task
         }
+      })
 
+      colors = []
+      tasks.forEach(task => { // im sorry
+          if (explodingTask.subTasks.indexOf(task.taskId) > -1){
+              colors.push(task.color)
+          }
       })
       if (explodingTask, absorbingTask) {
         absorbingTask.priorities = _.filter(absorbingTask.priorities, taskId => taskId !== ev.taskId)
@@ -437,7 +447,10 @@ function tasksMuts(tasks, ev) {
         absorbingTask.completed = _.filter(absorbingTask.completed, taskId => taskId !== ev.taskId)
         absorbingTask.subTasks = _.uniq(absorbingTask.subTasks.concat(explodingTask.subTasks))
         absorbingTask.priorities = _.uniq(absorbingTask.priorities.concat(explodingTask.priorities))
-        absorbingTask.completed = _.uniq(absorbingTask.completed.concat(explodingTask.completed))
+        // absorbingTask.completed = _.uniq(absorbingTask.completed.concat(explodingTask.completed))
+        colors.forEach(c => {
+            absorbingTask.stackView[c] = 0
+        })
       }
       break
     case "pile-prioritized":

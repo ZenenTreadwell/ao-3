@@ -98,7 +98,6 @@ export default {
           if (!this.$store.state.upgrades.create){
               return this.$store.commit('toggleCreate')
           }
-
           if (this.matchIds.length > 0){
               this.$store.dispatch("makeEvent", {
                   type: "pile-sub-tasked",
@@ -348,7 +347,10 @@ export default {
             return this.matches.guilds
                 .concat(this.matches.doges)
                 .concat(this.matches.cards)
-                .map(t => t.taskId)
+                .map(t => {
+                  if (t.taskId) return t.taskId
+                  if (t.memberId) return t.memberId
+                })
         },
         cardInputSty() {
             if (this.$store.getters.member.stacks === 5){

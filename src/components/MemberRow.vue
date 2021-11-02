@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId, dropping}'  @click='goIn(m.memberId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='offDrop')
+.memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId, dropping}'  @click='goIn(m.memberId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='offDrop'  draggable='true'  :ondragstart='dragStart')
     .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
         span(v-if='!m.active'  @click.stop='deleteUser').hover delete
         span {{b.boost.toLocaleString()}}
@@ -29,6 +29,9 @@ export default {
     props: ['m'],
     components: {PreviewDeck, SimplePriorities, Coin, Current},
     methods:{
+        dragStart(ev){
+            ev.dataTransfer.setData("taskId", this.m.memberId);
+        },
         offDrop(){
             this.dropping = false
         },

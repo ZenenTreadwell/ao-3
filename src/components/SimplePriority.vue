@@ -4,12 +4,13 @@
     .row.agedwrapper(:class='cardInputSty')
         img.front.nopad(v-if='card.guild'  src="../assets/images/badge.svg")
         span.front.nudge(v-if='card.guild')  {{ card.guild }}
-        img.left.front(v-if='isMember' src="../assets/images/loggedIn.svg")
+        img.left.front(v-if='isMember' src="../assets/images/doge.svg")
+        span(v-if='isMember') {{ isMember }}
         .check(@click.stop='checky')
             img.checkmark.right.front(v-if='isCompleted' src='../assets/images/completed.svg')
             img.checkmark.right.front(v-else-if='!isCompleted' src='../assets/images/uncompleted.svg')
         tally.right.front.lesspadding(:b='card'  isPriority='1')
-        linky.cardname.front(:x='card.name')
+        linky.cardname.front(v-if='!isMember'  :x='card.name')
     preview-deck(:task='card')
 </template>
 
@@ -123,7 +124,7 @@ export default {
             this.$store.state.members.some(m => {
                 if (m.memberId === this.taskId){
                     is = m.name
-                    return true
+                    return is
                 }
             })
             return is
