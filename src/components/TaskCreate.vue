@@ -1,13 +1,23 @@
 <template lang='pug'>
 
 #createtask(ref="closeable")
-  div.secondbackground(@click='switchColor(task.color)')
+  div.secondbackground
       .boatContainer
-          button.clear(@click.stop='pileRecalled') recall
-              span(v-if='searchTotal > 0') &nbsp; {{ searchTotal }}
-          button.lock(@click.stop='lockIt') encrypt
-          button.create(@click.stop='createOrFindTask') post
-              span.hidden {{ refocusWatcher }}
+          .gem(@click.stop='createOrFindTask'  :class='cardInputSty'  v-if='!showCreate')
+              img(src='../assets/images/compose.svg')
+          .boatContainer(v-else)
+              button.clear(@click.stop='pileRecalled')
+                  span(v-if='searchTotal > 0 && task.name.length > 0') recall &nbsp; {{ searchTotal }}
+                  span(v-else) type to search
+              button.lock(@click='encryptIt = !encryptIt')
+                  label.switch(@click.stop)
+                      input(type="checkbox"  v-model='encryptIt')
+                      span.slider.round
+                  img(src='../assets/images/sunglasses.svg')
+              button.create(@click.stop='createOrFindTask'  :class='cardInputSty')
+                  span(v-if='encryptIt') encrypt
+                  span(v-else) create
+                  span.hidden {{ refocusWatcher }}
       .cc(v-show='showCreate')
           textarea#card.paperwrapper(
               v-model='task.name'
@@ -39,6 +49,7 @@ import Current from './Current'
 export default {
     data(){
         return {
+            encryptIt: false,
             task: {
                 name: '',
                 color: 'blue',
@@ -260,6 +271,11 @@ export default {
             if (!this.$store.state.upgrades.create){
                 return this.$store.commit('toggleCreate')
             }
+
+            if (this.encryptIt){
+                return this.lockIt()
+            }
+
             this.showSearch = false
             let potentialCard = this.task.name.trim()
             if (potentialCard.length === 0){
@@ -380,7 +396,7 @@ export default {
 @import '../styles/button';
 @import '../styles/breakpoints';
 @import '../styles/input';
-
+@import '../styles/switch';
 
 textarea
     border-color: rgba(0, 0, 0, 0.4)
@@ -392,7 +408,6 @@ textarea.inactive
     padding-bottom: 2.5em
 
 .boatContainer button
-    background-color: main
     color: white
 .lonestar
     height: 2em
@@ -406,6 +421,11 @@ textarea.inactive
     border-bottom-style: solid
     border-color: main
     margin-bottom: 0.23456em
+
+
+.boatContainer button.create
+    color: main
+
 
 #createtask
   width: 69%
@@ -589,6 +609,7 @@ textarea.inactive
 .uni
     position: fixed
     bottom: 0
+
     left: 50%
     transform: translateX(-50%)
     height: 5.5555555555em
@@ -674,5 +695,31 @@ textarea.inactive
 
 .hidden
     opacity: 0
+
+.gem
+    opacity: 0.69
+    cursor: pointer;
+    width: -webkit-min-content;
+    width: 100%;
+    height: 2.2em;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 0;
+    border-radius: 50% 50% 0 0;
+    top: -1.2em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    img
+        height: 2em
+
+.gem:hover
+    opacity: 1
+
+button.lock img
+    float: left
+    height: 1.4505em
+    margin-left: 2em
+
 
 </style>

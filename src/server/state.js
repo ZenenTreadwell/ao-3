@@ -85,12 +85,12 @@ function initialize(callback) {
           dctrlDb.getAll(ts, (err, all) => {
               if (err) return callback(err)
               all.forEach( ev => {
-
-                  if (ev.type === 'task-created' && ev.i !== serverState.tasks.length){
-                      // this mismatch can occur because of manual interventions in the database
-                      // this is required because the mutations not atomic; it is wrong
-                      ev.i = serverState.tasks.length
-                  }
+                  // this fix is not needed with the integrity check below
+                  // if ((ev.type === 'task-created' || ev.type === 'member-created'  || ev.type === 'resource-created'  || ev.type === 'ao-outbound-connected'  || ev.type === 'ao-inbound-connected')  && ev.i !== serverState.tasks.length){
+                  //     // this mismatch can occur because of manual interventions in the database
+                  //     // this is required because the mutations not atomic; it is wrong
+                  //     ev.i = serverState.tasks.length
+                  // }
                   applyEvent(serverState, Object.assign({}, ev) )
                   applyEvent(pubState, removeSensitive( Object.assign({}, ev) ))
               })
@@ -99,6 +99,16 @@ function initialize(callback) {
                   chalk.green(serverState.members.length), 'accounts and',
                   chalk.green(serverState.resources.length), 'resources'
               )
+
+              // integrity check on hashMap (hashMap is broked)
+              pubState.tasks.forEach( (t, i) => {
+                  if (pubState.hashMap[t.taskId] !== i) {
+                    console.log('!! how is the map being broken???', t.name, 'fixing?')
+                    pubState.hashMap[t.taskId] = i
+                    serverState.hashMap[t.taskId] = i
+                  }
+              })
+
               callback(null)
           })
     })
