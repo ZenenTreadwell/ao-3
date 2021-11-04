@@ -170,6 +170,13 @@ export default {
         clicktopay(){
             this.$store.commit("toggleNodeInfo")
             this.$store.commit("setMode", 3)
+            if (!this.$store.getters.contextCard.btcAddr){
+                this.$store.dispatch("makeEvent", {
+                  type: 'address-updated',
+                  taskId: this.$store.getters.contextCard.taskId
+                })
+
+            }
         },
         getFeeColor(x){
             if (x > 100) return { high : 1}

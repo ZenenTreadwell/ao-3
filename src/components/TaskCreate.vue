@@ -2,7 +2,7 @@
 
 #createtask(ref="closeable")
   div.secondbackground#btnpanel
-      .boatContainer
+      div
           .gem(@click.stop='createOrFindTask'  :class='cardInputSty'  v-if='!showCreate')
               img(src='../assets/images/compose.svg')
           .boatContainer(v-else)
@@ -13,7 +13,7 @@
                   label.switch(@click.stop)
                       input(type="checkbox"  v-model='encryptIt')
                       span.slider.round
-                  img(src='../assets/images/sunglasses.svg')
+                  img(src='../assets/images/sunglasses.svg'  :class='{faded: !encryptIt}')
               button.create(@click.stop='createOrFindTask'  :class='cardInputSty')
                   span(v-if='encryptIt') encrypt
                   span(v-else) create
@@ -269,6 +269,7 @@ export default {
         },
         createOrFindTask(){
             if (!this.$store.state.upgrades.create){
+                document.getElementById('card').focus()
                 return this.$store.commit('toggleCreate')
             }
 
@@ -706,13 +707,13 @@ textarea.inactive
     cursor: pointer;
     width: -webkit-min-content;
     width: 100%;
-    height: 2.2em;
+    height: 2.789em;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     margin-bottom: 0;
     border-radius: 50% 50% 0 0;
-    top: -1.2em;
+    top: -2.789em;
     padding-top: 0.2em;
     padding-bottom: 0.2em;
     img

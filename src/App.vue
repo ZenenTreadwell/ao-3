@@ -94,7 +94,7 @@ iframe
     background: #404040
     color: main
     font-size: 1.12334455em
-    font-family: ubuntu
+    font-family: helvetica
     min-height: 100vh
 
 .statement
