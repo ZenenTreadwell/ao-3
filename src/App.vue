@@ -52,9 +52,17 @@ export default {
     },
     methods: {
         alwaysFocus(anypass){
+            if (anypass.target.id === "card" && !this.$store.state.upgrades.create){
+                this.$store.commit('toggleCreate')
+            }
             if (anypass.target.id === "card" || anypass.target.type === "text" || anypass.target.type === "password"){
+                console.log('skipping', anypass.target.id)
+                this.$store.commit('focus', '')
                 return // skip focus
             }
+            console.log(
+              'always focus', anypass.key
+            )
             this.$store.commit('focus', anypass.key)
         }
     }

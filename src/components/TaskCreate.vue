@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 #createtask(ref="closeable")
-  div.secondbackground
+  div.secondbackground#btnpanel
       .boatContainer
           .gem(@click.stop='createOrFindTask'  :class='cardInputSty'  v-if='!showCreate')
               img(src='../assets/images/compose.svg')
@@ -17,7 +17,6 @@
               button.create(@click.stop='createOrFindTask'  :class='cardInputSty')
                   span(v-if='encryptIt') encrypt
                   span(v-else) create
-                  span.hidden {{ refocusWatcher }}
       .cc(v-show='showCreate')
           textarea#card.paperwrapper(
               v-model='task.name'
@@ -30,13 +29,14 @@
               col='20'
               @click.stop
           )
-      #btnpanel.btnpanel
-          div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
-              .fifth(@click.stop='switchColor("red")'  :class='{ down : $store.state.upgrades.color === "red" && showCreate }').redtx.paperwrapper
-              .fifth(@click.stop='switchColor("yellow")'  :class='{ down : $store.state.upgrades.color === "yellow" && showCreate}').yellowtx.paperwrapper
-              .fifth(@click.stop='switchColor("green")'  :class='{ down : $store.state.upgrades.color === "green"  && showCreate}').greentx.paperwrapper
-              .fifth(@click.stop='switchColor("purple")'  :class='{ down : $store.state.upgrades.color === "purple" && showCreate}').purpletx.paperwrapper
-              .fifth(@click.stop='switchColor("blue")'  :class='{ down : $store.state.upgrades.color === "blue" && showCreate}').bluetx.paperwrapper
+  span.hidden {{ refocusWatcher }}
+      //- #btnpanel.btnpanel
+      //-     div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
+      //-         .fifth(@click.stop='switchColor("red")'  :class='{ down : $store.state.upgrades.color === "red" && showCreate }').redtx.paperwrapper
+      //-         .fifth(@click.stop='switchColor("yellow")'  :class='{ down : $store.state.upgrades.color === "yellow" && showCreate}').yellowtx.paperwrapper
+      //-         .fifth(@click.stop='switchColor("green")'  :class='{ down : $store.state.upgrades.color === "green"  && showCreate}').greentx.paperwrapper
+      //-         .fifth(@click.stop='switchColor("purple")'  :class='{ down : $store.state.upgrades.color === "purple" && showCreate}').purpletx.paperwrapper
+      //-         .fifth(@click.stop='switchColor("blue")'  :class='{ down : $store.state.upgrades.color === "blue" && showCreate}').bluetx.paperwrapper
 </template>
 
 <script>
@@ -92,14 +92,14 @@ export default {
 
         mc.on('swipedown', () => {
             if(Date.now() - this.swipeTimeout > 100) {
-                this.closeCreate()
+                this.$store.commit('toggleCreate')
                 this.swipeTimeout = Date.now()
             }
         });
 
         mc.on('swipeup', () => {
             if(Date.now() - this.swipeTimeout > 100) {
-                this.openCreate()
+                this.$store.commit('toggleCreate')
                 this.swipeTimeout = Date.now()
             }
         });
@@ -147,9 +147,10 @@ export default {
             if (dontsearch){
                 return this.matchCards
             }
-            if(search.length < 1) {
+            if(search.length < 5) {
                 return { guilds, doges, cards}
             }
+            /// should not be blocking the typing.  . .
             try {
                 let regex = new RegExp(search, 'i')
                 this.$store.state.tasks.forEach(t => {
@@ -176,9 +177,6 @@ export default {
                 return this.$store.commit('toggleCreate')
             }
 
-            if (!this.showCreate){
-                return this.openCreate()
-            }
             let toHide = this.task.name.trim()
             if (toHide){
                 let pubkey = this.$store.state.cash.publicKey
@@ -247,17 +245,19 @@ export default {
             this.$store.commit('setColor', color)
         },
         refocus(keyp){
+            document.getElementById('card').focus()
+            // setTimeout(()=>{
+            //     if (!this.showCreate){
+            //         this.$store.commit('toggleCreate')
+            //     }
+            // }, 1)
             this.task.name += keyp
-            setTimeout(()=>{
-                document.getElementById('card').focus()
-                if (!this.showCreate){
-                    this.$store.commit('toggleCreate')
-                }
-            }, 1)
         },
         resetCard(){
             this.task.name = ''
             this.showSearch = false
+            this.$store.commit('focus', '')
+            document.getElementById("btnpanel").blur()
         },
         subTaskTask(taskId) {
             this.$store.dispatch("makeEvent", {
@@ -301,6 +301,9 @@ export default {
             } else {
                 this.subTaskTask(foundId)
             }
+            if (this.showCreate){
+                this.$store.commit('toggleCreate')
+            }
         },
         isGrabbed(taskId){
             return this.$store.state.tasks[this.$store.state.hashMap[taskId]].deck.indexOf( this.$store.getters.member.memberId ) > -1
@@ -339,11 +342,13 @@ export default {
     },
     computed: {
         refocusWatcher(){
-            if (document.activeElement.id !== 'card'){
-                let keyp = this.$store.state.upgrades.keypressed.toString()
-                if (keyp){
-                    this.refocus(keyp)
-                }
+            let keyp = this.$store.state.upgrades.keypressed.toString()
+            if (!this.showCreate && keyp){
+                console.log('refuc open', keyp)
+                this.$store.commit('toggleCreate')
+            }
+            if (keyp){
+                this.refocus(keyp)
             }
             return this.$store.state.upgrades.refocus
         },
