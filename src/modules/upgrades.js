@@ -23,7 +23,12 @@ const state = {
 
 const mutations = {
     selectCheck(state, y){
-        state.selectedCheck = y
+        if (state.selectedCheck === y){
+            state.selectedCheck = false
+        } else {
+            state.selectedCheck = y
+
+        }
     },
     focus(state, keypressed){
         if (keypressed === 'Enter'){

@@ -1,16 +1,19 @@
 linky<template lang='pug'>
 
-.current.bg
-    span#swipechecks
+.current
+    span#swipechecks(v-if='$store.getters.contextCard.highlights.length <= 0')
         span(v-for='(c, index) in checkmarks'  :key='c.taskId ')
-            span.plain.completedcheckmark(@click='$store.commit("selectCheck", index)'  @mouseover='$store.commit("selectCheck", index)')
+            span.plain.completedcheckmark(@click='$store.commit("selectCheck", index)'  @mouseenter='$store.commit("selectCheck", index)')
                 img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color, index)' )
     //- span.ptr(v-if='checkmarks.length > 0'  @click='relist') *all up*
-    ul(v-if='$store.getters.selectedCheckName || $store.getters.contextCard.highlights.length > 0')
-        li.ptr(v-if='$store.getters.contextCard.highlights.length > 0 ' v-for='(c, index) in checkmarks'   @click='recallCard(c.taskId)')
-            linky(:x='c.name' :class='{selectedCheckInList: c.name === $store.getters.selectedCheckName}'  @mouseover='$store.commit("selectCheck", index)' )
-        li.ptr(v-else  @click='recallCard(checkmarks[$store.state.upgrades.selectedCheck].taskId)')
-            linky(v-if='$store.getters.selectedCheckName'  :x='$store.getters.selectedCheckName')
+    div.ptr.bg(v-if='$store.getters.contextCard.highlights.length > 0 ' v-for='(c, index) in checkmarks'   @click='recallCard(c.taskId)')
+        img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color, index)' )
+        span &nbsp;
+        linky(:x='c.name' :class='{selectedCheckInList: c.name === $store.getters.selectedCheckName}' )
+    div.ptr.bg(v-else-if='$store.getters.selectedCheckName'  @click='recallCard(checkmarks[$store.state.upgrades.selectedCheck].taskId)')
+        img.completedcheckmark(src='../assets/images/completed.svg')
+        span &nbsp;
+        linky(v-if='$store.getters.selectedCheckName'  :x='$store.getters.selectedCheckName')
     //- .workblue
     //-     img(v-if='member.action === $store.getters.contextCard.taskId'  src='../assets/images/timecube.svg')
     //-     span(v-else) -
@@ -235,6 +238,7 @@ img.completedcheckmark
 
 img.completedcheckmark.selectedCheck
     height: 2.2em
+    transform: rotate(90deg)
 
 .completedcheckmarks
     min-height: 1.5em

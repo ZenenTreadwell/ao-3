@@ -1,7 +1,6 @@
 <template lang='pug'>
 
 .upgrades(v-if='!$store.getters.contextMember')
-    current-checks(v-if='$store.getters.contextCompleted.length > 0')
     div.tr
         img.doge(src='../assets/images/doge.svg')
         span.bg
@@ -10,6 +9,7 @@
             span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop') *leave*
             span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click='grab') *join*
             span.ptr(v-if='$store.getters.contextCard.deck.length === 0' @click='remove') &nbsp; *delete*
+    current-checks(v-if='$store.getters.contextCompleted.length > 0')
     .spacer
     //- span(v-if='$store.getters.isLoggedIn  && $store.getters.member.memberId !== $store.getters.contextCard.taskId')
     //-     div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
@@ -127,6 +127,10 @@ export default {
 .doge
     height: 1.789em
     display: inline-block
+    background-color: main
+    padding: .5em;
+    border-radius: 50%;
+    margin-right: -.3em;
 
 .ptr
     cursor: pointer;

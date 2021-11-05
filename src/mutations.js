@@ -319,10 +319,6 @@ function hashMapMuts(hashMap, ev){
 
 let explodingTask, absorbingTask, pirate, task, isExist, isExisting
 function tasksMuts(tasks, ev) {
-  if (ev.taskId && ev.taskId === ev.inId){
-      // console.log('would be filtering', ev.type)
-      return // this should filter at spec
-  }
   switch (ev.type) {
     case "task-colored":
         tasks.forEach(task => {
