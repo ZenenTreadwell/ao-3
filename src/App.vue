@@ -5,31 +5,31 @@
       div &nbsp;
       auth
       .statement
-          .row Each card can:
+          .row.cb Each Card
           div &nbsp;
           .row
               .four.columns.plac(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
                   img.placmage(src='./assets/images/completed.svg')
-                  div Create a todolist, create checkmarks.
+                  div Checklist
               .four.columns.plac(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}')
                   img.placmage(src='./assets/images/timecube.svg')
-                  div View a calendar, view past checkmarks, schedule upcoming events.
+                  div Calendar
               .four.columns.plac(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
                   img.placmage(src='./assets/images/bitcoin.svg')
-                  div Send bitcoin into ao's lightning node, see past gifts.
+                  div Bitcoin
       .statement.dark
-          .row Each server has:
+          .row.cb Each Server
           div &nbsp;
           .row
               .four.columns.plac(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
                   img.placmage(src='./assets/images/doge.svg')
-                  div List of all users created.
+                  div Accounts
               .four.columns.plac(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}')
                   img.placmage(src='./assets/images/bull.svg')
-                  div Bitcoin node information for the blockchain (bitcoind) and lightning (lightningd).
+                  div Node
               .four.columns.plac(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
                   img.placmage(src='./assets/images/gear.svg')
-                  div Controls to change name and password, logout, etc.
+                  div Settings
   router-view(v-else)
 </template>
 
@@ -76,6 +76,10 @@ export default {
 @import "./styles/skeleton";
 @import "./styles/colours";
 
+.cb
+    text-align: center
+    font-weight: bolder;
+    font-size: 1.4em
 p
     display: inline
     margin: 0

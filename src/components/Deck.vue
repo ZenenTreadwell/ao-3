@@ -183,7 +183,7 @@ export default {
     margin-right: 1em
     flex-grow: 2.77
     flex-basis: 55%
-    background: softGrey
+    background: lightGrey
     padding: 0.07789em
 
 .darkmode
@@ -361,7 +361,7 @@ export default {
 
 .card.closedwidth
     width: 70%
-    flex-grow: 0
+    // flex-grow: 0
     transition: width 2s;
 
 .card.adjustwidth

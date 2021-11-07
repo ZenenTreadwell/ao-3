@@ -303,7 +303,7 @@ p
 
 h5
     text-align: center
-    color: lightGrey
+    color: main
     opacity: 0.77
 
 .bdoge
@@ -321,7 +321,7 @@ h5
 
 .menu
     text-align: center
-    color: lightGrey
+    color: main
     min-height: 3.3em
     padding-top: 1.6em
 
@@ -332,7 +332,7 @@ h5
     height: 100px
     border-style:solid
     border-width: 1px
-    border-color: lightGrey
+    border-color: softGrey
 .placeholder
     @extends .calendar-column
 .day
@@ -344,7 +344,7 @@ h5
     font-weight:lighter
     font-size: 19px
     border-style:solid
-    color:lightGrey
+    color:softGrey
 
 .weekdayfull
     width: 100%
@@ -354,7 +354,7 @@ h5
     font-size: 19px
     border-width: 1px
     border-style:solid
-    color:lightGrey
+    color:softGrey
     cursor: pointer
     border-color: softGrey
 
@@ -416,7 +416,7 @@ tr, td
 
 .dot
     font-size: 1.9em
-    color: lightGrey
+    color: softGrey
 
 .dot:before
     content: "\2022";

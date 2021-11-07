@@ -159,11 +159,11 @@ export default {
 .day
     position: relative
     overflow: visible
-    background-color: softGrey
+    background-color: lightGrey
 
 .day:hover
     border-style: dashed
-    border-color: lightGrey
+    border-color: softGrey
 
 .date
     text-align:right

@@ -260,6 +260,7 @@ label
     background-color: lightGrey
     margin-bottom: 1em
     padding-bottom: 1em
+    padding-top: 1em
     // box-shadow:
     //     0 0 6px 3px white,  /* inner white */
     //     0 0 7px 4px lightGrey, /* middle magenta */

@@ -3,7 +3,7 @@
 .memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId, dropping}'  @click='goIn(m.memberId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='offDrop'  draggable='true'  :ondragstart='dragStart')
     .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
         span(v-if='!m.active'  @click.stop='deleteUser').hover delete
-        span {{b.boost.toLocaleString()}}
+        span(v-if='b.boost > 0') {{b.boost.toLocaleString()}}
     .row(v-if='b')
         .three.grid.ptr
             current(:memberId='m.memberId' @click.stop)
@@ -167,12 +167,13 @@ label
     margin: 1em
 
 .memberrow
+    padding-right: 0.33em
+    padding-top: 0.33em
     margin-bottom: 0.33em
     background: lightGrey
     cursor: pointer
 .memberrow.dropping
     background: blue
-
 
 .fw
     width: 100%
