@@ -1,19 +1,18 @@
 ```
-## Run the Ubuntu 20 / Debian / Raspbian Setup Script
+## Install Dependencies
 wget https://raw.githubusercontent.com/AutonomousOrganization/ao-3/master/install/fresh-setup.sh
 chmod +x fresh-setup.sh
 sudo ./fresh-setup.sh
 
-## or nodejs
+# install ao-3
 git clone https://github.com/AutonomousOrganization/ao-3
 cd ao-3
-npm run setup
-
-## npm scripts:
 npm install
 npm run checkconfig  
 npm run build
 npm start
+
+
 npm run decrypt <encrypted card>
 ```
 
@@ -29,4 +28,4 @@ Bitcoin is a public money system. It is immune to political interference. It can
 
 The first step is to take your thoughts, your interaction, your life off of other peoples computers. AO can be extended to [control raspberry pi's on the local network](https://github.com/AutonomousOrganization/pi). The Pi's pins can be connected to hardware devices like a vending machine or a door lock.
 
-Our choices now will create the new characteristics of human power and will determine if the semiconductor ultimately realized or destroyed liberty. 
+Our choices now will create the new characteristics of human power and will determine if the semiconductor ultimately realized or destroyed liberty.

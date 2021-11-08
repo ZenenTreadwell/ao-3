@@ -85,16 +85,17 @@ echo 'Installing node'
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 source ~/.bashrc
 nvm install stable
+source ~/.bashrc
 
 echo 'Installing bitcoind'
-wget https://bitcoincore.org/bin/bitcoin-core-0.21.0/bitcoin-0.21.0-x86_64-linux-gnu.tar.gz
-tar xf bitcoin-0.21.0-x86_64-linux-gnu.tar.gz
-sudo cp bitcoin-0.21.0/bin/* /usr/local/bin/
+wget https://bitcoincore.org/bin/bitcoin-core-22.0/bitcoin-22.0-x86_64-linux-gnu.tar.gz
+tar xf bitcoin-22.0-x86_64-linux-gnu.tar.gz
+sudo cp bitcoin-22.0/bin/* /usr/local/bin/
 
 echo 'Installing lightningd'
 git clone https://github.com/ElementsProject/lightning.git lightning
 cd lightning
-git checkout v0.10.1
+git checkout v0.10.2
 ./configure
 sudo make
 sudo make install
@@ -107,13 +108,17 @@ git checkout 0.11B
 mkdir m4
 autoreconf -i
 ./configure
-sudo make -R
+make
 sudo make install
 cd ..
 
-echo ' '
-echo 'Installing ao-3'
-git clone 'https://github.com/AutonomousOrganization/ao-3.git' ao-3
+# echo ' '
+# echo 'Installing ao-3'
+# git clone 'https://github.com/AutonomousOrganization/ao-3.git' ao-3
+# cd ao-3
+# npm install
+# npm run build
+# npm run checkconfig
 
 echo ' '
 echo ' '
@@ -161,4 +166,13 @@ echo 'Execution completion'
 date
 echo ''
 
-echo 'Execution Times'
+echo 'AO Dependencies Installed Start Your Nodes via: '
+echo '  bitcoind'
+echo '  lightningd'
+echo 'Can Proceed to start AO-3 via: '
+echo '  git clone https://github.com/AutonomousOrganization/ao-3'
+echo '  cd ao-3'
+echo '  npm install'
+echo '  npm run checkconfig'
+echo '  npm build'
+echo '  npm start'
