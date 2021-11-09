@@ -56,7 +56,6 @@ export default {
                 this.$store.commit('toggleCreate')
             }
             if (anypass.target.id === "card" || anypass.target.type === "text" || anypass.target.type === "password"){
-                console.log('skipping', anypass.target.id)
                 this.$store.commit('focus', '')
                 return // skip focus
             }

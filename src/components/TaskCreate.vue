@@ -7,7 +7,10 @@
               img(src='../assets/images/compose.svg')
           .boatContainer(v-else)
               button.clear(@click.stop='pileRecalled')
-                  span(v-if='searchTotal > 0 && task.name.length > 0') recall &nbsp; {{ searchTotal }}
+                  span(v-if='showSearch') searching
+                      img(src='../assets/images/gear.svg').spin
+                  span(v-else-if='searchTotal > 0 && task.name.length > 0') found &nbsp; {{ searchTotal }}
+                  span(v-else-if='$store.state.upgrades.search === task.name.trim()') no matches
                   span(v-else) type to search
               button.lock(@click='encryptIt = !encryptIt')
                   label.switch(@click.stop)
@@ -29,7 +32,7 @@
               col='20'
               @click.stop
           )
-  span.hidden {{ refocusWatcher }}
+  span.hidden {{ refocusWatcher }}  {{ nameWatcher }}
       //- #btnpanel.btnpanel
       //-     div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
       //-         .fifth(@click.stop='switchColor("red")'  :class='{ down : $store.state.upgrades.color === "red" && showCreate }').redtx.paperwrapper
@@ -46,6 +49,9 @@ import Hammer from 'hammerjs'
 import cryptoUtils from '../crypto'
 
 import Current from './Current'
+
+let searchDebounce = setTimeout(()=>{}, 123123123123123)
+
 export default {
     data(){
         return {
@@ -67,7 +73,6 @@ export default {
         Current
     },
     mounted() {
-        setInterval(this.matchCards, 2222) // battery drain issue for mobile  ???
         var el = document.getElementById('btnpanel')
         var mc = new Hammer.Manager(el)
 
@@ -139,6 +144,7 @@ export default {
             }
         },
         matchCards() {
+            this.showSearch = false
             let cards = []
             let guilds = []
             let doges = []
@@ -147,30 +153,41 @@ export default {
             if (dontsearch){
                 return this.matchCards
             }
-            if(search.length < 5) {
+            if(search.length < 3) {
+                this.showSearch = false
                 return { guilds, doges, cards}
             }
             /// should not be blocking the typing.  . .
-            try {
-                let regex = new RegExp(search, 'i')
-                this.$store.state.tasks.forEach(t => {
-                    if (t.taskId === this.$store.getters.contextCard.taskId) return //
-                    if(t.guild && regex.test(t.guild)) {
+            searchDebounce = setTimeout(() => {
+              this.showSearch = true
+              process.nextTick(() => {
+                  try {
+                    let start = Date.now()
+                    let regex = new RegExp(search, 'i')
+                    this.$store.state.tasks.forEach(t => {
+                      if (t.taskId === this.$store.getters.contextCard.taskId) return //
+                      if(t.guild && regex.test(t.guild)) {
                         guilds.push(t)
-                    } else if(regex.test(t.name)) {
+                      } else if(regex.test(t.name)) {
                         cards.push(t)
-                    }
-                })
-                this.$store.state.members.forEach(member => {
-                    if(regex.test(member.name)) {
+                      }
+                    })
+                    this.$store.state.members.forEach(member => {
+                      if(regex.test(member.name)) {
                         doges.push(member)
-                    }
-                })
-            } catch (err){
-                return
-            }
-            this.$store.commit('setSearch', search)
-            this.matches = { guilds, doges, cards}
+                      }
+                    })
+                    console.log('search blocked for ', Date.now() - start, 'ms')
+                  } catch (err){
+                    return
+                  }
+                  this.$store.commit('setSearch', search)
+                  this.matches = { guilds, doges, cards}
+                  this.showSearch = false
+
+              })
+
+            }, 789)
         },
         lockIt(){
             if (!this.$store.state.upgrades.create){
@@ -236,7 +253,6 @@ export default {
             if (this.$store.state.upgrades.color === color){
                 this.$store.commit('toggleCreate')
                 this.task.name = ''
-                this.showSearch = false
             } else if (this.showCreate) {
                 // don't close, switch
             } else {
@@ -255,7 +271,6 @@ export default {
         },
         resetCard(){
             this.task.name = ''
-            this.showSearch = false
             this.$store.commit('focus', '')
             document.getElementById("btnpanel").blur()
         },
@@ -277,7 +292,6 @@ export default {
                 return this.lockIt()
             }
 
-            this.showSearch = false
             let potentialCard = this.task.name.trim()
             if (potentialCard.length === 0){
                 return
@@ -342,10 +356,14 @@ export default {
         },
     },
     computed: {
+        nameWatcher(){
+            clearTimeout(searchDebounce)
+            this.matchCards()
+            return this.task.name
+        },
         refocusWatcher(){
             let keyp = this.$store.state.upgrades.keypressed.toString()
             if (!this.showCreate && keyp){
-                console.log('refuc open', keyp)
                 this.$store.commit('toggleCreate')
             }
             if (keyp){
@@ -403,6 +421,10 @@ export default {
 @import '../styles/breakpoints';
 @import '../styles/input';
 @import '../styles/switch';
+@import '../styles/spinners';
+
+.spin
+    height: 1.4em
 
 textarea
     border-color: rgba(0, 0, 0, 0.4)
@@ -518,7 +540,6 @@ textarea.inactive
 
 .label
     font-weight: bolder
-
 
 .centr
     text-align: center
