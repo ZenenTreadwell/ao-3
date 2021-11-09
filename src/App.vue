@@ -59,9 +59,6 @@ export default {
                 this.$store.commit('focus', '')
                 return // skip focus
             }
-            console.log(
-              'always focus', anypass.key
-            )
             this.$store.commit('focus', anypass.key)
         }
     }

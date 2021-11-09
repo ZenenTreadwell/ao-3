@@ -51,6 +51,8 @@ import cryptoUtils from '../crypto'
 import Current from './Current'
 
 let searchDebounce = setTimeout(()=>{}, 123123123123123)
+let focusBouncer = false
+
 
 export default {
     data(){
@@ -366,9 +368,10 @@ export default {
             if (!this.showCreate && keyp){
                 this.$store.commit('toggleCreate')
             }
-            if (keyp){
+            if (keyp && focusBouncer !== this.$store.state.upgrades.refocus){
                 this.refocus(keyp)
             }
+            focusBouncer = this.$store.state.upgrades.refocus
             return this.$store.state.upgrades.refocus
         },
         showCreate(){

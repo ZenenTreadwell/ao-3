@@ -2,11 +2,12 @@
 
 .pin(:ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}"  draggable="true"  :ondragstart='dragStart')
     span(@click='goInKeep(p.taskId)')
-        img.floatleft(src='../assets/images/badge.svg')
+        span(v-if='p.taskId === $store.getters.contextCard.taskId') &nbsp;&nbsp;&#9829;&nbsp;&nbsp;
+        img(v-else).floatleft(src='../assets/images/badge.svg')
     span(@click='goIn(p.taskId)')
-        span(v-if='p.taskId === $store.getters.contextCard.taskId') &#9829;
-        span.nl.gui.smaller {{ p.guild }}
-        span(v-if='p.taskId === $store.getters.contextCard.taskId') &nbsp;&#9829;
+        //- span(v-if='p.taskId === $store.getters.contextCard.taskId') &#9829;
+        span(:class='{selected: p.taskId === $store.getters.contextCard.taskId}').nl.gui.smaller {{ p.guild }}
+        //- span(v-if='p.taskId === $store.getters.contextCard.taskId') &nbsp;&#9829;
 </template>
 
 <script>
@@ -92,6 +93,10 @@ export default {
 <style lang='stylus' scoped>
 
 @import '../styles/colours'
+
+.selected
+    font-weight: 900;
+    font-size: 1.19em
 
 .dropping
     background: blue
