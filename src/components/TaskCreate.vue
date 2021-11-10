@@ -365,11 +365,18 @@ export default {
         },
         refocusWatcher(){
             let keyp = this.$store.state.upgrades.keypressed.toString()
+
             if (!this.showCreate && keyp){
                 this.$store.commit('toggleCreate')
             }
             if (keyp && focusBouncer !== this.$store.state.upgrades.refocus){
-                this.refocus(keyp)
+                console.log(keyp)
+                if (keyp === 'Backspace') keyp = ''
+                if (keyp === 'Enter'){
+                    return this.createOrFindTask()
+                } else {
+                  this.refocus(keyp)
+                }
             }
             focusBouncer = this.$store.state.upgrades.refocus
             return this.$store.state.upgrades.refocus

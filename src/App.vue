@@ -46,6 +46,7 @@ export default {
             this.$store.dispatch('loadCurrent')
         }
         window.addEventListener('keypress', this.alwaysFocus)
+        window.addEventListener('keydown', this.alwaysFocusDown)
     },
     components: {
         Auth
@@ -60,6 +61,12 @@ export default {
                 return // skip focus
             }
             this.$store.commit('focus', anypass.key)
+        },
+        alwaysFocusDown(anypass){
+            if (anypass.key === 'Backspace'){
+                console.log('caught backspace')
+                this.$store.commit('focus', anypass.key)
+            }
         }
     }
 }

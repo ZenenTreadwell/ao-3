@@ -31,11 +31,7 @@ const mutations = {
         }
     },
     focus(state, keypressed){
-        if (keypressed === 'Enter'){
-            state.keypressed = ''
-        } else {
-            state.keypressed = keypressed
-        }
+        state.keypressed = keypressed
         state.refocus ++
     },
     closeAll(state){
