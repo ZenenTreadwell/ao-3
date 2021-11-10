@@ -21,12 +21,12 @@ export default createStore({
       hashMap: modules.hashMap,
   },
   getters: {
-      selectedCheckName(state, getters){
+      selectedCheckCard(state, getters){
           let x = state.upgrades.selectedCheck
           if (getters.contextCompleted[x]){
-              return getters.contextCompleted[x].name
+              return getters.contextCompleted[x]
           }
-          return ''
+          return false
       },
       bountyList(state, getters){
           return state.tasks

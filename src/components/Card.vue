@@ -107,7 +107,6 @@ export default {
                 })
 
             }
-            this.$store.commit('setMode', 1)
         },
         remove(){
             this.$store.dispatch("makeEvent", {

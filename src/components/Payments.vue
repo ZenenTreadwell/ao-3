@@ -6,13 +6,13 @@
     .payreq.ptr(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"'  @click='copy(b.bolt11, true)')
         tag(:d='b.bolt11'  size='5')
         .section.ptr {{b.bolt11}}
-            img(src='../assets/images/loggedOut.svg'  v-if='showCopiedBolt')
+            img(src='../assets/images/loggedOut.svg'  v-if='showCopiedBolt ')
         points-set(:b='$store.getters.contextCard')
     .payreq.ptr(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"'  @click='copy(b.btcAddr)')
         tag(v-if='b.btcAddr'  :d='b.btcAddr'  size='7')
         .ptr.mh(v-else  @click='getAddr') *show bitcoin address*
         .section.ptr(v-if='b.btcAddr'  ) {{b.btcAddr}}
-            img(src='../assets/images/loggedOut.svg'  v-if='showCopiedAddr')
+            img(src='../assets/images/loggedOut.svg'  v-if='showCopiedAddr ')
         points-set(:b='$store.getters.contextCard')
     .section(v-else) node unavailable :(
     br
@@ -41,19 +41,21 @@ export default {
     },
     methods: {
         copy(x, isBolt){
-          navigator.clipboard.writeText(x)
-              .then(() => {
-                  if (isBolt){
+          if (x){
+              navigator.clipboard.writeText(x)
+                  .then(() => {
+                    if (isBolt){
                       this.showCopiedBolt = true
                       this.showCopiedAddr = false
-                  } else {
+                    } else {
                       this.showCopiedBolt = false
                       this.showCopiedAddr = true
-                  }
-              })
-              .catch(err => {
-                  console.log(err, 'copy attempt failed, printing to console:')
-              })
+                    }
+                  })
+                  .catch(err => {
+                    console.log(err, 'copy attempt failed, printing to console:')
+                  })
+          }
 
         },
         getAddr(){

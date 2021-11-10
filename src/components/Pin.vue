@@ -1,10 +1,10 @@
 <template lang='pug'>
 
-.pin(:ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}"  draggable="true"  :ondragstart='dragStart')
-    span(@click='goInKeep(p.taskId)')
+.pin(@click='goIn(p.taskId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}"  draggable="true"  :ondragstart='dragStart')
+    span(@click.stop='goInKeep(p.taskId)')
         span(v-if='p.taskId === $store.getters.contextCard.taskId') &nbsp;&nbsp;&#9829;&nbsp;&nbsp;
         img(v-else).floatleft(src='../assets/images/badge.svg')
-    span(@click='goIn(p.taskId)')
+    span()
         //- span(v-if='p.taskId === $store.getters.contextCard.taskId') &#9829;
         span(:class='{selected: p.taskId === $store.getters.contextCard.taskId}').nl.gui.smaller {{ p.guild }}
         //- span(v-if='p.taskId === $store.getters.contextCard.taskId') &nbsp;&#9829;
@@ -41,6 +41,7 @@ export default {
                 inId:  this.p.taskId,
                 taskId: data,
             })
+            setTimeout(() => this.dropping = false, 444)
         },
         allowDrop(ev){
             ev.preventDefault()

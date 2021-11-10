@@ -9,11 +9,12 @@ linky<template lang='pug'>
     div.ptr.bg(v-if='$store.getters.contextCard.highlights.length > 0 ' v-for='(c, index) in checkmarks'   @click='recallCard(c.taskId)')
         img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color, index)' )
         span &nbsp;
-        linky(:x='c.name' :class='{selectedCheckInList: c.name === $store.getters.selectedCheckName}' )
-    div.ptr.bg(v-else-if='$store.getters.selectedCheckName'  @click='recallCard(checkmarks[$store.state.upgrades.selectedCheck].taskId)')
-        img.completedcheckmark(src='../assets/images/completed.svg')
+        linky(:x='c.name' :class='{selectedCheckInList: c.name === $store.getters.selectedCheckCard.name}' )
+    div.ptr.bg(v-else-if='$store.getters.selectedCheckCard.name'  @click='recallCard(checkmarks[$store.state.upgrades.selectedCheck].taskId)')
+        img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty($store.getters.selectedCheckCard.color)')
         span &nbsp;
-        linky(v-if='$store.getters.selectedCheckName'  :x='$store.getters.selectedCheckName')
+        linky(v-if='$store.getters.selectedCheckCard.name'  :x='$store.getters.selectedCheckCard.name')
+        span.smaller(v-for='mId in $store.getters.selectedCheckCard.claimed') &nbsp; - {{ getMemberName(mId) }}
     //- .workblue
     //-     img(v-if='member.action === $store.getters.contextCard.taskId'  src='../assets/images/timecube.svg')
     //-     span(v-else) -
@@ -50,12 +51,22 @@ export default {
   },
   components: { Linky, Coin },
   methods: {
+    getMemberName(mId){
+        let name
+        this.$store.state.members.some(m => {
+            if (m.memberId === mId){
+                name = m.name
+            }
+        })
+        return name
+    },
     recallCard(taskId){
         this.$store.dispatch("makeEvent", {
             type: 'task-sub-tasked',
             inId: this.$store.getters.contextCard.taskId,
             taskId
         })
+        this.$store.commit('selectCheck', false)
     },
     relist(){
         this.$store.dispatch("makeEvent", {
@@ -99,6 +110,10 @@ export default {
         })
     },
     cardInputSty(c, index){
+        if (this.$store.getters.member.stacks === 1) {
+            return { selectedCheck: this.$store.state.upgrades.selectedCheck === index }
+        }
+        
         return {
             selectedCheck: this.$store.state.upgrades.selectedCheck === index,
             redwx : c === 'red',
@@ -195,6 +210,9 @@ export default {
 @import '../styles/colours'
 @import '../styles/grid'
 
+.smaller
+    font-size: .777em
+
 .selectedCheckInList
     font-size: 1.69em
 
@@ -238,7 +256,8 @@ img.completedcheckmark
 
 img.completedcheckmark.selectedCheck
     height: 2.2em
-    transform: rotate(90deg)
+    display: none
+    // transform: rotate(90deg)
 
 .completedcheckmarks
     min-height: 1.5em

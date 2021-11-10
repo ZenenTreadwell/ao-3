@@ -70,7 +70,7 @@ export default {
             })
         },
         styl(color){
-            if (!color) return
+            if (!color  || this.$store.getters.member.stacks === 1) return
             return {
                 redwx : color == 'red',
                 bluewx : color == 'blue',

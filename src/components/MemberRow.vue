@@ -47,6 +47,7 @@ export default {
                 inId:  this.m.memberId,
                 taskId: data,
             })
+            setTimeout(() => this.dropping = false, 444)
         },
         allowDrop(ev){
             ev.preventDefault()

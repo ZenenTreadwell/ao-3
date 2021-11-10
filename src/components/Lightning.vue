@@ -179,6 +179,7 @@ export default {
             }
         },
         getFeeColor(x){
+            if (this.$store.getters.member.stacks === 1) return
             if (x > 100) return { high : 1}
             if (x > 50) return { midhigh : 1}
             if (x > 10) return { mid: 1}
@@ -419,16 +420,20 @@ h5
 
 .localbar
     height: 0.622em
-    background: green
     float: left
+    border-right: solid
+    // background: green
 
 .localbar.abnormal
     background: red
 
 .remotebar
     height: 0.622em
-    background: blue
+    // background: blue
     float: right
+
+
+
 
 .remotebar.abnormal
     background: red

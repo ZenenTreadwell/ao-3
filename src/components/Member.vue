@@ -11,12 +11,15 @@
                 span(v-else-if='cardStart.hours > 1'  @click='clearSchedule') in {{ cardStart.hours.toFixed(1) }} hours
                 span(v-else-if='cardStart.minutes > 1'  @click='clearSchedule') in {{ cardStart.minutes.toFixed(1) }} minutes
                 resource-book(v-else)
-    .row.center.clearboth(@click='$store.commit("setMode", 0)'  draggable="true"  :ondragstart='dragStart' )
+    .row.center.clearboth(@click='copyCard'  draggable="true"  :ondragstart='dragStart' )
         label
             bird(:b='$store.getters.contextCard', :inId='$store.getters.contextCard.taskId')
             div(v-if='$store.getters.contextMember')
                 linky(:x='m.name')
-            linky(v-else  :x='card.name')
+                img(v-show='copied'  src='../assets/images/loggedOut.svg')
+            div(v-else)
+                linky(:x='card.name')
+                img(v-show='copied'  src='../assets/images/loggedOut.svg')
     div
         .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}'   :ondragover='toBoat')
             img(v-if='$store.state.upgrades.mode !== "boat"  && card.priorities.length > 0'  v-for='t in card.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
@@ -41,6 +44,9 @@ import ResourceBook from './ResourceBook'
 let debounce = false
 
 export default {
+    data(){
+        return {copied: false}
+    },
     components: {Current, Linky, Auth, Card, Checkbox, Bird, ResourceBook},
     computed:{
         m(){
@@ -100,8 +106,13 @@ export default {
         },
     },
     methods: {
+        copyCard(){
+            navigator.clipboard.writeText(this.$store.getters.contextCard.name).then(()=>{
+                this.copied = true
+            })
+        },
         styl(color){
-            if (!color) return
+            if (!color  || this.$store.getters.member.stacks === 1) return
             return {
                 redwx : color == 'red',
                 bluewx : color == 'blue',
@@ -229,6 +240,13 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
+
+label img
+    height: 1.389em
+    display: inline
+
+label div
+    cursor: pointer
 
 .doge
     height: 1.111em

@@ -55,7 +55,7 @@ img
     position: fixed
     z-index: 90010000
     cursor: pointer
-    padding: .75em
+    padding: .075em
 
 .settings
     position: fixed

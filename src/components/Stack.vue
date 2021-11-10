@@ -2,11 +2,11 @@
 
 #tasks
     .fixedstatus(v-if='c.length > 1  && sanePosition !== -1'  ) {{ sanePosition + 1 }} of {{ c.length }}
-    .ptr(ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop")
+    .ptr(ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
         span.third(:class='{hidden:open}'  ref='previous')
             .donut.hidden
         span.third(ref='mandelorb')
-            .donut(:class='{pileselected:$store.state.upgrades.color===stack  && $store.state.upgrades.create}')
+            .donut(:class='{pileselected:$store.state.upgrades.color===stack  && $store.state.upgrades.create, dropping:dropping}')
         span.third(:class='{hidden:open}'  ref='next')
             .donut.hidden
     .open(v-if='open')
@@ -124,11 +124,16 @@ export default {
       return {
           orbuuid: uuidv1(),
           componentKey: 0,
+          dropping: false,
       }
   },
   methods:{
+    dragLeave(){
+        this.dropping = false
+    },
     allowDrop(ev){
         ev.preventDefault()
+        this.dropping = true
     },
     drop(ev){
         ev.preventDefault();
@@ -139,6 +144,7 @@ export default {
             taskId: data,
             color: this.stack
         })
+        setTimeout(() => this.dropping = false, 444)
     },
     toggleOpen(){
         if (this.position !== -1){
@@ -281,6 +287,7 @@ export default {
 @import '../styles/grid'
 @import '../styles/button'
 @import '../styles/donut'
+
 
 h3
     font-size: 0.54em
@@ -437,5 +444,8 @@ img
 
 .donut.pileselected
     border-color: lightGrey
+
+.donut.dropping
+    border-color: blue
 
 </style>

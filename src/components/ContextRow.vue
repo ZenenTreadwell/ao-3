@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.context.paperwrapper(:class="cardInputSty"  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart')
+.context.paperwrapper(:class="cardInputSty"  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart'  :ondragleave='dragLeave')
     .popup
         .here
             span.front(v-if='isMember')  {{ isMember }} &nbsp;
@@ -20,9 +20,15 @@ import Linky from './Linky'
 import Tally from './Tally'
 
 export default {
+    data(){
+        return { dropping: false }
+    },
     props: ['taskId'],
     components: { Linky, Tally },
     methods: {
+        dragLeave(){
+            this.dropping = false
+        },
         drop(ev){
             ev.preventDefault();
             var data = ev.dataTransfer.getData("taskId")
@@ -39,9 +45,11 @@ export default {
                 inId: this.taskId,
                 taskId: data,
             })
+            setTimeout(() => this.dropping = false, 444)
         },
         allowDrop(ev){
             ev.preventDefault()
+            this.dropping = true
         },
         dragStart(ev){
             ev.dataTransfer.setData("taskId", this.taskId);
@@ -93,11 +101,13 @@ export default {
         cardInputSty() {
           if (this.$store.getters.member.stacks === 1){
               return {
-                  nowx: true
+                  nowx: true,
+                  dropping: this.dropping,
               }
           }
           let color = this.card.color
           return {
+              dropping: this.dropping,
               redwx : color == 'red',
               bluewx : color == 'blue',
               greenwx : color == 'green',
@@ -128,7 +138,6 @@ img
 
 .context
     opacity: 0.9
-
     width: calc(100% + 1em)
 
 .paperwrapper
@@ -214,4 +223,9 @@ img.front
 
 .context
     box-shadow: -7px -7px 7px 1px rgba(21, 21, 21, 0.5)
+
+
+.context.paperwrapper.dropping
+    background: blue
+
 </style>
