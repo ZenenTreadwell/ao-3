@@ -81,11 +81,11 @@
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id')
                     .localremote.bordy(v-show='selectedPeer === i'   @click='selectedPeer = false')
-                        .localbar.tall(:style='l(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseInt( n.channel_sat ).toLocaleString() }}
-                        .remotebar.tall(:style='r(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseInt( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
+                        .localbar.tall(:style='l(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL", gr: $store.getters.member.stacks === 5}')  {{ parseInt( n.channel_sat ).toLocaleString() }}
+                        .remotebar.tall(:style='r(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL", bl: $store.getters.member.stacks === 5}')  {{ parseInt( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
                     .localremote(v-show='selectedPeer !== i'   @click='selectPeer(i)')
-                        .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
-                        .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
+                        .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL", gr: $store.getters.member.stacks === 5}')
+                        .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL", bl: $store.getters.member.stacks === 5}')
             .row.bg(v-if='sats > 0') 1 CAD =
                 span {{ sats }} sats
             .row.bg 1 BTC = 100 000 000 sats
@@ -230,6 +230,9 @@ export default {
             if (!nolimits && remotePercent < 0.2 && remotePercent > 0) {
                 remotePercent = 0.2
             }
+            if (!nolimits && remotePercent < 1 && remotePercent > 0.8) {
+                remotePercent = 0.8
+            }
 
             let w = (remotePercent * 100).toFixed(7) + "%"
             return {
@@ -245,6 +248,9 @@ export default {
 
           if (!nolimits && localPercent > 0.8 && localPercent < 1) {
               localPercent = 0.8
+          }
+          if (!nolimits && localPercent > 0 && localPercent < 0.2) {
+              localPercent = 0.2
           }
           let w = (localPercent * 100).toFixed(7) + "%"
           return {
@@ -421,20 +427,23 @@ h5
 .localbar
     height: 0.622em
     float: left
-    border-right: solid
-    // background: green
+    outline-right: solid
+    // outline-color: :0.111em
+    background: linear-gradient(to right, wrexno 0%, wrexno 98.1337%, black 98.1337%, black)
+    padding-top: 0.23em
+
+.gr
+    background: linear-gradient(to right, green 0%, green 99%, black 99%, black)
 
 .localbar.abnormal
     background: red
 
 .remotebar
     height: 0.622em
-    // background: blue
     float: right
-
-
-
-
+    padding-top: 0.23em
+.bl
+    background: blue
 .remotebar.abnormal
     background: red
 

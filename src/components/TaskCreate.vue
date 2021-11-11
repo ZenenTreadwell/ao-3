@@ -370,7 +370,6 @@ export default {
                 this.$store.commit('toggleCreate')
             }
             if (keyp && focusBouncer !== this.$store.state.upgrades.refocus){
-                console.log(keyp)
                 if (keyp === 'Backspace') keyp = ''
                 if (keyp === 'Enter'){
                     return this.createOrFindTask()
