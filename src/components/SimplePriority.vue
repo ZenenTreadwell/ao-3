@@ -6,9 +6,15 @@
         span.front.nudge(v-if='card.guild')  {{ card.guild }}
         img.left.front(v-if='isMember' src="../assets/images/doge.svg")
         span(v-if='isMember') {{ isMember }}
-        .check(@click.stop='checky')
-            img.checkmark.right.front(v-if='isCompleted' src='../assets/images/completed.svg')
-            img.checkmark.right.front(v-else-if='!isCompleted' src='../assets/images/uncompleted.svg')
+        .check()
+            img.checkmark.right.front(v-if='isCompleted' src='../assets/images/completed.svg'  @click.stop='checky')
+            img.checkmark.right.front(v-else-if='!isCompleted' src='../assets/images/uncompleted.svg'  @click.stop='checky')
+            img.checkmark.right.front(v-if='$store.getters.member.action !== card.taskId'  src='../assets/images/hourglass.svg'  @click.stop='toggleActive')
+            span(v-else  :key='updatePlz'  @click.stop='toggleActive').checkmark.right.front
+                span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }}:
+                span(v-if='clockworkblue.hours > 0') {{ clockworkblue.hours }}:
+                span(v-if='clockworkblue.minutes > 0') {{ clockworkblue.minutes }}:
+                span(v-if='clockworkblue.seconds > 0 && clockworkblue.days < 1') {{ clockworkblue.seconds }}
         tally.right.front.lesspadding(:b='card'  isPriority='1')
         linky.cardname.front(v-if='!isMember'  :x='card.name')
     preview-deck(:task='card')
@@ -21,9 +27,38 @@ import Tally from './Tally'
 import PreviewDeck from './PreviewDeck'
 
 export default {
+    data(){
+      return {
+          updatePlz: 0,
+          timerInterval: null,
+      }
+    },
+    mounted(){
+        if (this.$store.getters.member.action === this.card.taskId){
+            this.startTimer()
+        }
+    },
     props: ['taskId', 'inId', 'c'],
     components: { Linky, Tally, PreviewDeck },
     methods: {
+      startTimer() {
+          this.timerInterval = setInterval(() => (this.updatePlz += 1), 1000);
+      },
+      toggleActive(){
+          let newfield = ''
+          if (this.$store.getters.member.action !== this.card.taskId){
+              newfield = this.card.taskId
+              this.startTimer()
+          } else {
+              clearInterval(this.timerInterval)
+          }
+          this.$store.dispatch("makeEvent", {
+              type: 'member-field-updated',
+              field: 'action',
+              memberId: this.$store.getters.member.memberId,
+              newfield
+          })
+      },
       drop(ev){
           ev.preventDefault();
           ev.stopPropagation();
@@ -116,6 +151,45 @@ export default {
       },
     },
     computed: {
+        clockworkblue(){
+            let active = false
+            let totalms = 0
+            this.card.actions.forEach(a => {
+                if (a && this.$store.getters.member.memberId === a.memberId){
+                    totalms = a.total
+                    if (a.isActive){
+                        active = a.timestamp
+                    }
+                }
+            })
+
+            if (active){
+                totalms += (Date.now() - active)
+            }
+
+            totalms += this.updatePlz
+
+            let days = 0
+            while (totalms > 1000 * 60 * 60 * 24){
+                days ++
+                totalms -= 1000 * 60 * 60 * 24
+            }
+            let hours = 0
+            while (totalms > 1000 * 60 * 60){
+                hours ++
+                totalms -= 1000 * 60 * 60
+            }
+
+            let minutes = 0
+            while (totalms > 1000 * 60){
+                minutes ++
+                totalms -= 1000 * 60
+            }
+
+            let seconds = (totalms / 1000).toFixed(0)
+
+            return {days, hours, minutes, seconds, active}
+        },
         card(){
             return this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
         },

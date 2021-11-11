@@ -64,7 +64,9 @@ export default {
         },
         alwaysFocusDown(anypass){
             if (anypass.key === 'Backspace'){
-                console.log('caught backspace')
+                if (anypass.target.id === "card" || anypass.target.type === "text" || anypass.target.type === "password"){
+                    return // skip focus
+                }
                 this.$store.commit('focus', anypass.key)
             }
         }

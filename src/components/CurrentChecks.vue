@@ -32,6 +32,9 @@ import Coin from './Coin'
 import Hammer from 'hammerjs'
 
 export default {
+  data(){
+    return {updatePlz: 0}
+  },
   mounted(){
       var el = document.getElementById('swipechecks')
       var mc = new Hammer.Manager(el)
@@ -113,7 +116,7 @@ export default {
         if (this.$store.getters.member.stacks === 1) {
             return { selectedCheck: this.$store.state.upgrades.selectedCheck === index }
         }
-        
+
         return {
             selectedCheck: this.$store.state.upgrades.selectedCheck === index,
             redwx : c === 'red',
@@ -134,45 +137,6 @@ export default {
     },
   },
   computed:{
-    clockworkblue(){
-        let active = false
-        let totalms = 0
-        this.$store.getters.contextCard.actions.forEach(a => {
-            if (a && this.memberId === a.memberId){
-                totalms = a.total
-                if (a.isActive){
-                    active = a.timestamp
-                }
-            }
-        })
-
-        if (active){
-            totalms += (Date.now() - active)
-        }
-
-        totalms += this.updatePlz
-
-        let days = 0
-        while (totalms > 1000 * 60 * 60 * 24){
-            days ++
-            totalms -= 1000 * 60 * 60 * 24
-        }
-        let hours = 0
-        while (totalms > 1000 * 60 * 60){
-            hours ++
-            totalms -= 1000 * 60 * 60
-        }
-
-        let minutes = 0
-        while (totalms > 1000 * 60){
-            minutes ++
-            totalms -= 1000 * 60
-        }
-
-        let seconds = (totalms / 1000).toFixed(0)
-
-        return {days, hours, minutes, seconds, active}
-    },
     member(){
         let memberId = this.memberId
         let name = false
