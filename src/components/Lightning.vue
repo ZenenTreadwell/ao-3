@@ -3,55 +3,55 @@
 #nodes
     .breathing
     .row
-        .four.grid.bg(v-if='$store.state.cash.info.mempool')
-            div bitcoind
+        .four.grid.boxy(v-if='$store.state.cash.info.mempool')
             .section {{ $store.getters.confirmedBalance.toLocaleString() }} chain sats
             .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
-            .section block {{ $store.state.cash.info.blockheight.toLocaleString()}}, {{ ((Date.now() - ($store.state.cash.info.blockfo.time * 1000)) / 60 / 1000).toFixed(1) }}min old
-            .section
-            .grid
-                .three.grid
-                    p percentile
-                .nine.grid
-                    p fees (sat/byte)
+            .section block {{ $store.state.cash.info.blockheight.toLocaleString()}}
+            .section {{ ((Date.now() - ($store.state.cash.info.blockfo.time * 1000)) / 60 / 1000).toFixed(1) }} minutes ago
+            .section.sampler(@click='sampler') {{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed(1) }} MB unconfirmed transactions
+            .section last block fee percentiles (sat/byte):
             .section
                 .grid
                     .three.grid
                         p 90th
-                    .nine.grid
-                        .chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[4])')  {{ $store.state.cash.info.blockfo.feerate_percentiles[4] }}
+                    .eight.grid
+                        .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[4] }}
+                    .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[4])')
             .section
                 .grid
                     .three.grid
                         p 75th
-                    .nine.grid
-                        .chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[3])')  {{ $store.state.cash.info.blockfo.feerate_percentiles[3] }}
+                    .eight.grid
+                        .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[3] }}
+                    .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[3])')
             .section
                 .grid
                     .three.grid
                         p 50th
-                    .nine.grid
-                        .chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[2])')  {{ $store.state.cash.info.blockfo.feerate_percentiles[2] }}
+                    .eight.grid
+                        .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[2] }}
+                    .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[2])')
             .section
                 .grid
                     .three.grid
                         p 25th
-                    .nine.grid
-                        .chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[1])')  {{ $store.state.cash.info.blockfo.feerate_percentiles[1] }}
+                    .eight.grid
+                        .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[1] }}
+                    .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[1])')
             .section
                 .grid
                     .three.grid
                         p 10th
-                    .nine.grid
-                        .chain(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[0])')  {{ $store.state.cash.info.blockfo.feerate_percentiles[0] }}
+                    .eight.grid
+                        .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[0] }}
+                    .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[0])')
             .section
                 .grid
                     .three.grid
-                        p smart
-                    .nine.grid
-                        .chain(:class='getFeeColor($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000)')  {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }}
-            .section.sampler(@click='sampler') {{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed(1) }} MB unconfirmed
-            .section check transaction id:
+                        p recommended
+                    .eight.grid
+                        .chain  {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }}
+                    .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[0])')
             input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
             button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
             .chanfo(v-if='fetchedTxn.txid')
@@ -63,9 +63,7 @@
                     div(v-if='u && u.value > 0 && u.scriptPubKey.addresses') {{ u.value }} : {{u.scriptPubKey.addresses}} - unspent
                 div(v-for='outp in filteredOut') {{ outp.value }} : {{outp.scriptPubKey.addresses}}
                 .chanfo(v-if='showOutputs'  v-for='n in $store.state.cash.info.outputs'  @click='checkTxid(n.txid)') txid: {{n.txid}} : {{n.output}}
-        .eight.grid.bg(v-if='$store.state.cash.info.channels')
-            div lightningd
-            .section {{ $store.state.cash.info.channels.length }} channels
+        .eight.grid.boxy(v-if='$store.state.cash.info.channels')
             .section.fr {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }} remote sats
             .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') {{ parseFloat( nn.channel_sat ).toLocaleString() }} local sats
             div
@@ -86,14 +84,13 @@
                     .localremote(v-show='selectedPeer !== i'   @click='selectPeer(i)')
                         .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL", gr: $store.getters.member.stacks === 5}')
                         .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL", bl: $store.getters.member.stacks === 5}')
-            .row.bg(v-if='sats > 0') 1 CAD =
-                span {{ sats }} sats
-            .row.bg 1 BTC = 100 000 000 sats
-            .row.bg.ptr(@click='clicktopay') *click to pay*
-    .row.bg
-        .chanfo(v-if='$store.state.cash.info.address') lightning connect:
-            div
-                code {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
+            .section {{ $store.state.cash.info.channels.length }} channels
+    .row.boxy
+        .row.bg(v-if='sats > 0') 1 CAD =
+            span {{ sats }} sats
+        .row.bg 1 BTC = 100 000 000 sats
+        .row.bg.ptr(@click='clicktopay') *click to pay*
+        .row {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
 </template>
 
 <script>
@@ -269,6 +266,11 @@ export default {
 @import '../styles/button'
 @import '../styles/input'
 
+.boxy
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
+    padding: .378em
+    margin-bottom: 1em
+
 .bordy
     margin-top:0.2em
     margin-left: 0.25em
@@ -376,24 +378,28 @@ p
     padding: 1em
 
 .chain
-    height: 1.7em
-    margin: 0
-    text-align: center
-    position: relative
-    padding-top: 0.6em
-    opacity: 0.8
+    // height: 1.7em
+    // margin: 0
+    // text-align: center
+    // position: relative
+    // padding-top: 0.6em
+    // opacity: 0.8
 
 .outputs
   cursor: pointer
 
-.chain.high
+.one.grid.high
   background: wrexred
-.chain.midhigh
+  min-height: 1em
+.one.grid.midhigh
   background: wrexyellow
-.chain.mid
+  min-height: 1em
+.one.grid.mid
   background: wrexblue
-.chain.low
+  min-height: 1em
+.one.grid.low
   background: wrexgreen
+  min-height: 1em
 
 
 .break

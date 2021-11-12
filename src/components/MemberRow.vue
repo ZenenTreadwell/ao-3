@@ -11,8 +11,6 @@
             coin(:b='b')
         .grid.eight
             span(v-for='x in rowsGuilds') {{x}} &nbsp;
-
-            //- simple-priorities(:taskId='m.memberId')
 </template>
 
 <script>
@@ -173,6 +171,7 @@ label
     margin-bottom: 0.33em
     background: lightGrey
     cursor: pointer
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
 .memberrow.dropping
     background: blue
 
@@ -241,7 +240,5 @@ label
 
 .loggedIn
     opacity: 0.9
-    border-style: dashed
-    border-color: main
 
 </style>

@@ -64,7 +64,7 @@ img
     right: 0
     width: 89%
     padding: 1.5em
-    background: softGrey
+    background: linear-gradient(to top left, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
 .lightning
     position: fixed
     z-index: 80090000
@@ -72,14 +72,14 @@ img
     right: 0
     width: 89%
     padding: 1.5em
-    background: softGrey
+    background: linear-gradient(to bottom left, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
 .accounts
     position: fixed
     z-index: 80090000
     top: 0
     left: 0
     width: 89%
-    background: softGrey
+    background: linear-gradient(to bottom right, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
 
 .gear
     bottom: 0

@@ -15,14 +15,6 @@ linky<template lang='pug'>
         span &nbsp;
         linky(v-if='$store.getters.selectedCheckCard.name'  :x='$store.getters.selectedCheckCard.name')
         span.smaller(v-for='mId in $store.getters.selectedCheckCard.claimed') &nbsp; - {{ getMemberName(mId) }}
-    //- .workblue
-    //-     img(v-if='member.action === $store.getters.contextCard.taskId'  src='../assets/images/timecube.svg')
-    //-     span(v-else) -
-    //-     div(:key='updatePlz')
-    //-         span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }} days,
-    //-         span(v-if='clockworkblue.hours > 0') {{ clockworkblue.hours }} hours,
-    //-         span(v-if='clockworkblue.minutes > 0') {{ Number(clockworkblue.minutes) }} minutes,
-    //-         span(v-if='clockworkblue.seconds > 0 && clockworkblue.days < 1') {{ Number(clockworkblue.seconds)}} seconds
 </template>
 
 <script>
@@ -32,9 +24,7 @@ import Coin from './Coin'
 import Hammer from 'hammerjs'
 
 export default {
-  data(){
-    return {updatePlz: 0}
-  },
+
   mounted(){
       var el = document.getElementById('swipechecks')
       var mc = new Hammer.Manager(el)

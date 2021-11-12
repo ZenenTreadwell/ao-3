@@ -326,8 +326,7 @@ label
     border: none;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
-    -webkit-box-shadow: 3px 3px 18px 3px softGrey ;
-    box-shadow: 2px 2px 1px 2px softGrey;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     img
         height: 1.77em
 

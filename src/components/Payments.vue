@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 .upgrades
-    .bg
+    .paddy
         div(v-for='p in b.payments') {{ getDateString(p.timestamp) }} ~ {{p.amount.toLocaleString()}}
     .payreq.ptr(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"'  @click='copy(b.bolt11, true)')
         tag(:d='b.bolt11'  size='5')
@@ -80,6 +80,9 @@ export default {
 @import '../styles/grid';
 @import '../styles/button';
 @import '../styles/spinners';
+
+.paddy
+    padding: 0.789em
 
 .mh
     min-height: 3em

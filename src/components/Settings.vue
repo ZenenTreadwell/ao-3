@@ -2,8 +2,8 @@
 
 #settings
     .row
-        .six.columns.bg
-            .section update
+        .six.columns.boxy
+            .section account updates
             select(v-model='change.field', @change='empty')
                 option(value='secret') password
                 option(value='name') name
@@ -24,8 +24,8 @@
                         span - repeat correctly
             button(@click='update'  v-if='change.newfield  && inputType !== "password"') update {{ change.field }}
             button(@click='update'  v-else-if='change.newfield  && change.confirmNewfield.length > 0 && matched') update password
-        .six.columns.bg
-            .section preferences
+        .six.columns.boxy
+            .section account preferences
             //- .check.click(@click='toggleTooltips')
             //-     img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
             //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
@@ -45,6 +45,8 @@
             div &nbsp;
             button(@click='logout') log out
     .breathing
+    label.bg card id: {{ $store.getters.contextCard.taskId }}
+    br
     label.bg server onion: {{ $store.state.cash.address }}
 </template>
 
@@ -219,6 +221,11 @@ export default {
 @import '../styles/breakpoints'
 @import '../styles/button'
 @import '../styles/input'
+
+.boxy
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
+    padding: .378em
+    margin-bottom: 1em
 
 input:-webkit-autofill {
     -webkit-box-shadow:0 0 0 50px white inset; /* Change the color to your own background color */
