@@ -63,6 +63,7 @@ img
     bottom: 0
     right: 0
     width: 89%
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     padding: 1.5em
     background: linear-gradient(to top left, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
 .lightning
@@ -71,6 +72,7 @@ img
     top: 0
     right: 0
     width: 89%
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     padding: 1.5em
     background: linear-gradient(to bottom left, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
 .accounts
@@ -79,6 +81,7 @@ img
     top: 0
     left: 0
     width: 89%
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     background: linear-gradient(to bottom right, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
 
 .gear

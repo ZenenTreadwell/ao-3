@@ -12,44 +12,44 @@
             .section last block fee percentiles (sat/byte):
             .section
                 .grid
-                    .three.grid
+                    .five.grid
                         p 90th
-                    .eight.grid
+                    .six.grid
                         .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[4] }}
                     .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[4])')
             .section
                 .grid
-                    .three.grid
+                    .five.grid
                         p 75th
-                    .eight.grid
+                    .six.grid
                         .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[3] }}
                     .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[3])')
             .section
                 .grid
-                    .three.grid
+                    .five.grid
                         p 50th
-                    .eight.grid
+                    .six.grid
                         .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[2] }}
                     .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[2])')
             .section
                 .grid
-                    .three.grid
+                    .five.grid
                         p 25th
-                    .eight.grid
+                    .six.grid
                         .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[1] }}
                     .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[1])')
             .section
                 .grid
-                    .three.grid
+                    .five.grid
                         p 10th
-                    .eight.grid
+                    .six.grid
                         .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[0] }}
                     .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[0])')
             .section
                 .grid
-                    .three.grid
-                        p recommended
-                    .eight.grid
+                    .five.grid
+                        p recommend
+                    .six.grid
                         .chain  {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }}
                     .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[0])')
             input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')

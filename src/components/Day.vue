@@ -107,7 +107,9 @@ export default {
             return this.$store.state.tasks[this.$store.state.hashMap[tId]].name
         },
         getCardColor(tId){
-            return this.$store.state.tasks[this.$store.state.hashMap[tId]].color
+            let task = this.$store.state.tasks[this.$store.state.hashMap[tId]]
+            if (task) return task.color
+            return 'red'
         },
         checkIsMember(name){
             return this.$store.state.members.some(m => m.memberId === name)

@@ -9,12 +9,12 @@
         .check()
             img.checkmark.right.front(v-if='isCompleted' src='../assets/images/completed.svg'  @click.stop='checky')
             img.checkmark.right.front(v-else-if='!isCompleted' src='../assets/images/uncompleted.svg'  @click.stop='checky')
-            img.checkmark.right.front(v-if='$store.getters.member.action !== card.taskId'  src='../assets/images/hourglass.svg'  @click.stop='toggleActive')
-            span(v-else  :key='updatePlz'  @click.stop='toggleActive').checkmark.right.front
+            span(:key='updatePlz'  @click.stop='toggleActive').checkmark.right.front
                 span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }}:
                 span(v-if='clockworkblue.hours > 0') {{ clockworkblue.hours }}:
                 span(v-if='clockworkblue.minutes > 0') {{ clockworkblue.minutes }}:
                 span(v-if='clockworkblue.seconds > 0 && clockworkblue.days < 1') {{ clockworkblue.seconds }}
+            img.checkmark.right.front(:class='{notaction: $store.getters.member.action !== card.taskId}'  src='../assets/images/hourglass.svg'  @click.stop='toggleActive')
         tally.right.front.lesspadding(:b='card'  isPriority='1')
         linky.cardname.front(v-if='!isMember'  :x='card.name')
     preview-deck(:task='card')
@@ -244,6 +244,9 @@ export default {
 <style lang='stylus' scoped>
 
 @import '../styles/colours'
+
+img.checkmark.right.front.notaction
+    opacity: .1773
 
 h1
     color: blue

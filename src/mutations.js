@@ -91,6 +91,13 @@ function cashMuts(cash, ev) {
 
 function membersMuts(members, ev) {
   switch (ev.type) {
+    case "task-claimed":
+        members.forEach(member => {
+            if (member.memberId === ev.memberId  && member.action === ev.taskId) {
+                member.action = ''
+            }
+        })
+        break
     case "ao-outbound-connected":
       break
     case "ao-disconnected":
@@ -681,9 +688,11 @@ function tasksMuts(tasks, ev) {
         t.subTasks = t.subTasks.filter(st => st !== ev.memberId)
         t.priorities = t.priorities.filter(st => st !== ev.memberId)
         t.completed = t.completed.filter(st => st !== ev.memberId)
-        t.claimed = t.claimed.filter(st => st !== ev.memberId)
+        t.claimed = t.claimed.filter(st => st !== ev.memberId )
+        t.claims = t.claims.filter(cl => cl.taskId !== ev.memberId)
         t.deck = t.deck.filter(st => st !== ev.memberId)
         t.passed = t.passed.filter(p => !(p[0] === ev.memberId || p[1] === ev.memberId))
+        if (t.book & (t.book.resourceId === ev.memberId || t.book.memberId === ev.memberId)) t.book = {}
       })
       break
     case "task-removed":

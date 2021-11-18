@@ -1,12 +1,14 @@
 <template lang='pug'>
 
 #auth(v-if='!confirmed')
+  .centertitle Welcome, choose name or login:
+
   div(v-if='!existing')
       .input-container
           input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
-          label choose name
+          label name
           span.focus-border
-      button(v-if='name.length > 0'  @click="createAccount") create account
+      button(@click="createAccount") create
   div(v-if='existing')
       .input-container
           input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="username", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
@@ -16,11 +18,17 @@
           input.input-effect#password(type='password', v-model='pass', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createSession'  :class='{"has-content":!!pass}')
           label password
           span.focus-border
-      button(v-if='pass.length > 0'  @click="createSession") login
-  .warning(v-if='err') {{err}}
-  .existing(@click='toggleExisting')
-      span(v-if='!existing') existing account? login
-      span(v-else) want a new account? new
+      button(@click="createSession") login
+  .switcher.grid(@click='toggleExisting')
+      .five.grid.center(:class='{existing: !existing}') new
+      .two.grid
+          .switch
+              input(@click.stop  type="checkbox"  v-model='existing')
+              span.slider.round
+      .five.grid.center(:class='{existing}') login
+  .grid.warning(v-if='err') {{err}}
+  .grid.notethis New accounts will be created with a random password and your browser session will be saved for later. If you would like to set a custom password use the gear at the bottom right after creating.
+
 </template>
 
 <script>
@@ -94,10 +102,35 @@ export default {
 
 <style lang='stylus' scoped>
 
+
 @import '../styles/colours'
 @import '../styles/button'
+@import '../styles/switch'
 @import '../styles/input'
-@import '../styles/skeleton'
+@import '../styles/grid'
+
+.notethis
+    margin-top: 3.3em
+
+.switcher
+    margin-top: 1.3em
+    margin-bottom: 1.3em
+    cursor: pointer
+
+.five.grid.center
+    padding: .77em
+    text-align: center;
+//
+// //     cursor: pointer
+//     min-height: 3em
+//     margin-top: 1.1em
+
+//     min-height: 1.5em
+
+.centertitle
+    text-align: center
+    font-weight: bolder;
+    font-size: 1.2em
 
 h3 span
     cursor:pointer
@@ -106,16 +139,10 @@ h3 span
     background: lightGrey
     padding: 3em
     border-style: solid
-    border-radius: 7%
-
+    min-height: 22em
 
 .existing
-    text-align: right
-    color: main
-    cursor: pointer
-    padding: 0.38em
-
-.existing:hover
+    text-align: center
     background: main
     color: lightGrey
 
@@ -125,14 +152,14 @@ h3 span
 h1
     text-align: center
 
-input
-    font-size: 16px
-    margin-bottom: 0.5em
-    border-radius: 0.25em
-input:focus
-    -webkit-text-size-adjust: 100%
-    font-size: 16px
-    -moz-transform: scale(1)
+// input
+//     font-size: 16px
+//     margin-bottom: 0.5em
+//     border-radius: 0.25em
+// input:focus
+//     -webkit-text-size-adjust: 100%
+//     font-size: 16px
+//     -moz-transform: scale(1)
 
 .secret
     -webkit-text-fill-color: transparent; /* sets just the text color */
