@@ -146,12 +146,17 @@ export default {
             }
         },
         matchCards() {
+            searchDebounce = setTimeout(() => {
             this.showSearch = false
             let cards = []
             let guilds = []
             let doges = []
             let search = this.task.name.trim()
             let dontsearch = this.$store.state.upgrades.search === search
+            if (this.$store.state.upgrades.search.length > 0 && !dontsearch && this.matches.cards.length + this.matches.guilds.length + this.matches.doges.length === 0){
+                let alreadySearched = new RegExp(this.$store.state.upgrades.search, 'i')
+                dontsearch = alreadySearched.test(search)
+            }
             if (dontsearch){
                 return this.matchCards
             }
@@ -160,7 +165,6 @@ export default {
                 return { guilds, doges, cards}
             }
             /// should not be blocking the typing.  . .
-            searchDebounce = setTimeout(() => {
               this.showSearch = true
               process.nextTick(() => {
                   try {
@@ -189,7 +193,7 @@ export default {
 
               })
 
-            }, 789)
+            }, 989)
         },
         lockIt(){
             if (!this.$store.state.upgrades.create){

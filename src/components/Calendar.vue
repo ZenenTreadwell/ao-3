@@ -68,7 +68,6 @@ export default {
       },
       drop(ev){
           ev.preventDefault();
-          console.log('Calendar Drop Trig')
           var data = ev.dataTransfer.getData("taskId")
           this.$store.dispatch("makeEvent", {
               type: 'task-prioritized',

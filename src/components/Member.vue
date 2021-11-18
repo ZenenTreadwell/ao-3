@@ -139,7 +139,6 @@ export default {
         },
         drop(ev){
             ev.preventDefault();
-            console.log(' Member Drop Trig')
             var data = ev.dataTransfer.getData("taskId")
             this.$store.dispatch("makeEvent", {
                 type: 'task-prioritized',
