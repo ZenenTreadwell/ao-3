@@ -94,7 +94,7 @@ function membersMuts(members, ev) {
     case "task-claimed":
         members.forEach(member => {
             if (member.memberId === ev.memberId  && member.action === ev.taskId) {
-                member.action = ''
+                member.action = false
             }
         })
         break

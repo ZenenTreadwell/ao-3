@@ -42,7 +42,10 @@ export default {
     components: { Linky, Tally, PreviewDeck },
     methods: {
       startTimer() {
-          this.timerInterval = setInterval(() => (this.updatePlz += 1), 1000);
+          this.timerInterval = setInterval(() => {
+            if (this.$store.getters.member.action !== this.card.taskId) return clearInterval(this.timerInterval)
+            this.updatePlz += 1
+          }, 1000);
       },
       toggleActive(){
           let newfield = ''
