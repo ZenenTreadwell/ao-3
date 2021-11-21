@@ -69,8 +69,6 @@ function reactions(ev){
             case 'resource-stocked':
                 events.memberActivated(ev.memberId)
                 break
-            case 'resource-stocked':
-                break
             case 'member-created':
                 break
             case 'resource-created':

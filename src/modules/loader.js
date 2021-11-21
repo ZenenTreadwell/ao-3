@@ -33,7 +33,7 @@ const actions = {
     loadCurrent({ commit, dispatch, state }){
         attachSocket(commit, dispatch, () =>{
             commit("setReqStatus", "pending")
-            commit("pendFlasher")
+            // commit("pendFlasher")
             let startTs = Date.now()
             request
                 .post('/tasks/gg')
@@ -67,7 +67,7 @@ const actions = {
     makeEvent({commit, state}, newEv){
         let startTs = Date.now()
         commit("setReqStatus", "pending")
-        commit("pendFlasher")
+        // commit("pendFlasher")
         request
             .post('/events')
             .send(newEv)
@@ -91,20 +91,20 @@ const state = {
 }
 
 const mutations = {
-    pendFlasher(loader){
-        if (this.getters.isLoggedIn){
-            let i = 0
-            let flasher = setInterval(()=> {
-              loader.pendingFlash[i] = 0
-              i = (i  + 1) % 5
-              loader.pendingFlash[i] = 1
-              if (loader.reqStatus !== "pending"){
-                clearInterval(flasher)
-                loader.pendingFlash = [0,0,0,0,0]
-              }
-            }, 193)
-        }
-    },
+    // pendFlasher(loader){
+    //     if (this.getters.isLoggedIn){
+    //         let i = 0
+    //         let flasher = setInterval(()=> {
+    //           loader.pendingFlash[i] = 0
+    //           i = (i  + 1) % 5
+    //           loader.pendingFlash[i] = 1
+    //           if (loader.reqStatus !== "pending"){
+    //             clearInterval(flasher)
+    //             loader.pendingFlash = [0,0,0,0,0]
+    //           }
+    //         }, 193)
+    //     }
+    // },
     setReqStatus(loader, status){
         loader.reqStatus = status
     },

@@ -333,11 +333,13 @@ function tasksMuts(tasks, ev) {
                 task.color = ev.color
             }
             if (task.taskId === ev.inId){
-                task.stackView[ev.color] = 0
+                if (task.stackView[ev.color] !== -1){
+                    task.stackView[ev.color] = 0
+                }
                 task.subTasks = _.filter(task.subTasks, tId => tId !== ev.taskId)
                 task.priorities = _.filter(task.priorities, tId => tId !== ev.taskId)
                 task.subTasks.push(ev.taskId)
-                tasks.forEach( taskLoop2 => {
+                tasks.forEach( taskLoop2 => { // dirty O(n^2)  ??
                     if ( task.priorities.indexOf(taskLoop2.taskId) >= 0){
                         taskLoop2.priorities = _.filter(taskLoop2.priorities, tId => tId !== ev.taskId)
                     }
@@ -533,7 +535,7 @@ function tasksMuts(tasks, ev) {
     case "ao-disconnected":
       break
     case "resource-created":
-      tasks.push(calculations.blankCard(ev.resourceId, ev.resourceId, 'red', ev.timestamp))
+      tasks.push(calculations.blankCard(ev.resourceId, ev.resourceId, 'red', ev.timestamp, [ev.memberId], [ev.resourceId]))
       break
     case "member-created":
       tasks.push(calculations.blankCard(ev.memberId, ev.memberId, 'blue', ev.timestamp))

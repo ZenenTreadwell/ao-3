@@ -12,8 +12,12 @@
             span(:key='updatePlz'  @click.stop='toggleActive').checkmark.right.front
                 span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }}:
                 span(v-if='clockworkblue.hours > 0') {{ clockworkblue.hours }}:
-                span(v-if='clockworkblue.minutes > 0') {{ clockworkblue.minutes }}:
-                span(v-if='clockworkblue.seconds > 0 && clockworkblue.days < 1') {{ clockworkblue.seconds }}
+                span(v-if='clockworkblue.minutes > 0')
+                    span(v-if='clockworkblue.minutes < 10') 0
+                    span {{ clockworkblue.minutes }}:
+                span(v-if='clockworkblue.seconds > 0 && clockworkblue.days < 1')
+                    span(v-if='clockworkblue.seconds < 10') 0
+                    span {{ clockworkblue.seconds }}
             img.checkmark.right.front(:class='{notaction: $store.getters.member.action !== card.taskId}'  src='../assets/images/hourglass.svg'  @click.stop='toggleActive')
         tally.right.front.lesspadding(:b='card'  isPriority='1')
         linky.cardname.front(v-if='!isMember'  :x='card.name')

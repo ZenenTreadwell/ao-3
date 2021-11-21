@@ -73,18 +73,18 @@ function blankMember(memberId, name, fob, secret, lastUsed){
     }
 }
 
-function blankCard(taskId, name, color, createdTs, deck = []) {
+function blankCard(taskId, name, color, createdTs, deck = [], priorities = []) {
     let newCard = {
         createdTs,
         taskId,
         color,
         deck,
+        priorities,
         name: name.trim(),
         btcAddr: false,
         bolt11: false,
         book: {},
         boost: 0,
-        priorities: [],
         subTasks: [],
         completed: [],
         claimed: [],

@@ -1,8 +1,9 @@
 <template lang='pug'>
 
 #auth(v-if='!confirmed')
-  .centertitle Welcome, choose name or login:
-
+  .mainbg(v-if='$store.state.loader.reqStatus === "pending"')
+      img.spin(src='../assets/images/gear.svg')
+  .centertitle(v-else) Welcome, choose name or login:
   div(v-if='!existing')
       .input-container
           input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
@@ -26,8 +27,9 @@
               input(@click.stop  type="checkbox"  v-model='existing')
               span.slider.round
       .five.grid.center(:class='{existing}') login
-  .grid.warning(v-if='err') {{err}}
-  .grid.notethis New accounts will be created with a random password and your browser session will be saved for later. If you would like to set a custom password use the gear at the bottom right after creating.
+  .grid
+  .warning(v-if='err') {{err}}
+  .notethis New accounts will be created with a random password and your browser session will be saved for later. If you would like to set a custom password use the gear at the bottom right after creating.
 
 </template>
 
@@ -42,6 +44,7 @@ export default {
   name: 'Auth',
   data(){
       return {
+          waitingLogin: false,
           existing: false,
           name: '',
           pass: '',
@@ -66,6 +69,7 @@ export default {
                       return this.err = err.message
                   }
                   this.setAuth(res.body.token, res.body.session)
+                  setTimeout(()=> window.location.reload(true), 101)
               })
       },
       createSession(){
@@ -83,6 +87,7 @@ export default {
                       return this.err = err.message
                   }
                   this.setAuth(token, session)
+                  setTimeout(()=> window.location.reload(true), 101)
               })
       },
       setAuth(token, session){
@@ -94,7 +99,11 @@ export default {
 
           window.localStorage.setItem("token", token)
           window.localStorage.setItem("session", session)
-          this.$store.dispatch('loadCurrent')
+
+          if (token && session){
+              this.waitingLogin = true
+              this.$store.dispatch('loadCurrent')
+          }
       }
   }
 }
@@ -108,9 +117,16 @@ export default {
 @import '../styles/switch'
 @import '../styles/input'
 @import '../styles/grid'
+@import '../styles/spinners'
+
+.mainbg
+    background: #404040
+    text-align: center
+.spin
+    height: 3em
 
 .notethis
-    margin-top: 3.3em
+    margin-top: 9em
 
 .switcher
     margin-top: 1.3em
