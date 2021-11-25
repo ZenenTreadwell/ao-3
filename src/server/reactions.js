@@ -56,7 +56,7 @@ function reactions(ev){
                           defaultPrice = customPrice
                         }
                         let hopper = t.name.split(':')[0]
-                        events.resourceUsed(resourceId, '', defaultPrice, hopper, console.log)
+                        events.resourceUsed(resourceId, 'lightning', defaultPrice, hopper, console.log)
                         return true
                       }
                     })

@@ -514,12 +514,13 @@ function tasksReceived(tasks, blame, callback) {
   dctrlDb.insertEvent(newEvent, callback)
 }
 
-function invoiceCreated(taskId, bolt11, payment_hash, callback){
+function invoiceCreated(taskId, bolt11, payment_hash, blame, callback){
     let newEvent = {
         type: "invoice-created",
         taskId,
         bolt11,
         payment_hash,
+        blame,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }

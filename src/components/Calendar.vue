@@ -26,9 +26,9 @@
                   span(v-else)
                       linky(:x='getFromMap(n.taskId).name')
               span(v-else-if='n.type === "resource-used"'  @click='goIn(n.resourceId, n.memberId)')
-                  img.completedcheckmark.dark(src='../assets/images/down.svg')
-                  current(:memberId='n.memberId')
-                  span {{ new Date(n.timestamp).toString().slice(15,21) }}
+                  span {{ new Date(n.timestamp).toString().slice(15,21) }} &nbsp;
+                  img.completedcheckmark(src='../assets/images/down.svg')
+                  //- current(:memberId='n.memberId') is this useful somewhere?
                   currentr(:resourceId='n.resourceId')
                   span - {{ n.notes }}
               span(v-else-if='checkIsMember(n.name)'  @click='goIn(n.taskId)')

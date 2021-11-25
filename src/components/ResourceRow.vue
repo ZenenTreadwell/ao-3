@@ -9,7 +9,9 @@
             button(:class='{faded: cantAfford}'  @click.stop='use(o[0], o[3])') {{ o[1] }}
     .clearboth
     .startright
-        current(v-for='m in recentlyUsed'  :memberId='m')
+        span(v-for='m in recentlyUsed')
+            img.paytrigger(v-if='m === "lightning"'  src='../assets/images/lightning.svg')
+            current(v-else  :memberId='m')
 </template>
 
 <script>

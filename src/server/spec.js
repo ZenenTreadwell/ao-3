@@ -323,7 +323,7 @@ router.post('/events', (req, res, next)=>{
           ) {
               lightning.createInvoice(req.body.amount, "<3" +  uuidV1(), '~', 3600)
                   .then(result => {
-                      events.invoiceCreated(req.body.taskId, result.bolt11, result.payment_hash, utils.buildResCallback(res))
+                      events.invoiceCreated(req.body.taskId, result.bolt11, result.payment_hash, req.body.blame, utils.buildResCallback(res))
                   })
                   .catch(err => {
                       console.log({err})
