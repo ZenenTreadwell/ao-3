@@ -124,5 +124,6 @@ img.chest
 .ptr
     cursor: pointer;
     pointer-events: all
+    transform: rotate(45deg)
 
 </style>

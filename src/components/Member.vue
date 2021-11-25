@@ -24,7 +24,7 @@
                 img(v-show='copied'  src='../assets/images/loggedOut.svg')
     div
         .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}'   :ondragover='toBoat')
-            img(v-if='$store.state.upgrades.mode !== "boat"  && card.priorities.length > 0'  v-for='t in card.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
+            img.roro(v-if='$store.state.upgrades.mode !== "boat"  && card.priorities.length > 0'  v-for='t in card.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
             img(v-else  src='../assets/images/completed.svg')
         .bottomleft(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}'  :ondragover='toTimeCube')
             img(src='../assets/images/timecube.svg')
@@ -242,6 +242,9 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
+
+.roro
+    transform: rotate(45deg);
 
 label img
     height: 1.389em
