@@ -6,21 +6,18 @@
         span.third(:class='{hidden:open}'  ref='previous')
             .donut.hidden
         span.third(ref='mandelorb')
-            .donut.moonbag(:class='{pileselected:$store.state.upgrades.color===stack  && $store.state.upgrades.create, dropping:dropping}')
+            .donut.moonbag(v-if='!loadingAll'  :class='{pileselected:$store.state.upgrades.color===stack  && $store.state.upgrades.create, dropping:dropping}')
+            img.spin(v-else  src='../assets/images/gear.svg')
         span.third(:class='{hidden:open}'  ref='next')
             .donut.hidden
-    .open(v-if='open')
-        div(v-for='(b, i) in c'  :key="b.taskId")
-            .orby(v-if='i > 0'  @click='orbswap(b.taskId)'  :class='{hidden:!$store.getters.member.guides}')
-                .donut.hidden
-            hypercard(:b="b"  :key="b.taskId"  :inId='taskId'  :c='panelIds')
-    .box(v-else)
-        hypercard(:b="c[sanePosition]"  :inId='taskId'  :key='c[sanePosition].taskId')
+    .box
+        hypercard(v-if='c.length > 0'  :b="c[sanePosition]"  :inId='taskId'  :key='c[sanePosition].taskId')
 </template>
 
 <script>
 import uuidv1 from 'uuid/v1'
 import Hammer from 'hammerjs'
+import _ from 'lodash'
 import Propagating from 'propagating-hammerjs'
 import Hypercard from "./Card"
 
@@ -34,6 +31,19 @@ export default {
         orbmc.add(orbTap)
         orbmc.on('tap', (e) => {
             // on click?
+            let gotOne = false
+            while (!gotOne){
+                let potential = this.$store.state.tasks[this.reverseIndex]
+                if (_.indexOf(potential.deck, this.$store.getters.contextCard.taskId) > -1){
+                    gotOne = true
+                    this.c.push(potential)
+                    this.$store.commit("setRollStackPosition", this.c.length - 1)
+                }
+                this.reverseIndex --
+                if (this.reverseIndex < 0){
+                    gotOne = true // not really but break
+                }
+            }
             e.stopPropagation()
         })
 
@@ -71,9 +81,18 @@ export default {
         let orbPress = new Hammer.Press({ time: 400 })
         orbmc.add(orbPress)
         orbmc.on('press', (e) => {
-            // too many to allow this
-            // this.toggleOpen()
             e.stopPropagation()
+            this.loadingAll = true
+            setTimeout(()=>{
+                while (this.reverseIndex >= 0){
+                  let potential = this.$store.state.tasks[this.reverseIndex]
+                  if (_.indexOf(potential.deck, this.$store.getters.contextCard.taskId) > -1){
+                    this.c.push(potential)
+                  }
+                  this.reverseIndex --
+                }
+                this.loadingAll = false
+            }, 3)
         })
 
         let prevel = this.$refs.previous
@@ -119,6 +138,9 @@ export default {
           orbuuid: uuidv1(),
           componentKey: 0,
           dropping: false,
+          c: [],
+          reverseIndex: this.$store.state.tasks.length - 1,
+          loadingAll: false
       }
   },
   methods:{
@@ -172,24 +194,8 @@ export default {
     sanePosition(){
         return Math.min(Math.max(this.position, -1), this.c.length - 1)
     },
-    c(){
-        let c = this.$store.getters.rollStack // todo
-        if (!c){
-            return []
-        }
-        return c
-    },
     open(){
         return this.sanePosition === -1
-    },
-    topCard(){
-        let end = this.c.length - 1
-        if (!this.c || end < 0){
-            console.log('no top?')
-            return false
-        } else{
-            return this.c[this.sanePosition]
-        }
     },
     panelIds() {
         return this.c.map(g => g.taskId)
@@ -207,7 +213,12 @@ export default {
 @import '../styles/colours'
 @import '../styles/grid'
 @import '../styles/button'
+@import '../styles/spinners'
 @import '../styles/donut'
+//
+img.spin
+    height: 3em
+    float: right
 
 .donut.moonbag
       background-image: url('../assets/images/moonbag.svg')
