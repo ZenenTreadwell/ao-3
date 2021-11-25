@@ -8,8 +8,8 @@
             img.upgrade.doge(v-if='checkIsMember(t.name)'  @cdbllick="goIn(t.taskId)"  src='../assets/images/doge.svg')
             img.upgrade(v-else  @click="goIn(t.taskId)"  src='../assets/images/uncompleted.svg'  :class='styl(t.color)'  draggable="true"  :ondragstart='dragStartWrap(t.taskId)')
         .upgrade(v-else-if='t.type === "resource-used"')
-            img.completedcheckmark(@dblclick="goIn(t.resourceId)"  src='../assets/images/doge.svg'  :class='styl(t.color)')
-        span.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goIn(t.taskId)'  :class='styl(getCardColor(t.taskId))')
+            img.completedcheckmark(@dblclick="goIn(t.resourceId)"  src='../assets/images/down.svg')
+        span.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goIn(t.taskId, t.inId)'  :class='styl(getCardColor(t.taskId))')
             img.completedcheckmark(v-if='checkIsMember(t.taskId)'  src='../assets/images/doge.svg'  :class='{smaller: ev.length > 15}')
             img.completedcheckmark(v-else  :class='{smaller: ev.length > 15}'  src='../assets/images/completed.svg')
     //- img.upgrade(v-if='isToday'  v-for='t in $store.getters.contextCard.priorities'  src='../assets/images/uncompleted.svg'  :class='styl(getCardColor(t))')
@@ -80,13 +80,18 @@ export default {
                 blackwx : color == 'black',
             }
         },
-        goIn(taskId){
+        goIn(taskId, inId){
             let parents = []
+
             if (this.$store.getters.contextCard.taskId){
                 parents.push(this.$store.getters.contextCard.taskId)
             } else if (this.$store.getters.memberCard.taskId){
                 parents.push(this.$store.getters.memberCard.taskId)
             }
+            if (inId) {
+                parents.push(inId)
+            }
+            
             this.$store.dispatch("goIn", {
                 panel: [taskId],
                 top: 0,

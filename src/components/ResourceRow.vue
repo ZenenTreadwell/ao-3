@@ -76,6 +76,7 @@ export default {
                     panel: this.$store.getters.resourceIds,
                     top,
                 })
+                this.$store.commit("toggleAccounts")
                 if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
                     this.$store.commit("setMode", 1)
                 }

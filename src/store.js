@@ -21,6 +21,17 @@ export default createStore({
       hashMap: modules.hashMap,
   },
   getters: {
+      rollStack(state, getters){
+           return state.tasks.slice().filter(x => {
+                return (
+                    getters.memberIds.indexOf(x.taskId) === -1 &&
+                    x.deck.indexOf(getters.contextCard.taskId) > -1 // I kinda liked seeing all?
+                )
+           }).reverse()
+           // .sort((a, b) => {
+              // if ???
+           // })
+      },
       selectedCheckCard(state, getters){
           let x = state.upgrades.selectedCheck
           if (getters.contextCompleted[x]){

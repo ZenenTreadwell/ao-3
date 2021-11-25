@@ -168,7 +168,8 @@ export default {
 
 #accounts
     padding : 1.5em
-
+    overflow-y: scroll
+    max-height: 100vh
 .section
     color:main
     font-size: 0.9em

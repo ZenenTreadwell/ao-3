@@ -303,6 +303,7 @@ export default {
 
 #nodes
     text-align: center
+    overflow-y: scroll;
 
 .inactive
     opacity: 0.3456

@@ -30,7 +30,7 @@
               @keydown.enter.exact.prevent
               row='10'
               col='20'
-              @click.stop
+              @click.stop='tryGoIn'
           )
   span.hidden {{ refocusWatcher }}  {{ nameWatcher }}
       //- #btnpanel.btnpanel
@@ -47,7 +47,7 @@
 import calculations from '../calculations'
 import Hammer from 'hammerjs'
 import cryptoUtils from '../crypto'
-
+import crypto from 'crypto'
 import Current from './Current'
 
 let searchDebounce = setTimeout(()=>{}, 123123123123123)
@@ -112,6 +112,21 @@ export default {
         });
     },
     methods: {
+        tryGoIn(){
+            let h = crypto.createHash('sha256')
+            h.update(this.task.name)
+            let hash = h.digest('hex')
+            let card = this.$store.state.hashMap[hash]
+            if (card){
+                this.$store.dispatch('goIn', {
+                    parents:[this.$store.getters.contextCard.taskId],
+                    panel:[hash],
+                    top:0,
+                })
+            } else {
+              console.log('no hash found')
+            }
+        },
         pileRecalled() {
           if (!this.$store.state.upgrades.create){
               return this.$store.commit('toggleCreate')
@@ -192,7 +207,6 @@ export default {
                   this.showSearch = false
 
               })
-
             }, 989)
         },
         lockIt(){
@@ -236,7 +250,6 @@ export default {
             })
         },
         goIn(taskId){
-            clearTimeout(this.inDebounce)
             let panel = [taskId]
             let parents = []
             let top = 0

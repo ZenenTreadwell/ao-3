@@ -2,18 +2,7 @@
 .deck(v-if='$store.getters.contextCard.taskId'   :key='$store.getters.contextCard.taskId')
     .paperwrapper.padsides
         .card.openwidth(:class='{ adjustwidth : $store.state.upgrades.mode !== "doge", closedwidth : $store.state.upgrades.mode === "doge"}')
-            //- .centerer
-            //-     .more(v-if='panelSplit.before.length > 5') +{{ panelSplit.before.length - 5 }}
-            //- template(v-for='(n, i) in (panelSplit.before.length > 5 ? panelSplit.before.slice(-6, panelSplit.before.length - 1) : panelSplit.before)')
-            //-   div(@click="goWithinPanel(n)"  :style='{ marginLeft : 0.5 + ((Math.min(panelSplit.before.length, 5) - i) * 0.25) + "em", marginRight: 1.5 + ((Math.min(panelSplit.before.length, 5) - i) * 0.25) + "em" }')
-            //-     context(:taskId='n')
             member-row
-            //- template(v-for='(n, i) in panelSplit.after.slice(0, 5)')
-            //-   div(@click="goWithinPanel(n)"  :style='{ marginLeft: 0.25 + (i * 0.25) + "em", marginRight: 1.25 + (i * 0.25) + "em" }')
-            //-     context(:taskId='n')
-            //- .centerer
-            //-     .more.aftermore(v-if='panelSplit.after.length > 5') +{{ panelSplit.after.length - 5 }}
-            //- points-set(v-if='$store.state.upgrades.mode === "chest"'   :b='$store.getters.contextCard')
         .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"'  :class='{darkmode: $store.getters.member.stacks === 1}')
             zen(v-show='$store.state.upgrades.mode === "doge" && $store.getters.inbox.length > 0')
             payments(v-show='$store.state.upgrades.mode === "chest"')
@@ -23,6 +12,8 @@
                 checkmarks
     div
         panels
+    .container
+        roll-stack(v-if='$store.getters.memberIds.indexOf($store.getters.contextCard.taskId) > -1')
     pins.rell
 
 </template>
@@ -41,7 +32,7 @@ import Checkmarks from './Checkmarks'
 import Payments from './Payments'
 import Pins from './Pins'
 import Zen from './Zen'
-import Auth from './Auth'
+import RollStack from './RollStack'
 
 export default {
   components:{
@@ -50,7 +41,7 @@ export default {
       ResourceRow, Context, Priorities, ResourceBook, PointsSet,
       Checkmarks, Pins,
       Payments,
-      Zen, Auth
+      Zen, RollStack
   },
   methods:{
       pilePrioritized() {

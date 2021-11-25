@@ -18,14 +18,15 @@
       .grey
           .datenumber  {{ $store.state.upgrades.chosenDay }}
           .soft.bg(v-for='n in selectedDaysEvs')
-              span(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId)')
+              span(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId, n.inId)')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }} &nbsp;
                   span(v-if='checkIsMember(n.taskId) || n.taskId === $store.getters.contextCard.taskId')
                       img.completedcheckmark.dark(src='../assets/images/doge.svg')
                       span {{ checkIsMember(n.memberId) }}
                   span(v-else)
                       linky(:x='getFromMap(n.taskId).name')
-              span(v-else-if='n.type === "resource-used"'  @click='goIn(n.resourceId)')
+              span(v-else-if='n.type === "resource-used"'  @click='goIn(n.resourceId, n.memberId)')
+                  img.completedcheckmark.dark(src='../assets/images/down.svg')
                   current(:memberId='n.memberId')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }}
                   currentr(:resourceId='n.resourceId')
@@ -95,9 +96,10 @@ export default {
               this.year = this.today.year
           }
       },
-      goIn(taskId){
+      goIn(taskId, inId){
           let panel = [taskId]
           let parents = []
+
           let top = 0
 
           if (this.$store.getters.contextCard.taskId){
@@ -105,6 +107,11 @@ export default {
           } else if (this.$store.getters.memberCard.taskId){
               parents.push(this.$store.getters.memberCard.taskId)
           }
+
+          if (inId) {
+              parents.push(inId)
+          }
+
           this.$store.dispatch("goIn", {
               parents,
               top,

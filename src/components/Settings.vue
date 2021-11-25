@@ -222,6 +222,9 @@ export default {
 @import '../styles/button'
 @import '../styles/input'
 
+#settings
+    overflow-y: scroll
+
 .boxy
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     padding: .378em

@@ -17,6 +17,8 @@
             div(v-if='$store.getters.contextMember')
                 linky(:x='m.name')
                 img(v-show='copied'  src='../assets/images/loggedOut.svg')
+            div(v-else-if='$store.getters.contextResource')
+                currentr(:resourceId='$store.getters.contextCard.taskId')
             div(v-else)
                 linky(:x='card.name')
                 img(v-show='copied'  src='../assets/images/loggedOut.svg')
@@ -34,6 +36,7 @@
 <script>
 
 import Current from './Current'
+import Currentr from './Currentr'
 import Linky from './Linky'
 import Auth from './Auth'
 import Checkbox from './Checkbox'
@@ -47,7 +50,7 @@ export default {
     data(){
         return {copied: false}
     },
-    components: {Current, Linky, Auth, Card, Checkbox, Bird, ResourceBook},
+    components: {Current, Linky, Auth, Card, Checkbox, Bird, ResourceBook, Currentr},
     computed:{
         m(){
             return this.$store.getters.contextMember

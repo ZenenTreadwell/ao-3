@@ -6,7 +6,7 @@
         span.third(:class='{hidden:open}'  ref='previous')
             .donut.hidden
         span.third(ref='mandelorb')
-            .donut(:class='{pileselected:$store.state.upgrades.color===stack  && $store.state.upgrades.create, dropping:dropping}')
+            .donut.moonbag(:class='{pileselected:$store.state.upgrades.color===stack  && $store.state.upgrades.create, dropping:dropping}')
         span.third(:class='{hidden:open}'  ref='next')
             .donut.hidden
     .open(v-if='open')
@@ -25,7 +25,6 @@ import Propagating from 'propagating-hammerjs'
 import Hypercard from "./Card"
 
 export default {
-  props: ['stack', 'position', 'taskId'],
   mounted(){
         let orbel = this.$refs.mandelorb
         if(!orbel) return
@@ -34,13 +33,7 @@ export default {
         let orbTap = new Hammer.Tap({ time: 400 })
         orbmc.add(orbTap)
         orbmc.on('tap', (e) => {
-            if (this.$store.state.upgrades.create && this.$store.state.upgrades.color !== this.stack){
-                return this.$store.commit('setColor', this.stack)
-            }
-            this.$store.commit('toggleCreate')
-            this.$store.commit('setColor', this.stack)
-
-            // this.toggleOpen()
+            // on click?
             e.stopPropagation()
         })
 
@@ -78,7 +71,8 @@ export default {
         let orbPress = new Hammer.Press({ time: 400 })
         orbmc.add(orbPress)
         orbmc.on('press', (e) => {
-            this.toggleOpen()
+            // too many to allow this
+            // this.toggleOpen()
             e.stopPropagation()
         })
 
@@ -137,116 +131,49 @@ export default {
     },
     drop(ev){
         ev.preventDefault();
-        var data = ev.dataTransfer.getData("taskId")
-        this.$store.dispatch("makeEvent", {
-            type: 'task-colored',
-            inId: this.$store.getters.contextCard.taskId,
-            taskId: data,
-            color: this.stack
-        })
-        setTimeout(() => this.dropping = false, 444)
+        // todo?
     },
     toggleOpen(){
         if (this.position !== -1){
-            let touchyOpen = {
-              type: 'task-touched',
-              taskId: this.$store.getters.contextCard.taskId,
-              stack: this.stack,
-              position: -1
-            }
-            this.$store.dispatch("makeEvent", touchyOpen)
-            this.$store.commit("applyEvent", touchyOpen)
+            this.$store.commit("setRollStackPosition", -1)
         } else {
             this.first()
         }
     },
     first() {
-        let touchyTop = {
-            type: 'task-touched',
-            taskId: this.$store.getters.contextCard.taskId,
-            stack: this.stack,
-            position: 0
-        }
-        this.$store.dispatch("makeEvent", touchyTop)
-        this.$store.commit("applyEvent", touchyTop)
-
+        this.$store.commit("setRollStackPosition", 0)
     },
     previous(){
         let position = (this.sanePosition - 1)
         if (position <= -1){
             position = this.c.length - 1
         }
-        let touchyBack =  {
-          type: 'task-touched',
-          taskId: this.$store.getters.contextCard.taskId,
-          stack: this.stack,
-          position,
-        }
-        this.$store.dispatch("makeEvent", touchyBack)
-        this.$store.commit("applyEvent", touchyBack)
+        this.$store.commit("setRollStackPosition", position)
     },
     next(){
-      let touchyForward = {
-        type: 'task-touched',
-        taskId: this.$store.getters.contextCard.taskId,
-        stack: this.stack,
-        position: (this.position + 1) % this.c.length
-      }
-      this.$store.dispatch("makeEvent", touchyForward)
-      this.$store.commit("applyEvent", touchyForward)
+      this.$store.commit("setRollStackPosition", (this.position + 1) % this.c.length)
     },
     last() {
-      let touchyLast = {
-        type: 'task-touched',
-        taskId: this.$store.getters.contextCard.taskId,
-        stack: this.stack,
-        position: this.c.length - 1
-      }
-      this.$store.dispatch("makeEvent", touchyLast)
-      this.$store.commit("applyEvent", touchyLast)
+        this.$store.commit("setRollStackPosition", this.c.length - 1)
     },
     orbswap(swapId1){
-        let swapId2 = this.panelIds[ this.panelIds.indexOf(swapId1) - 1 ]
-        let touchyOrby = {
-            type: 'task-swapped',
-            taskId: this.taskId,
-            swapId1,
-            swapId2,
-        }
-        this.$store.dispatch("makeEvent", touchyOrby)
-        this.$store.commit("applyEvent", touchyOrby)  // causes doubleback
-
+        // todo?
+        console.log(swapId1)
     },
     swap(direction){
-        let cardIndex
-        this.c.forEach((t, i) => {
-          if(t.taskId === this.topCard.taskId) {
-            cardIndex = i
-          }
-        })
-        let swapIndex = (cardIndex + direction) % this.c.length
-        if (swapIndex === -1) {
-            swapIndex = this.c.length - 1
-        } else if (swapIndex > this.c.length - 1) {
-            swapIndex = 0
-        }
-        let touchySwap = {
-            type: 'task-swapped',
-            taskId: this.taskId,
-            swapId1: this.topCard.taskId,
-            swapId2: this.c[swapIndex].taskId,
-        }
-        this.$store.dispatch("makeEvent", touchySwap)
-        this.$store.commit("applyEvent", touchySwap) // causes doubleback
-
+        // todo?
+        console.log(direction)
     },
   },
   computed: {
+    position(){
+        return this.$store.state.upgrades.rollStackPosition
+    },
     sanePosition(){
         return Math.min(Math.max(this.position, -1), this.c.length - 1)
     },
     c(){
-        let c = this.$store.getters[this.stack]
+        let c = this.$store.getters.rollStack // todo
         if (!c){
             return []
         }
@@ -282,6 +209,11 @@ export default {
 @import '../styles/button'
 @import '../styles/donut'
 
+.donut.moonbag
+      background-image: url('../assets/images/moonbag.svg')
+      height: 2em;
+      width: 2em;
+      border-width: 0.4em
 
 h3
     font-size: 0.54em

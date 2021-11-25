@@ -2,6 +2,7 @@ const modes = ["doge", "boat", "timecube", "chest", "badge"]
 const paymodes = ["mempool", "bitcoin", "lightning", "channels"]
 
 const state = {
+    rollStackPosition: 0,
     refocus: 0,
     keypressed: '',
     color: 'red',
@@ -22,6 +23,9 @@ const state = {
 }
 
 const mutations = {
+    setRollStackPosition(state, x){
+        state.rollStackPosition = x
+    },
     selectCheck(state, y){
         if (state.selectedCheck === y){
             state.selectedCheck = false

@@ -17,7 +17,6 @@ export default {
                 name = r.name
             }
         })
-        console.log('calculated in currentr:', {name, resourceId})
         return name
     },
   }
