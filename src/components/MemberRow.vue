@@ -3,7 +3,8 @@
 .memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId, dropping}'  @click='goIn(m.memberId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='offDrop'  draggable='true'  :ondragstart='dragStart')
     .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
         span(v-if='!m.active'  @click.stop='deleteUser').hover delete
-        span(v-if='b.boost > 0') {{b.boost.toLocaleString()}}
+        span(v-if='b.boost > 0')
+            img.boosted(src='../assets/images/bitcoin.svg')
     .row(v-if='b')
         .three.grid.ptr
             current(:memberId='m.memberId' @click.stop)
@@ -150,6 +151,8 @@ export default {
 @import '../styles/grid'
 @import '../styles/spinners'
 
+.boosted
+    height: 1.654321em
 
 .hover:hover
     text-decoration: line-through;
