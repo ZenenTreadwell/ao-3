@@ -1,17 +1,19 @@
 <template lang='pug'>
 
 .memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId, dropping}'  @click='goIn(m.memberId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='offDrop'  draggable='true'  :ondragstart='dragStart')
-    .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
-        span(v-if='!m.active'  @click.stop='deleteUser').hover delete
-        span(v-if='b.boost > 0')
-            img.boosted(src='../assets/images/bitcoin.svg')
     .row(v-if='b')
-        .three.grid.ptr
+        .three.grid.ptr(:class='{bolder: m.memberId === $store.getters.member.memberId}')
+            span(v-if='m.memberId === $store.getters.member.memberId')  &nbsp;&nbsp;&#9829;
             current(:memberId='m.memberId' @click.stop)
         .one.grid(@click.stop)
             coin(:b='b')
-        .grid.eight
+        .eight.grid
             span(v-for='x in rowsGuilds') {{x}} &nbsp;
+            .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
+                span(v-if='!m.active'  @click.stop='deleteUser').hover.red delete
+                span(:class="{faded:b.boost <= 0}")
+                    span  &nbsp; &nbsp;
+                    img.boosted(src='../assets/images/bitcoin.svg')
 </template>
 
 <script>
@@ -150,6 +152,12 @@ export default {
 @import '../styles/skeleton'
 @import '../styles/grid'
 @import '../styles/spinners'
+
+.red
+    color: darkred
+
+.bolder
+    font-weight: bolder;
 
 .boosted
     height: 1.654321em

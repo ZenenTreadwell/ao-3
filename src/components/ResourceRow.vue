@@ -2,7 +2,7 @@
 
 .memberrow.membershipcard(v-if='card'  @dblclick='goIn')
     label.hackername {{ r.name }} ({{r.charged}})
-        span(v-if='cantAfford') ! fund account to use buttons !
+        span(v-if='cantAfford') ! inactive account !
     .container
         div(v-for='o in optionList')
             img.paytrigger.notfaded(v-if='r.charged > 0'   src='../assets/images/bitcoin.svg'  @click.stop='payPlz(o[3])')
