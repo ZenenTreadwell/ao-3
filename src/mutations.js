@@ -853,10 +853,7 @@ function tasksMuts(tasks, ev) {
           task.claims.push(ev) //
         }
         if (task.taskId === ev.resourceId) {
-          if (charged > 0) {
-            task.boost += charged
-          }
-          task.claims.push(ev) //
+            task.claims.push(ev) //
         }
       })
       break

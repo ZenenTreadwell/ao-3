@@ -6,7 +6,9 @@
     .container
         div(v-for='o in optionList')
             img.paytrigger.notfaded(v-if='r.charged > 0'   src='../assets/images/bitcoin.svg'  @click.stop='payPlz(o[3])')
-            button(:class='{faded: cantAfford}'  @click.stop='use(o[0], o[3])') {{ o[1] }}
+            button(:class='{faded: cantAfford}'  @click.stop='use(o[0], o[3])')
+                span(v-if='getResourceName(o[1])') {{getResourceName(o[1])}}
+                span(v-else) {{ o[1] }}
     .clearboth
     .startright
         span(v-for='m in recentlyUsed')
@@ -56,6 +58,16 @@ export default {
         },
     },
     methods: {
+        getResourceName(name){
+            let rname = false
+            this.$store.state.resources.some(r => {
+                if (r.resourceId === name){
+                    rname = r.name
+                    return true
+                }
+            })
+            return rname
+        },
         payPlz(taskId){
             this.$store.commit("setMode", 3)
             this.$store.commit("toggleAccounts")

@@ -1,7 +1,19 @@
+const cryptoUtils = require('../crypto')
 const { getResource } = require( './utils')
 const events = require( './events')
 const { serverState } = require( './state')
 const lightning = require('./lightning')
+const ChromecastAPI = require('chromecast-api')
+const cast = new ChromecastAPI()
+
+let castDeviceIds = []
+let castDeviceMap = {}
+
+cast.on('device', d => {
+    let taskId = cryptoUtils.createHash(d.friendlyName)
+    castDeviceIds.push(taskId)
+    castDeviceMap[taskId] = d.friendlyName
+})
 
 
 function checkForChargedEvent( resourceId ){
@@ -59,6 +71,17 @@ function reactions(ev){
                         events.resourceUsed(resourceId, 'lightning', defaultPrice, hopper, console.log)
                         return true
                       }
+                    })
+                }
+                break
+            case 'task-claimed':
+                let fName = castDeviceMap[ev.inId]
+                if (fName){
+                    cast.devices.forEach(d => {
+                        if (d.friendlyName === fName) {
+                            let mediaUrl = serverState.tasks[serverState.hashMap[ev.taskId]].name
+                            d.play(mediaUrl)
+                        }
                     })
                 }
                 break
