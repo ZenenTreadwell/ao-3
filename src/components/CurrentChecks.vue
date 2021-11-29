@@ -3,16 +3,21 @@ linky<template lang='pug'>
 .current
     span
         span &nbsp;&nbsp;&nbsp;
-        img.completedcheckmark.ptr(@click='switchOpenColor("red")' src='../assets/images/completed.svg'  :class='cardInputSty("red")' )
-        span.num {{ $store.getters.completedByColor.red }}
-        img.completedcheckmark.ptr(@click='switchOpenColor("yellow")'  src='../assets/images/completed.svg'  :class='cardInputSty("yellow")' )
-        span.num {{ $store.getters.completedByColor.yellow }}
-        img.completedcheckmark.ptr(@click='switchOpenColor("green")'  src='../assets/images/completed.svg'  :class='cardInputSty("green")' )
-        span.num {{ $store.getters.completedByColor.green }}
-        img.completedcheckmark.ptr(@click='switchOpenColor("purple")'  src='../assets/images/completed.svg'  :class='cardInputSty("purple")' )
-        span.num {{ $store.getters.completedByColor.purple }}
-        img.completedcheckmark.ptr(@click='switchOpenColor("blue")'  src='../assets/images/completed.svg'  :class='cardInputSty("blue")' )
-        span.num {{ $store.getters.completedByColor.blue }}
+        span.ptr(@click='switchOpenColor("red")')
+            img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty("red")' )
+            span.num(:class='{highlight: colorOpenSelect === "red"}') {{ $store.getters.completedByColor.red }}
+        span.ptr(@click='switchOpenColor("yellow")')
+            img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty("yellow")' )
+            span.num(:class='{highlight: colorOpenSelect === "yellow"}') {{ $store.getters.completedByColor.yellow }}
+        span.ptr(@click='switchOpenColor("green")')
+            img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty("green")' )
+            span.num(:class='{highlight: colorOpenSelect === "green"}') {{ $store.getters.completedByColor.green }}
+        span.ptr(@click='switchOpenColor("purple")')
+            img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty("purple")' )
+            span.num(:class='{highlight: colorOpenSelect === "purple"}') {{ $store.getters.completedByColor.purple }}
+        span.ptr(@click='switchOpenColor("blue")')
+            img.completedcheckmark( src='../assets/images/completed.svg'  :class='cardInputSty("blue")' )
+            span.num(:class='{highlight: colorOpenSelect === "blue"}') {{ $store.getters.completedByColor.blue }}
     div.ptr.bg(v-if='$store.getters.contextCard.highlights.length > 0' v-for='(c) in checkmarksColor'   @click='recallCard(c.taskId)')
         img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color)' )
         span &nbsp;
@@ -102,7 +107,9 @@ export default {
     },
     cardInputSty(c, index){
         if (this.$store.getters.member.stacks === 1) {
-            return { selectedCheck: this.$store.state.upgrades.selectedCheck === index }
+            return {
+                selectedCheck: this.$store.state.upgrades.selectedCheck === index
+            }
         }
 
         return {
@@ -153,6 +160,9 @@ export default {
         return this.$store.getters.contextCompleted
     },
     checkmarksColor(){
+        if (!this.colorOpenSelect){
+            return this.checkmarks
+        }
         return this.checkmarks.filter(c => c.color === this.colorOpenSelect)
     }
   }
