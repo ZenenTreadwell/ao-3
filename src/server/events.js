@@ -432,16 +432,6 @@ function taskDropped(taskId, memberId, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function taskPassed(taskId, fromMemberId, toMemberId, callback){
-    let newEvent = {
-      type: "task-passed",
-      taskId,
-      fromMemberId,
-      toMemberId,
-    }
-    dctrlDb.insertEvent(newEvent, callback)
-}
-
 function taskClaimed(taskId, memberId, inId, callback) {
   let newEvent = {
     type: "task-claimed",
@@ -571,7 +561,6 @@ module.exports = {
     taskPrioritized,
     taskPopped,
     taskDropped,
-    taskPassed,
     taskGuilded,
     taskSubTasked,
     taskDeSubTasked,

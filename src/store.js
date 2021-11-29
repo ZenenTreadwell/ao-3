@@ -195,19 +195,6 @@ export default createStore({
           })
           return loggedInMember
       },
-      inbox(state, getters){
-          let passedToMe = []
-          if (getters.isLoggedIn){
-              state.tasks.forEach(t => {
-                  t.passed.forEach(p => {
-                      if (p[1] ===  getters.member.memberId){
-                          passedToMe.push(t)
-                      }
-                  })
-              })
-          }
-          return passedToMe
-      },
       confirmedBalance(state){
           let confirmedBalance = 0
           state.cash.info.outputs.forEach(o => {

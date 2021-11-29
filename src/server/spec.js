@@ -615,22 +615,6 @@ router.post('/events', (req, res, next)=>{
               res.status(400).send(errRes)
           }
           break
-      case 'task-passed':
-          if (
-            validators.isTaskId(req.body.taskId, errRes) &&
-            validators.isMemberId(req.body.fromMemberId, errRes) &&
-            validators.isMemberId(req.body.toMemberId, errRes)
-          ){
-            events.taskPassed(
-              req.body.taskId,
-              req.body.blame,
-              req.body.toMemberId,
-              utils.buildResCallback(res)
-            )
-          } else {
-              res.status(400).send(errRes)
-          }
-          break
       case 'task-grabbed':
           if (
               validators.isTaskId(req.body.taskId, errRes)

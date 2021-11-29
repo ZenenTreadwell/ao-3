@@ -434,7 +434,6 @@ function tasksMuts(tasks, ev) {
       tasks.forEach(task => {
         if (task.taskId === ev.taskId) {
           explodingTask = task
-          task.passed = _.filter(task.passed, d => d[1] !== ev.memberId)
         }
         if (task.taskId === ev.inId) {
           absorbingTask = task
@@ -559,29 +558,9 @@ function tasksMuts(tasks, ev) {
         }
       })
       break
-    case "task-passed":
-      tasks.forEach(task => {
-        if (task.taskId === ev.taskId) {
-          let pass = [ev.fromMemberId, ev.toMemberId]
-          // XXX check should be prior to ev creation
-          if (!task.passed.some(p => {
-              if (p[0] === pass[0] && p[1] === pass[1]) {
-                return true
-              }
-            })) {
-            task.passed.push(pass)
-          }
-
-          if (task.deck.indexOf(ev.fromMemberId) === -1) {
-            task.deck.push(ev.fromMemberId)
-          }
-        }
-      })
-      break
     case "task-grabbed":
       tasks.forEach(task => {
         if (task.taskId === ev.taskId) {
-          task.passed = _.filter(task.passed, d => d[1] !== ev.memberId)
           if (task.deck.indexOf(ev.memberId) === -1) {
             if (ev.taskId !== ev.memberId && ev.memberId) {
               task.deck.push(ev.memberId)
@@ -591,12 +570,11 @@ function tasksMuts(tasks, ev) {
       })
       break
     case "pile-grabbed":
-      if (!ev.memberId) {
-        break
+      if (!ev.memberId) { // what?
+          break
       }
       tasks.forEach(task => {
         if (task.taskId === ev.taskId) {
-          task.passed = _.filter(task.passed, d => d[1] !== ev.memberId)
           let crawler = [ev.taskId]
           let history = []
           let newCards = []
@@ -621,7 +599,6 @@ function tasksMuts(tasks, ev) {
               history.push(t)
 
               if (subTask.deck.indexOf(ev.memberId) === -1 && ev.taskId !== ev.memberId) {
-                subTask.passed = _.filter(subTask.passed, d => d[1] !== ev.memberId)
                 subTask.deck.push(ev.memberId)
               }
               newCards = newCards.concat(subTask.subTasks).concat(subTask.priorities).concat(subTask.completed)
@@ -635,7 +612,6 @@ function tasksMuts(tasks, ev) {
       tasks.forEach(task => {
         if (task.taskId === ev.taskId) {
           task.deck = _.filter(task.deck, d => d !== ev.memberId)
-          task.passed = _.filter(task.passed, d => d[1] !== ev.memberId)
         }
       })
       break
@@ -645,7 +621,6 @@ function tasksMuts(tasks, ev) {
       }
       tasks.forEach(task => {
         if (task.taskId === ev.taskId) {
-          task.passed = _.filter(task.passed, d => d[1] !== ev.memberId)
           let crawler = [ev.taskId]
           let history = []
           let newCards = []
@@ -670,7 +645,6 @@ function tasksMuts(tasks, ev) {
               history.push(t)
 
               if (subTask.deck.indexOf(ev.memberId) >= 0 && ev.taskId !== ev.memberId) {
-                subTask.passed = _.filter(subTask.passed, d => d[1] !== ev.memberId)
                 subTask.deck = _.filter(subTask.deck, d => d !== ev.memberId)
               }
               newCards = newCards.concat(subTask.subTasks).concat(subTask.priorities).concat(subTask.completed)
@@ -693,7 +667,6 @@ function tasksMuts(tasks, ev) {
         t.claimed = t.claimed.filter(st => st !== ev.memberId )
         t.claims = t.claims.filter(cl => cl.taskId !== ev.memberId)
         t.deck = t.deck.filter(st => st !== ev.memberId)
-        t.passed = t.passed.filter(p => !(p[0] === ev.memberId || p[1] === ev.memberId))
         if (t.book & (t.book.resourceId === ev.memberId || t.book.memberId === ev.memberId)) t.book = {}
       })
       break
@@ -774,7 +747,6 @@ function tasksMuts(tasks, ev) {
     case "task-claimed":
       tasks.forEach(task => {
         if (task.taskId === ev.taskId) {
-          task.passed = _.filter(task.passed, d => d[1] !== ev.memberId)
           if (task.deck.indexOf(ev.memberId) === -1) {
             if (ev.taskId !== ev.memberId && ev.memberId) {
               task.deck.push(ev.memberId)
@@ -784,9 +756,6 @@ function tasksMuts(tasks, ev) {
             task.claimed.push(ev.memberId)
           }
           task.claims.push(ev)
-        }
-        if (task.taskId === ev.memberId) {
-            task.claims.push(ev)
         }
 
         if (task.taskId === ev.inId) {

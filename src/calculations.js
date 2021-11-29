@@ -89,7 +89,6 @@ function blankCard(taskId, name, color, createdTs, deck = [], priorities = []) {
         subTasks: [],
         completed: [],
         claimed: [],
-        passed: [],
         actions: [],
         guild: false,
         lastClaimed: 0,
@@ -109,29 +108,6 @@ function blankCard(taskId, name, color, createdTs, deck = [], priorities = []) {
     }
     return newCard
 }
-
-// function safeClone(card) {
-//     // XXX type check all this
-//     let safeClone = {
-//         taskId: card.taskId,
-//         name: card.name,
-//         claimed: [],
-//         completed: card.completed,
-//         passed: [],
-//         guild: card.guild,
-//         subTasks: card.subTasks,
-//         lastClaimed: 0,
-//         book: card.book,
-//         priorities: card.priorities,
-//         deck: [],
-//         color: card.color,
-//         address: card.address,
-//         bolt11: card.bolt11,
-//         payment_hash: '',
-//         boost: 0,
-//     }
-//     return safeClone
-// }
 
 function safeMerge(cardA, cardZ) {
     cardA.subTasks = [...new Set(cardA.subTasks.concat(cardZ.subTasks))]

@@ -1,6 +1,6 @@
 <template lang='pug'>
-.d(@click='toggleGrab')
-    img.dogepepecoin(@mouseover='hoverthumb=true'  @mouseleave='hoverthumb=false'  :class="{ hidden: $store.getters.member.memberId === b.taskId, ungrabbedcoin : !isGrabbed, hoverthumb: hoverthumb }" src='../assets/images/thumbsup.svg'  draggable='false')
+.d(v-if='$store.getters.member.memberId !== b.taskId'  @click='toggleGrab')
+    img.dogepepecoin(@mouseover='hoverthumb=true'  @mouseleave='hoverthumb=false'  :class="{ ungrabbedcoin : !isGrabbed, hoverthumb: hoverthumb }" src='../assets/images/thumbsup.svg'  draggable='false')
 </template>
 
 <script>
@@ -43,16 +43,19 @@ export default {
 
 @import '../styles/spinners'
 
+.d
+    display: inline-block;
+
 .dogepepecoin
-  display:block
-  width: 35px
-  height: 35px
+  display:inline-block;
+  width: 33px
+  // height: 35px
   // position: absolute
   // bottom: 3px
   // right: 3px
   cursor: pointer
-  padding-top: .5em
-  padding-bottom: .5em
+  // padding-top: .5em
+  // padding-bottom: .5em
 
 .ungrabbedcoin
     opacity: 0.869

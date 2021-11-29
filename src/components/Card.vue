@@ -5,34 +5,19 @@
     .donut.flaggy.square.hidden(@click.stop='upboat')
     .buffertop
       .cardbody
-          linky.cardhud(:x='b.name' v-if='!member')
+          linky.cardhud(:x='b.name' v-if='!member'  @click.stop='copyCardToClipboard')
+              img.clippy(src='../assets/images/loggedOut.svg'  v-if='showCopied')
           div(v-else)
               img.send(src='../assets/images/doge.svg')
               span {{member.name}}
           span.sml
               current(v-for='n in actions'  :memberId='n')
-          //- div(v-if='b.taskId !== $store.getters.contextCard.taskId')
-          //-     simple(:taskId="b.taskId")
-    .passed
-        div.totop(v-if='b.passed.length > 0  && $store.state.upgrades.bird')
-            div(@click='toggleBird')
-                template(v-for='n in b.passed')
-                    .row.pad.centered
-                        current(:memberId='n[0]')
-                        img.send(src='../assets/images/send.svg')
-                        current(:memberId='n[1]')
     div
-        .copydiv
-            img.copied(src='../assets/images/loggedOut.svg'  :class='{hidden:!showCopied}'  @click.stop='copyCardToClipboard')
+        .copiedspace
         .scrol(@click.stop='remove')
             .donut.scrolly.hidden.square
         .vine(@click.stop='pop')
             .donut.viney.hidden.square
-        .singlebird(v-if='b.passed.length > 0'  @click.stop='toggleBird'  v-show='!$store.state.upgrades.bird')
-            .row.pad.centered()
-                span(v-if='b.passed.length > 0'  :class='{faded:!$store.state.upgrades.bird}')
-                    img.send(src='../assets/images/send.svg')
-                    span {{ b.passed.length}}
     preview-deck(:task='b')
 </template>
 
@@ -210,7 +195,7 @@ export default {
           }
         },
         member(){
-          let mc
+          let mc = false
           this.$store.state.members.forEach( m => {
               if (this.b.name === m.memberId ){
                   mc = m
@@ -516,6 +501,7 @@ label
 .cardhud
     position: relative
     z-index: 14
+    cursor: pointer
 
 .cardheader
     margin: 0 auto
@@ -612,8 +598,15 @@ label
 .hidden
     opacity: 0
 
-.copied
-    height: 2em
+
+
+.clippy
+    height: 1em
+    display: inline-block;
+    cursor: pointer
+
+.copiedspace
+    height: 1.987654em
 
 .copied.hidden
     opacity: 0.1

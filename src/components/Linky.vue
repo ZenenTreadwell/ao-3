@@ -4,6 +4,8 @@ span.linky
     span.noheight(v-if='!isLock'  v-html='m')
     div(v-else)
         span - encrypted
+    span
+        slot
 </template>
 
 <script>

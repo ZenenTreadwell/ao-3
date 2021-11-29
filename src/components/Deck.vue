@@ -4,7 +4,6 @@
         .card.openwidth(:class='{ adjustwidth : $store.state.upgrades.mode !== "doge", closedwidth : $store.state.upgrades.mode === "doge"}')
             member-row
         .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"'  :class='{darkmode: $store.getters.member.stacks === 1}')
-            zen(v-show='$store.state.upgrades.mode === "doge" && $store.getters.inbox.length > 0')
             payments(v-show='$store.state.upgrades.mode === "chest"')
             calendar(v-show='$store.state.upgrades.mode === "timecube"')
             div(v-show='$store.state.upgrades.mode === "boat"')
@@ -31,7 +30,6 @@ import Priorities from './Priorities'
 import Checkmarks from './Checkmarks'
 import Payments from './Payments'
 import Pins from './Pins'
-import Zen from './Zen'
 import RollStack from './RollStack'
 
 export default {
@@ -40,8 +38,7 @@ export default {
       Panels, MemberRow, Calendar,
       ResourceRow, Context, Priorities, ResourceBook, PointsSet,
       Checkmarks, Pins,
-      Payments,
-      Zen, RollStack
+      Payments, RollStack,
   },
   methods:{
       pilePrioritized() {

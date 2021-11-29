@@ -13,13 +13,14 @@
                 resource-book(v-else)
     .row.center.clearboth(@click='copyCard'  draggable="true"  :ondragstart='dragStart' )
         label
-            bird(:b='$store.getters.contextCard', :inId='$store.getters.contextCard.taskId')
             div(v-if='$store.getters.contextMember')
+                img.doge(src='../assets/images/doge.svg')
                 linky(:x='m.name')
-                img(v-show='copied'  src='../assets/images/loggedOut.svg')
+                coin(:b='$store.getters.contextCard')
             div(v-else-if='$store.getters.contextResource')
                 currentr(:resourceId='$store.getters.contextCard.taskId')
             div(v-else)
+                bird(:b='$store.getters.contextCard', :inId='$store.getters.contextCard.taskId')
                 linky(:x='card.name')
                 img(v-show='copied'  src='../assets/images/loggedOut.svg')
     div
@@ -36,6 +37,7 @@
 <script>
 
 import Current from './Current'
+import Coin from './Coin'
 import Currentr from './Currentr'
 import Linky from './Linky'
 import Auth from './Auth'
@@ -50,7 +52,7 @@ export default {
     data(){
         return {copied: false}
     },
-    components: {Current, Linky, Auth, Card, Checkbox, Bird, ResourceBook, Currentr},
+    components: {Current, Linky, Auth, Card, Coin, Checkbox, Bird, ResourceBook, Currentr},
     computed:{
         m(){
             return this.$store.getters.contextMember
@@ -242,6 +244,14 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
+
+.doge
+    height: 1.0789em
+    display: inline-block
+    background-color: main
+    padding: .3em;
+    border-radius: 50%;
+    margin-right: 0.4em;
 
 .roro
     transform: rotate(45deg);
