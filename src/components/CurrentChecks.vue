@@ -1,49 +1,47 @@
 linky<template lang='pug'>
 
 .current
-    span#swipechecks(v-if='$store.getters.contextCard.highlights.length <= 0')
-        span(v-for='(c, index) in checkmarks'  :key='c.taskId ')
-            span.plain.completedcheckmark(@click='$store.commit("selectCheck", index)'  @mouseenter='$store.commit("selectCheck", index)')
-                img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color, index)' )
-    //- span.ptr(v-if='checkmarks.length > 0'  @click='relist') *all up*
-    div.ptr.bg(v-if='$store.getters.contextCard.highlights.length > 0 ' v-for='(c, index) in checkmarks'   @click='recallCard(c.taskId)')
-        img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color, index)' )
+    span
+        span &nbsp;&nbsp;&nbsp;
+        img.completedcheckmark.ptr(@click='switchOpenColor("red")' src='../assets/images/completed.svg'  :class='cardInputSty("red")' )
+        span.num {{ $store.getters.completedByColor.red }}
+        img.completedcheckmark.ptr(@click='switchOpenColor("yellow")'  src='../assets/images/completed.svg'  :class='cardInputSty("yellow")' )
+        span.num {{ $store.getters.completedByColor.yellow }}
+        img.completedcheckmark.ptr(@click='switchOpenColor("green")'  src='../assets/images/completed.svg'  :class='cardInputSty("green")' )
+        span.num {{ $store.getters.completedByColor.green }}
+        img.completedcheckmark.ptr(@click='switchOpenColor("purple")'  src='../assets/images/completed.svg'  :class='cardInputSty("purple")' )
+        span.num {{ $store.getters.completedByColor.purple }}
+        img.completedcheckmark.ptr(@click='switchOpenColor("blue")'  src='../assets/images/completed.svg'  :class='cardInputSty("blue")' )
+        span.num {{ $store.getters.completedByColor.blue }}
+    div.ptr.bg(v-if='$store.getters.contextCard.highlights.length > 0' v-for='(c) in checkmarksColor'   @click='recallCard(c.taskId)')
+        img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color)' )
         span &nbsp;
         linky(:x='c.name' :class='{selectedCheckInList: c.name === $store.getters.selectedCheckCard.name}' )
-    div.ptr.bg(v-else-if='$store.getters.selectedCheckCard.name'  @click='recallCard(checkmarks[$store.state.upgrades.selectedCheck].taskId)')
-        img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty($store.getters.selectedCheckCard.color)')
+    div.ptr.bg(v-else-if='colorOpenSelect' v-for='(c) in checkmarksColor'   @click='recallCard(c.taskId)')
+        img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color)' )
         span &nbsp;
-        linky(v-if='$store.getters.selectedCheckCard.name'  :x='$store.getters.selectedCheckCard.name')
-        span.smaller(v-for='mId in $store.getters.selectedCheckCard.claimed') &nbsp; - {{ getMemberName(mId) }}
+        linky(:x='c.name' :class='{selectedCheckInList: c.name === $store.getters.selectedCheckCard.name}' )
 </template>
 
 <script>
 
 import Linky from './Linky'
 import Coin from './Coin'
-import Hammer from 'hammerjs'
 
 export default {
-
-  mounted(){
-      var el = document.getElementById('swipechecks')
-      var mc = new Hammer.Manager(el)
-      var Swipe = new Hammer.Swipe()
-      mc.add(Swipe)
-      let newCheck
-      mc.on('swipeleft', () => {
-          newCheck = (this.$store.state.upgrades.selectedCheck - 1) % this.$store.getters.contextCompleted.length
-          if (newCheck < 0) newCheck = this.$store.getters.contextCompleted.length - 1
-          this.$store.commit('selectCheck', newCheck)
-      });
-
-      mc.on('swiperight', () => {
-          newCheck =  (this.$store.state.upgrades.selectedCheck + 1) % this.$store.getters.contextCompleted.length
-          this.$store.commit('selectCheck', newCheck)
-      })
+  data(){
+      return {
+          colorOpenSelect: false
+      }
   },
   components: { Linky, Coin },
   methods: {
+    switchOpenColor(color){
+        if (this.colorOpenSelect === color){
+            return this.colorOpenSelect = false
+        }
+        this.colorOpenSelect = color
+    },
     getMemberName(mId){
         let name
         this.$store.state.members.some(m => {
@@ -154,6 +152,9 @@ export default {
     checkmarks() {
         return this.$store.getters.contextCompleted
     },
+    checkmarksColor(){
+        return this.checkmarks.filter(c => c.color === this.colorOpenSelect)
+    }
   }
 }
 
@@ -163,6 +164,10 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/grid'
+
+.num
+    padding: .37em
+    font-weight: bolder
 
 .smaller
     font-size: .777em

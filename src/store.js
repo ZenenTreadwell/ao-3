@@ -56,6 +56,7 @@ export default createStore({
           return getters.contextCard.subTasks.slice().reverse().map(t => state.tasks[state.hashMap[t]]).filter(t => !!t && t.color )
       },
       contextCompleted(state, getters){
+
           let upValence = []
           let downValence = []
           getters.contextCard.highlights.forEach(h => {
@@ -73,6 +74,31 @@ export default createStore({
                       downValence.every(mId => t.claimed.indexOf(mId) === -1)
                   )
               })
+      },
+      completedByColor(state, getters){
+          let red = 0
+          let yellow = 0
+          let green = 0
+          let blue = 0
+          let purple = 0
+          let byColor =
+          getters.contextCompleted.forEach(t => {
+              switch (t.color){
+                  case "red": red ++
+                      break
+                  case "yellow": yellow ++
+                      break
+                  case "green": green ++
+                      break
+                  case "blue": blue ++
+                      break
+                  case "purple": purple ++
+                      break
+              }
+          })
+          return {
+              red, yellow, green, blue, purple
+          }
       },
       contextMember(state, getters){
           let contextMem = false

@@ -18,7 +18,6 @@ export default {
     methods: {
         toggleGrab(){
             if(this.isGrabbed) {
-
                 this.$store.dispatch("makeEvent", {
                     type: 'task-dropped',
                     taskId: this.b.taskId,
