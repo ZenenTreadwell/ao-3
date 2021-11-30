@@ -81,18 +81,17 @@ export default createStore({
           let green = 0
           let blue = 0
           let purple = 0
-          let byColor =
           getters.contextCompleted.forEach(t => {
               switch (t.color){
-                  case "red": red ++
+                  case "red": red += t.claims.length
                       break
-                  case "yellow": yellow ++
+                  case "yellow": yellow  += t.claims.length
                       break
-                  case "green": green ++
+                  case "green": green += t.claims.length
                       break
-                  case "blue": blue ++
+                  case "blue": blue += t.claims.length
                       break
-                  case "purple": purple ++
+                  case "purple": purple += t.claims.length
                       break
               }
           })

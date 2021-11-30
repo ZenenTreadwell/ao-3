@@ -155,6 +155,9 @@ export default {
           })
         },
         copyCardToClipboard(){
+          if (this.showCopied){
+              return this.goIn()
+          }
           navigator.clipboard.writeText(this.b.name)
               .then(() => {
                   this.showCopied = true

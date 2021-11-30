@@ -758,7 +758,7 @@ function tasksMuts(tasks, ev) {
           task.claims.push(ev)
         }
 
-        if (task.taskId === ev.inId) {
+        if (ev.inId !== ev.taskId && task.taskId === ev.inId) {
             if (task.completed.indexOf(ev.taskId) === -1){
                 task.completed.push(ev.taskId)
                 if (task.deck.indexOf(ev.memberId) === -1) {
