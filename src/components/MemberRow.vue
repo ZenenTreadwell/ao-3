@@ -10,6 +10,7 @@
         .eight.grid
             span(v-for='x in rowsGuilds') {{x}} &nbsp;
             .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
+                img.boosted(src='../assets/images/hourglass.svg'  v-if='m.action'  @click.stop='goIn(m.action)')
                 span(v-if='!m.active'  @click.stop='deleteUser').hover.red delete
                 span(:class="{faded:b.boost <= 0}")
                     span  &nbsp; &nbsp;
@@ -65,20 +66,18 @@ export default {
             let parents = [  ]
             let top = 0
             //
-            // if (this.$store.getters.contextCard.taskId){
-            //     parents.push(this.$store.getters.contextCard.taskId)
-            // } else if (this.$store.getters.memberCard.taskId){
-            //     parents.push(this.$store.getters.memberCard.taskId)
-            // }
+            if (this.$store.getters.contextCard.taskId){
+                parents.push(this.$store.getters.contextCard.taskId)
+            } else if (this.$store.getters.memberCard.taskId){
+                parents.push(this.$store.getters.memberCard.taskId)
+            }
 
             this.$store.dispatch("goIn", {
                 parents,
                 top,
                 panel
             })
-            if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
-                this.$store.commit("setMode", 1)
-            }
+            // this.$store.commit("setMode", 0)
         },
         deleteUser(){
             this.$store.dispatch("makeEvent", {

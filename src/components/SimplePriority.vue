@@ -57,7 +57,9 @@ export default {
               newfield = this.card.taskId
               this.startTimer()
           } else {
-              clearInterval(this.timerInterval)
+              if (this.timerInterval){
+                  clearInterval(this.timerInterval)
+              }
           }
           this.$store.dispatch("makeEvent", {
               type: 'member-field-updated',

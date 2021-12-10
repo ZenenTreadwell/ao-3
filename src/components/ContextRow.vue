@@ -7,9 +7,9 @@
             span.front(v-else-if='isResource')  {{ isResource }} &nbsp;
             span(v-else)
                 span.front(v-if='card.guild')  {{ card.guild }} &nbsp;
-                linky.front(:x='name'  :key='name')
-    img.front(v-if='card.guild'  src="../assets/images/badge.svg")
-    img.front(v-if='isMember' src="../assets/images/doge.svg")
+                linky.front.only(:x='name'  :key='name')
+    img.front.darkcircle(v-if='card.guild'  src="../assets/images/badge.svg")
+    img.front.darkcircle(v-if='isMember' src="../assets/images/doge.svg")
     div.right.front(v-if='card.book.startTs')
         tally(:b='card')
     slot
@@ -134,7 +134,12 @@ export default {
 img
     height: 1.1em
     float: left
-    padding-left: 1em
+    margin-left: 1em
+    padding: 0em 0.1em 0.1em 0.1em
+
+img.darkcircle
+    background: main
+    border-radius: 50%
 
 .context
     opacity: 0.9
@@ -187,10 +192,10 @@ img
     z-index: 50
     overflow: hidden
 
-.popup .here
+.popup .here .only
     // visibility: hidden
     opacity: 0.15
-.popup:hover .here
+.popup:hover .here .only
     opacity: 1
 
 .here

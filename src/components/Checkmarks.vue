@@ -2,7 +2,7 @@
 
 .upgrades(v-if='!$store.getters.contextMember')
     div.tr
-        img.doge(src='../assets/images/doge.svg')
+        img.doge(v-if='$store.getters.contextRelevantMembers.length > 0'  src='../assets/images/doge.svg')
         span.bg
             span(v-for='n in $store.getters.contextRelevantMembers'   :key='n'  @click='toggleHighlight(n)'  @click.ctrl='toggleHighlight(n, true)')
                 span(:class='{highlight: isHighlighted(n), lowdark: isLowdarked(n) }') &nbsp; {{ getName(n) }} &nbsp;
@@ -125,7 +125,7 @@ export default {
     height: 0.5em
 
 .doge
-    height: 1.789em
+    height: 1.3789em
     display: inline-block
     background-color: main
     padding: .5em;

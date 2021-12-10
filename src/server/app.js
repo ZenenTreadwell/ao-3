@@ -99,13 +99,14 @@ function startDctrlAo(){
                         default:
                             let name = '~'
                             state.serverState.members.some(m => {
-                                if (m.memberId === ev.memberId  || ev.blame === m.memberId){
+                                if (ev.blame === m.memberId  || ev.memberId === m.memberId){
                                     name = m.name
+                                    return true
                                 }
                             })
                             if (mostRecentAccount !== name){
                                 mostRecentAccount = name
-                                console.log(chalk.bold.magenta(name), 'did', ev.type)
+                                console.log(chalk.bold.magenta(name), 'did', chalk.bold.green(ev.type))
                             }
                             break
                     }

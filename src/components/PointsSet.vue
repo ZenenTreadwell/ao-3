@@ -16,7 +16,7 @@ export default {
     data() {
         return {
             task: {
-                points: this.b.completeValue? this.b.completeValue : 123,
+                points: this.b.completeValue,
             }
         }
     },

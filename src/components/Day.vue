@@ -5,13 +5,13 @@
     span(v-if='createdToday') *
     span(v-for='t in ev')
         .upgrade(v-if='!t.type')
-            img.upgrade.doge(v-if='checkIsMember(t.name)'  @cdbllick="goIn(t.taskId)"  src='../assets/images/doge.svg')
-            img.upgrade(v-else  @click="goIn(t.taskId)"  src='../assets/images/uncompleted.svg'  :class='styl(t.color)'  draggable="true"  :ondragstart='dragStartWrap(t.taskId)')
+            img.upgrade.doge(v-if='checkIsMember(t.name)'  @dblclick="goIn(t.taskId)"  src='../assets/images/doge.svg')
+            img.upgrade(v-else  @dblclick="goIn(t.taskId)"  src='../assets/images/uncompleted.svg'  :class='styl(t.color)'  draggable="true"  :ondragstart='dragStartWrap(t.taskId)')
         .upgrade(v-else-if='t.type === "resource-used"')
             img.completedcheckmark(@dblclick="goIn(t.resourceId)"  src='../assets/images/down.svg')
-        span.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goIn(t.taskId, t.inId)'  :class='styl(getCardColor(t.taskId))')
-            img.completedcheckmark(v-if='checkIsMember(t.taskId)'  src='../assets/images/doge.svg'  :class='{smaller: ev.length > 15}')
-            img.completedcheckmark(v-else  :class='{smaller: ev.length > 15}'  src='../assets/images/completed.svg')
+        span.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goIn(t.taskId, t.inId)' :class='{smaller: ev.length > 15}' )
+            img.completedcheckmark.doge(v-if='t.taskId === $store.getters.contextCard.taskId'  src='../assets/images/doge.svg')
+            img.completedcheckmark(v-else   :class='styl(getCardColor(t.taskId))'  src='../assets/images/completed.svg')
     //- img.upgrade(v-if='isToday'  v-for='t in $store.getters.contextCard.priorities'  src='../assets/images/uncompleted.svg'  :class='styl(getCardColor(t))')
 </template>
 
@@ -91,7 +91,7 @@ export default {
             if (inId) {
                 parents.push(inId)
             }
-            
+
             this.$store.dispatch("goIn", {
                 panel: [taskId],
                 top: 0,
@@ -126,6 +126,11 @@ export default {
 <style lang='stylus' scoped>
 
 @import '../styles/colours';
+
+.doge
+    background: main
+    border-radius: 50%
+    padding: 0.1em
 
 .day.dropping
     background: blue
@@ -235,8 +240,12 @@ img.completedcheckmark
     text-decoration: none
     margin-right: 0.13em
 
-img.completedcheckmark.smaller
+// img.completedcheckmark
+
+.smaller  img
     height: 0.33em
+
+
 
 
 </style>

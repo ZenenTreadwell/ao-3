@@ -77,12 +77,16 @@ function reactions(ev){
             case 'task-claimed':
                 let fName = castDeviceMap[ev.inId]
                 if (fName){
-                    cast.devices.forEach(d => {
-                        if (d.friendlyName === fName) {
+                    try {
+                        cast.devices.forEach(d => {
+                          if (d.friendlyName === fName) {
                             let mediaUrl = serverState.tasks[serverState.hashMap[ev.taskId]].name
                             d.play(mediaUrl)
-                        }
-                    })
+                          }
+                        })
+                    } catch (err){
+                        console.log('cast-api error, continue', err)
+                    }
                 }
                 break
             case 'member-field-updated':

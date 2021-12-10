@@ -66,12 +66,13 @@ function taskValued(taskId, value, blame, callback) {
   dctrlDb.insertEvent(newEvent, callback)
 }
 
-function highlighted(taskId, memberId, valence, callback){
+function highlighted(taskId, memberId, valence, blame, callback){
     let newEvent = {
         type: "highlighted",
         taskId,
         memberId,
-        valence
+        valence,
+        blame,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
@@ -343,22 +344,22 @@ function taskGuilded(taskId, guild, blame, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function taskSubTasked(taskId, inId, memberId, callback){
+function taskSubTasked(taskId, inId, blame, callback){
     let newEvent = {
       type: "task-sub-tasked",
       taskId,
       inId,
-      memberId,
+      blame,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function taskDeSubTasked(taskId, inId, memberId, callback){
+function taskDeSubTasked(taskId, inId, blame, callback){
     let newEvent = {
       type: "task-de-sub-tasked",
       taskId,
       inId,
-      memberId,
+      blame,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
@@ -383,13 +384,13 @@ function pileDeSubTasked(inId, tasks, blame, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function taskPrioritized(taskId, inId, fromId, memberId, callback){
+function taskPrioritized(taskId, inId, fromId, blame, callback){
     let newEvent = {
       type: "task-prioritized",
       taskId,
       inId,
       fromId,
-      memberId,
+      blame,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }

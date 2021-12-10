@@ -1,16 +1,16 @@
 
-const cron = require('cron')
+// const cron = require('cron')
 const events = require('./events')
 const {serverState} = require('./state')
 const connector = require( './connector')
 const calculations = require('../calculations')
 
-const syncLink = new cron.CronJob({
-  cronTime: '* * * * *',
-  onTick: sync,
-  start: false,
-  timeZone: 'America/Los_Angeles'
-})
+// const syncLink = new cron.CronJob({
+//   cronTime: '* * * * *',
+//   onTick: sync,
+//   start: false,
+//   timeZone: 'America/Los_Angeles'
+// })
 
 function sortAddresses(a,b){
     if (a < b){
@@ -44,5 +44,5 @@ function getList(taskIds){
 }
 
 module.exports = function (){
-    syncLink.start()
+    // syncLink.start()
 }

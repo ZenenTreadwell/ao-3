@@ -50,8 +50,8 @@
                     .five.grid
                         p recommend
                     .six.grid
-                        .chain  {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000000 / 1000).toFixed() }}
-                    .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[0])')
+                        .chain  {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000).toFixed() }}
+                    .one.grid(:class='getFeeColor($store.state.cash.info.mempool.smartFee.feerate * 10000)')
             input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
             button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
             .chanfo(v-if='fetchedTxn.txid')

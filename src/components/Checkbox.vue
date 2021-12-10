@@ -1,7 +1,11 @@
 <template lang='pug'>
 .checkbox(ref='checkbox'  :id='uuid')
-    img.checkmark(v-if='isCompleted'  src='../assets/images/completed.svg')
-    img.checkmark(v-else  src='../assets/images/uncompleted.svg')
+    span(v-if='$store.getters.contextCard.taskId === b.taskId')
+        img.checkmark.doge(v-if='isCompleted'  src='../assets/images/doge.svg')
+        img.checkmark.doge.incomplete(v-else  src='../assets/images/doge.svg')
+    span(v-else)
+        img.checkmark(v-if='isCompleted'  src='../assets/images/completed.svg')
+        img.checkmark(v-else  src='../assets/images/uncompleted.svg')
 </template>
 
 <script>
@@ -43,7 +47,7 @@ export default {
             let now = Date.now()
             return this.b.claims.some(c => {
                 if (this.$store.getters.member.memberId === c.memberId && now - c.timestamp < 30000) return true
-            }) && this.$store.getters.contextCard.completed.indexOf(this.b.taskId) > -1
+            })
         },
     },
     methods: {
@@ -70,8 +74,16 @@ export default {
 
 @import '../styles/colours'
 
+.doge
+    background: main
+    border-radius: 50%
+    padding: 0.1234em
+
+.doge.incomplete
+    background: softerGrey
+
 .checkbox
-    opacity: 0.5
+    // opacity: 0.9
     cursor: pointer
     // z-index: 105
     // position: absolute

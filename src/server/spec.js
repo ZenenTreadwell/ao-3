@@ -137,24 +137,20 @@ router.post('/events', (req, res, next)=>{
           validators.isTaskId(req.body.taskId, errRes) &&
           validators.isAmount(req.body.value, errRes)
         ) {
-
           events.taskValued(
             req.body.taskId,
             req.body.value,
             req.body.blame,
             utils.buildResCallback(res)
           );
-          if (req.body.value === 0){
-              events.invoiceCreated(req.body.taskId, false, false)
-              return
-          }
-          lightning.createInvoice(req.body.value, "<3" +  uuidV1(), '~', 3600)
+          lightning
+              .createInvoice(req.body.value, "<3" +  uuidV1(), '~ ao ~', 3600)
               .then(result => {
                   let addr = result['p2sh-segwit']
-                  events.invoiceCreated(req.body.taskId, result.bolt11, result.payment_hash)
+                  events.invoiceCreated(req.body.taskId, result.bolt11, result.payment_hash, req.body.blame)
               })
               .catch(err => {
-                  console.log({err})
+                  console.log(err)
               });
         } else {
           res.status(400).send(errRes);
@@ -221,7 +217,7 @@ router.post('/events', (req, res, next)=>{
               validators.isMemberId(req.body.memberId, errRes) &&
               validators.isBool(req.body.valence, errRes)
           ){
-              events.highlighted(req.body.taskId, req.body.memberId, req.body.valence, utils.buildResCallback(res))
+              events.highlighted(req.body.taskId, req.body.memberId, req.body.valence, req.body.blame, utils.buildResCallback(res))
           } else {
               res.status(400).send(errRes)
           }

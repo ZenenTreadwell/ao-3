@@ -100,7 +100,6 @@ lightningRouter.post('/bitcoin/transaction',(req, res) => {
           .catch(notInMempool => {
               getDecode(req.body.txid)
                   .then(txn => {
-                      // only works if bitcoind txindex=1
                       if (txn.vout) {
                           try {
                               Promise.all(txn.vout.map((output, i) => {
@@ -123,7 +122,14 @@ lightningRouter.post('/bitcoin/transaction',(req, res) => {
 })
 
 function createInvoice(sat, label, description, expiresInSec){
-    return client.invoice(sat * 1000, label, description, expiresInSec)
+    let numSat = Number(sat)
+    let msat
+    if (numSat > 0){
+        msat = numSat * 1000
+    } else {
+        msat = "any"
+    }
+    return client.invoice(msat, label, description, expiresInSec)
 }
 
 function newAddress(){
