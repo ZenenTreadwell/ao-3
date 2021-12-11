@@ -16,15 +16,6 @@ function taskColored(taskId, inId, color, blame, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function aoLinkDisconnected(taskId, address, callback){
-    let newEvent = {
-        type: "ao-link-disconnected",
-        taskId,
-        address,
-    }
-    dctrlDb.insertEvent(newEvent, callback)
-}
-
 function taskSeized(taskId, inId, callback){
   let newEvent = {
       type: "task-seized",
@@ -83,15 +74,6 @@ function aoInboundConnected(address, secret, callback){
         address,
         secret,
         i: serverState.tasks.length,
-    }
-    dctrlDb.insertEvent(newEvent, callback)
-}
-
-function aoLinked(address, taskId, callback){
-    let newEvent = {
-        type: "ao-linked",
-        address,
-        taskId,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
@@ -527,11 +509,9 @@ function memberCharged(memberId, charged, notes, callback) {
 }
 
 module.exports = {
-    aoLinkDisconnected,
     highlighted,
     memberCharged,
     aoOutboundConnected,
-    aoLinked,
     aoDisconnected,
     aoNamed,
     aoInboundConnected,

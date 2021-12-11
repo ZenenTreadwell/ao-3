@@ -9,77 +9,10 @@ echo ''
 sudo apt update -y
 sudo apt upgrade -y
 
-echo 'Installing git'
-sudo apt install -y git
-
-echo 'Installing wget'
-sudo apt install -y wget
-
-echo 'Installing tor'
-sudo apt install -y tor
-
-echo 'Installing sqlite3'
-sudo apt install -y sqlite3
-
-echo 'Installing zlib1g-dev'
-sudo apt install -y zlib1g-dev
-
-echo 'Installing libtool-bin'
-sudo apt install -y libtool-bin
-
-echo 'Installing autoconf'
-sudo apt install -y autoconf
-
-echo 'Installing autoconf-archive'
-sudo apt install -y autoconf-archive
-
-echo 'Installing automake'
-sudo apt install -y automake
-
-echo 'Installing autotools-dev'
-sudo apt install -y autotools-dev
-
-echo 'Installing libgmp-dev'
-sudo apt install -y libgmp-dev
-
-echo 'Installing libsqlite3-dev'
-sudo apt install -y libsqlite3-dev
-
-echo 'Installing python'
-sudo apt install -y python
-
-echo 'Installing python3'
-sudo apt install -y python3
-
-echo 'Installing python3-mako'
-sudo apt install -y python3-mako
-
-echo 'Installing libsodium-dev'
-sudo apt install -y libsodium-dev
-
-echo 'Installing build-essential'
-sudo apt install -y build-essential
-
-echo 'Installing pkg-config'
-sudo apt install -y pkg-config
-
-echo 'Installing libev-dev'
-sudo apt install -y libev-dev
-
-echo 'Installing libevent-dev'
-sudo apt install -y libevent-dev
-
-echo 'Installing libcurl4-gnutls-dev'
-sudo apt install -y libcurl4-gnutls-dev
-
-echo 'Installing libssl-dev'
-sudo apt install -y libssl-dev
-
-echo 'Installing fakeroot'
-sudo apt install -y fakeroot
-
-echo 'Installing devscripts'
-sudo apt install -y devscripts
+echo 'Installing apt build stuff'
+sudo apt install -y git wget tor sqlite3 zlib1g-dev libtool-bin autoconf autoconf-archive automake autotools-dev \
+libgmp-dev libsqlite3-dev python python3 python3-mako libsodium-dev build-essential pkg-config libev-dev \
+libcurl4-gnutls-dev libssl-dev fakeroot devscripts
 
 echo 'Installing node'
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
@@ -166,10 +99,10 @@ echo 'Execution completion'
 date
 echo ''
 
-echo 'AO Dependencies Installed Start Your Nodes via: '
+echo 'Lightning Node Installed Start via two terminals: '
 echo '  bitcoind'
 echo '  lightningd'
-echo 'Can Proceed to start AO-3 via: '
+echo 'Can Proceed to AO-3 setup: '
 echo '  git clone https://github.com/AutonomousOrganization/ao-3'
 echo '  cd ao-3'
 echo '  npm install'

@@ -33,10 +33,12 @@ then
 		sudo mkdir -p /usr/local/etc/tor
 fi
 
+#
 if [ ! -f $TORRCPATH ];
 then
-		wget https://raw.githubusercontent.com/torproject/tor/master/src/config/torrc.sample.in
-		sudo mv torrc.sample.in $TORRCPATH
+		sudo echo "ControlPort 9051" >> $TORRCPATH
+    sudo echo "CookieAuthentication 1" >> $TORRCPATH
+    sudo chmod 666 $TORRCPATH # so controlport can modify . . . is this bad?
 fi
 
 if [ $(cat $TORRCPATH | grep -c "HiddenServiceDir /var/lib/tor/ao") -eq 0 ];
@@ -70,4 +72,4 @@ AUTHLINE=$(echo $AUTHDEETS | grep -o rpcauth=ao:[^[:space:]]*[[:space:]])
 PASSLINE=$(echo $AUTHDEETS | grep -o [^[:space:]]*\$)
 echo $AUTHLINE >> $HOME/.bitcoin/bitcoin.conf
 
-echo "module.exports = {openAo: true, bitcoind: { username: 'ao', password: '"$PASSLINE"'}, sqlite3: {file: '"$HOME"/.ao/database.sqlite3'}, tor: { hostname: '"`cat /var/lib/tor/ao/hostname`"'}, clightning: {dir: '"$HOME"/.lightning/bitcoin'}, bitcoinAverage: {pub: '',secret: ''}, privateKey: '"$HOME"/.ao/key'}" > ../configuration.js
+echo "module.exports = {openAo: true, bitcoind: { username: 'ao', password: '"$PASSLINE"'}, sqlite3: {file: '"$HOME"/.ao/database.sqlite3'}, hostnames: [], clightning: {dir: '"$HOME"/.lightning/bitcoin'}, bitcoinAverage: {pub: '',secret: ''}, privateKey: '"$HOME"/.ao/key'}" > ../configuration.js

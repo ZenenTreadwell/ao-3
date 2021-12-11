@@ -16,7 +16,7 @@ function postEvent(address, secret, body, callback){
           if (err){
               return callback(err)
           }
-          callback(resBody)
+          callback(null, resBody)
   })
 }
 
@@ -30,7 +30,7 @@ function checkHash(address, secret, taskId, callback){
           if (err){
               return callback(err)
           }
-          callback(resBody)
+          callback(null, resBody)
   })
 }
 

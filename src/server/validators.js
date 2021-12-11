@@ -143,6 +143,6 @@ module.exports = {
       return isBool
   },
   isNotes(val, errRes){
-      return true
+      return !!val
   }
 }

@@ -45,9 +45,7 @@
             div &nbsp;
             button(@click='logout') log out
     .breathing
-    label.bg card id: {{ $store.getters.contextCard.taskId }}
-    br
-    label.bg server onion: {{ $store.state.cash.address }}
+    connect
 </template>
 
 <script>
@@ -55,8 +53,10 @@ import cryptoUtils from '../crypto'
 import Current from './Current'
 import Lightning from './Lightning'
 import MemberRow from './MemberRow'
+import Connect from './Connect'
+
 export default {
-    components: {Current, MemberRow, Lightning},
+    components: {Current, MemberRow, Lightning, Connect},
     data() {
       return {
         change: {

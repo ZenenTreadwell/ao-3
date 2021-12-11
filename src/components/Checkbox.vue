@@ -1,6 +1,8 @@
 <template lang='pug'>
+// this component logic is overloaded because it is used as checkbox on priorities and on current card
 .checkbox(ref='checkbox'  :id='uuid')
-    span(v-if='$store.getters.contextCard.taskId === b.taskId')
+    span(v-if='$store.getters.contextMember.memberId === b.taskId')
+    span(v-else-if='$store.getters.contextCard.taskId === b.taskId')
         img.checkmark.doge(v-if='isCompleted'  src='../assets/images/doge.svg')
         img.checkmark.doge.incomplete(v-else  src='../assets/images/doge.svg')
     span(v-else)

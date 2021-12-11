@@ -1,31 +1,41 @@
 <template lang='pug'>
 
 .Connect
-    div(v-for='(r, i) in $store.state.ao')
-        h6
-            span(@click='goIn(r.address)') {{ r.address }}
-            span -
-            span.discon(@click='discon(r.address)') disconnect
-    .section ao connect
+    label.bg card id: {{ $store.getters.contextCard.taskId }}
+    select(v-model='sendTo')
+        option(value='') send
+        option(v-for='w in $store.state.ao' :value='w.address') {{w.address}}
+    br
+    button(v-if='sendTo'  @click='trySend') send
+    code.click(@click='showSecr') show connection info:
+        span(v-if='showSecret')
+            br
+            label.bg &nbsp;&nbsp;&nbsp;onion {{ $store.state.cash.address }}
+            br
+            label.bg &nbsp;&nbsp;&nbsp;code {{ $store.state.loader.token }}
+    //- div(v-for='(r, i) in $store.state.ao')
+    //-     h6
+    //-         span(@click='goIn(r.address)') {{ r.address }}
+    //-         span -
+    //-         span.discon(@click='discon(r.address)') disconnect
     .input-container
         input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
-        label connect to address
+        label connect onion
     .input-container(v-if='ao.address.length > 0')
         input.input-effect(v-model='ao.secret' type='text'  :class='{"has-content":!!ao.secret}')
-        label.input-effect connection code
+        label.input-effect connect code
     button(v-if='ao.secret.length > 0'  @click='connect') connect
-    code.click(@click='showSecr') reveal connection info:
-        span(v-if='showSecret')
-            div address: {{ $store.state.cash.address }}
-            div code: {{ $store.state.loader.token }}
+
 </template>
 
 <script>
+import calcs from '../calculations'
 import Tag from './Tag'
 export default {
     components: {Tag},
     data() {
         return {
+            sendTo:'',
             showAddress: false,
             showSecret: false,
             aoNamed: {
@@ -40,6 +50,25 @@ export default {
         }
     },
     methods: {
+        trySend(){
+            let tasks = []
+            if (this.$store.getters.contextMember){
+                tasks = this.$store.state.tasks.filter(t => t.deck.indexOf(this.$store.getters.contextMember.memberId) > -1)
+            } else {
+                let taskList = calcs.crawler(this.$store.state.tasks, this.$store.getters.contextCard.taskId)
+                tasks = this.$store.state.tasks.filter(t => taskList.indexOf(t.taskId) > -1)
+            }
+            console.log('sending', tasks.length, 'tasks to', this.sendTo)
+            this.$store.dispatch('makeEvent', {
+                type: 'ao-relay',
+                address: this.sendTo,
+                ev:{
+                    type: 'tasks-received',
+                    tasks
+                }
+            })
+
+        },
         showSecr(){
             this.showSecret = true
             setTimeout(() => this.showSecret = false,25000)

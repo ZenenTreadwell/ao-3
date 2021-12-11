@@ -33,6 +33,7 @@ router.post('/events', (req, res, next)=>{
           ) {
             events.memberPurged(
               req.body.memberId,
+              req.body.blame,
               utils.buildResCallback(res)
             )
           } else {
@@ -84,20 +85,6 @@ router.post('/events', (req, res, next)=>{
                       )
                   })
               .catch(console.log)
-          }
-          break
-      case "ao-link-disconnected":
-          if (
-            validators.isTaskId(req.body.taskId, errRes) &&
-            validators.isAddress(req.body.address, errRes)
-          ) {
-            events.aoLinkDisconnected(
-                req.body.taskId,
-                req.body.address,
-                utils.buildResCallback(res)
-            )
-          } else {
-            res.status(400).send(errRes);
           }
           break
       case "task-seized":
@@ -201,16 +188,6 @@ router.post('/events', (req, res, next)=>{
               res.status(400).send(errRes);
           }
           break
-      case 'ao-linked':
-          if (
-              validators.isAddress(req.body.address, errRes) &&
-              validators.isTaskId(req.body.taskId)
-          ){
-              events.aoLinked(req.body.address, req.body.taskId, utils.buildResCallback(res))
-          } else {
-              res.status(400).send(errRes)
-          }
-          break
       case 'highlighted':
           if (
               validators.isTaskId(req.body.taskId, errRes) &&
@@ -267,11 +244,11 @@ router.post('/events', (req, res, next)=>{
           console.log('connecting outbound')
           connector.postEvent(req.body.address, req.body.secret, {
               type: 'ao-inbound-connected',
-              address: state.serverState.cash.address,
+              address: 'laxktzxfnzcujob4gqca35nxlbdghfrnr4gtisk3lvbrrod2kw5xyvid.onion' ,// state.serverState.cash.address,
               secret: req.body.secret, //
-          }, (subscriptionResponse) => {
+          }, (err, subscriptionResponse) => {
               console.log('got response from other ao:', {subscriptionResponse})
-              if (!subscriptionResponse.result.lastInsertRowid){
+              if (err || !subscriptionResponse  || !subscriptionResponse.result.lastInsertRowid){
                   return res.status(200).send(['ao-connect failed'])
               }
               console.log('subscribe success, attempt ao connect')
@@ -283,6 +260,7 @@ router.post('/events', (req, res, next)=>{
           })
           break
       case 'ao-inbound-connected':
+          console.log('ao-inbound-connected attempted')
           if (
               validators.isNotes(req.body.address, errRes) &&
               validators.isNotes(req.body.secret, errRes)
@@ -295,7 +273,7 @@ router.post('/events', (req, res, next)=>{
           } else {
               res.status(400).send(errRes)
           }
-          breakmemberCreated
+          break
       case 'ao-relay':
           let secret
           state.serverState.ao.forEach(a => {
@@ -303,7 +281,7 @@ router.post('/events', (req, res, next)=>{
                   secret = a.outboundSecret
               }
           })
-          if (secret){
+          if (secret){        
               connector.postEvent(req.body.address, secret, req.body.ev, (connectorRes) => {
                   console.log("ao relay response", {connectorRes})
               })

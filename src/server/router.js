@@ -34,6 +34,7 @@ module.exports = function applyRouter(app){
         res.json(state.serverState.tasks)
     })
     app.post('/taskhash/:taskId', (req, res)=> {
+        // dos potential (it's behind auth but still bad?)
         res.end( calculations.crawlerHash(state.serverState.tasks, req.params.taskId) )
     })
 }

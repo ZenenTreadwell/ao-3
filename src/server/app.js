@@ -45,10 +45,12 @@ function startDctrlAo(){
           const server = app.listen(PORT, err => {
               console.log("ao available at", chalk.blue.bold("http://localhost:" + PORT))
 
-              connector.checkHash(conf.tor.hostname, 'wrong', 'wrroonng', (err, resulthash) => {
-                  if (err === 'unauthorized'){
-                      console.log("ao available at", chalk.blue.bold(conf.tor.hostname))
-                  }
+              if (conf.hostnames) conf.hostnames.forEach(x => {
+                  // connector.checkHash(conf.tor.hostname, 'wrong', 'wrroonng', (err, resulthash) => {
+                  //   if (err === 'unauthorized'){
+                  //     console.log("ao available at", chalk.blue.bold(conf.tor.hostname))
+                  //   }
+                  // })
               })
 
               const io = socketIo(server)

@@ -25,7 +25,7 @@ function baseState(){
       resources: [],
       cash: {
         publicKey,
-        address: config.tor.hostname,
+        address: '',
         alias: '',
         currency: 'CAD',
         spot: 0,
