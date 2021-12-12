@@ -17,7 +17,6 @@ var i = -1
 module.exports = function(callback){
     controlClient.on('data', (x) => {
         i ++
-        console.log(i)
         if (i ===0){
           controlClient.write("GETCONF HiddenServicePort \r\n")
         } else if (i === 1) {
@@ -25,7 +24,6 @@ module.exports = function(callback){
           controlClient.write("GETCONF HiddenServiceDir \r\n")
         } else if (i === 2){
           hiddenServiceDirSplit = splitFromBuffer(x)
-          console.log({hiddenServicePortSplit, hiddenServiceDirSplit})
           onion = checkCurrentPortHasConfigAndReturnOnion(hiddenServicePortSplit, hiddenServiceDirSplit, PORT)
           if (!onion){
             let newConf = buildNewConfString(hiddenServicePortSplit, hiddenServiceDirSplit, PORT)
@@ -83,7 +81,6 @@ function buildNewConfString(hiddenServicePortSplit, hiddenServiceDirSplit, port)
     conffy += alternate.join(' ')
     conffy += " HiddenServiceDir=" + targetDir + " "
     conffy += " HiddenServicePort=\"80 127.0.0.1:" + port + "\""
-    console.log(conffy)
     return conffy
 }
 
@@ -94,7 +91,6 @@ function checkCurrentPortHasConfigAndReturnOnion(hiddenServicePortSplit, hiddenS
         if (x.indexOf(port) > -1){
             let directory = hiddenServiceDirSplit[i].slice(17)
             onion = fs.readFileSync(directory + '/hostname', {encoding:'utf8'})
-            console.log(onion)
         }
     })
 

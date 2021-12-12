@@ -6,6 +6,7 @@ const uuidV1 = require('uuid/v1')
 const dbengine = require( 'better-sqlite3')
 const config = require('../../configuration')
 const cryptoUtils = require('../crypto')
+const chalk = require('chalk')
 
 const preparedStmts = {};
 
@@ -128,7 +129,7 @@ function startDb(callback){
     conn = dbengine(dblocation, { });
     var checkTable = conn.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='events'");
 
-    console.log('using database', dblocation)
+    console.log('loading ', chalk.bold.red(dblocation))
     if(checkTable.all().length == 0){
        initializeSqlite(callback);
     } else {

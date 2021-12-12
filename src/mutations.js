@@ -270,7 +270,6 @@ function hashMapMuts(hashMap, ev){
     switch(ev.type){
         case "ao-outbound-connected":
             if (!hashMap[ev.address]) {
-                console.log('outbound refering hashmap', ev.i)
                 hashMap[ev.address] = ev.i
             }
             break
@@ -354,7 +353,6 @@ function tasksMuts(tasks, ev) {
             }
         })
         if (!isExist){
-            console.log('creating address connect card')
             tasks.push(calculations.blankCard(ev.address, ev.address, 'blue', ev.timestamp))
         } else {
             console.log('found', ev.address)

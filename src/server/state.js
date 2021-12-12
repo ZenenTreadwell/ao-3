@@ -16,7 +16,7 @@ try {
     console.log(chalk.red('key import error from', config.privateKey), err)
 }
 
-function baseState(address){
+function baseState(){
     return {
       hashMap: {},
       ao: [],
@@ -26,7 +26,7 @@ function baseState(address){
       resources: [],
       cash: {
         publicKey,
-        address,
+        address: '',
         alias: '',
         currency: 'CAD',
         spot: 0,
@@ -41,8 +41,8 @@ function baseState(address){
     }
 }
 
-var serverState = baseState()
-var pubState = baseState()
+const serverState = baseState()
+const pubState = baseState()
 
 function setCurrent(state, b){
     modules.cash.mutations.setCurrent(state.cash, b)
@@ -77,8 +77,9 @@ function applyEvent(state, ev) {
 function initialize(callback) {
     let start = Date.now()
     torControl( (err, onion) => {
-      serverState = baseState(onion)
-      pubState = baseState(onion)
+      console.log(chalk.bold.blue(onion))
+      serverState.cash.address = onion
+      pubState.cash.address = onion
       dctrlDb.recover((err, backup) => {
             let ts = 0
             if (backup.length > 0){
