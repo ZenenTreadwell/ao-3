@@ -308,11 +308,12 @@ function taskCreated(name, color, deck, inId, memberId, callback) {
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function addressUpdated(taskId, btcAddr, callback){
+function addressUpdated(taskId, btcAddr, blame, callback){
       dctrlDb.insertEvent({
           type: "address-updated",
           taskId,
           btcAddr,
+          blame,
       }, callback)
 }
 

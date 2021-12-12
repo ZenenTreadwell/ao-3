@@ -77,10 +77,10 @@ router.post('/events', (req, res, next)=>{
           if (validators.isTaskId(req.body.taskId, errRes)){
               lightning.newAddress()
                   .then(result => {
-                      console.log({result})
                       events.addressUpdated(
                         req.body.taskId,
                         result['bech32'],
+                        req.body.blame,
                         utils.buildResCallback(res)
                       )
                   })
@@ -247,7 +247,7 @@ router.post('/events', (req, res, next)=>{
               address: state.serverState.cash.address,
               secret: req.body.secret, //
           }, (err, subscriptionResponse) => {
-              console.log('got response from other ao:', {subscriptionResponse})
+              console.log('got response from other ao:', {err, subscriptionResponse})
               if (err || !subscriptionResponse  || !subscriptionResponse.result.lastInsertRowid){
                   return res.status(200).send(['ao-connect failed'])
               }
@@ -485,8 +485,8 @@ router.post('/events', (req, res, next)=>{
           break
       case 'task-guilded':
           if (
-              validators.isTaskId(req.body.taskId, errRes) &&
-              validators.isNotes(req.body.guild, errRes)
+              validators.isTaskId(req.body.taskId, errRes) // &&
+              // validators.isNotes(req.body.guild, errRes) // fix the validator break the app
           ){
               events.taskGuilded(
                 req.body.taskId,

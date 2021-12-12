@@ -18,7 +18,7 @@ bitClient.getBlockchainInfo().then(x => {
     if (x.initialblockdownload){
         console.log('Initial bitcoin sync detected', chalk.red((100 * x.verificationprogress).toFixed(2)), '% complete')
     } else {
-        console.log(chalk.yellow(x.blocks.toLocaleString()), 'bitcoin blocks')
+        console.log('validated', x.blocks.toLocaleString(), 'bitcoin blocks')
     }
 }).catch( err => {
     console.log(chalk.red('cannot connect to bitcoind'))

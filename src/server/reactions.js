@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const cryptoUtils = require('../crypto')
 const { getResource } = require( './utils')
 const events = require( './events')
@@ -32,6 +33,10 @@ function checkForChargedEvent( resourceId ){
     })
     return charged
 }
+
+let channelSatTotalTracker = 0
+let outputSatTotalTracker = 0
+let mostRecentAccount = null
 
 function reactions(ev){
     process.nextTick( err => {
@@ -105,6 +110,48 @@ function reactions(ev){
             case 'resource-created':
                 break
             case 'member-created':
+                break
+            case 'get-node-info':
+                let channelReducer = (accumulator,current) => accumulator + current.channel_sat
+                let outputReducer = (accumulator,current) => {
+                    if (current.status !== "confirmed"){
+                        return accumulator
+                    }
+                    return accumulator + current.value
+                }
+                let totalInChannels = ev.info.channels.reduce(channelReducer, 0)
+                let totalInOutputs = ev.info.outputs.reduce(outputReducer, 0)
+                let changeLightning = totalInChannels - channelSatTotalTracker
+                let changeChain = totalInOutputs - outputSatTotalTracker
+                if (changeLightning === totalInChannels){
+                    console.log(chalk.bold.yellow(totalInChannels.toLocaleString()), "lightning sats")
+                } else if (changeLightning > 0){
+                    console.log(chalk.bold.yellow(totalInChannels.toLocaleString()), "lightning sats", chalk.bold.green('+', changeLightning ))
+                } else if (changeLightning < 0){
+                    console.log(chalk.bold.yellow(totalInChannels.toLocaleString()), "lightning sats", chalk.bold.red('-', - changeLightning ))
+                }
+                if (changeChain === totalInOutputs){
+                    console.log(chalk.bold.yellow(totalInOutputs.toLocaleString()), "chain sats")
+                } else if (changeChain > 0){
+                    console.log(chalk.bold.yellow(totalInOutputs.toLocaleString()), "chain sats", chalk.bold.green('+', changeChain))
+                } else if (changeChain < 0){
+                    console.log(chalk.bold.yellow(totalInOutputs.toLocaleString()), "chain sats", chalk.bold.red('-', - changeChain))
+                }
+                outputSatTotalTracker = totalInOutputs
+                channelSatTotalTracker = totalInChannels
+                break
+            default:
+                let name = '~'
+                serverState.members.some(m => {
+                    if (ev.blame === m.memberId  || ev.memberId === m.memberId){
+                        name = m.name
+                        return true
+                    }
+                })
+                if (mostRecentAccount !== name){
+                    mostRecentAccount = name
+                    console.log(chalk.bold.magenta(name), 'did', chalk.bold.green(ev.type))
+                }
                 break
         }
     })

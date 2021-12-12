@@ -77,6 +77,7 @@ function applyEvent(state, ev) {
 function initialize(callback) {
     let start = Date.now()
     torControl( (err, onion) => {
+      if (onion) onion = onion.trim()
       console.log(chalk.bold.blue(onion))
       serverState.cash.address = onion
       pubState.cash.address = onion
@@ -90,19 +91,13 @@ function initialize(callback) {
             dctrlDb.getAll(ts, (err, all) => {
                 if (err) return callback(err)
                 all.forEach( ev => {
-                    // this fix is not needed with the integrity check below
-                    // if ((ev.type === 'task-created' || ev.type === 'member-created'  || ev.type === 'resource-created'  || ev.type === 'ao-outbound-connected'  || ev.type === 'ao-inbound-connected')  && ev.i !== serverState.tasks.length){
-                    //     // this mismatch can occur because of manual interventions in the database
-                    //     // this is required because the mutations not atomic; it is wrong
-                    //     ev.i = serverState.tasks.length
-                    // }
                     applyEvent(serverState, Object.assign({}, ev) )
                     applyEvent(pubState, removeSensitive( Object.assign({}, ev) ))
                 })
-                console.log('current state built in', Date.now() - start, 'ms with',
-                    chalk.green(serverState.tasks.length), 'cards',
-                    chalk.green(serverState.members.length), 'accounts and',
-                    chalk.green(serverState.resources.length), 'resources'
+                console.log('current state: \n',
+                    chalk.bold.green(serverState.tasks.length, 'cards \n'),
+                    chalk.bold.magenta(serverState.members.length, 'accounts \n'),
+                    chalk.bold.red(serverState.resources.length, 'resources')
                 )
 
                 // integrity check on hashMap (hashMap is broked)
