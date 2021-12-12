@@ -661,13 +661,13 @@ function tasksMuts(tasks, ev) {
         }
       })
       tasks.forEach(t => {
-        t.subTasks = t.subTasks.filter(st => st !== ev.memberId)
-        t.priorities = t.priorities.filter(st => st !== ev.memberId)
-        t.completed = t.completed.filter(st => st !== ev.memberId)
-        t.claimed = t.claimed.filter(st => st !== ev.memberId )
-        t.claims = t.claims.filter(cl => cl.taskId !== ev.memberId)
-        t.deck = t.deck.filter(st => st !== ev.memberId)
-        if (t.book & (t.book.resourceId === ev.memberId || t.book.memberId === ev.memberId)) t.book = {}
+          t.subTasks = _.filter(t.subTasks, st => st !== ev.memberId)
+          t.priorities = _.filter(t.priorities, st => st !== ev.memberId)
+          t.completed = _.filter(t.completed, st => st !== ev.memberId)
+          t.claimed = _.filter(t.claimed, st => st !== ev.memberId )
+          t.claims = _.filter(t.claims, cl => cl.memberId !== ev.memberId)
+          t.deck = _.filter(t.deck, st => st !== ev.memberId)
+          if (t.book & (t.book.resourceId === ev.memberId || t.book.memberId === ev.memberId)) t.book = {}
       })
       break
     case "task-removed":

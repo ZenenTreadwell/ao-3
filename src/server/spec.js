@@ -244,7 +244,7 @@ router.post('/events', (req, res, next)=>{
           console.log('connecting outbound')
           connector.postEvent(req.body.address, req.body.secret, {
               type: 'ao-inbound-connected',
-              address: 'laxktzxfnzcujob4gqca35nxlbdghfrnr4gtisk3lvbrrod2kw5xyvid.onion' ,// state.serverState.cash.address,
+              address: state.serverState.cash.address,
               secret: req.body.secret, //
           }, (err, subscriptionResponse) => {
               console.log('got response from other ao:', {subscriptionResponse})
@@ -281,7 +281,7 @@ router.post('/events', (req, res, next)=>{
                   secret = a.outboundSecret
               }
           })
-          if (secret){        
+          if (secret){
               connector.postEvent(req.body.address, secret, req.body.ev, (connectorRes) => {
                   console.log("ao relay response", {connectorRes})
               })

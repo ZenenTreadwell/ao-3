@@ -6,6 +6,7 @@ const config = require( '../../configuration')
 const crypto = require('../crypto')
 const chalk = require('chalk')
 const fs = require('fs')
+const torControl = require('./torControl')
 
 let publicKey
 try {
@@ -15,7 +16,7 @@ try {
     console.log(chalk.red('key import error from', config.privateKey), err)
 }
 
-function baseState(){
+function baseState(address){
     return {
       hashMap: {},
       ao: [],
@@ -25,7 +26,7 @@ function baseState(){
       resources: [],
       cash: {
         publicKey,
-        address: '',
+        address,
         alias: '',
         currency: 'CAD',
         spot: 0,
@@ -40,8 +41,8 @@ function baseState(){
     }
 }
 
-const serverState = baseState()
-const pubState = baseState()
+var serverState = baseState()
+var pubState = baseState()
 
 function setCurrent(state, b){
     modules.cash.mutations.setCurrent(state.cash, b)
@@ -75,43 +76,48 @@ function applyEvent(state, ev) {
 
 function initialize(callback) {
     let start = Date.now()
-    dctrlDb.recover((err, backup) => {
-          let ts = 0
-          if (backup.length > 0){
-              ts = backup[0].timestamp
-              console.log(chalk.green('using backup from ', Date(ts)))
-              applyBackup(backup[0])
-          }
-          dctrlDb.getAll(ts, (err, all) => {
-              if (err) return callback(err)
-              all.forEach( ev => {
-                  // this fix is not needed with the integrity check below
-                  // if ((ev.type === 'task-created' || ev.type === 'member-created'  || ev.type === 'resource-created'  || ev.type === 'ao-outbound-connected'  || ev.type === 'ao-inbound-connected')  && ev.i !== serverState.tasks.length){
-                  //     // this mismatch can occur because of manual interventions in the database
-                  //     // this is required because the mutations not atomic; it is wrong
-                  //     ev.i = serverState.tasks.length
-                  // }
-                  applyEvent(serverState, Object.assign({}, ev) )
-                  applyEvent(pubState, removeSensitive( Object.assign({}, ev) ))
-              })
-              console.log('current state built in', Date.now() - start, 'ms with',
-                  chalk.green(serverState.tasks.length), 'cards',
-                  chalk.green(serverState.members.length), 'accounts and',
-                  chalk.green(serverState.resources.length), 'resources'
-              )
+    torControl( (err, onion) => {
+      serverState = baseState(onion)
+      pubState = baseState(onion)
+      dctrlDb.recover((err, backup) => {
+            let ts = 0
+            if (backup.length > 0){
+                ts = backup[0].timestamp
+                console.log(chalk.green('using backup from ', Date(ts)))
+                applyBackup(backup[0])
+            }
+            dctrlDb.getAll(ts, (err, all) => {
+                if (err) return callback(err)
+                all.forEach( ev => {
+                    // this fix is not needed with the integrity check below
+                    // if ((ev.type === 'task-created' || ev.type === 'member-created'  || ev.type === 'resource-created'  || ev.type === 'ao-outbound-connected'  || ev.type === 'ao-inbound-connected')  && ev.i !== serverState.tasks.length){
+                    //     // this mismatch can occur because of manual interventions in the database
+                    //     // this is required because the mutations not atomic; it is wrong
+                    //     ev.i = serverState.tasks.length
+                    // }
+                    applyEvent(serverState, Object.assign({}, ev) )
+                    applyEvent(pubState, removeSensitive( Object.assign({}, ev) ))
+                })
+                console.log('current state built in', Date.now() - start, 'ms with',
+                    chalk.green(serverState.tasks.length), 'cards',
+                    chalk.green(serverState.members.length), 'accounts and',
+                    chalk.green(serverState.resources.length), 'resources'
+                )
 
-              // integrity check on hashMap (hashMap is broked)
-              pubState.tasks.forEach( (t, i) => {
-                  if (pubState.hashMap[t.taskId] !== i) {
-                    // console.log('!! how is the map being broken???', t.name, 'fixing?')
-                    pubState.hashMap[t.taskId] = i
-                    serverState.hashMap[t.taskId] = i
-                  }
-              })
+                // integrity check on hashMap (hashMap is broked)
+                pubState.tasks.forEach( (t, i) => {
+                    if (pubState.hashMap[t.taskId] !== i) {
+                      // console.log('!! how is the map being broken???', t.name, 'fixing?')
+                      pubState.hashMap[t.taskId] = i
+                      serverState.hashMap[t.taskId] = i
+                    }
+                })
 
-              callback(null)
-          })
+                callback(null)
+            })
+      })
     })
+
 }
 
 function backupState(){
