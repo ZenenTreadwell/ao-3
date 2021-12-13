@@ -144,5 +144,8 @@ module.exports = {
   },
   isNotes(val, errRes){
       return !!val
+  },
+  yesSir(){
+      return true
   }
 }

@@ -192,9 +192,9 @@ export default createStore({
       uniqGuilds(state, getters) {
           let uniq = []
           return getters.guilds.filter(g => {
-              let isUniq = uniq.indexOf(g.guild) === -1
-              if (isUniq){
-                  uniq.push(g.guild)
+              let baseG = g.guild.split(':')[0]
+              if (baseG && uniq.indexOf(baseG) === -1){
+                  uniq.push(baseG)
                   return true
               }
               return false

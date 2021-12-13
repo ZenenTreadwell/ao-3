@@ -2,10 +2,6 @@
 
 .priority(@click='goIn(taskId)'  draggable="true"  :ondrop.stop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart')
     .row.agedwrapper(:class='cardInputSty')
-        img.front.nopad(v-if='card.guild'  src="../assets/images/badge.svg")
-        span.front.nudge(v-if='card.guild')  {{ card.guild }}
-        img.left.front(v-if='isMember' src="../assets/images/doge.svg")
-        span(v-if='isMember') {{ isMember }}
         .check()
             img.checkmark.right.front(v-if='isCompleted' src='../assets/images/completed.svg'  @click.stop='checky')
             img.checkmark.right.front(v-else-if='!isCompleted' src='../assets/images/uncompleted.svg'  @click.stop='checky')
@@ -20,7 +16,13 @@
                     span {{ clockworkblue.seconds }}
             img.checkmark.right.front(:class='{notaction: $store.getters.member.action !== card.taskId}'  src='../assets/images/hourglass.svg'  @click.stop='toggleActive')
         tally.right.front.lesspadding(:b='card'  isPriority='1')
-        linky.cardname.front(v-if='!isMember'  :x='card.name')
+        span(v-if='isMember')
+            img.left.front.darkcircle(src="../assets/images/doge.svg")
+            span.downshift {{ isMember }}
+        span(v-else-if='card.guild')
+            img.front.nopad.darkcircle(v-if='card.guild'  src="../assets/images/badge.svg")
+            span.front.nudge.downshift(v-if='card.guild')  {{ card.guild }}
+        linky.cardname.front(v-else-if='!isMember'  :x='card.name')
     preview-deck(:task='card')
 </template>
 
@@ -253,6 +255,17 @@ export default {
 <style lang='stylus' scoped>
 
 @import '../styles/colours'
+
+img.darkcircle
+    height: 1.1em
+    float: left
+    padding: 0em 0.1em 0.1em 0.1em
+    background: main
+    border-radius: 50%
+    margin-right: 0.61em
+
+.downshift
+    padding-top: 0.3em
 
 img.checkmark.right.front.notaction
     opacity: .1773

@@ -105,8 +105,8 @@ router.post('/events', (req, res, next)=>{
           if (
             validators.isTaskId(req.body.taskId, errRes) &&
             validators.isNotes(req.body.stack, errRes)  &&
-            validators.isNotes(req.body.position, errRes) &&
-            validators.isNotes(req.body.value, errRes)
+            validators.yesSir(req.body.position, errRes) &&
+            validators.yesSir(req.body.value, errRes)
           ) {
             events.taskTouched(
               req.body.taskId,
@@ -351,7 +351,7 @@ router.post('/events', (req, res, next)=>{
           if (
               validators.isMemberId(req.body.memberId, errRes) &&
               validators.isField(req.body.field, errRes) &&
-              validators.isNotes(req.body.newfield, errRes)
+              validators.yesSir(req.body.newfield, errRes)
           ){
               events.memberFieldUpdated(
                   req.body.memberId,
@@ -414,7 +414,7 @@ router.post('/events', (req, res, next)=>{
             validators.isMemberId(req.body.memberId, errRes) &&
             validators.isAmount(req.body.amount, errRes) &&
             validators.isAmount(req.body.paid, errRes) &&
-            validators.isNotes(req.body.notes, errRes)
+            validators.yesSir(req.body.notes, errRes)
           ){
             events.resourceStocked(
                 req.body.resourceId,
@@ -432,11 +432,11 @@ router.post('/events', (req, res, next)=>{
           if (
             validators.isTaskId(req.body.resourceId, errRes) &&
             validators.isMemberId(req.body.blame, errRes) &&
-            validators.isNotes(req.body.startTs, errRes) &&
-            validators.isNotes(req.body.endTs, errRes) &&
+            validators.yesSir(req.body.startTs, errRes) &&
+            validators.yesSir(req.body.endTs, errRes) &&
             validators.isNotes(req.body.eventType, errRes) &&
-            validators.isNotes(req.body.charge, errRes) &&
-            validators.isNotes(req.body.notes, errRes)
+            validators.yesSir(req.body.charge, errRes) &&
+            validators.yesSir(req.body.notes, errRes)
           ){
             events.resourceBooked(
               req.body.resourceId,
@@ -485,8 +485,8 @@ router.post('/events', (req, res, next)=>{
           break
       case 'task-guilded':
           if (
-              validators.isTaskId(req.body.taskId, errRes) // &&
-              // validators.isNotes(req.body.guild, errRes) // fix the validator break the app
+              validators.isTaskId(req.body.taskId, errRes) &&
+              validators.yesSir(req.body.guild, errRes)
           ){
               events.taskGuilded(
                 req.body.taskId,

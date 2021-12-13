@@ -6,7 +6,7 @@
         img.floatleft(v-else  src='../assets/images/badge.svg')
     span()
         //- span(v-if='p.taskId === $store.getters.contextCard.taskId') &#9829;
-        span(:class='{selected: p.taskId === $store.getters.contextCard.taskId}').nl.gui.smaller {{ p.guild }}
+        span(:class='{selected: p.taskId === $store.getters.contextCard.taskId}').nl.gui.smaller {{ p.guild.split(':')[0] }}
         //- span(v-if='p.taskId === $store.getters.contextCard.taskId') &nbsp;&#9829;
 </template>
 
@@ -79,7 +79,9 @@ export default {
 
             // add same pin to context
             this.$store.getters.guilds.forEach(g => {
-                if (g.guild === t.guild  && g.taskId !== t.taskId){
+                let baseG = g.guild.split(':')[0]
+                let baseT = t.guild.split(':')[0]
+                if (baseG === baseT  && g.taskId !== t.taskId){
                     parents.push(g.taskId)
                 }
             })
