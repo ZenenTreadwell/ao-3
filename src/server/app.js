@@ -21,7 +21,6 @@ const app = express()
 applyRouter(app)
 startDctrlAo()
 
-let mostRecentAccount = null
 
 function startDctrlAo(){
     dctrlDb.startDb( (err, conn) => {
@@ -37,9 +36,8 @@ function startDctrlAo(){
           lightning.recordEveryInvoice(state.serverState.cash.pay_index)
           lightning.watchOnChain()
 
-          const serverReactions = dctrlDb.changeFeed
+          dctrlDb.changeFeed
               .onValue( ev => state.applyEvent(state.serverState, ev))
-              // .onValue(reactions)
 
           const server = app.listen(PORT, err => {
               console.log(chalk.blue.bold("http://localhost:" + PORT))
@@ -48,17 +46,13 @@ function startDctrlAo(){
                   authenticate: socketAuth,
                   timeout: 2345,
               })
-              const fullEvStream = Kefir.merge([
+              Kefir.merge([
                   dctrlDb.changeFeed.map(state.removeSensitive),
                   dctrlDb.shadowFeed
-              ])
-
-              fullEvStream
-                  .onValue( ev => {
-                        state.applyEvent(state.pubState, ev)
-                        io.emit('eventstream', ev)
-                  })
-                  .onValue(reactions)
+              ]).onValue( ev => {
+                  state.applyEvent(state.pubState, ev)
+                  io.emit('eventstream', ev)
+              }).onValue(reactions)
           })
         })
     })

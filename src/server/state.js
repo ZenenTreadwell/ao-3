@@ -95,6 +95,7 @@ function initialize(callback) {
                     applyEvent(pubState, removeSensitive( Object.assign({}, ev) ))
                 })
                 console.log('current state: \n',
+                    chalk.bold.cyan(all.length, 'events \n'),
                     chalk.bold.green(serverState.tasks.length, 'cards \n'),
                     chalk.bold.magenta(serverState.members.length, 'accounts \n'),
                     chalk.bold.red(serverState.resources.length, 'resources')
