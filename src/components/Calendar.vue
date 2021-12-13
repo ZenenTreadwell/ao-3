@@ -20,7 +20,7 @@
           .soft.bg(v-for='n in selectedDaysEvs')
               span(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId, n.inId)')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }} &nbsp;
-                  span(v-if='checkIsMember(n.memberId) || n.taskId === $store.getters.contextCard.taskId')
+                  span(v-if='n.taskId === $store.getters.contextCard.taskId')
                       img.completedcheckmark.dark(src='../assets/images/doge.svg')
                       span {{ checkIsMember(n.memberId) }}
                   span(v-else)
