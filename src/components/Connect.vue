@@ -4,28 +4,19 @@
     label.bg card id: {{ $store.getters.contextCard.taskId }}
     select(v-model='sendTo')
         option(value='') send
-        option(v-for='w in $store.state.ao' :value='w.address') {{w.address}}
+        option(v-for='w in $store.state.ao' :value='w.address'  :disabled='w.outboundSecret===false')
+            span(@click='copyAddress(w.address)') {{w.address}}
     br
     button(v-if='sendTo'  @click='trySend') send
-    code.click(@click='showSecr') show connection info:
-        span(v-if='showSecret')
-            br
-            label.bg &nbsp;&nbsp;&nbsp;onion {{ $store.state.cash.address }}
-            br
-            label.bg &nbsp;&nbsp;&nbsp;code {{ $store.state.loader.token }}
-    //- div(v-for='(r, i) in $store.state.ao')
-    //-     h6
-    //-         span(@click='goIn(r.address)') {{ r.address }}
-    //-         span -
-    //-         span.discon(@click='discon(r.address)') disconnect
     .input-container
         input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
-        label connect onion
-    .input-container(v-if='ao.address.length > 0')
-        input.input-effect(v-model='ao.secret' type='text'  :class='{"has-content":!!ao.secret}')
-        label.input-effect connect code
-    button(v-if='ao.secret.length > 0'  @click='connect') connect
-
+        label connect string
+    button(v-if='ao.address.length > 0'  @click='connect') connect
+    code.click(@click='showSecr') our connect string:
+      span(v-show='showSecret')
+        br
+        label {{ $store.state.cash.address }}:{{ $store.state.loader.token }}
+        img.clippy(src='../assets/images/loggedOut.svg')
 </template>
 
 <script>
@@ -72,7 +63,26 @@ export default {
         showSecr(){
             this.showSecret = true
             setTimeout(() => this.showSecret = false,25000)
+            let secr = this.$store.state.cash.address + ':' + this.$store.state.loader.token
+            navigator.clipboard.writeText(secr)
+                .then(() => {
+                    //
+                })
+                .catch(err => {
+                    console.log(err, 'copy attempt failed, printing to console:')
+                    console.log(secr)
+                })
 
+        },
+        copyAddress(addr){
+          navigator.clipboard.writeText(addr)
+              .then(() => {
+                  //
+              })
+              .catch(err => {
+                  console.log(err, 'copy attempt failed, printing to console:')
+                  console.log(addr)
+              })
         },
         showAddr(x){
             if (x === this.showAddress) return this.showAddress = false
@@ -90,7 +100,19 @@ export default {
             this.$store.dispatch('makeEvent', this.aoNamed)
         },
         connect(){
-            this.$store.dispatch('makeEvent', this.ao)
+            let split = this.ao.address.split(':')
+            if (this.$store.state.ao.some(a => ( a.address === split[0] && a.outboundSecret !== false) ) ){
+                this.$store.dispatch('makeEvent', {
+                    type: "ao-disconnected",
+                    address: split[0],
+                })
+            } else {
+                this.$store.dispatch('makeEvent', {
+                    type: "ao-outbound-connected",
+                    address: split[0],
+                    secret: split[1],
+                })
+            }
             this.ao.address = ''
             this.ao.secret = ''
         },
@@ -113,6 +135,14 @@ export default {
 @import '../styles/grid'
 @import '../styles/button'
 @import '../styles/input'
+
+code label
+    font-size: 0.678em
+
+.clippy
+    height: 1em
+    display: inline-block;
+    cursor: pointer
 
 span
     text-align: center

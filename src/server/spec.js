@@ -247,7 +247,6 @@ router.post('/events', (req, res, next)=>{
               address: state.serverState.cash.address,
               secret: req.body.secret, //
           }, (err, subscriptionResponse) => {
-              console.log('got response from other ao:', {err, subscriptionResponse})
               if (err || !subscriptionResponse  || !subscriptionResponse.result.lastInsertRowid){
                   return res.status(200).send(['ao-connect failed'])
               }
@@ -666,8 +665,12 @@ router.post('/events', (req, res, next)=>{
           break
       case 'tasks-received':
           if (true) { // XXX
+              let safeTasks = req.body.tasks.map(t => { // hard question
+                  t.deck = []
+                  return t
+              })
               events.tasksReceived(
-                req.body.tasks,
+                safeTasks,
                 req.body.blame,
                 utils.buildResCallback(res))
           } else {

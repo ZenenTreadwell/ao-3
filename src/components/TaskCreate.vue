@@ -32,6 +32,7 @@
               col='20'
               @click.stop='tryGoIn'
           )
+          //- //"愛  любовь  عشق  love  사랑  Aşk  ਪਿਆਰ  အချစ်  ស្រឡាញ់  <3"
   span.hidden {{ refocusWatcher }}  {{ nameWatcher }}
       //- #btnpanel.btnpanel
       //-     div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')

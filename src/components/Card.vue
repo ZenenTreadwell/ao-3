@@ -601,8 +601,6 @@ label
 .hidden
     opacity: 0
 
-
-
 .clippy
     height: 1em
     display: inline-block;
