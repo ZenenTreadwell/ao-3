@@ -18,7 +18,20 @@ bitClient.getBlockchainInfo().then(x => {
     if (x.initialblockdownload){
         console.log('Initial bitcoin sync detected', chalk.red((100 * x.verificationprogress).toFixed(2)), '% complete')
     } else {
-        console.log('validated', x.blocks.toLocaleString(), 'bitcoin blocks')
+        let sats = 100000000
+        let halving = 210000
+        let supply = 0
+        let blocks = x.blocks
+        let reward = 50
+        while(blocks > halving){
+            supply += halving * reward
+            reward /= 2
+            blocks -= halving
+        }
+        supply += reward * blocks
+        console.log('validated supply of', (supply * sats).toLocaleString() , 'sats')
+        console.log('miner reward is', (reward * sats).toLocaleString(), 'sats')
+        console.log(Math.round((halving - blocks) * 10 / 60 / 24).toString() , 'days until the halvening' )
     }
 }).catch( err => {
     console.log(chalk.red('cannot connect to bitcoind'))

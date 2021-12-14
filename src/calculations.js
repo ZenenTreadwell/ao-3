@@ -103,6 +103,7 @@ function blankCard(taskId, name, color, createdTs, deck = [], priorities = []) {
             yellow: 0,
             green: 0,
             purple: 0,
+            completed: false,
         },
         payments: [],
     }

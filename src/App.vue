@@ -102,8 +102,8 @@ iframe
 .app
     background: #404040
     color: main
-    font-size: 1.12334455em
-    font-family: helvetica
+    font-size: 1.0912334455em
+    // font-family: helvetica
     min-height: 100vh
 
 .statement

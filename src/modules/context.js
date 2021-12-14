@@ -10,6 +10,7 @@ const state = {
 const mutations = {
     toggleCompleted(state){
         state.completed = !state.completed
+        console.log('toggle completed', state.completed)
     },
     setParent(state, p){
         state.parent = p
@@ -33,18 +34,10 @@ const mutations = {
 }
 
 const actions = {
-    goIn({state,commit}, pContext ){
+    goIn({commit}, pContext ){
         commit("setPanel", pContext.panel)
         commit("setTop", pContext.top)
-        if (pContext.parents.length > 0){
-            pContext.parents.forEach(p => {
-              if (state.panel[state.top] !== p){
-                commit("addParent", p)
-              }
-            })
-        } else {
-            commit("setParent", pContext.parents)
-        }
+        commit("setParent", pContext.parents)
         window.scrollTo(0, 0);
     },
     goUp({state, commit}, pContext){
@@ -56,6 +49,14 @@ const actions = {
         commit("setTop", pContext.top)
         window.scrollTo(0, 0);
     },
+    // goDeeper({commit, state}, taskId){
+    //     let p = state.parent
+    //     p.push(state.panel[0])
+    //     commit("setPanel", [taskId])
+    //     commit("setTop", 0)
+    //     commit("setParent", p)
+    //     window.scrollTo(0, 0);
+    // }
 }
 
 const getters = {}

@@ -54,15 +54,15 @@ export default {
     pointer-events: none;
 
 .redwxd
-    background: #22070d
+    background: #44292f
 .bluewxd
-    background: #070722
+    background: #33334E
 .greenwxd
-    background: #07220b
+    background: #28432C
 .yellowwxd
-    background: #221f07
+    background: #444129
 .purplewxd
-    background: #1d082c
+    background: #483357
 .blackwxd
     background: #1d082c
 .nowx

@@ -5,16 +5,18 @@
         .three.grid.ptr(:class='{bolder: m.memberId === $store.getters.member.memberId}')
             span(v-if='m.memberId === $store.getters.member.memberId')  &nbsp;&nbsp;&#9829;
             current(:memberId='m.memberId' @click.stop)
+            br
+            span.smaller(v-if='mia > 1') &nbsp;&nbsp; mia {{ mia }} days
         .one.grid(@click.stop)
             coin(:b='b')
         .eight.grid
-            span(v-for='x in rowsGuilds') {{x}} &nbsp;
+            span(v-for='x in rowsGuilds') {{x.split(':')[0]}} &nbsp;
             .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
                 img.boosted(src='../assets/images/hourglass.svg'  v-if='m.action'  @click.stop='goIn(m.action)')
                 span(v-if='!m.active'  @click.stop='deleteUser').hover.red delete
                 span(:class="{faded:b.boost <= 0}")
                     span  &nbsp; &nbsp;
-                    img.boosted(src='../assets/images/bitcoin.svg')
+                    img.boosted.doge(src='../assets/images/doge.svg')
 </template>
 
 <script>
@@ -65,19 +67,11 @@ export default {
             let panel = [taskId]
             let parents = [  ]
             let top = 0
-            //
-            if (this.$store.getters.contextCard.taskId){
-                parents.push(this.$store.getters.contextCard.taskId)
-            } else if (this.$store.getters.memberCard.taskId){
-                parents.push(this.$store.getters.memberCard.taskId)
-            }
-
             this.$store.dispatch("goIn", {
                 parents,
                 top,
                 panel
             })
-            // this.$store.commit("setMode", 0)
         },
         deleteUser(){
             this.$store.dispatch("makeEvent", {
@@ -102,6 +96,9 @@ export default {
         },
     },
     computed:{
+        mia(){
+            return Math.round((Date.now() - this.m.lastUsed) / 1000 / 60 / 60 / 24)
+        },
         isLoggedIn(){
             let isLoggedIn
             this.$store.state.sessions.forEach( s => {
@@ -151,6 +148,11 @@ export default {
 @import '../styles/skeleton'
 @import '../styles/grid'
 @import '../styles/spinners'
+
+.doge
+    background: main
+    border-radius: 50%
+    padding: .123em
 
 .red
     color: darkred
@@ -250,5 +252,8 @@ label
 
 .loggedIn
     opacity: 0.9
+
+.smaller
+    font-size: 0.78em
 
 </style>

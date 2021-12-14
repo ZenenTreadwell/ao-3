@@ -18,14 +18,18 @@ linky<template lang='pug'>
         span.ptr(@click='switchOpenColor("blue")')
             img.completedcheckmark( src='../assets/images/completed.svg'  :class='cardInputSty("blue")' )
             span.num(:class='{highlight: colorOpenSelect === "blue"}') {{ $store.getters.completedByColor.blue }}
-    div.ptr.bg(v-if='$store.getters.contextCard.highlights.length > 0' v-for='(c) in checkmarksColor'   @click='recallCard(c.taskId)')
-        img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color)' )
-        span &nbsp;
-        linky(:x='c.name' :class='{selectedCheckInList: c.name === $store.getters.selectedCheckCard.name}' )
-    div.ptr.bg(v-else-if='colorOpenSelect' v-for='(c) in checkmarksColor'   @click='recallCard(c.taskId)')
-        img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color)' )
-        span &nbsp;
-        linky(:x='c.name' :class='{selectedCheckInList: c.name === $store.getters.selectedCheckCard.name}' )
+        span.witchswitch
+            .switch(@click='tryToggle')
+                input(type="checkbox"  v-model='$store.getters.contextCard.stackView.completed')
+                span.slider.round
+    //- div.ptr.bg(v-if='$store.getters.contextCard.highlights.length > 0' v-for='(c) in checkmarksColor'   @click='recallCard(c.taskId)')
+    //-     img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color)' )
+    //-     span &nbsp;
+    //-     linky(:x='c.name' :class='{selectedCheckInList: c.name === $store.getters.selectedCheckCard.name}' )
+    //- div.ptr.bg(v-else-if='colorOpenSelect' v-for='(c) in checkmarksColor'   @click='recallCard(c.taskId)')
+    //-     img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty(c.color)' )
+    //-     span &nbsp;
+    //-     linky(:x='c.name' :class='{selectedCheckInList: c.name === $store.getters.selectedCheckCard.name}' )
 </template>
 
 <script>
@@ -41,6 +45,13 @@ export default {
   },
   components: { Linky, Coin },
   methods: {
+    tryToggle(){
+        this.$store.dispatch("makeEvent", {
+            type: "completed-toggled",
+            taskId: this.$store.getters.contextCard.taskId,
+        })
+        console.log('trytoggle?')
+    },
     switchOpenColor(color){
         if (this.colorOpenSelect === color){
             return this.colorOpenSelect = false
@@ -174,6 +185,13 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/grid'
+@import '../styles/switch'
+
+.witchswitch
+    margin-top: -1em
+
+.switch
+    ma
 
 .num
     padding: .37em

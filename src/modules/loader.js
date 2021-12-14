@@ -14,7 +14,6 @@ function attachSocket(commit, dispatch, callback){
     socket = io()
     socket.off('connect')
     socket.on('connect', ()=> {
-        console.log('connected')
         socket.emit('authentication', {
             session: state.session,
             token: state.token

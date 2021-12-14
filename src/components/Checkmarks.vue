@@ -2,7 +2,7 @@
 
 .upgrades(v-if='!$store.getters.contextMember')
     div.tr
-        img.doge(v-if='$store.getters.contextRelevantMembers.length > 0'  src='../assets/images/doge.svg')
+        //- img.doge(v-if='$store.getters.contextRelevantMembers.length > 0'  src='../assets/images/doge.svg')
         span.bg
             span(v-for='n in $store.getters.contextRelevantMembers'   :key='n'  @click='toggleHighlight(n)'  @click.ctrl='toggleHighlight(n, true)')
                 span(:class='{highlight: isHighlighted(n), lowdark: isLowdarked(n) }') &nbsp; {{ getName(n) }} &nbsp;
@@ -49,7 +49,6 @@ export default {
                 memberId:x,
                 valence: !invert
             })
-            window.scrollTo(0, 0);
         },
         isHighlighted(x) {
             return this.$store.getters.contextCard.highlights.some(h => {

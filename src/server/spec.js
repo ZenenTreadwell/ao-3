@@ -27,6 +27,19 @@ const priv = fs.readFileSync(con.privateKey)
 router.post('/events', (req, res, next)=>{
   let errRes = []
   switch (req.body.type){
+      case "completed-toggled":
+          if (
+            validators.isTaskId(req.body.taskId, errRes)
+          ) {
+            events.completedToggled(
+              req.body.taskId,
+              req.body.blame,
+              utils.buildResCallback(res)
+            )
+          } else {
+            res.status(400).send(errRes);
+          }
+          break
       case "member-purged":
           if (
             validators.isMemberId(req.body.memberId, errRes)

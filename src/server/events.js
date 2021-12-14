@@ -5,6 +5,15 @@ const crypto = require('crypto')
 const { serverState } = require('./state')
 const dctrlDb = require('./dctrlDb')
 
+function completedToggled(taskId, blame, callback){
+    let newEvent = {
+        type: "completed-toggled",
+        taskId,
+        blame,
+    }
+    dctrlDb.insertEvent(newEvent, callback)
+}
+
 function taskColored(taskId, inId, color, blame, callback){
     let newEvent = {
         type: "task-colored",
@@ -558,4 +567,5 @@ module.exports = {
     taskTouched,
     taskSeized,
     taskColored,
+    completedToggled,
 }

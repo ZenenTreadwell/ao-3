@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 div
-    .showaddr(@click='$store.commit("setPayMode", 1)' v-if='$store.state.upgrades.paymode !== "bitcoin"') *show on chain address*
+    .showaddr(@click='switchAddr' v-if='$store.state.upgrades.paymode !== "bitcoin"') *bitcoin address*
     div
         input(v-model='task.points'  type='text'  placeholder='sats'  @keypress.enter='setValue')
         button(@click.stop='setValue') *ln-invoice {{task.points}} sats*
@@ -26,6 +26,15 @@ export default {
         },
     },
     methods: {
+        switchAddr(){
+          this.$store.commit("setPayMode", 1)
+          if (!this.b.btcAddr){
+              this.$store.dispatch("makeEvent", {
+                  type: 'address-updated',
+                  taskId: this.b.taskId
+              })
+          }
+        },
         setValue() {
             this.$store.commit("setMode", 3)
             this.$store.commit("setPayMode", 2)

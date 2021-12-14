@@ -37,6 +37,7 @@ function checkForChargedEvent( resourceId ){
 let channelSatTotalTracker = 0
 let outputSatTotalTracker = 0
 let mostRecentAccount = null
+let i = 0
 
 function reactions(ev){
     process.nextTick( err => {
@@ -123,19 +124,23 @@ function reactions(ev){
                 let totalInOutputs = ev.info.outputs.reduce(outputReducer, 0)
                 let changeLightning = totalInChannels - channelSatTotalTracker
                 let changeChain = totalInOutputs - outputSatTotalTracker
+                if (i === 0){
+                    console.log('current wallet:')
+                    i ++
+                }
                 if (changeLightning === totalInChannels){
-                    console.log(chalk.bold.yellow(totalInChannels.toLocaleString()), "lightning sats")
+                    console.log('', chalk.bold.yellow(totalInChannels.toLocaleString()), "sats in channels")
                 } else if (changeLightning > 0){
-                    console.log(chalk.bold.yellow(totalInChannels.toLocaleString()), "lightning sats", chalk.bold.green('+', changeLightning ))
+                    console.log('', chalk.bold.yellow(totalInChannels.toLocaleString()), "sats in channels", chalk.bold.green('+', changeLightning ))
                 } else if (changeLightning < 0){
-                    console.log(chalk.bold.yellow(totalInChannels.toLocaleString()), "lightning sats", chalk.bold.red('-', - changeLightning ))
+                    console.log('', chalk.bold.yellow(totalInChannels.toLocaleString()), "sats in channels", chalk.bold.red('-', - changeLightning ))
                 }
                 if (changeChain === totalInOutputs){
-                    console.log(chalk.bold.yellow(totalInOutputs.toLocaleString()), "chain sats")
+                    console.log('', chalk.bold.yellow(totalInOutputs.toLocaleString()), "sats on chain")
                 } else if (changeChain > 0){
-                    console.log(chalk.bold.yellow(totalInOutputs.toLocaleString()), "chain sats", chalk.bold.green('+', changeChain))
+                    console.log('', chalk.bold.yellow(totalInOutputs.toLocaleString()), "sats on chain", chalk.bold.green('+', changeChain))
                 } else if (changeChain < 0){
-                    console.log(chalk.bold.yellow(totalInOutputs.toLocaleString()), "chain sats", chalk.bold.red('-', - changeChain))
+                    console.log('', chalk.bold.yellow(totalInOutputs.toLocaleString()), "sats on chain", chalk.bold.red('-', - changeChain))
                 }
                 outputSatTotalTracker = totalInOutputs
                 channelSatTotalTracker = totalInChannels
@@ -150,7 +155,6 @@ function reactions(ev){
                 })
                 if (mostRecentAccount !== name){
                     mostRecentAccount = name
-                    console.log(chalk.bold.magenta(name), 'did', chalk.bold.green(ev.type))
                 }
                 break
         }

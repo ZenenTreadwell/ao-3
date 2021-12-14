@@ -1,13 +1,10 @@
 <template lang='pug'>
 
-.pin(@click='goIn(p.taskId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}"  draggable="true"  :ondragstart='dragStart')
+.pin(v-if='p.taskId !== $store.getters.contextCard.taskId'  @click='goIn(p.taskId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}"  draggable="true"  :ondragstart='dragStart')
     span(@click.stop='goInKeep(p.taskId)')
-        span(v-if='p.taskId === $store.getters.contextCard.taskId') &nbsp;&nbsp;&#9829;&nbsp;&nbsp;
-        img.floatleft(v-else  src='../assets/images/badge.svg')
+        img.floatleft(src='../assets/images/badge.svg')
     span()
-        //- span(v-if='p.taskId === $store.getters.contextCard.taskId') &#9829;
-        span(:class='{selected: p.taskId === $store.getters.contextCard.taskId}').nl.gui.smaller {{ p.guild.split(':')[0] }}
-        //- span(v-if='p.taskId === $store.getters.contextCard.taskId') &nbsp;&#9829;
+        span.nl.gui.smaller {{ p.guild.split(':')[0] }}
 </template>
 
 <script>
@@ -64,14 +61,6 @@ export default {
             this.$store.dispatch("goIn", goInObj)
         },
         goIn(taskId){
-            if (taskId === this.$store.getters.contextCard.taskId){
-                this.$store.dispatch("goIn", {
-                    panel: [this.$store.getters.member.memberId],
-                    top: 0,
-                    parents: []
-                })
-                return
-            }
             let t = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
             let parents = [] // [this.$store.getters.contextCard.taskId]
             let panel = [taskId]
@@ -86,6 +75,7 @@ export default {
                 }
             })
             let goInObj = {panel, top, parents}
+            console.log({panel, top, parents})
             this.$store.dispatch("goIn", goInObj)
         },
     },
@@ -104,8 +94,6 @@ export default {
 .dropping
     background: blue
 
-.projects .floatleft.smaller
-    max-height: 1em
 span.nl.gui.smallest
     font-size: 1.1em
 

@@ -124,7 +124,6 @@ function membersMuts(members, ev) {
           } else {
             member.active++
           }
-          member.lastUsed = ev.timestamp
         }
       })
       break
@@ -136,7 +135,6 @@ function membersMuts(members, ev) {
           } else {
             member.active++
           }
-          member.lastUsed = ev.timestamp
         }
       })
       break
@@ -156,27 +154,6 @@ function membersMuts(members, ev) {
         }
       })
       break
-    case "task-touched":
-      members.forEach(member => {
-        if (member.memberId === ev.memberId) {
-          member.lastUsed = ev.timestamp
-        }
-      })
-      break
-    case "task-created":
-      members.forEach(member => {
-        if (member.memberId === ev.memberId) {
-          member.lastUsed = ev.timestamp
-        }
-      })
-      break
-    case "resource-used":
-      members.forEach(member => {
-        if (member.memberId === ev.memberId) {
-          member.lastUsed = ev.timestamp
-        }
-      })
-      break
     case "member-field-updated":
       members.forEach(member => {
         if (member.memberId === ev.memberId) {
@@ -184,14 +161,12 @@ function membersMuts(members, ev) {
         }
       })
       break
-    case "doge-barked":
-      members.forEach(member => {
-        if (member.memberId === ev.memberId) {
-          member.lastUsed = ev.timestamp
-        }
-      })
-      break
   }
+  members.forEach(member => {
+      if (member.memberId === ev.memberId  || ev.blame === member.memberId) {
+          member.lastUsed = ev.timestamp
+      }
+  })
 }
 let resourceIds
 function resourcesMuts(resources, ev) {
@@ -354,8 +329,6 @@ function tasksMuts(tasks, ev) {
         })
         if (!isExist){
             tasks.push(calculations.blankCard(ev.address, ev.address, 'blue', ev.timestamp))
-        } else {
-            console.log('found', ev.address)
         }
         break
     case "ao-inbound-connected":
@@ -506,26 +479,41 @@ function tasksMuts(tasks, ev) {
         }
       })
       break
+    case "completed-toggled":
+        tasks.forEach(task => {
+            if (task.taskId === ev.taskId) {
+                if (task.stackView.completed){
+                    task.highlights = []
+                }
+                task.stackView.completed = !task.stackView.completed
+            }
+        })
+        break
     case "highlighted":
       tasks.forEach(task => {
         if (task.taskId === ev.taskId) {
-          let didUpdateInline = false
-          task.highlights.forEach((h, i) => {
-            if (h.memberId === ev.memberId) {
-              didUpdateInline = true
-              if (h.valence === ev.valence) {
-                task.highlights.splice(i, 1)
-              } else {
-                h.valence = ev.valence
+            let didUpdateInline = false
+            task.highlights.forEach((h, i) => {
+              if (h.memberId === ev.memberId) {
+                didUpdateInline = true
+                if (h.valence === ev.valence) {
+                  task.highlights.splice(i, 1)
+                } else {
+                  h.valence = ev.valence
+                }
               }
-            }
-          })
-          if (!didUpdateInline) {
-            task.highlights.push({
-              memberId: ev.memberId,
-              valence: ev.valence
             })
-          }
+            if (!didUpdateInline) {
+              task.highlights.push({
+                memberId: ev.memberId,
+                valence: ev.valence
+              })
+            }
+            if (task.highlights.length > 0){
+                task.stackView.completed = true
+            } else {
+                task.stackView.completed = false
+            }
         }
       })
       break
@@ -543,6 +531,7 @@ function tasksMuts(tasks, ev) {
         if (task.taskId === ev.inId) {
           task.subTasks = _.filter(task.subTasks, tId => tId !== ev.taskId)
           task.subTasks.push(ev.taskId)
+          task.stackView.completed = false
           if (task.stackView[ev.color] > -1){
               task.stackView[ev.color] = 0
           }
