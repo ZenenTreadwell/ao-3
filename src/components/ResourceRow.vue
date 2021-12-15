@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.memberrow.membershipcard(v-if='card'  @dblclick='goIn')
+.memberrow.membershipcard(v-if='card'  @dblclick='goDeeper')
     label.hackername {{ r.name }} ({{r.charged}})
         span(v-if='cantAfford') ! inactive account !
     .container
@@ -71,32 +71,13 @@ export default {
         payPlz(taskId){
             this.$store.commit("setMode", 3)
             this.$store.commit("toggleAccounts")
-            if (this.r.charged > 0){
-                this.$store.dispatch("goIn", {
-                  parents: [this.r.resourceId],
-                  panel: [taskId],
-                  top: 0,
-                })
-                this.$store.commit("setPayMode", 2)
-                this.$store.dispatch("makeEvent", {
-                  type: 'task-valued',
-                  taskId: taskId,
-                  value: this.r.charged,
-                })
-            } else {
-                this.$store.dispatch("goIn", {
-                    parents: [],
-                    panel: [this.$store.getters.member.memberId],
-                    top: 0,
-                })
-                this.$store.commit("setPayMode", 1)
-                if (!this.$store.getters.memberCard.btcAddr){
-                    this.$store.dispatch("makeEvent", {
-                        type: 'address-updated',
-                        taskId: this.$store.getters.member.memberId
-                    })
-                }
-            }
+            this.$store.commit("setPayMode", 2)
+            this.$store.commit("goDeeper", this.r.resourceId)
+            this.$store.dispatch("makeEvent", {
+                type: 'task-valued',
+                taskId: taskId,
+                value: this.r.charged,
+            })
         },
         cardInputSty(color){
           return {
@@ -129,19 +110,8 @@ export default {
             }
             this.$store.dispatch("makeEvent", newEv)
         },
-        goIn(){
-            let top = this.$store.getters.resourceIds.indexOf(this.r.resourceId)
-            if (top > -1){
-                this.$store.dispatch("goIn", {
-                    parents: [this.$store.getters.contextCard.taskId],
-                    panel: this.$store.getters.resourceIds,
-                    top,
-                })
-                this.$store.commit("toggleAccounts")
-                if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
-                    this.$store.commit("setMode", 1)
-                }
-            }
+        goDeeper(){
+            this.$store.commit("goDeeper", this.$store.getters.resourceIds)
         },
     }
 }

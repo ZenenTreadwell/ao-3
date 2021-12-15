@@ -1,63 +1,34 @@
-const _ = require( 'lodash')
+// const _ = require( 'lodash')
 
-const state = {
-    parent: [],
-    panel: [],
-    top: 0,
-    completed: false,
-}
+const state = []
 
 const mutations = {
-    toggleCompleted(state){
-        state.completed = !state.completed
-        console.log('toggle completed', state.completed)
+    goGo(state, x){
+        state.length = 0
+        x.forEach(y => state.push(y))
+        window.scrollTo(0, 0);
     },
-    setParent(state, p){
-        state.parent = p
+    goDeeper(state, target){
+        state.push(target)
+        window.scrollTo(0, 0);
+
     },
-    setPanel(state, panel){
-          state.panel = panel
-    },
-    setTop(state, top){
-          state.top = top
-    },
-    addParent(state, pId){
-        state.parent = _.filter(state.parent, p => p !== pId)
-        state.parent.push(pId)
-    },
-    goToParent(state, tId){
+    goHigher(state, tId){
         let popped = false
-        while (popped !== tId && state.parent.length !== 0){
-            popped = state.parent.pop()
+        let i = 0
+        while(state[state.length - 1] !== tId && state.length !== 1) {
+            popped = state.pop()
+            i ++
         }
     },
+    addParent(state, tId){
+        let p = state.pop()
+        state.push(tId)
+        state.push(p)
+    }
 }
 
-const actions = {
-    goIn({commit}, pContext ){
-        commit("setPanel", pContext.panel)
-        commit("setTop", pContext.top)
-        commit("setParent", pContext.parents)
-        window.scrollTo(0, 0);
-    },
-    goUp({state, commit}, pContext){
-        if (state.parent.indexOf(pContext.target) === -1){
-            commit("addParent", pContext.target)
-        }
-        commit("goToParent", pContext.target)
-        commit("setPanel", pContext.panel)
-        commit("setTop", pContext.top)
-        window.scrollTo(0, 0);
-    },
-    // goDeeper({commit, state}, taskId){
-    //     let p = state.parent
-    //     p.push(state.panel[0])
-    //     commit("setPanel", [taskId])
-    //     commit("setTop", 0)
-    //     commit("setParent", p)
-    //     window.scrollTo(0, 0);
-    // }
-}
+const actions = {}
 
 const getters = {}
 

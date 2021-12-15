@@ -3,8 +3,8 @@
     div
         .transparentsides
     .spacer
-    .narrow(v-for='(n, i) in $store.state.context.parent'  :key='n'  @click='goToParent(n)'  :style="{ marginLeft: (($store.state.context.parent.length - i) * 0.5) + 'em', marginRight: (($store.state.context.parent.length - i) * 0.5) + 'em' }")
-        context-row(:taskId ='n')
+    .narrow(v-for='(n, i) in $store.state.context.slice(0, $store.state.context.length - 1)'  :key='n' :style="{ marginLeft: (($store.state.context.length - 1 - i) * 0.5) + 'em', marginRight: (($store.state.context.length - 1 - i) * 0.5) + 'em' }")
+        context-row(:taskId='n')
 </template>
 
 <script>
@@ -33,7 +33,7 @@ export default {
                     t.priorities.indexOf(this.$store.getters.contextCard.taskId) !== -1 ||
                     t.completed.indexOf(this.$store.getters.contextCard.taskId) !== -1
                 ){
-                    if(this.$store.state.context.parent.indexOf(t.taskId) === -1){
+                    if(this.$store.state.context.indexOf(t.taskId) === -1){
                         this.$store.commit("addParent", t.taskId)
                     }
                 }
@@ -57,16 +57,6 @@ export default {
           }
         },
     },
-    methods:{
-      goToParent(target){
-          if (this.selfPropagating) return console.log('not today')
-          this.$store.dispatch("goUp", {
-              target,
-              panel: [target],
-              top: 0
-          })
-      },
-    }
 }
 
 </script>

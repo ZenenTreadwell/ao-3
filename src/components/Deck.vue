@@ -59,13 +59,6 @@ export default {
               tasks: this.$store.getters.contextCard.subTasks
           })
       },
-      goWithinPanel(n){
-          let i = this.$store.state.context.panel.indexOf(n)
-          if (i > -1){
-              console.log('all that should happen is set top!')
-              this.$store.commit("setTop", i)
-          }
-      },
       toggleShowComplete(){
           this.$store.commit("toggleCompleted")
       },
@@ -91,21 +84,6 @@ export default {
           if (this.$store.getters.purple.length > 0) usedPiles++
           if (this.$store.getters.yellow.length > 0) usedPiles++
           return usedPiles > 1
-      },
-      panelSplit(){
-          let before = []
-          let after = []
-          let top = this.$store.state.context.top
-          this.$store.state.context.panel.forEach((n, i) => {
-              if (i < top){
-                  before.push(n)
-              }
-              if (i > top){
-                after.push(n)
-              }
-          })
-
-          return {before, after}
       },
       card(){
           return this.$store.getters.contextCard

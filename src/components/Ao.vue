@@ -6,7 +6,7 @@
     deck
     task-create
     .breathingroom
-    //- event-feed
+    event-feed
 </template>
 
 <script>

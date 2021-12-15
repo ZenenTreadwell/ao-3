@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 span.current
-    span.clickable(v-if='memberId && name'  @click='goIn') {{ name }}
+    span.clickable(v-if='memberId && name'  @click='goDeeper') {{ name }}
     img.onlineicon(v-if='!memberId', src='../assets/images/lightning.svg')
 </template>
 
@@ -10,12 +10,8 @@ span.current
 export default {
   props: ['memberId'],
   methods:{
-      goIn(){
-          this.$store.dispatch('goIn', {
-              top: 0,
-              panel: [this.memberId],
-              parents: [this.$store.getters.contextCard.taskId]
-          })
+      goDeeper(){
+          this.$store.dispatch('goDeeper', this.memberId)
       }
   },
   computed:{

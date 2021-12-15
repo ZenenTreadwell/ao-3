@@ -1,7 +1,7 @@
 <template lang='pug'>
 
-.pin(v-if='p.taskId !== $store.getters.contextCard.taskId'  @click='goIn(p.taskId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}"  draggable="true"  :ondragstart='dragStart')
-    span(@click.stop='goInKeep(p.taskId)')
+.pin(v-if='p.taskId !== $store.getters.contextCard.taskId'  @click='goGo(p.taskId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}"  draggable="true"  :ondragstart='dragStart')
+    span(@click.stop='goGoKeep(p.taskId)')
         img.floatleft(src='../assets/images/badge.svg')
     span()
         span.nl.gui.smaller {{ p.guild.split(':')[0] }}
@@ -44,39 +44,23 @@ export default {
             ev.preventDefault()
             this.dropping = true
         },
-        goInKeep(taskId){
-            if (taskId === this.$store.getters.contextCard.taskId){
-                this.$store.dispatch("goIn", {
-                    panel: [this.$store.getters.member.memberId],
-                    top: 0,
-                    parents: []
-                })
-                return
-            }
-            let parents = this.$store.state.context.parent
-            parents.push(this.$store.getters.contextCard.taskId)
-            let panel = [taskId]
-            let top = 0
-            let goInObj = {panel, top, parents}
-            this.$store.dispatch("goIn", goInObj)
+        goGoKeep(taskId){
+            this.$store.commit("goDeeper", taskId)
         },
-        goIn(taskId){
+        goGo(taskId){
             let t = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
-            let parents = [] // [this.$store.getters.contextCard.taskId]
-            let panel = [taskId]
-            let top = 0
+            let contexts = [] // [this.$store.getters.contextCard.taskId]
 
             // add same pin to context
             this.$store.getters.guilds.forEach(g => {
                 let baseG = g.guild.split(':')[0]
                 let baseT = t.guild.split(':')[0]
                 if (baseG === baseT  && g.taskId !== t.taskId){
-                    parents.push(g.taskId)
+                    contexts.push(g.taskId)
                 }
             })
-            let goInObj = {panel, top, parents}
-            console.log({panel, top, parents})
-            this.$store.dispatch("goIn", goInObj)
+            contexts.push(taskId)
+            this.$store.commit("goGo", contexts)
         },
     },
 }

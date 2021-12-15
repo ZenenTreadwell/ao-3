@@ -42,14 +42,7 @@ export default {
           return this.$store.state.tasks[this.$store.state.hashMap[taskId]]
       },
       goto(taskId){
-          let panel = [taskId]
-          let top = 0
-          let parents =  [this.$store.getters.contextCard.taskId, this.task.taskId]
-          this.$store.dispatch("goIn", {parents, panel, top})
-
-          if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
-              this.$store.commit("setMode", 1)
-          }
+          this.$store.commit("goGo", [this.$store.getters.contextCard.taskId, this.task.taskId, taskId])
       },
       card(tId) {
           return this.$store.state.tasks[this.$store.state.hashMap[tId]]

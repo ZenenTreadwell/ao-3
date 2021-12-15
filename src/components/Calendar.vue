@@ -18,22 +18,22 @@
       .grey
           .datenumber  {{ $store.state.upgrades.chosenDay }}
           .soft.bg(v-for='n in selectedDaysEvs')
-              span(v-if='n.type === "task-claimed"'  @click='goIn(n.taskId, n.inId)')
+              span(v-if='n.type === "task-claimed"'  @click='goDeeper(n.taskId, n.inId)')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }} &nbsp;
                   span(v-if='n.taskId === $store.getters.contextCard.taskId')
                       img.completedcheckmark.dark(src='../assets/images/doge.svg')
                       span {{ checkIsMember(n.memberId) }}
                   span(v-else)
                       linky(:x='getFromMap(n.taskId).name')
-              span(v-else-if='n.type === "resource-used"'  @click='goIn(n.resourceId, n.memberId)')
+              span(v-else-if='n.type === "resource-used"'  @click='goDeeper(n.resourceId, n.memberId)')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }} &nbsp;
                   img.completedcheckmark(src='../assets/images/down.svg')
                   //- current(:memberId='n.memberId') is this useful somewhere?
                   currentr(:resourceId='n.resourceId')
                   span - {{ n.notes }}
-              span(v-else-if='checkIsMember(n.name)'  @click='goIn(n.taskId)')
+              span(v-else-if='checkIsMember(n.name)'  @click='goDeeper(n.taskId)')
                   span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{ checkIsMember(n.name) }}
-              span(v-else  @click='goIn(n.taskId)')
+              span(v-else  @click='goDeeper(n.taskId)')
                   img.completedcheckmark(src='../assets/images/uncompleted.svg')
                   span {{ new Date(n.book.startTs).toString().slice(15,21) }} - {{n.name}}
   .buffer
@@ -96,31 +96,9 @@ export default {
               this.year = this.today.year
           }
       },
-      goIn(taskId, inId){
-          let panel = [taskId]
-          let parents = []
-
-          let top = 0
-
-          if (this.$store.getters.contextCard.taskId){
-              parents.push(this.$store.getters.contextCard.taskId)
-          } else if (this.$store.getters.memberCard.taskId){
-              parents.push(this.$store.getters.memberCard.taskId)
-          }
-
-          if (inId) {
-              parents.push(inId)
-          }
-
-          this.$store.dispatch("goIn", {
-              parents,
-              top,
-              panel
-          })
-          if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
-              this.$store.commit("setMode", 1)
-          }
-
+      goDeeper(taskId, inId){
+          if (inId) this.$store.commit("goDeeper", inId);
+          if (taskId) this.$store.commit("goDeeper", taskId);
       },
       getFromMap(taskId){
           return this.$store.state.tasks[this.$store.state.hashMap[taskId]]

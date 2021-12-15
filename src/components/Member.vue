@@ -3,7 +3,7 @@
 .memberrow.membershipcard(:ondrop="drop"   :ondragover="allowDrop"  )
     .bottomright()
         div(:class='{here: $store.state.upgrades.mode === "chest"}')
-            img.boosted(src='../assets/images/hourglass.svg'  v-if='$store.state.upgrades.mode === "doge" && m.action'  @click.stop='goIn(m.action)')
+            img.boosted(src='../assets/images/hourglass.svg'  v-if='$store.state.upgrades.mode === "doge" && m.action'  @click.stop='goDeeper(m.action)')
             .stash(v-if='$store.state.upgrades.mode === "chest"') {{ card.boost.toLocaleString() }}
             .stash(v-else-if='$store.state.upgrades.mode === "boat"')
                 checkbox(:b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
@@ -112,26 +112,9 @@ export default {
         },
     },
     methods: {
-        goIn(taskId){
+        goDeeper(taskId){
             this.$store.commit("closeAll")
-            let panel = [taskId]
-            let parents = [  ]
-            let top = 0
-            //
-            if (this.$store.getters.contextCard.taskId){
-                parents.push(this.$store.getters.contextCard.taskId)
-            } else if (this.$store.getters.memberCard.taskId){
-                parents.push(this.$store.getters.memberCard.taskId)
-            }
-
-            this.$store.dispatch("goIn", {
-                parents,
-                top,
-                panel
-            })
-            if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
-                this.$store.commit("setMode", 1)
-            }
+            this.$store.commit("goDeeper", taskId)
         },
         copyCard(){
             navigator.clipboard.writeText(this.$store.getters.contextCard.name).then(()=>{

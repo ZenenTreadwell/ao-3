@@ -5,11 +5,11 @@
     span(v-if='createdToday') *
     span(v-for='t in ev')
         .upgrade(v-if='!t.type')
-            img.upgrade.doge(v-if='checkIsMember(t.name)'  @dblclick="goIn(t.taskId)"  src='../assets/images/doge.svg')
-            img.upgrade(v-else  @dblclick="goIn(t.taskId)"  src='../assets/images/uncompleted.svg'  :class='styl(t.color)'  draggable="true"  :ondragstart='dragStartWrap(t.taskId)')
+            img.upgrade.doge(v-if='checkIsMember(t.name)'  @dblclick="goDeeper(t.taskId)"  src='../assets/images/doge.svg')
+            img.upgrade(v-else  @dblclick="goDeeper(t.taskId)"  src='../assets/images/uncompleted.svg'  :class='styl(t.color)'  draggable="true"  :ondragstart='dragStartWrap(t.taskId)')
         .upgrade(v-else-if='t.type === "resource-used"')
-            img.completedcheckmark(@dblclick="goIn(t.resourceId)"  src='../assets/images/down.svg')
-        span.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goIn(t.taskId, t.inId)' :class='{smaller: ev.length > 15}' )
+            img.completedcheckmark(@dblclick="goDeeper(t.resourceId)"  src='../assets/images/down.svg')
+        span.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goDeeper(t.taskId, t.inId)' :class='{smaller: ev.length > 15}' )
             img.completedcheckmark.doge(v-if='t.taskId === $store.getters.contextCard.taskId'  src='../assets/images/doge.svg')
             img.completedcheckmark(v-else   :class='styl(getCardColor(t.taskId))'  src='../assets/images/completed.svg')
     //- img.upgrade(v-if='isToday'  v-for='t in $store.getters.contextCard.priorities'  src='../assets/images/uncompleted.svg'  :class='styl(getCardColor(t))')
@@ -80,27 +80,9 @@ export default {
                 blackwx : color == 'black',
             }
         },
-        goIn(taskId, inId){
-            let parents = []
-
-            if (this.$store.getters.contextCard.taskId){
-                parents.push(this.$store.getters.contextCard.taskId)
-            } else if (this.$store.getters.memberCard.taskId){
-                parents.push(this.$store.getters.memberCard.taskId)
-            }
-            if (inId) {
-                parents.push(inId)
-            }
-
-            this.$store.dispatch("goIn", {
-                panel: [taskId],
-                top: 0,
-                parents
-            })
-            if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
-                this.$store.commit("setMode", 1)
-            }
-
+        goDeeper(taskId, inId){
+            if (inId) this.$store.commit("goDeeper", inId);
+            if (taskId) this.$store.commit("goDeeper", taskId);
         },
         cardDate(b){
             if ( b.book && b.book.startTs ) {

@@ -94,12 +94,6 @@ export default {
             newfield
         })
     },
-    goIn(taskId){
-        let parents = [this.memberId, this.$store.getters.contextCard.taskId]
-        let panel = [taskId]
-        let top = 0
-        this.$store.dispatch("goIn", {panel, top, parents})
-    },
     complete(){
         this.$store.dispatch("makeEvent", {
             type: 'task-claimed',

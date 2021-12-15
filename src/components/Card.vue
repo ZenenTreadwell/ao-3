@@ -1,5 +1,5 @@
 <template lang='pug'>
-.task(:class="cardInputSty"  @click='goIn'  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart').dont-break-out.agedwrapper
+.task(:class="cardInputSty"  @click='goDeeper'  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart').dont-break-out.agedwrapper
     bird(:b='b', :inId='inId')
     tally(:b='b')
     .donut.flaggy.square.hidden(@click.stop='upboat')
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
+// import _ from 'lodash'
 import Tally from './Tally'
 import Linky from './Linky'
 import Current from './Current'
@@ -70,28 +70,12 @@ export default {
             })
         },
         upboat(){
-            if (this.$store.getters.contextCard.taskId === this.b.taskId){
-                let target = this.$store.getters.member.memberId
-                this.$store.dispatch("goUp", {
-                    target,
-                    panel: [target],
-                    top: 0
-                })
-                this.$store.dispatch("makeEvent", {
-                    type: 'task-prioritized',
-                    taskId: this.b.taskId,
-                    fromId: this.b.taskId,
-                    inId: target,
-                })
-            } else {
-                this.$store.dispatch("makeEvent", {
-                    type: 'task-prioritized',
-                    taskId: this.b.taskId,
-                    fromId: this.b.taskId,
-                    inId: this.inId,
-                })
-
-            }
+            this.$store.dispatch("makeEvent", {
+                type: 'task-prioritized',
+                taskId: this.b.taskId,
+                fromId: this.b.taskId,
+                inId: this.inId,
+            })
         },
         remove(){
             this.$store.dispatch("makeEvent", {
@@ -120,33 +104,8 @@ export default {
         toggleBird(){
             this.$store.commit('toggleBird')
         },
-        goIn(){
-            let panel = this.c
-            if (panel && panel.length && panel.length > 0){
-                //
-            } else {
-                panel = _.uniq( [this.b.taskId].concat(this.$store.state.context.panel) )
-            }
-
-            let top = panel.indexOf(this.b.taskId)
-
-            if (top > -1){
-                //
-            } else {
-                top = 0
-            }
-
-            let parents = []
-
-            parents.push(this.$store.getters.contextCard.taskId)
-            if (this.inId && parents.indexOf(this.inId) < 0){
-                parents.push(this.inId)
-            }
-            this.$store.dispatch("goIn", {
-                parents,
-                top,
-                panel,
-            })
+        goDeeper(){
+            this.$store.commit("goDeeper", this.b.taskId)
         },
         purge(){
           this.$store.dispatch("makeEvent", {
@@ -156,7 +115,7 @@ export default {
         },
         copyCardToClipboard(){
           if (this.showCopied){
-              return this.goIn()
+              return this.goDeeper()
           }
           navigator.clipboard.writeText(this.b.name)
               .then(() => {

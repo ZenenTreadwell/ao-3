@@ -88,14 +88,6 @@ export default {
             if (x === this.showAddress) return this.showAddress = false
             this.showAddress = x
         },
-        goIn(taskId){
-            this.$store.dispatch('goIn', {
-                top: 0,
-                panel: [taskId],
-                parents: [this.$store.getters.member.memberId],
-            })
-
-        },
         name(){
             this.$store.dispatch('makeEvent', this.aoNamed)
         },

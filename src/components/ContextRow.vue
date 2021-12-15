@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.context.paperwrapper(:class="cardInputSty"  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart'  :ondragleave='dragLeave')
+.context.paperwrapper(@click='goHigher'  :class="cardInputSty"  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart'  :ondragleave='dragLeave')
     .popup
         .here
             span.front(v-if='isMember')  {{ isMember }} &nbsp;
@@ -26,6 +26,28 @@ export default {
     props: ['taskId'],
     components: { Linky, Tally },
     methods: {
+        goHigher(){
+            let t = this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
+            let pinTarget = t.guild.split(':')[0]
+            // console.log('checking ',   this.$store.getters.uniqGuilds)
+
+            if (
+                this.$store.getters.uniqGuilds.map(g => g.guild.split(':')[0]).indexOf(pinTarget) > -1
+            ){
+                console.log('dont go higher?')
+                let contexts = []
+                this.$store.getters.guilds.forEach(g => {
+                    let baseG = g.guild.split(':')[0]
+                    let baseT = t.guild.split(':')[0]
+                    if (baseG === baseT  && g.taskId !== t.taskId  && g.taskId !== this.taskId){
+                        contexts.push(g.taskId)
+                    }
+                })
+                contexts.reverse().push(this.taskId)
+                return this.$store.commit("goGo", contexts)
+            }
+            this.$store.commit("goHigher", this.taskId)
+        },
         dragLeave(){
             this.dropping = false
         },

@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.priority(@click='goIn(taskId)'  draggable="true"  :ondrop.stop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart')
+.priority(@click='goDeeper(taskId, inId)'  draggable="true"  :ondrop.stop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart')
     .row.agedwrapper(:class='cardInputSty')
         .check()
             img.checkmark.right.front(v-if='isCompleted' src='../assets/images/completed.svg'  @click.stop='checky')
@@ -44,7 +44,7 @@ export default {
             this.startTimer()
         }
     },
-    props: ['taskId', 'inId', 'c'],
+    props: ['taskId', 'inId'],
     components: { Linky, Tally, PreviewDeck },
     methods: {
       startTimer() {
@@ -106,30 +106,9 @@ export default {
               memberId: this.$store.getters.member.memberId,
           })
       },
-      goIn(taskId){
-          let panel = [taskId]
-          let parents = [  ]
-          let top = 0
-
-          if (this.$store.getters.contextCard.taskId){
-              parents.push(this.$store.getters.contextCard.taskId)
-          } else if (this.$store.getters.memberCard.taskId){
-              parents.push(this.$store.getters.memberCard.taskId)
-          }
-
-          if(this.inId) {
-              parents.push(this.inId)
-          }
-
-          this.$store.dispatch("goIn", {
-              parents,
-              top,
-              panel
-          })
-
-          if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
-              this.$store.commit("setMode", 1)
-          }
+      goDeeper(taskId, inId){
+          if (inId) this.$store.commit("goDeeper", inId);
+          if (taskId) this.$store.commit("goDeeper", taskId);
       },
       complete(){
           this.$store.dispatch("makeEvent", {

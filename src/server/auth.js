@@ -43,7 +43,6 @@ function socketAuth(socket, data, callback){
             state.serverState.members.forEach(m => {
                 if (m.memberId === session.ownerId){
                     authorized = true
-                    console.log('socket authed', chalk.bold.cyan(m.name))
                 }
             })
         }

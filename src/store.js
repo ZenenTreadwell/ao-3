@@ -48,8 +48,8 @@ export default createStore({
           let memberCard = _.merge(calculations.blankCard('', '', ''), state.tasks[state.hashMap[getters.member.memberId]])
           return memberCard
       },
-      contextCard(state){
-          let contextCard = _.merge(calculations.blankCard('', '', ''), state.tasks[state.hashMap[state.context.panel[state.context.top]]])
+      contextCard(state){ // XXX why does this update constantly!!
+          let contextCard = _.merge(calculations.blankCard('', '', ''), state.tasks[state.hashMap[ state.context[state.context.length - 1] ]])
           return contextCard
       },
       contextDeck(state, getters){

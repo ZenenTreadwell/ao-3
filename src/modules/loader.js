@@ -55,7 +55,7 @@ const actions = {
                     commit("setReqStatus", Date.now() - startTs)
                     res.body.sessions.forEach(s => {
                       if (s.session === state.session){
-                        commit("setPanel", [ s.ownerId ])
+                        commit("goGo", [ s.ownerId ])
                       }
                     })
                   }

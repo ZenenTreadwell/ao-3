@@ -14,11 +14,7 @@ export default {
     components: { Pin },
     methods: {
       goHome(){
-          this.$store.dispatch("goIn", {
-              panel: [this.$store.getters.member.memberId],
-              top: 0,
-              parents: []
-          })
+          this.$store.commit("goGo", [this.$store.getters.member.memberId])
       },
     }
 }

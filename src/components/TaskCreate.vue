@@ -119,13 +119,9 @@ export default {
             let hash = h.digest('hex')
             let card = this.$store.state.hashMap[hash]
             if (card){
-                this.$store.dispatch('goIn', {
-                    parents:[this.$store.getters.contextCard.taskId],
-                    panel:[hash],
-                    top:0,
-                })
+                this.$store.commit('goDeeper', hash)
             } else {
-              console.log('no hash found')
+                console.log('no hash found')
             }
         },
         pileRecalled() {
@@ -229,13 +225,6 @@ export default {
                 this.resetCard()
             }
         },
-        goInSearchPanel(){
-            this.$store.dispatch('goIn', {
-                parents:[this.$store.getters.contextCard.taskId],
-                panel:this.matchIds,
-                top:0,
-            })
-        },
         boatAll(){
             this.$store.dispatch("makeEvent", {
                 type: 'pile-prioritized',
@@ -249,25 +238,6 @@ export default {
                 tasks: this.matchIds,
                 inId: this.$store.getters.contextCard.taskId,
             })
-        },
-        goIn(taskId){
-            let panel = [taskId]
-            let parents = []
-            let top = 0
-
-            if (this.$store.getters.contextCard.taskId){
-                parents.push(this.$store.getters.contextCard.taskId)
-            } else if (this.$store.getters.memberCard.taskId){
-                parents.push(this.$store.getters.memberCard.taskId)
-            }
-            this.$store.dispatch("goIn", {
-                parents,
-                top,
-                panel
-            })
-            if(this.$store.state.upgrades.mode === 'doge' && this.$store.getters.contextCard.priorities.length > 0) {
-                this.$store.commit("setMode", 1)
-            }
         },
         switchColor(color){
             if (this.$store.state.upgrades.color === color){

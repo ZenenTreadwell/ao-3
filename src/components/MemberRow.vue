@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId, dropping}'  @click='goIn(m.memberId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='offDrop'  draggable='true'  :ondragstart='dragStart')
+.memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId, dropping}'  @click='goGo(m.memberId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='offDrop'  draggable='true'  :ondragstart='dragStart')
     .row(v-if='b')
         .three.grid.ptr(:class='{bolder: m.memberId === $store.getters.member.memberId}')
             span(v-if='m.memberId === $store.getters.member.memberId')  &nbsp;&nbsp;&#9829;
@@ -12,7 +12,7 @@
         .eight.grid
             span(v-for='x in rowsGuilds') {{x.split(':')[0]}} &nbsp;
             .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
-                img.boosted(src='../assets/images/hourglass.svg'  v-if='m.action'  @click.stop='goIn(m.action)')
+                img.boosted(src='../assets/images/hourglass.svg'  v-if='m.action'  @click.stop='goGo(m.action)')
                 span(v-if='!m.active'  @click.stop='deleteUser').hover.red delete
                 span(:class="{faded:b.boost <= 0}")
                     span  &nbsp; &nbsp;
@@ -62,16 +62,9 @@ export default {
                 this.$store.commit("setMode", 3)
             },7)
         },
-        goIn(taskId){
+        goGo(taskId){
+            this.$store.commit("goGo", [taskId])
             this.$store.commit("closeAll")
-            let panel = [taskId]
-            let parents = [  ]
-            let top = 0
-            this.$store.dispatch("goIn", {
-                parents,
-                top,
-                panel
-            })
         },
         deleteUser(){
             this.$store.dispatch("makeEvent", {

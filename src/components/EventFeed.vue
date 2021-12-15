@@ -19,32 +19,16 @@ export default {
     methods: {
         goTo(ev){
             if (ev.inId){
-                this.$store.dispatch('goIn', {
-                    parents: [this.$store.getters.contextCard.taskId],
-                    panel: [ev.inId],
-                    top: 0
-                })
+                this.$store.commit('goDeeper',ev.inId )
             }
             if (ev.subTask){
-                this.$store.dispatch('goIn', {
-                    parents: [this.$store.getters.contextCard.taskId],
-                    panel: [ev.subTask],
-                    top: 0
-                })
+                this.$store.commit('goDeeper',ev.subTask )
             }
             if  (ev.taskId){
-                this.$store.dispatch('goIn', {
-                    parents: [this.$store.getters.contextCard.taskId],
-                    panel: [ev.taskId],
-                    top: 0
-                })
+                this.$store.commit('goDeeper',ev.taskId )
             }
             if (ev.memberId){
-                this.$store.dispatch('goIn', {
-                    parents: [this.$store.getters.contextCard.taskId],
-                    panel: [ev.memberId],
-                    top: 0
-                })
+                this.$store.commit('goDeeper',ev.memberId )
             }
         }
     }
@@ -58,7 +42,6 @@ export default {
 
 .feed
     position: fixed
-
     top: 100vh - 20em
     left: 45%
     height: 4em

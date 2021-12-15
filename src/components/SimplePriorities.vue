@@ -2,7 +2,7 @@
 
 .priorities
     div.clearboth(v-for='(t, i) of priorities.slice(0, 5)'  :key='t')
-        simple-priority(:taskId='t'  :c='priorities'  :inId='taskId')
+        simple-priority(:taskId='t'  :inId='taskId')
     .centerer
         .more(v-if='i === 4 && priorities.length > 5') +{{ priorities.length - 5 }}
 </template>

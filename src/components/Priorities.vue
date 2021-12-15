@@ -2,7 +2,6 @@
 
 .priorities
     div.center(v-if='priorities.length === 0') ~task list empty~
-        //- span.ptr(v-if='$store.getters.contextCard.subTasks.length > 0'  @click='pilePrioritized') , *raise all {{$store.getters.contextCard.subTasks.length}}*
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer
