@@ -28,11 +28,9 @@ export default {
     methods: {
         goHigher(){
             let t = this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
-            let pinTarget = t.guild.split(':')[0]
-            // console.log('checking ',   this.$store.getters.uniqGuilds)
-
             if (
-                this.$store.getters.uniqGuilds.map(g => g.guild.split(':')[0]).indexOf(pinTarget) > -1
+                t.guild &&
+                this.$store.getters.uniqGuilds.map(g => g.guild.split(':')[0]).indexOf(t.guild.split(':')[0]) > -1
             ){
                 console.log('dont go higher?')
                 let contexts = []

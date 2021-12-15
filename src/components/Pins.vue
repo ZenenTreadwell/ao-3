@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 .projects
-    pin(v-for='p in $store.getters.uniqGuilds'  :key='p.taskId'  :p='p')
+    pin(v-for='p in pinList'  :key='p.taskId'  :p='p')
     div(v-if='$store.getters.member.memberId !== $store.getters.contextCard.taskId'  @click='goHome')
         img.floatleft(src='../assets/images/doge.svg')
         span.nl.gui.smaller &nbsp;home
@@ -16,6 +16,20 @@ export default {
       goHome(){
           this.$store.commit("goGo", [this.$store.getters.member.memberId])
       },
+    },
+    computed: {
+        pinList(){
+            if (
+                this.$store.getters.contextCard.guild
+            ){
+                let pin = this.$store.getters.contextCard.guild.split(':')[0]
+                return this.$store.getters.uniqGuilds.filter(g => {
+                    return g.guild.split(':')[0] !== pin
+                })
+            } else {
+                return this.$store.getters.uniqGuilds
+            }
+        }
     }
 }
 

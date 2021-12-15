@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.pin(v-if='p.taskId !== $store.getters.contextCard.taskId'  @click='goGo(p.taskId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}"  draggable="true"  :ondragstart='dragStart')
+.pin(@click='goGo(p.taskId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}"  draggable="true"  :ondragstart='dragStart')
     span(@click.stop='goGoKeep(p.taskId)')
         img.floatleft(src='../assets/images/badge.svg')
     span()
