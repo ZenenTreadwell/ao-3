@@ -1,11 +1,11 @@
 <template lang="pug">
 
 .eventfeed
-  transition(name='fade' v-for='(e, i) in eventstream'  :key="i")
-      .feed.wiggle(v-if='e.showEvent'  v-bind:style="{ left: e.randomX }"  @click='goTo(e)')
+  div(v-for='(e, i) in eventstream'  :key="i")
+      transition(name='fade' v-if='e.showEvent'  v-bind:style="{ left: e.randomX }"  @click='goTo(e)').feed.wiggle
           img.bubble(src='../assets/images/down.svg')
-          .float(:style='{ color: e.randomColors[0], left: e.randomXs[0], top: e.randomYs[0] }') {{ e.meme }}
-              span(v-if='e.type==="task-created"'  :style='{ color: e.randomColors[1], left: e.randomXs[1], top: e.randomYs[1] }') -{{ e.name }}
+          //- .float(:style='{ color: e.randomColors[0], left: e.randomXs[0], top: e.randomYs[0] }') {{ e.meme }}
+              //- span(v-if='e.type==="task-created"'  :style='{ color: e.randomColors[1], left: e.randomXs[1], top: e.randomYs[1] }') -{{ e.name }}
 </template>
 
 <script>
@@ -48,6 +48,7 @@ export default {
     width: 4em
     z-index: 10000000
     opacity: 0.456
+    cursor: pointer
 
 .feed img
     height: 4em
@@ -59,6 +60,7 @@ img
     top: 0
     left: 0
 
+// transition doesn't work
 .fade-enter-active
     transition: top 7s
 
@@ -88,7 +90,6 @@ img
     position: relative
     left: 30%
     top: 40%
-
     font-family: "Comic Sans MS"
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5)
 

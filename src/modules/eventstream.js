@@ -65,7 +65,10 @@ const mutations = {
 }
 
 const actions = {
-    displayEvent({commit, getters}, ev){
+    displayEvent({commit, getters }, ev){
+        if (getters.member.memberId === ev.memberId || ev.blame === getters.member.memberId){
+            return // console.log('filtering my ev')
+        }
         if(ev.type === 'doge-barked' || ev.type === 'resource-used') {
             if (getters.member && !getters.member.muted){
                 let flip = new Audio(require('../assets/sounds/ping.wav'))
@@ -76,7 +79,7 @@ const actions = {
         commit('show', ev)
         setTimeout(()=>{
             commit('hide')
-        }, 3567)
+        }, 5567)
     }
 }
 
