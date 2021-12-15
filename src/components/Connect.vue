@@ -16,7 +16,7 @@
       span(v-show='showSecret')
         br
         label {{ $store.state.cash.address }}:{{ $store.state.loader.token }}
-        img.clippy(src='../assets/images/loggedOut.svg')
+        img.clippy(src='../assets/images/clipboard.svg')
 </template>
 
 <script>
@@ -29,10 +29,6 @@ export default {
             sendTo:'',
             showAddress: false,
             showSecret: false,
-            aoNamed: {
-                type: 'ao-named',
-                alias: ''
-            },
             ao: {
                 type: "ao-outbound-connected",
                 address: '',
@@ -87,9 +83,6 @@ export default {
         showAddr(x){
             if (x === this.showAddress) return this.showAddress = false
             this.showAddress = x
-        },
-        name(){
-            this.$store.dispatch('makeEvent', this.aoNamed)
         },
         connect(){
             let split = this.ao.address.split(':')

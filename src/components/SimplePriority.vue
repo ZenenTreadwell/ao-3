@@ -113,7 +113,7 @@ export default {
       complete(){
           this.$store.dispatch("makeEvent", {
               type: 'task-claimed',
-              inId: this.inId,
+              inId: this.inId || this.$store.getters.contextCard.taskId,
               taskId: this.taskId,
           })
       },
@@ -121,7 +121,7 @@ export default {
           this.$store.dispatch("makeEvent", {
               type: 'task-unclaimed',
               taskId: this.taskId,
-              inId:  this.$store.getters.contextCard.taskId,
+              inId:  this.inId || this.$store.getters.contextCard.taskId,
           })
       },
       copyCardToClipboard(){

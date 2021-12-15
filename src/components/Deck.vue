@@ -129,12 +129,11 @@ export default {
     width: 100%
 
 .card
-
     font-size:1.00111em
-    margin-top: 1em
+    margin-top: 0.061em
     display: inline-block
-    margin-left: 1em
-    margin-right: 1em
+    margin-left: 3em
+    margin-right: 3em
     flex-grow: 1
 
 #cyber
@@ -331,6 +330,8 @@ export default {
     transition: width 2s;
 
 .card.adjustwidth
+    box-shadow: 0 3px 10px #000;
+    margin-right: -1em
     max-width: 100%
     max-width: 15em
     transition: width 2s;

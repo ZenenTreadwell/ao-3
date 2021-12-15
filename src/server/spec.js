@@ -222,13 +222,6 @@ router.post('/events', (req, res, next)=>{
               res.status(400).send(errRes)
           }
           break
-      case 'ao-named':
-          if (validators.isNotes(req.body.alias, errRes)){
-              events.aoNamed(req.body.alias, utils.buildResCallback(res))
-          } else {
-              res.status(400).send(errRes)
-          }
-          break
       case 'rent-set':
           if (
               validators.isAmount(req.body.amount, errRes)

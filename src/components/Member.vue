@@ -17,13 +17,13 @@
             div(v-if='$store.getters.contextMember')
                 img.doge(src='../assets/images/doge.svg')
                 linky(:x='m.name')
-                coin(v-if='$store.state.upgrades.mode === "doge"'  :b='$store.getters.contextCard')
+                //- coin(v-if='$store.state.upgrades.mode === "doge"'  :b='$store.getters.contextCard')
             div(v-else-if='$store.getters.contextResource')
                 currentr(:resourceId='$store.getters.contextCard.taskId')
             div(v-else)
                 bird(:b='$store.getters.contextCard', :inId='$store.getters.contextCard.taskId')
                 linky(:x='card.name')
-                img(v-show='copied'  src='../assets/images/loggedOut.svg')
+                img(v-show='copied'  src='../assets/images/clipboard.svg')
     div
         .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}'   :ondragover='toBoat')
             img.roro(v-if='$store.state.upgrades.mode !== "boat"  && card.priorities.length > 0'  v-for='t in card.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
@@ -120,6 +120,8 @@ export default {
             navigator.clipboard.writeText(this.$store.getters.contextCard.name).then(()=>{
                 this.copied = true
             })
+            this.goDoge()
+            setTimeout(()=> this.copied = false, 1234)
         },
         styl(color){
             if (!color  || this.$store.getters.member.stacks === 1) return
@@ -295,7 +297,7 @@ label
 
 .membershipcard
     // padding: 1em
-    background-color: lightGrey
+    background-color: rgba(255,255,255,.888)
     margin-bottom: 1em
     padding-bottom: 1em
     padding-top: 1em
@@ -346,7 +348,7 @@ label
     border: none;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
-    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
+    // box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     img
         height: 1.77em
 

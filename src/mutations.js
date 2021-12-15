@@ -62,9 +62,6 @@ function aoMuts(aos, ev) {
 
 function cashMuts(cash, ev) {
   switch (ev.type) {
-    case "ao-named":
-      cash.alias = ev.alias
-      break
     case "spot-updated":
       cash.spot = ev.spot
       break

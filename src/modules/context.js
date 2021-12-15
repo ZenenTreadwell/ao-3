@@ -16,6 +16,7 @@ const mutations = {
     goHigher(state, tId){
         let popped = false
         let i = 0
+        popped, i
         while(state[state.length - 1] !== tId && state.length !== 1) {
             popped = state.pop()
             i ++

@@ -105,14 +105,6 @@ function aoDisconnected(address, callback) {
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function aoNamed(alias, callback){
-    let newEvent = {
-        type: "ao-named",
-        alias,
-    }
-    dctrlDb.insertEvent(newEvent, callback)
-}
-
 function getNodeInfo(info, callback){
     let newEvent = {
         type: "get-node-info",
@@ -523,7 +515,6 @@ module.exports = {
     memberCharged,
     aoOutboundConnected,
     aoDisconnected,
-    aoNamed,
     aoInboundConnected,
     spotUpdated,
     rentSet,

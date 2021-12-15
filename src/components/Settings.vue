@@ -1,12 +1,14 @@
 <template lang='pug'>
 
 #settings
+    .aligncenter
+        button(@click='logout') log out
     .row
         .six.columns.boxy
             .section account updates
             select(v-model='change.field', @change='empty')
-                option(value='secret') password
                 option(value='name') name
+                option(value='secret') password
                 option(value='fob') fob
             .input-container
                 input.input-effect(:type='inputType' v-model='change.newfield'  :class='{"has-content":!!change.newfield}')
@@ -19,11 +21,13 @@
                         label repeat
                         span.focus-border
                     .check.six.columns(v-if='inputType === "password"')
-                        img.checkmark(v-if='matched', src='../assets/images/completed.svg')
-                        img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-                        span - repeat correctly
-            button(@click='update'  v-if='change.newfield  && inputType !== "password"') update {{ change.field }}
-            button(@click='update'  v-else-if='change.newfield  && change.confirmNewfield.length > 0 && matched') update password
+                        button(@click='update'  v-if='change.newfield  && change.confirmNewfield.length > 0 && matched') update password
+                        span(v-else)
+                            img.checkmark(v-if='matched', src='../assets/images/completed.svg')
+                            img.checkmark(v-else, src='../assets/images/uncompleted.svg')
+                            span - repeat correctly
+            .aligncenter
+                  button(@click='update'  v-if='inputType !== "password"') update {{ change.field }}
         .six.columns.boxy
             .section account preferences
             //- .check.click(@click='toggleTooltips')
@@ -43,7 +47,6 @@
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span.space colors
             div &nbsp;
-            button(@click='logout') log out
     .breathing
     connect
 </template>
@@ -60,7 +63,7 @@ export default {
     data() {
       return {
         change: {
-            field: 'secret',
+            field: 'name',
             newfield: '',
             confirmNewfield: ''
         },
@@ -244,9 +247,14 @@ input:-webkit-autofill:focus {
     padding: 0.33em
     border-radius: 3%
 
+.aligncenter
+    text-align: center
+    margin-bottom: 1.1234566em
+
 button
-    background: main
+    background: softGrey
     color: white
+    max-width: 13em
 
 .breathing
     height: 1.12em

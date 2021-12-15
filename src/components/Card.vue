@@ -6,7 +6,7 @@
     .buffertop
       .cardbody
           linky.cardhud(:x='b.name' v-if='!member'  @click.stop='copyCardToClipboard')
-              img.clippy(src='../assets/images/loggedOut.svg'  v-if='showCopied')
+              img.clippy(src='../assets/images/clipboard.svg'  v-if='showCopied')
           div(v-else)
               img.send(src='../assets/images/doge.svg')
               span {{member.name}}
