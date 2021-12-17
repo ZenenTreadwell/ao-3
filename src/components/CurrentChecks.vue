@@ -1,25 +1,30 @@
 linky<template lang='pug'>
 
 .current
-    span
+    span(@click='tryToggle')
         span &nbsp;&nbsp;&nbsp;
-        span.ptr(@click='switchOpenColor("red")')
+        span.ptr
+            //(@click='switchOpenColor("red")')
             img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty("red")' )
             span.num(:class='{highlight: colorOpenSelect === "red"}') {{ $store.getters.completedByColor.red }}
-        span.ptr(@click='switchOpenColor("yellow")')
+        span.ptr
+            //(@click='switchOpenColor("yellow")')
             img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty("yellow")' )
             span.num(:class='{highlight: colorOpenSelect === "yellow"}') {{ $store.getters.completedByColor.yellow }}
-        span.ptr(@click='switchOpenColor("green")')
+        span.ptr
+            //(@click='switchOpenColor("green")')
             img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty("green")' )
             span.num(:class='{highlight: colorOpenSelect === "green"}') {{ $store.getters.completedByColor.green }}
-        span.ptr(@click='switchOpenColor("purple")')
+        span.ptr
+            //(@click='switchOpenColor("purple")')
             img.completedcheckmark(src='../assets/images/completed.svg'  :class='cardInputSty("purple")' )
             span.num(:class='{highlight: colorOpenSelect === "purple"}') {{ $store.getters.completedByColor.purple }}
-        span.ptr(@click='switchOpenColor("blue")')
+        span.ptr
+            //(@click='switchOpenColor("blue")')
             img.completedcheckmark( src='../assets/images/completed.svg'  :class='cardInputSty("blue")' )
             span.num(:class='{highlight: colorOpenSelect === "blue"}') {{ $store.getters.completedByColor.blue }}
         span.witchswitch
-            .switch(@click='tryToggle')
+            .switch
                 input(type="checkbox"  v-model='$store.getters.contextCard.stackView.completed')
                 span.slider.round
     //- div.ptr.bg(v-if='$store.getters.contextCard.highlights.length > 0' v-for='(c) in checkmarksColor'   @click='recallCard(c.taskId)')

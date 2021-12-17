@@ -4,7 +4,7 @@
     .breathing
     .row
         .four.grid.boxy(v-if='$store.state.cash.info.mempool')
-            .section {{ $store.getters.confirmedBalance.toLocaleString() }} chain sats
+            .section {{ confirmedBalance.toLocaleString() }} chain sats
             .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
             .section block {{ $store.state.cash.info.blockheight.toLocaleString()}}
             .section {{ ((Date.now() - ($store.state.cash.info.blockfo.time * 1000)) / 60 / 1000).toFixed(1) }} minutes ago
@@ -117,6 +117,15 @@ export default {
          Tag, PointsSet
     },
     computed: {
+        confirmedBalance(){
+          let cb = 0
+          this.$store.state.cash.info.outputs.forEach(o => {
+              if (o.status === "confirmed"){
+                  cb += o.value
+              }
+          })
+          return cb
+        },
         selectedChannel(){
             return this.$store.state.cash.info.channels[this.selectedPeer]
         },

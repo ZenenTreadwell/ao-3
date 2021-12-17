@@ -221,11 +221,6 @@ export default {
                   }
             })
             allTasks = allTasks.concat(level1).concat(level2)
-            console.log({
-                level1: level1.length,
-                level2: level2.length,
-                allTasks: allTasks.length,
-            })
         } else {
             allTasks = []
         }
