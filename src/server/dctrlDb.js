@@ -1,15 +1,21 @@
-let PORT = process.env.PORT || 8003
-
 const Kefir = require('kefir')
 const _ = require('lodash')
 const uuidV1 = require('uuid/v1')
 const dbengine = require( 'better-sqlite3')
-const config = require('../../configuration')
 const cryptoUtils = require('../crypto')
 const chalk = require('chalk')
+const config = require('../../configuration')
+let PORT = process.env.PORT || 8003
+let dblocation = config.sqlite3.file
+// XXX - changing port is a quick way to get new db, but bad?
+if (PORT !== 8003){
+    dblocation = dblocation.replace('database', PORT)
+}
+if (process.env.DATABASE){
+    dblocation = process.env.DATABASE
+}
 
 const preparedStmts = {};
-
 var conn, eventEmitter, shadowEmitter
 
 const changeFeed = Kefir.stream(e => {
@@ -122,10 +128,6 @@ function insertBackup(state, callback) {
 
 function startDb(callback){
 
-    dblocation = config.sqlite3.file
-    if (PORT !== 8003){
-        dblocation = dblocation.replace('database', PORT)
-    }
     conn = dbengine(dblocation, { });
     var checkTable = conn.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='events'");
 

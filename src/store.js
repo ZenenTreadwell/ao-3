@@ -41,9 +41,6 @@ export default createStore({
           })
           return recentMembers
       },
-      warpDrive(state, getters){
-          return getters.liveConnections[state.upgrades.warp]
-      },
       memberCard(state, getters){
           let memberCard = _.merge(calculations.blankCard('', '', ''), state.tasks[state.hashMap[getters.member.memberId]])
           return memberCard
@@ -56,7 +53,6 @@ export default createStore({
           return getters.contextCard.subTasks.slice().reverse().map(t => state.tasks[state.hashMap[t]]).filter(t => !!t && t.color )
       },
       contextCompleted(state, getters){
-
           let upValence = []
           let downValence = []
           getters.contextCard.highlights.forEach(h => {
@@ -108,11 +104,6 @@ export default createStore({
           })
           return contextMem
       },
-      // contextGuilds(state, getters){
-      //     if (getters.contextMember){
-      //         return state.tasks.filter(t => t.deck.indexOf(getters.contextMember.memberId) > -1)
-      //     }
-      // },
       contextResource(state, getters){
         let contextRes = false
         state.resources.some(r => {
@@ -175,12 +166,6 @@ export default createStore({
       memberIds(state){
           return state.members.map(c => c.memberId)
       },
-      presentIds(state){
-          let now = Date.now()
-          return state.members
-              .filter(c => c.memberId && now - c.lastUsed < 3600000 * 4)
-              .map(c => c.memberId)
-      },
       resourceIds(state){
           return state.resources.map(c => c.resourceId)
       },
@@ -220,82 +205,20 @@ export default createStore({
           })
           return loggedInMember
       },
-      confirmedBalance(state){
-          let confirmedBalance = 0
-          state.cash.info.outputs.forEach(o => {
-              if (o.status === "confirmed"){
-                  confirmedBalance += o.value
-              }
-          })
-          return confirmedBalance
-      },
-      totalLocal(state){
-          let totalLocal = 0
-          state.cash.channels.forEach(c => {
-              totalLocal += c.channel_sat
-          })
-          return totalLocal
-      },
-      totalRemote(state){
-          let totalRemote = 0
-          state.cash.channels.forEach(c => {
-              totalRemote += (c.channel_total_sat - c.channel_sat)
-          })
-          return totalRemote
-      },
-      totalWallet(state, getters){
-          return parseInt( getters.totalLocal ) +  parseInt( getters.confirmedBalance )
-      },
-      satPointSpot(state){
-          if (state.cash.spot > 0){
-              return calculations.cadToSats(1, state.cash.spot)
-          }
-          return 10000
-      },
-      membersVouches(state){
-          let members = state.members.slice()
-          let vouches = []
-          members.forEach(m => {
-              let memberCard = state.tasks[state.hashMap[m.memberId]]
-              memberCard.deck.forEach(v => {
-                  let prevCount = vouches.find(c => c.memberId === v)
-                  if(!prevCount) {
-                      vouches.push({ memberId: v, count: 0 })
-                  } else {
-                      prevCount.count++
-                  }
-              })
-          })
-          return vouches
-      },
-      liveConnections(state){
-          return state.ao.filter(r => r.state && r.state.cash && r.state.cash.alias)
-      },
-      weights(state, getters){
-          let w = {}
-          getters.memberIds.forEach(mId => {
-              let member = state.tasks[state.hashMap[mId]]
-              member.priorities.forEach(p => {
-                  if (!w[p]) {
-                      w[p] = 1 / member.priorities.length
-                  } else {
-                      w[p] += (1 / member.priorities.length)
-                  }
-              })
-          })
-          return w
-      },
-      topcard(state, getters){
-          let topId
-          let topW = 0
-          Object.keys(getters.weights).forEach(tId => {
-              if (getters.weights[tId] > topW){
-                  topW = getters.weights[tId]
-                  topId = tId
-              }
-          })
-          return state.tasks[state.hashMap[topId]]
-      },
+      // weights(state, getters){ // fractional reserve doge
+      //     let w = {}
+      //     getters.memberIds.forEach(mId => {
+      //         let member = state.tasks[state.hashMap[mId]]
+      //         member.priorities.forEach(p => {
+      //             if (!w[p]) {
+      //                 w[p] = 1 / member.priorities.length
+      //             } else {
+      //                 w[p] += (1 / member.priorities.length)
+      //             }
+      //         })
+      //     })
+      //     return w
+      // },
   },
   middlewares: [],
   strict: process.env.NODE_ENV !== 'production'

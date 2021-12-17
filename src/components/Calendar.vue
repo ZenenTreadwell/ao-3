@@ -203,9 +203,14 @@ export default {
         return this.$store.state.tasks[this.$store.state.hashMap[this.inId]]
     },
     todaysEvents(){
-        let allTasks
+        let allTasks = []
         if (this.inId && this.card){
-            allTasks = this.card.subTasks.concat(this.card.priorities).concat(this.card.completed)
+            let level1 = this.card.subTasks.concat(this.card.priorities).concat(this.card.completed)
+            level1.forEach( tId => {
+                  let card = this.$store.state.tasks[this.$store.state.hashMap[tId]]
+                  allTasks = allTasks.concat(card.priorities).concat(card.completed).concat(card.subTask)
+            })
+            allTasks = allTasks.concat(level1)
         } else {
             allTasks = []
         }

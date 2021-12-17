@@ -119,17 +119,6 @@ export default {
         hasAnyVouches(){
             return this.b.deck.length > 0
         },
-        vouchCount(){
-            let vouchCount = this.$store.getters.membersVouches.find(c => c.memberId === this.m.memberId)
-            if(!vouchCount) return 0
-            return vouchCount.count
-        },
-        vouchRatio(){
-            let ratio = this.vouchCount / this.b.deck.length
-            if(this.b.deck.length <= 0 && this.vouchCount > 0) return '-∞'
-            else if(this.vouchCount === 0) return '0'
-            else return ratio.toFixed(2)
-        }
     },
 }
 

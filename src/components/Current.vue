@@ -15,10 +15,6 @@ export default {
       }
   },
   computed:{
-    isPresent(){
-        let isP = this.$store.getters.presentIds.indexOf(this.memberId) > -1
-        return isP
-    },
     m(){
         let m = false
         this.$store.state.members.forEach(member => {

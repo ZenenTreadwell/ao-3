@@ -870,6 +870,11 @@ function tasksMuts(tasks, ev) {
       })
       break
   }
+  tasks.forEach( t => {
+      if (t.taskId === ev.inId) {
+          t.lastUsed = ev.timestamp
+      }
+  })
 }
 
 module.exports = {

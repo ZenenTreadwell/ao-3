@@ -2,7 +2,6 @@
 
 .bird
     div(@click.stop='toggleSend')
-        // :class='{hidden:!$store.getters.member.guides}'
         img.birdy(v-if='!showSend && !b.guild' src='../assets/images/badge.svg')
         div.birdy.smallguild(v-else  :class='{ open : showSend }')
     guild-create(v-if='showSend'   :b='b'  :showSendOff='showSendOff')
@@ -20,22 +19,9 @@ export default {
         GuildCreate, Tally
     },
     data() {
-        if (this.$store.getters.recentMembers.length > 0 && this.$store.getters.guilds.length > 0){
-            return {
-                showGuildCreate: false,
-                showSend:false,
-                toMember: this.$store.getters.recentMembers[0].memberId,
-                toGuild: this.$store.getters.guilds[0].taskId,
-                toAo:'',
-            }
-        } else {
-          return {
-              showGuildCreate: false,
-              showSend:false,
-              toMember: '',
-              toGuild: '',
-              toAo:'',
-          }
+        return {
+            showGuildCreate: false,
+            showSend:false,
         }
     },
     methods: {
@@ -56,17 +42,6 @@ export default {
                 this.showGuildCreate = false
             }
             this.showSend = !this.showSend
-        },
-    },
-    computed: {
-        showGive(){
-            return this.showSend && this.$store.state.upgrades.mode === 'doge'
-        },
-        showPlay(){
-            return this.showSend && (this.$store.state.upgrades.mode === 'badge' || this.$store.state.upgrades.mode === 'boat')
-        },
-        showRelay(){
-            return this.showSend && (this.$store.state.upgrades.mode === 'chest' || this.$store.state.upgrades.mode === 'timecube')
         },
     },
 }
