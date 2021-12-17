@@ -7,6 +7,7 @@ const crypto = require('../crypto')
 const chalk = require('chalk')
 const fs = require('fs')
 const torControl = require('./torControl')
+let ALIAS = process.env.ALIAS || config.alias || 'AO'
 
 let publicKey
 try {
@@ -27,7 +28,7 @@ function baseState(){
       cash: {
         publicKey,
         address: '',
-        alias: '',
+        alias: ALIAS,
         currency: 'CAD',
         spot: 0,
         rent: 0,

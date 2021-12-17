@@ -77,13 +77,6 @@ export default {
                 type: 'task-removed',
                 taskId: this.$store.getters.contextCard.taskId,
             })
-            let target = this.$store.state.context[this.$store.state.context.length - 1]
-            if (target){
-                this.$store.dispatch('goHigher', target)
-            } else {
-                target = this.$store.getters.member.memberId
-                this.$store.commit('goDeeper', target)
-            }
         },
         getMemberCard(mId){
             let card

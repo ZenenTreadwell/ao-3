@@ -287,8 +287,12 @@ router.post('/events', (req, res, next)=>{
               }
           })
           if (secret){
-              connector.postEvent(req.body.address, secret, req.body.ev, (connectorRes) => {
-                  console.log("ao relay response", {connectorRes})
+              connector.postEvent(req.body.address, secret, req.body.ev, (err, connectorRes) => {
+                  if (err){
+                      res.status(400).send(err)
+                  } else {
+                      res.status(201).send(connectorRes)
+                  }
               })
           } else {
               console.log("no connection for ", req.body.address)

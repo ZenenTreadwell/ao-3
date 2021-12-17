@@ -12,7 +12,7 @@
     "lint": "vue-cli-service lint",
     "recompile": "npm run build; npm run start",
     "ao": "node src/server/app.js",
-    "start": "npm run ao"
+    "start": "node src/server/app.js"
   },
   "dependencies": {
     "better-sqlite3": "^7.1.0",

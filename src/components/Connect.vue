@@ -10,9 +10,9 @@
     button(v-if='sendTo'  @click='trySend') send
     .input-container
         input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
-        label connect string
+        label target ao connect string
     button(v-if='ao.address.length > 0'  @click='connect') connect
-    code.click(@click='showSecr') our connect string:
+    code.click(@click='showSecr') {{ $store.state.cash.alias }} connect string:
       span(v-show='showSecret')
         br
         label {{ $store.state.cash.address }}:{{ $store.state.loader.token }}

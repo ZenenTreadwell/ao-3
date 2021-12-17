@@ -126,16 +126,16 @@ function reactions(ev){
                 let changeChain = totalInOutputs - outputSatTotalTracker
                 if (i === 0){
                     console.log('current wallet:')
-                    i ++
                 }
-                if (changeLightning === totalInChannels){
+                i ++
+                if (changeLightning === totalInChannels  && i === 1){
                     console.log('', chalk.bold.yellow(totalInChannels.toLocaleString()), "sats in channels")
                 } else if (changeLightning > 0){
                     console.log('', chalk.bold.yellow(totalInChannels.toLocaleString()), "sats in channels", chalk.bold.green('+', changeLightning ))
                 } else if (changeLightning < 0){
                     console.log('', chalk.bold.yellow(totalInChannels.toLocaleString()), "sats in channels", chalk.bold.red('-', - changeLightning ))
                 }
-                if (changeChain === totalInOutputs){
+                if (changeChain === totalInOutputs  && i === 1){
                     console.log('', chalk.bold.yellow(totalInOutputs.toLocaleString()), "sats on chain")
                 } else if (changeChain > 0){
                     console.log('', chalk.bold.yellow(totalInOutputs.toLocaleString()), "sats on chain", chalk.bold.green('+', changeChain))

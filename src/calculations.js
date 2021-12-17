@@ -114,6 +114,7 @@ function safeMerge(cardA, cardZ) {
     cardA.subTasks = [...new Set(cardA.subTasks.concat(cardZ.subTasks))]
     cardA.priorities = [...new Set(cardA.priorities.concat(cardZ.priorities))]
     cardA.completed = [...new Set(cardA.completed.concat(cardZ.completed))]
+    cardA.guild = cardZ.guild
     // XXX only add in merge for now
     // XXX bolt11 / address need to clearly indicate origin ao
     // XXX book should be a list?
