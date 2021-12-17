@@ -204,13 +204,28 @@ export default {
     },
     todaysEvents(){
         let allTasks = []
+        let level1 = []
+        let level2 = []
         if (this.inId && this.card){
-            let level1 = this.card.subTasks.concat(this.card.priorities).concat(this.card.completed)
+            level1 = this.card.subTasks.concat(this.card.priorities).concat(this.card.completed)
             level1.forEach( tId => {
                   let card = this.$store.state.tasks[this.$store.state.hashMap[tId]]
-                  allTasks = allTasks.concat(card.priorities).concat(card.completed).concat(card.subTask)
+                  if (card){
+                      level2 = level2.concat(card.priorities).concat(card.completed).concat(card.subTask)
+                  }
             })
-            allTasks = allTasks.concat(level1)
+            level2.forEach( tId => {
+                  let card = this.$store.state.tasks[this.$store.state.hashMap[tId]]
+                  if (card){
+                      allTasks = allTasks.concat(card.priorities).concat(card.completed).concat(card.subTask)
+                  }
+            })
+            allTasks = allTasks.concat(level1).concat(level2)
+            console.log({
+                level1: level1.length,
+                level2: level2.length,
+                allTasks: allTasks.length,
+            })
         } else {
             allTasks = []
         }

@@ -28,19 +28,6 @@ export default createStore({
           }
           return false
       },
-      bountyList(state, getters){
-          return state.tasks
-              .filter(t => t.completeValue >= 1 && getters.memberIds.indexOf(t.taskId) === -1)
-              .sort((a,b) => b.completeValue - a.completeValue)
-      },
-      recentMembers(state){
-          let recentMembers = []
-          recentMembers = state.members.slice()
-          recentMembers.sort((a, b) => {
-              return b.lastUsed - a.lastUsed
-          })
-          return recentMembers
-      },
       memberCard(state, getters){
           let memberCard = _.merge(calculations.blankCard('', '', ''), state.tasks[state.hashMap[getters.member.memberId]])
           return memberCard
