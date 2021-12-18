@@ -12,7 +12,7 @@
         span.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goDeeper(t.taskId, t.inId)' :class='{smaller: ev.length > 15}' )
             img.completedcheckmark.doge(v-if='t.taskId === $store.getters.contextCard.taskId'  src='../assets/images/doge.svg')
             img.completedcheckmark(v-else   :class='styl(getCardColor(t.taskId))'  src='../assets/images/completed.svg')
-    //- img.upgrade(v-if='isToday'  v-for='t in $store.getters.contextCard.priorities'  src='../assets/images/uncompleted.svg'  :class='styl(getCardColor(t))')
+
 </template>
 
 <script>
@@ -124,18 +124,6 @@ export default {
 .upgrade.doge
     height: 1.89em
 
-
-.checkmark
-    display: inline
-    min-height: 1.5em
-    margin-right: 2px
-    img
-        height: 1.5em
-
-.guild
-    color: black
-    font-size: 0.5em
-
 .today
     width: 100%
     height: 100%
@@ -172,62 +160,14 @@ export default {
     position: relative
     pointer-events: none
 
-.amount
-    font-size: .49em
-    position: absolute;
-    bottom: 0;
-    left: 0;
-
-.inc
-    color: accent2
-
-.dec
-    color: red
-
-.b
-		text-align: center
-		border-radius: 8%
-		color: main
-		font-size: .8em
-
-.p
-		background-color: green
-		border-right-style: solid
-		border-color: green
-.c
-		background-color: green
-
-.name
-
-    font-size: 1.2em
-    margin-right: 1em
-    padding-bottom: .321em
-    position: relative
-    user-select: none
-
-.checkmark
-    margin-right: 0.25em
-
-img.checkmark
-    height: 2em
-
 img.completedcheckmark
     height: .99em
-
-.clickable
-    cursor: pointer
-
 
 .plain
     text-decoration: none
     margin-right: 0.13em
 
-// img.completedcheckmark
-
 .smaller  img
     height: 0.33em
-
-
-
 
 </style>

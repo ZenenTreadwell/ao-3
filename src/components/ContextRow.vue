@@ -102,22 +102,6 @@ export default {
         card(){
             return this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
         },
-        cardStart(){
-            if ( this.card.book.startTs ){
-              let now = Date.now()
-              let msTill = this.card.book.startTs - now
-              // XXX TODO
-              let days = msTill / (1000 * 60 * 60 * 24)
-              let hours = 0
-              let minutes = 0
-              return {
-                  days,
-                  hours,
-                  minutes
-              }
-            }
-            return undefined
-        },
         cardInputSty() {
           if (this.$store.getters.member.stacks === 1){
               return {
@@ -135,12 +119,6 @@ export default {
               purplewx : color == 'purple',
               blackwx : color == 'black',
           }
-        },
-        cardAge(){
-            let now = Date.now()
-            let msSince = now - this.card.timestamp
-            let days = msSince / (1000 * 60 * 60 * 24)
-            return days
         },
     },
 }
@@ -169,37 +147,6 @@ img.darkcircle
     position: relative
     z-index: 1
 
-.hyperpaper
-    background-image: url('/paper.jpg')
-    background-repeat: no-repeat
-    background-position: center center
-    background-size: cover
-    top: 0
-    left: 0
-    bottom: 0
-    right: 0
-    position: absolute
-    width: 100%
-    opacity: 0.2
-    z-index: 2
-    position: absolute
-
-.freshpaper
-    background-image: url('/paper.jpg')
-    opacity: 0.2
-
-.weekoldpaper
-    background-image: url('/paper_aged_1.png')
-    opacity: 0.25
-
-.montholdpaper
-    background-image: url('/paper_aged_2.png')
-    opacity: 0.3
-
-.threemontholdpaper
-    background-image: url('/paper_aged_3.png')
-    opacity: 0.35
-
 .popup
     top: 0
     left: 0
@@ -213,7 +160,6 @@ img.darkcircle
     overflow: hidden
 
 .popup .here .only
-    // visibility: hidden
     opacity: 0.15
 .popup:hover .here .only
     opacity: 1

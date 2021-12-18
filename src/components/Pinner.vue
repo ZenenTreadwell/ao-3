@@ -4,24 +4,26 @@
     div(@click.stop='toggleSend')
         img.birdy(v-if='!showSend && !b.guild' src='../assets/images/badge.svg')
         div.birdy.smallguild(v-else  :class='{ open : showSend }')
-    guild-create(v-if='showSend'   :b='b'  :showSendOff='showSendOff')
+    .guildcreate(v-if='showSend'  @click.stop  :class='{ bumpup : editing }')
+        input(v-model='task.guild'  type='text'  :placeholder='task.guild'  @keypress.enter='titleIt(false)')
+        button(@click='titleIt')
+            span(v-if='b.guild === task.guild') un
+            span pin
     span.theTitle(v-if='b.guild && !showSend') {{ b.guild }}
     .count
 </template>
 
 <script>
-import GuildCreate from './GuildCreate'
-import Tally from './Tally'
 
 export default {
     props: ['b', 'inId'],
-    components: {
-        GuildCreate, Tally
-    },
     data() {
         return {
             showGuildCreate: false,
             showSend:false,
+            task: {
+                guild: this.b.guild? this.b.guild : '',
+            },
         }
     },
     methods: {
@@ -43,6 +45,22 @@ export default {
             }
             this.showSend = !this.showSend
         },
+        titleIt() {
+            if(this.b.guild === this.task.guild) {
+                this.task.guild = ''
+                this.$store.dispatch("makeEvent", {
+                    type: 'task-guilded',
+                    taskId: this.b.taskId,
+                    guild: false,
+                })
+            }
+            this.$store.dispatch("makeEvent", {
+                type: 'task-guilded',
+                taskId: this.b.taskId,
+                guild: this.task.guild,
+            })
+            this.showSendOff()
+        },
     },
 }
 
@@ -55,6 +73,39 @@ export default {
 @import '../styles/grid'
 @import '../styles/button'
 @import '../styles/donut'
+@import '../styles/button'
+@import '../styles/input'
+
+img
+    height: 1.1em
+
+button
+    width: 3em
+    display: inline
+
+.guildcreate
+    background: transparent
+    padding: 0
+    input
+        width: 69%
+        display: inline-block;
+    button
+        width: 20%
+
+.guildcreate button
+    height: 2.2em
+    padding: 0
+
+.guildcreate input
+    border-color: rgba(22, 22, 22, 1)
+    border-width: 1px
+    background-color: rgba(22, 22, 22, 0.3)
+    height: 2.2em
+    width: 60%
+
+.guildcreate.bumpup
+    top: 0.6em
+    width: calc(100% - 7em)
 
 .count
     float: right

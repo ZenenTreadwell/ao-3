@@ -28,15 +28,6 @@ export default {
         if (this.m) return this.m.name
         return undefined
     },
-    isLoggedIn(){
-        let isLoggedIn
-        this.$store.state.sessions.forEach( s => {
-            if ( s.ownerId === this.memberId ){
-                isLoggedIn = true
-            }
-        })
-        return isLoggedIn
-    }
   }
 }
 
@@ -52,19 +43,11 @@ export default {
     margin-right: 1em
     white-space: nowrap
 
-a
-    color: accent2
-    text-decoration: none
-
 .onlineicon
     margin-right: 0.5em
     height: 0.9em
     position: relative
     top: 0.25em
-
-.result .onlineicon
-    top: 0.1em
-    height: 1em
 
 .clickable
     cursor: crosshair;

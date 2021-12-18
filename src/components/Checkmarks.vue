@@ -2,37 +2,46 @@
 
 .upgrades(v-if='!$store.getters.contextMember')
     div.tr
-        //- img.doge(v-if='$store.getters.contextRelevantMembers.length > 0'  src='../assets/images/doge.svg')
         span.bg
             span(v-for='n in $store.getters.contextRelevantMembers'   :key='n'  @click='toggleHighlight(n)'  @click.ctrl='toggleHighlight(n, true)')
                 span(:class='{highlight: isHighlighted(n), lowdark: isLowdarked(n) }') &nbsp; {{ getName(n) }} &nbsp;
             span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop') *leave*
             span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click='grab') *join*
             span.ptr(v-if='$store.getters.contextCard.deck.length === 0' @click='remove') &nbsp; *delete*
-    current-checks(v-if='$store.getters.contextCompleted.length > 0  || $store.getters.contextCard.highlights.length > 0')
+    span.ptr(@click='tryToggle'  v-if='!$store.getters.contextMember')
+        span &nbsp;&nbsp;&nbsp;
+        span
+            img.completedcheckmark.redwx(src='../assets/images/completed.svg')
+            span.num {{ $store.getters.completedByColor.red }}
+        span
+            img.completedcheckmark.yellowwx(src='../assets/images/completed.svg')
+            span.num {{ $store.getters.completedByColor.yellow }}
+        span
+            img.completedcheckmark.greenwx(src='../assets/images/completed.svg')
+            span.num {{ $store.getters.completedByColor.green }}
+        span
+            img.completedcheckmark.purplewx(src='../assets/images/completed.svg')
+            span.num {{ $store.getters.completedByColor.purple }}
+        span
+            img.completedcheckmark.bluewx(src='../assets/images/completed.svg')
+            span.num {{ $store.getters.completedByColor.blue }}
+        span.witchswitch
+            .switch
+                input(type="checkbox"  v-model='$store.getters.contextCard.stackView.completed')
+                span.slider.round
     .spacer
-    //- span(v-if='$store.getters.isLoggedIn  && $store.getters.member.memberId !== $store.getters.contextCard.taskId')
-    //-     div(v-if='$store.getters.contextCard.deck.length === 0'  @click='remove')
-    //-         button remove
-        //- div(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop')
-        //-     button leave
-        //- div(v-else  @click='grab')
-        //-     button enter
 </template>
 
 <script>
 
-import CurrentChecks from './CurrentChecks'
-import MemberRow from './MemberRow'
-import GuildCreate from './GuildCreate'
-import Accounts from './Accounts'
-import Connect from './Connect'
-
 export default {
-    components:{
-        CurrentChecks, MemberRow, GuildCreate, Accounts, Connect
-    },
     methods: {
+        tryToggle(){
+            this.$store.dispatch("makeEvent", {
+                type: "completed-toggled",
+                taskId: this.$store.getters.contextCard.taskId,
+            })
+        },
         getName(x){
             let name
             this.$store.state.members.forEach(m => {
@@ -78,16 +87,6 @@ export default {
                 taskId: this.$store.getters.contextCard.taskId,
             })
         },
-        getMemberCard(mId){
-            let card
-            this.$store.state.members.some(m => {
-                if (m.memberId === mId) {
-                    card = m
-                    return true
-                }
-            })
-            return card
-        }
     }
 }
 
@@ -96,6 +95,11 @@ export default {
 <style lang='stylus' scoped>
 @import '../styles/colours'
 @import '../styles/skeleton'
+@import '../styles/switch'
+
+.witchswitch
+    margin-top: -1em
+
 
 .tr
     text-align: right
@@ -108,26 +112,8 @@ export default {
 .spacer
     height: 0.5em
 
-.doge
-    height: 1.3789em
-    display: inline-block
-    background-color: main
-    padding: .5em;
-    border-radius: 50%;
-    margin-right: -.3em;
-
 .ptr
     cursor: pointer;
-
-h5
-    text-align: center
-    color: lightGrey
-    opacity: 0.77
-
-button
-    width: 100%
-    padding: 0.33em
-    margin-top: 0.33em
 
 .highlight
     text-shadow: 0 0 20px yellow, 0 0 20px yellow, 0 0 20px yellow
@@ -135,5 +121,11 @@ button
 .lowdark
     text-shadow: 0 0 20px red, 0 0 20px red, 0 0 20px red
 
+img.completedcheckmark
+    height: 1.5em
+
+.num
+    padding: .37em
+    font-weight: bolder
 
 </style>

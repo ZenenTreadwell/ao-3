@@ -12,7 +12,7 @@
         input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
         label target ao connect string
     button(v-if='ao.address.length > 0'  @click='connect') connect
-    code.click(@click='showSecr') {{ $store.state.cash.alias }} connect string:
+    code.ptr(@click='showSecr') {{ $store.state.cash.alias }} connect string:
       span(v-show='showSecret')
         br
         label {{ $store.state.cash.address }}:{{ $store.state.loader.token }}
@@ -45,7 +45,6 @@ export default {
                 let taskList = calcs.crawler(this.$store.state.tasks, this.$store.getters.contextCard.taskId)
                 tasks = this.$store.state.tasks.filter(t => taskList.indexOf(t.taskId) > -1)
             }
-            console.log('sending', tasks.length, 'tasks to', this.sendTo)
             this.$store.dispatch('makeEvent', {
                 type: 'ao-relay',
                 address: this.sendTo,
@@ -134,49 +133,8 @@ span
     overflow-wrap: break-word
     word-wrap: break-word
 
-.section
-    color:lightGrey
-    font-size: 0.9em
-    margin-bottom: .5em
-    margin-top: .5em
-
-.fw
-    width: 100%
-
-.click
+.ptr
     cursor: pointer
-
-.letter
-    width: 1.7em
-
-h1
-    text-align: center
-    content-align: center
-
-h6
-    text-align: center
-    cursor: pointer
-
-.count
-    float: right
-
-.activated
-    border-style: solid
-    border-width: thick
-    border-color: white
-
-.upgrade
-    height: 3em
-
-.task
-
-    margin:10px 0
-    padding:20px
-
-.btn
-    width:100%
-    margin-top: 2em
-    max-height: 3em
 
 select
     background-color: lightteal
@@ -184,65 +142,8 @@ select
 select.form-control
     color: black
 
-.curs
-    cursor: pointer;
-
-.birdy
-    float: left
-    height: .777em
-    cursor: pointer
-
-.faded
-    opacity: 0.235654
-
-.conn, .discon
-    font-size: 0.8em
-    margin-left: 0.5em
-    margin-right: 0.5em
-
-.discon
-    cursor: pointer
-    color: red
-
-.conn
-    cursor: pointer
-    color: green
-    word-wrap: break-word
-    word-break: break-word
-
-.clearboth
-    // width: 50%
-    // margin-left: 50%
-    // transform: translateX(-50%)
-    // clear: both
-    // margin-top: 1em
-    // padding-top: 0.75em
-
 code
     word-wrap: break-word
     word-break: break-word
 
-.padleft
-    margin-left: 1em
-
-.topspace
-    margin-top: 1em
-
-.flex
-    display: flex
-    flex-wrap: wrap
-    flex-basis: 50%
-    justify-content: center
-
-@media all and (max-width: 600px)
-    .flex
-        flex-basis: 100%
-
-.ourinfo
-    background: lightGrey
-    color: main
-    padding: 1em
-    border-radius: 1em
-    h4
-        text-align: center
 </style>

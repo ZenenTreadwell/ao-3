@@ -1,6 +1,6 @@
 <template lang='pug'>
 .task(:class="cardInputSty"  @click='goDeeper'  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart').dont-break-out.agedwrapper
-    bird(:b='b', :inId='inId')
+    pinner(:b='b', :inId='inId')
     tally(:b='b')
     .donut.flaggy.square.hidden(@click.stop='upboat')
     .buffertop
@@ -26,7 +26,7 @@
 import Tally from './Tally'
 import Linky from './Linky'
 import Current from './Current'
-import Bird from './Bird'
+import Pinner from './Pinner'
 import PreviewDeck from './PreviewDeck'
 import Simple from './SimplePriorities'
 
@@ -37,7 +37,7 @@ export default {
         }
     },
     props: ['b', 'inId', 'c'],
-    components: { PreviewDeck, Bird, Linky, Simple, Current, Tally},
+    components: { PreviewDeck, Pinner, Linky, Simple, Current, Tally},
     methods: {
         drop(ev){
             ev.preventDefault();
@@ -185,59 +185,10 @@ export default {
 .sml
     font-size: .73em
 
-.faded
-    opacity: .1
-
-.tooltiptext.correctspot
-    position: absolute
-    top: calc(100% - 1.75em)
-    right: 2em
-    z-index: 9000
-
-.count
-    float: right
-
-.activated
-    border-style: solid
-    border-width: thick
-    border-color: white
-
-.upgrade
-    height: 3em
-
 .task
     margin:10px 0
     padding:20px
     cursor: crosshair
-    // border-radius: 2%
-.row
-    width: 100%
-    .mainColumn
-      width:calc(100% - 75px - 4%)
-    .secondaryColumn
-      width:75px
-      button
-        height:75px
-
-.btn
-    width:100%
-    margin-top: 2em
-    max-height: 3em
-
-select
-    background-color: lightteal
-
-select.form-control
-    color: black
-
-.curs
-    cursor: pointer;
-
-label
-    color: black
-    text-align: center
-    padding: 0
-    margin-bottom: -50px
 
 .scrolly
     position: absolute
@@ -252,53 +203,12 @@ label
     span
         padding-right: 1.2em
 
-
 img.chest
     height: 1.2em
-
-.count
-    float: right
-
-.activated
-    border-style: solid
-    border-width: thick
-    border-color: white
-
-.upgrade
-    height: 3em
 
 .task
     margin:10px 0
     padding:20px
-
-.row
-    width: 100%
-    .mainColumn
-      width:calc(100% - 75px - 4%)
-    .secondaryColumn
-      width:75px
-      button
-        height:75px
-
-.btn
-    width:100%
-    margin-top: 2em
-    max-height: 3em
-
-select
-    background-color: lightteal
-
-select.form-control
-    color: black
-
-.curs
-    cursor: pointer;
-
-label
-    color: black
-    text-align: center
-    padding: 0
-    margin-bottom: -50px
 
 .viney
     height: 1.3em
@@ -307,30 +217,9 @@ label
     right: 0
     cursor: pointer
 
-.row
-    width: 100%
-
 .send
     height: 1.1em
     opacity: 0.64
-
-.accept, .dontaccept
-    width: 100%
-    background: accent5
-    padding: .789em
-    border-style: none
-    img
-        background: white
-        padding: .1em
-        border-radius: 3px
-
-.arrow
-    height: 3.35em
-
-.fl
-    float: left
-.fr
-    float: right
 
 .totop
     z-index: 1000
@@ -345,23 +234,10 @@ label
 .fw
     width:100%
 
-.count
-    float: right
-
-.activated
-    border-style: solid
-    border-width: thick
-    border-color: white
-
-.upgrade
-    height: 3em
-
 .task
     margin:0
     margin-bottom: .25em
     padding:1em
-    //border-radius: 12px
-    // box-shadow: -7px 7px 7px 1px rgba(21, 21, 21, 0.5)
     position: relative
 
 .dont-break-out
@@ -370,91 +246,8 @@ label
   word-break: break-word
   hyphens: auto
 
-.brder
-    label
-        text-align: center
-
-.tooltip .tooltiptext
-    font-size: 1em
-    padding-bottom: 1em
-
-.arrow
-    height: 3.35em
-
-.thumbnail-container {
-  width: calc(1440px * 0.19)
-  height: calc(900px * 0.19)
-  display: inline-block
-  overflow: hidden
-  position: relative
-}
-
-.thumbnail {
-  width: calc(1440px)
-  height: calc(900px)
-  position: relative
-  -ms-zoom: 0.19
-  -moz-transform: scale(0.19)
-  -moz-transform-origin: 0 0
-  -o-transform: scale(0.19)
-  -o-transform-origin: 0 0
-  -webkit-transform: scale(0.19)
-  -webkit-transform-origin: 0 0
-}
-
-.thumbnail iframe {
-  width: 1440px
-  height: 900px
-}
-
-.thumbnail:after {
-  content: ""
-  display: block
-  position: absolute
-  top: 0
-  left: 0
-  right: 0
-  bottom: 0
-}
-
-.faded
-    opacity: 0.235654
-
 .agedwrapper
     position: relative
-
-.agedbackground
-    background-image: url('/paper.jpg')
-    background-repeat: no-repeat
-    background-position: center center
-    background-size: cover
-    top: 0
-    left: 0
-    bottom: 0
-    right: 0
-    position: absolute
-    width: 100%
-    height: 100%
-    pointer-events: none
-
-.freshpaper
-    background-image: url('/paper.jpg')
-    opacity: 0.2
-
-.weekoldpaper
-    background-image: url('/paper_aged_1.png')
-    opacity: 0.25
-
-.montholdpaper
-    background-image: url('/paper_aged_2.png')
-    opacity: 0.3
-
-.threemontholdpaper
-    background-image: url('/paper_aged_3.png')
-    opacity: 0.35
-
-.smallguild
-    height: 1.67em
 
 .bold
     height: 1.21
@@ -464,75 +257,6 @@ label
     position: relative
     z-index: 14
     cursor: pointer
-
-.cardheader
-    margin: 0 auto
-    font-size: 1.2em
-
-.cardname
-    z-index: 15
-    position: relative
-
-.dogecoin
-    position: absolute
-    top:0
-    left: 50%
-    transform: translateX(-50%)
-    z-index: 154
-
-.dogecoin .tooltiptext
-    left: 3em
-
-.dogecoin img
-    width: 1.3em
-
-.sixteenth1
-    clip-path: polygon(50% 50%, 50% 0, 25% 0)
-
-.sixteenth2
-    clip-path: polygon(50% 50%, 50% 0, 0 0)
-
-.sixteenth3
-    clip-path: polygon(50% 50%, 50% 0, 0 0, 0 25%)
-
-.sixteenth4
-    clip-path: polygon(50% 50%, 50% 0, 0 0, 0 50%)
-
-.sixteenth5
-    clip-path: polygon(50% 50%, 50% 0, 0 0, 0 75%)
-
-.sixteenth6
-    clip-path: polygon(50% 50%, 50% 0, 0 0, 0 100%)
-
-.sixteenth7
-    clip-path: polygon(50% 50%, 50% 0, 0 0, 0 100%, 25% 100%)
-
-.sixteenth8
-    clip-path: polygon(50% 50%, 50% 0, 0 0, 0 100%, 50% 100%)
-
-.sixteenth9
-    clip-path: polygon(50% 50%, 50% 0, 0 0, 0 100%, 75% 100%)
-
-.sixteenth10
-    clip-path: polygon(50% 50%, 50% 0, 0 0, 0 100%, 100% 100%)
-
-.sixteenth11
-    clip-path: polygon(50% 50%, 50% 0, 0 0, 0 100%, 100% 100%, 100 75%)
-
-.sixteenth12
-    clip-path: polygon(50% 50%, 50% 0, 0 0, 0 100%, 100% 100%, 100% 50%)
-
-.sixteenth13
-    clip-path: polygon(50% 50%, 50% 0, 0 0, 0 100%, 100% 100%, 100% 25%)
-
-.sixteenth14
-    clip-path: polygon(50% 50%, 50% 0, 0 0, 0 100%, 100% 100%, 100% 0)
-
-.sixteenth15
-    clip-path: polygon(50% 50%, 50% 0, 0 0, 0 100%, 100% 100%, 100% 0, 75% 0)
-
-.sixteenth16
-    clip-path: polygon(50% 50%, 50% 0, 0 0, 0 100%, 100% 100%, 100% 0, 50% 0)
 
 .buffertop
     margin-top: 2em
@@ -571,9 +295,6 @@ label
 .copied.hidden
     opacity: 0.1
     cursor: pointer
-
-.copydiv
-    padding-left: 50% - 2em
 
 .flaggy
     position: absolute

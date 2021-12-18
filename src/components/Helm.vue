@@ -47,9 +47,6 @@ export default {
 .helm
     z-index: 9001
 
-.hidden
-    opacity: 0
-
 img
     height: 3.3em
     position: fixed
@@ -97,39 +94,5 @@ img
     top: 0
     left: 0
     height: 3.3em
-
-.quarter
-    display: inline-block
-    width: 33%
-    font-size: 6.44em
-    color: lightGrey
-    max-height: 2em
-    margin-top: -0.35em;
-
-.selected
-    color: wrexgreen
-
-.quarter:before
-    content: "\2022";
-
-.upg
-    height: 2em
-    pointer-events: none
-
-.topcenter
-    position: fixed
-    top: 0
-    left: 50%
-    transform: translateX(-50%)
-    width: 10em
-    height: 2em
-    max-width: 33%
-    color: main
-    padding-left: 2em
-    padding-right: 2em
-    padding-top: .29em
-    padding-bottom: .29em
-    z-index: 77777
-    cursor: pointer
 
 </style>

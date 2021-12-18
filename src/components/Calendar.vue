@@ -4,20 +4,20 @@
   .row.menu
       .four.grid.dot(@click.stop='prevMonth')
       .four.grid(@click='clickDateBar')
-          .soft {{ monthName }} - {{year}}
+          .ptr {{ monthName }} - {{year}}
               span(v-if='$store.state.upgrades.chosenDay') - {{ $store.state.upgrades.chosenDay }}
       .four.grid.dot(@click.stop='nextMonth')
   .calmonth(v-if='!$store.state.upgrades.chosenDay')
       .weekday(v-for='day in DAYS_OF_WEEK') {{ day }}
       .placeholder(v-for='placeholder in firstDay')
-      div.deh(v-for='day in days'  @click='chooseDay(day)')
+      div.ptr(v-for='day in days'  @click='chooseDay(day)')
           day(:day="day", :month='month', :year='year'  :inId='inId'  :ev="eventsByDay[day]"  :isToday='checkToday(day, month, year)')
       .placeholder(v-for='placeholder in lastDay')
   .calmonth(v-else  :ondrop='drop'    :ondragover="allowDrop")
       .weekdayfull(@click='clickDateBar') {{ chosenWeekDay }}
       .grey
           .datenumber  {{ $store.state.upgrades.chosenDay }}
-          .soft.bg(v-for='n in selectedDaysEvs')
+          .ptr.bg(v-for='n in selectedDaysEvs')
               span(v-if='n.type === "task-claimed"'  @click='goDeeper(n.taskId, n.inId)')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }} &nbsp;
                   span(v-if='n.taskId === $store.getters.contextCard.taskId')
@@ -28,7 +28,7 @@
               span(v-else-if='n.type === "resource-used"'  @click='goDeeper(n.resourceId, n.memberId)')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }} &nbsp;
                   img.completedcheckmark(src='../assets/images/down.svg')
-                  //- current(:memberId='n.memberId') is this useful somewhere?
+                  current(:memberId='n.memberId')
                   currentr(:resourceId='n.resourceId')
                   span - {{ n.notes }}
               span(v-else-if='checkIsMember(n.name)'  @click='goDeeper(n.taskId)')
@@ -41,12 +41,9 @@
 
 <script>
 import _ from 'lodash'
-import Checkmarks from './Checkmarks'
 import Day from './Day.vue'
 import Current from './Current.vue'
 import Currentr from './Currentr.vue'
-import Priorities from './Priorities.vue'
-import SimplePriority from './SimplePriority.vue'
 import Linky from './Linky'
 
 function getDMY(ts){
@@ -59,9 +56,8 @@ function getDMY(ts){
 
 export default {
   components: {
-    Day, Currentr, Current, Priorities,
-    SimplePriority, Linky,
-    Checkmarks
+    Day, Currentr, Current,
+    Linky,
   },
   methods: {
       allowDrop(ev){
@@ -266,6 +262,9 @@ export default {
 @import '../styles/colours';
 @import '../styles/grid';
 
+#calendar
+    color: main
+
 .dark
     background-color: main
     padding: .5em;
@@ -278,14 +277,8 @@ export default {
     padding: 0.33em
     border-radius: 3%
 
-p
-    display: inline-block;
-
 .row.menu
     cursor: pointer
-
-.fw
-    width: 100%
 
 .grey
     background-color: softGrey
@@ -293,30 +286,8 @@ p
     color: main
     padding: 5px
 
-.deh
+.ptr
     cursor: pointer
-
-.tooltip
-    color: lightGrey
-    cursor: pointer
-
-h5
-    text-align: center
-    color: main
-    opacity: 0.77
-
-.bdoge
-    width: 100%
-    opacity: 0.77
-    height: 5em
-    margin-top: 1em
-
-.soft
-    cursor: pointer
-
-
-#calendar
-    color: main
 
 .menu
     text-align: center
@@ -363,49 +334,12 @@ h5
     font-weight: bolder
     font-size: .666em
 
-.legend
-    margin-top: -70px
-
-td
-    border: none
-
-.availablebox, .bookedbox
-    height: 20px
-    width: 20px
-
-.bookedbox
-    background-color: green
-.availablebox
-    background-color: accent2
-.signcell
-    max-width: 0px
-
-.downhalfbox
-    padding-top: 10px
-
-table
-    font-size: .7em
-
-tr, td
-    padding:0
-    padding-left: 11px
-.ch
-    color: accent2
-
-.do
-    color: green
-
 .calmonth
     margin: 0 2% 2% 2%
 
 .buffer
    clear: both
    height: 0.45em
-
-.fl
-    float: left
-.fr
-    float: right
 
 .datenumber
     float: right
@@ -422,4 +356,5 @@ tr, td
 
 img.completedcheckmark
     height: .99em
+
 </style>

@@ -17,11 +17,10 @@
             div(v-if='$store.getters.contextMember')
                 img.doge(src='../assets/images/doge.svg')
                 linky(:x='m.name')
-                //- coin(v-if='$store.state.upgrades.mode === "doge"'  :b='$store.getters.contextCard')
             div(v-else-if='$store.getters.contextResource')
                 currentr(:resourceId='$store.getters.contextCard.taskId')
             div(v-else)
-                bird(:b='$store.getters.contextCard', :inId='$store.getters.contextCard.taskId')
+                pinner(:b='$store.getters.contextCard', :inId='$store.getters.contextCard.taskId')
                 linky(:x='card.name')
                 img(v-show='copied'  src='../assets/images/clipboard.svg')
     div
@@ -44,7 +43,7 @@ import Linky from './Linky'
 import Auth from './Auth'
 import Checkbox from './Checkbox'
 import Card from './Card'
-import Bird from './Bird'
+import Pinner from './Pinner'
 import ResourceBook from './ResourceBook'
 
 let debounce = false
@@ -53,7 +52,7 @@ export default {
     data(){
         return {copied: false}
     },
-    components: {Current, Linky, Auth, Card, Coin, Checkbox, Bird, ResourceBook, Currentr},
+    components: {Current, Linky, Auth, Card, Coin, Checkbox, Pinner, ResourceBook, Currentr},
     computed:{
         m(){
             return this.$store.getters.contextMember

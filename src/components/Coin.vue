@@ -48,13 +48,7 @@ export default {
 .dogepepecoin
   display:inline-block;
   width: 33px
-  // height: 35px
-  // position: absolute
-  // bottom: 3px
-  // right: 3px
   cursor: pointer
-  // padding-top: .5em
-  // padding-bottom: .5em
 
 .ungrabbedcoin
     opacity: 0.869

@@ -85,13 +85,7 @@ export default {
     background: softerGrey
 
 .checkbox
-    // opacity: 0.9
     cursor: pointer
-    // z-index: 105
-    // position: absolute
-    // right: 0.25em
-    // top: 0.15em
-    // display: block
     min-width: 0.75em
     text-align: center
 

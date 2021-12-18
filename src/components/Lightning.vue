@@ -94,10 +94,8 @@
 </template>
 
 <script>
+
 import calculations from '../calculations'
-
-import PointsSet from './PointsSet'
-
 import Tag from './Tag'
 import request from 'superagent'
 
@@ -114,7 +112,7 @@ export default {
         }
     },
     components:{
-         Tag, PointsSet
+         Tag,
     },
     computed: {
         confirmedBalance(){
