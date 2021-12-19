@@ -54,7 +54,7 @@ img
 .linky .noheight img
     max-width: 100%
 
-.cardname.front .linky .noheight img
+.linky .noheight img
     max-width: 100%
 
 .priority .closedcard .linky img, .priority.closedcard .linky img

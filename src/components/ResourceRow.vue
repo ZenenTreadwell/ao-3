@@ -122,7 +122,6 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/skeleton'
-@import '../styles/grid'
 @import '../styles/button'
 
 .startright
@@ -134,25 +133,8 @@ export default {
     min-height: 37px
     background: lightGrey
 
-.redtx
-    font-size: 0.6em
-
-.smallguild
-    height: 2em
-
-.stash
-    display: inline
-    margin-left: 0.5em
-    position: relative
-    top: -0.35em
-
 button
     margin-bottom: .7321em
-
-code
-    margin-top: 1em
-    border-radius: 5px
-    padding: .4321em
 
 img
     height: 2em
@@ -166,8 +148,6 @@ label
     font-family: monospace
     font-size: 1.3em
     padding: 0.25em
-.smallguild
-    height: 2em
 
 .paytrigger
     position: absolute;
@@ -175,50 +155,8 @@ label
     height: 2em
     cursor: pointer;
 
-.bottomleft, .bottomright
-    width: fit-content
-    position: relative
-    bottom: 0
-
-.bottomleft
-    float: left
-    left: 0
-
-.bottomright
-    right: 0
-    cursor:pointer
-    float: right
-
-.stash
-    display: inline
-    margin-left: 0.5em
-    position: relative
-    top: -0.35em
-
 .clearboth
     clear: both
-
-.gui
-    font-size: 1.7em
-    cursor: pointerd
-
-.title
-    text-align: center
-    font-size: 1.8em
-    margin-top: 0.5em
-    font-weight: bold
-
-.help
-    font-size: 1.3em
-
-.suggest
-    font-style: italic
-    font-size: 1.3em
-
-.dogecoin
-    width: 3em
-    height: 3em
-    cursor: pointer
 
 .faded
     opacity: 0.29
@@ -226,15 +164,4 @@ label
 .notfaded
     opacity: 1
 
-.tooltiptext.membertooltip
-    width: 20em
-    z-index: 151
-    left: 7em
-    top: -11em
-
-ul.left
-    text-align: left
-
-.goodbye
-    height: 2em
 </style>

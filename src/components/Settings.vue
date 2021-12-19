@@ -76,7 +76,6 @@ export default {
     },
     methods: {
         logout(){
-            console.log('removing session? ? ?', this.$store.state.loader.session)
             this.$store.dispatch('makeEvent', {
                 type: 'session-killed',
                 session: this.$store.state.loader.session,

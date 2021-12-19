@@ -10,7 +10,7 @@
             span(v-if='b.guild === task.guild') un
             span pin
     span.theTitle(v-if='b.guild && !showSend') {{ b.guild }}
-    .count
+
 </template>
 
 <script>
@@ -107,46 +107,11 @@ button
     top: 0.6em
     width: calc(100% - 7em)
 
-.count
-    float: right
-
-.upgrade
-    height: 3em
-
-.task
-    margin:10px 0
-    padding:20px
-
-.btn
-    width:100%
-    margin-top: 2em
-    max-height: 3em
-
-
-.give
-    select
-        width: 61%
-    button
-        width: 29%
-
-
-select.form-control
-    color: black
-
-select.shorten
-    width: 68%
-
-.curs
-    cursor: pointer;
-
 .birdy
     float: left
     height: 1.4777em
     cursor: pointer
     opacity:0.5
-
-.faded
-    opacity: 0.235654
 
 .smallguild
     background-image: url('../assets/images/badge.svg')
@@ -159,23 +124,7 @@ select.shorten
     position: relative
     z-index: 10
 
-.give, .play, .warp
-    position: relative
-    top: 2em
-    margin-bottom: 1em
-    padding-bottom: 1em
-    width: 100%
-
 .theTitle
     color: main
-
-.small
-    display: inline-block
-    height: 2.3em
-    position: relative
-    top: -0.07em
-
-.hidden
-    opacity: 0
 
 </style>

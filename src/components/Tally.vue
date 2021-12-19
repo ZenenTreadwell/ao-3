@@ -90,9 +90,6 @@ export default {
 
 <style lang='stylus' scoped>
 
-.faded
-    opacity: 0.235654
-
 .hide
     opacity: 0
 .tally
@@ -108,13 +105,6 @@ img
     position: relative
     bottom: 0
     right: 0
-
-.block
-    display: block
-    clear: both
-
-img.chest
-    display: inline
 
 .points
     position: relative

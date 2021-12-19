@@ -32,15 +32,9 @@
               col='20'
               @click.stop='tryGoIn'
           )
-          //- //"愛  любовь  عشق  love  사랑  Aşk  ਪਿਆਰ  အချစ်  ស្រឡាញ់  <3"
   span.hidden {{ refocusWatcher }}  {{ nameWatcher }}
-      //- #btnpanel.btnpanel
-      //-     div(:class='{ opaque : showCreate, btnwrapper : !showCreate }')
-      //-         .fifth(@click.stop='switchColor("red")'  :class='{ down : $store.state.upgrades.color === "red" && showCreate }').redtx.paperwrapper
-      //-         .fifth(@click.stop='switchColor("yellow")'  :class='{ down : $store.state.upgrades.color === "yellow" && showCreate}').yellowtx.paperwrapper
-      //-         .fifth(@click.stop='switchColor("green")'  :class='{ down : $store.state.upgrades.color === "green"  && showCreate}').greentx.paperwrapper
-      //-         .fifth(@click.stop='switchColor("purple")'  :class='{ down : $store.state.upgrades.color === "purple" && showCreate}').purpletx.paperwrapper
-      //-         .fifth(@click.stop='switchColor("blue")'  :class='{ down : $store.state.upgrades.color === "blue" && showCreate}').bluetx.paperwrapper
+  //- //"愛  любовь  عشق  love  사랑  Aşk  ਪਿਆਰ  အချစ်  ស្រឡាញ់  <3"
+
 </template>
 
 <script>

@@ -124,13 +124,6 @@ export default {
               inId:  this.inId || this.$store.getters.contextCard.taskId,
           })
       },
-      copyCardToClipboard(){
-          navigator.clipboard.writeText(this.card.name).then(function() {
-
-          }, function() {
-              console.log("copy failed")
-          })
-      },
       setAction(){
           this.$store.dispatch("makeEvent", {
               type: 'member-field-updated',
@@ -214,12 +207,6 @@ export default {
               }
           }
         },
-        cardAge(){
-          let now = Date.now()
-          let msSince = now - this.card.timestamp
-          let days = msSince / (1000 * 60 * 60 * 24)
-          return days
-        },
         isCompleted(){
           let now = Date.now()
           return this.card.claims.some(c => {
@@ -249,24 +236,11 @@ img.darkcircle
 img.checkmark.right.front.notaction
     opacity: .1773
 
-h1
-    color: blue
-
-.opencard
-    width: calc(100% - 4.5em)
-    margin-top: 0.5em
-
 .row.agedwrapper
     box-shadow: 3px 1px 7px 1px main
 
 .priority
     clear: both
-
-.singleship
-    width: 3.3724em
-    position: absolute
-    margin-top: 1em
-    float: right
 
 .agedwrapper
     position: relative
@@ -275,48 +249,6 @@ h1
     padding: 0.5em
     margin-right: 0.5em
     margin-left: 0.5em
-
-.agedbackground
-    background-image: url('/paper.jpg')
-    background-repeat: no-repeat
-    background-position: center center
-    background-size: cover
-    top: 0
-    left: 0
-    bottom: 0
-    right: 0
-    position: absolute
-    width: 100%
-    height: 100%
-    pointer-events: none
-
-.freshpaper
-    background-image: url('/paper.jpg')
-    opacity: 0.2
-
-.weekoldpaper
-    background-image: url('/paper_aged_1.png')
-    opacity: 0.25
-
-.montholdpaper
-    background-image: url('/paper_aged_2.png')
-    opacity: 0.3
-
-.threemontholdpaper
-    background-image: url('/paper_aged_3.png')
-    opacity: 0.35
-
-.allocated
-    position: absolute
-    padding-left: 0.25em
-    width: 2em
-    text-align: center
-    font-size: 0.95em
-    margin-top: 0.5em
-    color: white
-    text-shadow: 2px 2px 2px rgba(0.05, 0.05, 0.05, 0.5)
-    font-size: 1.5em
-    pointer-events: none
 
 .cardname
     z-index: 15

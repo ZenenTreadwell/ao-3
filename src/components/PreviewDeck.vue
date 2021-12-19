@@ -6,32 +6,35 @@
         .one.grid
             span &nbsp;
         .two.grid
-            .bead( v-if='red.length > 0'   v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='preview=b.name.slice(0,5)'  @mouseleave='preview=false')
+            .bead( v-if='red.length > 0'   v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='setPreview(b.name)'  @mouseleave='setPreview(false)')
         .two.grid
-            .bead( v-if='blue.length > 0' v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='preview=b.name.slice(0,5)'  @mouseleave='preview=false')
+            .bead( v-if='blue.length > 0' v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='setPreview(b.name)'  @mouseleave='setPreview(false)')
         .two.grid
-            .bead( v-if='red.length === 0'  v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='preview=b.name.slice(0,5)'  @mouseleave='preview=false')
-            .bead( v-for="(b,i) in red"  :b="b", @click='goto(b.taskId)'  :class='{redwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='preview=b.name.slice(0,5)'  @mouseleave='preview=false')
+            .bead( v-if='red.length === 0'  v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='setPreview(b.name)'  @mouseleave='setPreview(false)')
+            .bead( v-for="(b,i) in red"  :b="b", @click='goto(b.taskId)'  :class='{redwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='setPreview(b.name)'  @mouseleave='setPreview(false)')
         .two.grid
-            .bead( v-for="(b,i) in green", @click='goto(b.taskId)'  :class='{greenwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='preview=b.name.slice(0,5)'  @mouseleave='preview=false')
+            .bead( v-for="(b,i) in green", @click='goto(b.taskId)'  :class='{greenwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='setPreview(b.name)'  @mouseleave='setPreview(false)')
         .two.grid
-            .bead( v-if='blue.length === 0'  v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='preview=b.name.slice(0,5)'  @mouseleave='preview=false')
-            .bead( v-for="(b,i) in blue", @click='goto(b.taskId)'  :class='{bluewx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='preview=b.name.slice(0,5)'  @mouseleave='preview=false')
+            .bead( v-if='blue.length === 0'  v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='setPreview(b.name)'  @mouseleave='setPreview(false)')
+            .bead( v-for="(b,i) in blue", @click='goto(b.taskId)'  :class='{bluewx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='setPreview(b.name)'  @mouseleave='setPreview(false)')
         .one.grid
             span &nbsp;
 </template>
 
 <script>
 
-import Linky from './Linky'
-import calculations from '../calculations'
-
 export default {
   data(){
-      return {preview: false}
+      return { preview: false }
   },
   props: ['task'],
   methods:{
+      setPreview(x){
+          if (x && x.length > 14){
+              x = x.slice(0,14)
+          }
+          this.preview = x
+      },
       dragStartWrap(b){
           return (ev) => {
               ev.dataTransfer.setData("taskId", b.taskId);
@@ -44,12 +47,6 @@ export default {
       goto(taskId){
           this.$store.commit("goGo", [this.$store.getters.contextCard.taskId, this.task.taskId, taskId])
       },
-      card(tId) {
-          return this.$store.state.tasks[this.$store.state.hashMap[tId]]
-      },
-      shortName(name) {
-          return calculations.shortName(name)
-      }
   },
   computed: {
       deck(){
@@ -79,25 +76,24 @@ export default {
       green(){
           return this.deck.filter( c => { if(!c) { return false } return c.color === 'green' } ).reverse().slice(0, 3)
       },
-      topPriorities(){
-          return this.task.priorities.slice(0, 3).reverse()
-      },
-  },
-  components:{
-      Linky,
   },
 }
 
 </script>
 
 <style lang="stylus" scoped>
-// this means the colour import overwrites
+
+@import '../styles/grid'
+
 .prev
     position: absolute;
-    top: -1em
+    top: -2.4em
     font-size: 1em
     background: lightGrey
     z-index: 200
+    overflow: visible;
+    width: 200%
+    padding: .3em
 
 .bead
     opacity: .7237;
@@ -107,16 +103,10 @@ export default {
     min-height: 6px
     width: 100%
     border-radius: 50%;
-    display: inline-block;
     border-width: 2px
     border-style: solid
     cursor: pointer
     background: lightGrey
-
-
-@import '../styles/colours'
-@import '../styles/grid'
-
 
 .preview
     width: 15%;
@@ -125,19 +115,7 @@ export default {
     bottom: 0;
     right: 11.11111%
     height: 3em
-    // overflow: hidden
 
-.tinyboat
-    height: 15px
-    width: 100%
-    display: inline-block;
-    cursor: pointer
-
-.tooltip
-    position: relative
-
-.tooltip .tooltiptext
-    font-size: 1em
-    width: max-content
-    max-width: 24em
+// colors on applied classes overwrite
+@import '../styles/colours'
 </style>

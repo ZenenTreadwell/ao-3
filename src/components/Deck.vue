@@ -3,6 +3,7 @@
     .paperwrapper.padsides
         .card.openwidth(:class='{ adjustwidth : $store.state.upgrades.mode !== "doge", closedwidth : $store.state.upgrades.mode === "doge"}')
             member-row
+            resource-book(v-if='$store.state.upgrades.mode === "timecube"')
         .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"'  :class='{darkmode: $store.getters.member.stacks === 1}')
             payments(v-show='$store.state.upgrades.mode === "chest"')
             calendar(v-show='$store.state.upgrades.mode === "timecube"')
@@ -26,11 +27,13 @@ import Checkmarks from './Checkmarks'
 import Panels from './Panels'
 import Pins from './Pins'
 import RollStack from './RollStack'
+import ResourceBook from './ResourceBook'
 
 export default {
   components:{
       MemberRow, Payments, Calendar, Priorities,
       Checkmarks, Panels, Pins, RollStack,
+      ResourceBook,
   },
 }
 

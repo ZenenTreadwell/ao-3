@@ -9,7 +9,6 @@ div
 </template>
 
 <script>
-import calculations from '../calculations'
 
 export default {
     props: ['b'],
@@ -19,11 +18,6 @@ export default {
                 points: this.b.completeValue,
             }
         }
-    },
-    computed: {
-        sats(){
-            return calculations.cadToSats(1, this.$store.state.cash.spot) / 100
-        },
     },
     methods: {
         switchAddr(){
@@ -55,20 +49,12 @@ export default {
 @import '../styles/input'
 @import '../styles/colours'
 
-img
-    height: 3em
-
-img.lightbtn
-    height: 1em
-
 .showaddr
     width: 20%
     display: inline-block;
     cursor: pointer
     img
         display: inline-block;
-.faded
-    opacity: 0.23456789
 
 button
     width: 30%

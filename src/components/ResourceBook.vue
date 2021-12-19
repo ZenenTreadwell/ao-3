@@ -1,8 +1,9 @@
 <template lang='pug'>
 
-#newresource(:class='{shown: showSetTime}')
-    div(v-if='showSetTime')
-        .close(@click='showSetTime = false') x
+#newresource
+    //(:class='{shown: showSetTime}')
+    div(v-if='!cardStart.timeSet')
+        //- .close(@click='showSetTime = false') x
         label select day
         input(v-model='ymd' type='date')
         label select hour
@@ -23,16 +24,28 @@
             select.four.grid(v-model='meridiem')
                 option(value='am') am
                 option(value='pm') pm
-    button(@click='book')
-        span schedule
+        button(@click='book')
+            span schedule
+    .timetill(v-else)
+        span(v-if='cardStart.days > 1'  @click='clearSchedule') in {{ cardStart.days.toFixed(1) }} days
+        span(v-else-if='cardStart.hours > 1'  @click='clearSchedule') in {{ cardStart.hours.toFixed(1) }} hours
+        span(v-else-if='cardStart.minutes > 1'  @click='clearSchedule') in {{ cardStart.minutes.toFixed(1) }} minutes
 </template>
 
 <script>
 
 export default {
     methods: {
+        clearSchedule(){
+            this.$store.dispatch('makeEvent', {
+                type: 'resource-booked',
+                resourceId: this.$store.getters.contextCard.taskId,
+                memberId: this.$store.getters.member.memberId,
+                startTs: 0,
+                endTs: 0,
+            })
+        },
         book(){
-            console.log("current start", this.calcTime.start)
             if (!this.showSetTime) return this.showSetTime = true
             this.$store.dispatch('makeEvent', {
                 type: 'resource-booked',
@@ -55,6 +68,32 @@ export default {
         }
     },
     computed: {
+        cardStart(){
+            let days = 0
+            let hours = 0
+            let minutes = 0
+            let cstar = {
+                timeSet: false,
+                days,
+                hours,
+                minutes
+            }
+            let msTill = this.$store.getters.contextCard.book.startTs - Date.now()
+            if ( this.$store.getters.contextCard.book.startTs && msTill > 0){
+              cstar.timeSet = true
+              cstar.days = msTill / (1000 * 60 * 60 * 24)
+              if (cstar.days > 1){
+                  return cstar
+              }
+              cstar.hours = cstar.days * 24
+              if (cstar.hours > 1){
+                  return cstar
+              }
+              cstar.minutes = cstar.hours * 60
+              return cstar
+            }
+            return cstar
+        },
         tId(){
             return this.$store.getters.contextCard.taskId
         },
@@ -97,6 +136,17 @@ export default {
 @import '../styles/input'
 @import '../styles/button'
 
+button
+    background: softGrey
+    color: lightGrey
+
+.timetill
+    cursor: pointer;
+
+.timetill span:hover
+    text-decoration: line-through;
+
+
 .close
     float: right;
     padding: .3em;
@@ -107,9 +157,11 @@ export default {
     margin-bottom: .3em;
     width: 1.1em;
     text-align: center;
-    
+
 #newresource
+    padding: 1.123em
     margin-bottom: -.17em
+    color: lightGrey
 
 #newresource.shown
     padding: 1em
@@ -117,7 +169,6 @@ export default {
 .br
     padding-top: 1.9em
 
-// TODO: fix strange style stuff going on padding/margin on label not having effect
 label
     padding-top: 1em
     margin-top: 1em

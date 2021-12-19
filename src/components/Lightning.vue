@@ -96,7 +96,6 @@
 <script>
 
 import calculations from '../calculations'
-import Tag from './Tag'
 import request from 'superagent'
 
 export default {
@@ -110,9 +109,6 @@ export default {
             open: false,
             sampleIndex: 0,
         }
-    },
-    components:{
-         Tag,
     },
     computed: {
         confirmedBalance(){
@@ -442,7 +438,6 @@ h5
     height: 0.622em
     float: left
     outline-right: solid
-    // outline-color: :0.111em
     background: linear-gradient(to right, wrexno 0%, wrexno 98.1337%, black 98.1337%, black)
     padding-top: 0.23em
 

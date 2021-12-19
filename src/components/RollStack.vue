@@ -155,13 +155,6 @@ export default {
         ev.preventDefault();
         // todo?
     },
-    toggleOpen(){
-        if (this.position !== -1){
-            this.$store.commit("setRollStackPosition", -1)
-        } else {
-            this.first()
-        }
-    },
     first() {
         this.$store.commit("setRollStackPosition", 0)
     },
@@ -212,10 +205,9 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/grid'
-@import '../styles/button'
 @import '../styles/spinners'
 @import '../styles/donut'
-//
+
 img.spin
     height: 3em
     float: right
@@ -226,79 +218,8 @@ img.spin
       width: 2em;
       border-width: 0.4em
 
-h3
-    font-size: 0.54em
-    padding-top: .5em;
-
-.one
-    cursor:pointer
-
-.orby
-    height: 2.72em
-    margin-top: -0.41em
-    margin-bottom: -0.41em
-    cursor: pointer
-.orby .donut
-    position: relative;
-    left: 33%
-
 #tasks
     width: 100%
-tr
-    border-color: accent4
-    border-top-style: solid
-    border-bottom-style: solid
-    border-width: 3px
-    vertical-align:middle
-
-thead
-    tr
-        text-align: center
-
-td
-    vertical-align: middle
-    color: accent2
-    font-size: 1.34em
-    text-align: center
-
-li
-    text-align: left
-
-table
-    text-align:center
-    width: 100%
-th
-    font-weight: lighter
-    font-size: 1.1em
-    color: accent1
-    border-color: accent1
-
-td
-    color: accent3
-
-.padding
-    padding: 1.987654321em
-
-li
-    margin-left: 1em
-
-.bounce-enter-active {
-  animation: bounce-in .5s;
-}
-.bounce-leave-active {
-  animation: bounce-in .5s reverse;
-}
-@keyframes bounce-in {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.5);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
 
 img
     height: 3em
@@ -309,9 +230,6 @@ img
     -webkit-user-select: none;
     -ms-user-select: none;
 
-.spaceroom
-    height:2.9em
-
 .ptr
     cursor: pointer
     width: 100%
@@ -319,41 +237,8 @@ img
     margin-bottom: -.6em
     margin-bottom: -.6em;
 
-.fr
-    float: right
-    margin-left: 0.5em
-    margin-top: 0.5em
-    margin-right: 0.5em
-    cursor: pointer
-
-.fl
-    float: left
-    margin-right: 0.5em
-    margin-top: 0.5em
-    //margin-bottom: 0.8em
-    margin-left: 0.5em
-    cursor: pointer
-
 .box
     min-height: 1em
-
-.bar
-    min-height: 1em
-    background: softGrey
-
-.verticalcenter
-    margin-top: 1em
-
-.horizcenter
-    text-align: center
-
-.mandalign
-    margin-top: 5px
-    cursor: pointer
-    padding: 0.77em
-    user-drag:none
-    img
-        height: 1.7em
 
 .center
     text-align: center

@@ -28,7 +28,6 @@ import Linky from './Linky'
 import Current from './Current'
 import Pinner from './Pinner'
 import PreviewDeck from './PreviewDeck'
-import Simple from './SimplePriorities'
 
 export default {
     data(){
@@ -37,7 +36,7 @@ export default {
         }
     },
     props: ['b', 'inId', 'c'],
-    components: { PreviewDeck, Pinner, Linky, Simple, Current, Tally},
+    components: { PreviewDeck, Pinner, Linky, Current, Tally},
     methods: {
         drop(ev){
             ev.preventDefault();

@@ -22,7 +22,6 @@
 <script>
 
 import PreviewDeck from './PreviewDeck'
-import SimplePriorities from './SimplePriorities'
 import Coin from './Coin'
 import Current from './Current'
 
@@ -31,7 +30,7 @@ export default {
         return { dropping: false }
     },
     props: ['m'],
-    components: {PreviewDeck, SimplePriorities, Coin, Current},
+    components: {PreviewDeck, Coin, Current},
     methods:{
         dragStart(ev){
             ev.dataTransfer.setData("taskId", this.m.memberId);
@@ -127,9 +126,17 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
-@import '../styles/skeleton'
 @import '../styles/grid'
-@import '../styles/spinners'
+
+.memberrow
+    padding-right: 0.33em
+    padding-top: 0.33em
+    margin-bottom: 0.33em
+    background: lightGrey
+    cursor: pointer
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
+.memberrow.dropping
+    background: blue
 
 .doge
     background: main
@@ -154,83 +161,11 @@ export default {
 img
     height: 4em
 
-label
-    font-size: 1.246em
-    font-weight: normal;
-    margin: 1em
-
-.memberrow
-    padding-right: 0.33em
-    padding-top: 0.33em
-    margin-bottom: 0.33em
-    background: lightGrey
-    cursor: pointer
-    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
-.memberrow.dropping
-    background: blue
-
-.fw
-    width: 100%
-
-.viney
-    float: right
-    height: 1.3em
-
 .faded
     opacity: 0.235654
 
-.yellowtx
-    text-decoration: none
-
-.dogepepecoin {
-  width: 35px
-  height: 35px
-  cursor: pointer
-  top: 1em
-  position: relative
-}
-
-.hodlcount {
-    position: relative
-    top: calc(-1em + -15.5px)
-    text-align: center
-    width: 35px
-    padding-bottom: 0
-    margin-bottom: 0
-    font-weight: bold
-    color: rgba(255, 255, 255, 0.75)
-    pointer-events: none
-}
-
-.grabbedhodlcount {
-    color: white
-}
-
-.ungrabbedcoin {
-    opacity: 0.3
-}
-
 .ptr
     cursor: pointer
-
-.goldengun
-    cursor: pointer
-    height: 2em
-    margin-top: 1em
-
-.nopointer
-    cursor: auto
-
-.counts {
-    position:relative
-    top: 0
-}
-
-.iceblue
-    color: #6ff
-    text-align: center
-    font-weight: bold
-    margin-right: 2em
 
 .loggedIn
     opacity: 0.9

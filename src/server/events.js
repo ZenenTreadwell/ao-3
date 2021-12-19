@@ -233,14 +233,13 @@ function resourceUsed(resourceId, memberId, charged, notes, callback) {
   dctrlDb.insertEvent(newEvent, callback)
 }
 
-function resourceBooked(resourceId, memberId, startTs, endTs, eventType, charge, notes, callback) {
+function resourceBooked(resourceId, memberId, startTs, endTs, charge, notes, callback) {
   let newEvent = {
       type: 'resource-booked',
       resourceId,
       memberId,
       startTs,
       endTs,
-      eventType,
       charge,
       notes,
   }

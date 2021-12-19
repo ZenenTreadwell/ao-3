@@ -443,7 +443,6 @@ router.post('/events', (req, res, next)=>{
             validators.isMemberId(req.body.blame, errRes) &&
             validators.yesSir(req.body.startTs, errRes) &&
             validators.yesSir(req.body.endTs, errRes) &&
-            validators.isNotes(req.body.eventType, errRes) &&
             validators.yesSir(req.body.charge, errRes) &&
             validators.yesSir(req.body.notes, errRes)
           ){
@@ -452,7 +451,6 @@ router.post('/events', (req, res, next)=>{
               req.body.blame,
               req.body.startTs,
               req.body.endTs,
-              req.body.eventType,
               req.body.charge,
               req.body.notes,
               utils.buildResCallback(res)
