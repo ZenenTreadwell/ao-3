@@ -22,7 +22,7 @@
     div
         .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}'   :ondragover='toBoat')
             img.roro(v-if='$store.state.upgrades.mode !== "boat"  && card.priorities.length > 0'  v-for='t in card.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
-            img(v-else  src='../assets/images/completed.svg')
+            img(src='../assets/images/completed.svg')
         .bottomleft(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}'  :ondragover='toTimeCube')
             img(src='../assets/images/timecube.svg')
         .bottomleft(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
@@ -222,8 +222,10 @@ export default {
     border-radius: 50%;
     margin-right: 0.4em;
 
-.roro
+.bottomleft img.roro
     transform: rotate(45deg);
+    height: 0.333333em
+    float: left;
 
 label img
     height: 1.389em
@@ -296,12 +298,11 @@ label
     cursor: pointer
     color: lightGrey
     text-align: center
+    opacity: 0.3
     img
         height: 1.11em
 .bottomleft:hover
-    opacity: 0.7
-    img
-        height: 1.51em
+    opacity: 0.88
 
 .bottomleft.activationsequence
     -webkit-box-sizing: content-box;
@@ -311,9 +312,7 @@ label
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     // box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
-    img
-        height: 1.77em
-
+    opacity: 1
 .bottomright
     width: fit-content
     right: 0.1em
