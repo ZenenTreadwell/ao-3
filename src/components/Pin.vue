@@ -4,7 +4,7 @@
     span(@click.stop='goGoKeep(p.taskId)')
         img.floatleft(src='../assets/images/badge.svg')
     span()
-        span.nl.gui.smaller {{ p.guild.split(':')[0] }}
+        span.nl.gui {{ p.guild.split(':')[0] }}
 </template>
 
 <script>
@@ -78,8 +78,11 @@ export default {
 .dropping
     background: blue
 
-span.nl.gui.smallest
+span.nl.gui
     font-size: 1.1em
+    opacity: 0.3
+span.nl.gui:hover
+    opacity: 1
 
 .projects .floatleft
     max-height: 1.5em

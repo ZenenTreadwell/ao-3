@@ -307,7 +307,8 @@ export default {
 #nodes
     text-align: center
     overflow-y: scroll;
-
+    max-height: 100vh;
+    
 .inactive
     opacity: 0.3456
 

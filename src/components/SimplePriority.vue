@@ -15,7 +15,7 @@
                     span(v-if='clockworkblue.seconds < 10') 0
                     span {{ clockworkblue.seconds }}
             img.checkmark.right.front(:class='{notaction: $store.getters.member.action !== card.taskId}'  src='../assets/images/hourglass.svg'  @click.stop='toggleActive')
-        tally.right.front.lesspadding(:b='card'  isPriority='1')
+        tally.right.front.lesspadding(:b='card')
         span(v-if='isMember')
             img.left.front.darkcircle(src="../assets/images/doge.svg")
             span.downshift {{ isMember }}
@@ -23,7 +23,7 @@
             img.front.nopad.darkcircle(v-if='card.guild'  src="../assets/images/badge.svg")
             span.front.nudge.downshift(v-if='card.guild')  {{ card.guild }}
         linky.cardname.front(v-else-if='!isMember'  :x='card.name')
-    preview-deck(:task='card')
+    //- preview-deck(:task='card')
 </template>
 
 <script>

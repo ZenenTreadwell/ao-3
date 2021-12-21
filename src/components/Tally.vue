@@ -4,7 +4,6 @@
     span
         span(v-if='cardStart').points {{ cardStart.days.toFixed(1) }} days
         span.hide(v-if='b.claimed.length > 0') -
-        img.ptr(v-if='!isPriority'  v-for='t in b.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)'  @click='$store.commit("setMode", 1)')
         img(v-for='n in clm.xmark'  src='../assets/images/xmark.svg')
         img(v-for='n in clm.mark'  src='../assets/images/mark.svg')
 </template>
@@ -14,7 +13,7 @@
 import Current from './Current'
 
 export default {
-    props: ['b', 'isPriority'],
+    props: ['b'],
     components: { Current },
     methods:{
       styl(color){
@@ -111,9 +110,6 @@ img
     top: -0.25em
     margin-right: 0.25em
 
-.ptr
-    cursor: pointer;
-    pointer-events: all
-    transform: rotate(45deg)
+
 
 </style>

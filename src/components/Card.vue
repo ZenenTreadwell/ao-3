@@ -1,7 +1,8 @@
 <template lang='pug'>
 .task(:class="cardInputSty"  @click='goDeeper'  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart').dont-break-out.agedwrapper
+    img.diamond(v-for='t in b.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)'  @click='$store.commit("setMode", 1)')
     pinner(:b='b', :inId='inId')
-    tally(:b='b')
+    //- tally(:b='b')
     .donut.flaggy.square.hidden(@click.stop='upboat')
     .buffertop
       .cardbody
@@ -38,6 +39,17 @@ export default {
     props: ['b', 'inId', 'c'],
     components: { PreviewDeck, Pinner, Linky, Current, Tally},
     methods: {
+        styl(color){
+            if (!color  || this.$store.getters.member.stacks === 1) return
+            return {
+                redwx : color == 'red',
+                bluewx : color == 'blue',
+                greenwx : color == 'green',
+                yellowwx : color == 'yellow',
+                purplewx : color == 'purple',
+                blackwx : color == 'black',
+            }
+        },
         drop(ev){
             ev.preventDefault();
             var data = ev.dataTransfer.getData("taskId")
@@ -180,6 +192,16 @@ export default {
 @import '../styles/button'
 @import '../styles/spinners'
 @import '../styles/donut'
+
+.diamond
+    cursor: pointer;
+    pointer-events: all
+    transform: rotate(45deg)
+    height: 0.7871em
+    position: relative
+    top: 0
+    right: 0
+    float: right;
 
 .sml
     font-size: .73em

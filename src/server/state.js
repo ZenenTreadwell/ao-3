@@ -79,7 +79,7 @@ function initialize(callback) {
     let start = Date.now()
     torControl( (err, onion) => {
       if (onion) onion = onion.trim()
-      console.log(chalk.bold.blue(onion))
+      console.log(chalk.bold.blue('http://' + onion))
       serverState.cash.address = onion
       pubState.cash.address = onion
       dctrlDb.recover((err, backup) => {

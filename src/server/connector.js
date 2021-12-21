@@ -8,7 +8,7 @@ const request = require('superagent')
 function postEvent(address, secret, body, callback){
   tr.request({
       url: 'http://' + address + '/events',
-      headers: {"Authorization": secret},
+      headers: {"Authorization": secret},  // didn't work,  "Transfer-Encoding": "chunked"
       method: 'post',
       body,
       json: true,

@@ -1,10 +1,10 @@
 <template lang='pug'>
 
 div
-    .showaddr(@click='switchAddr' v-if='$store.state.upgrades.paymode !== "bitcoin"') *bitcoin address*
-    div
+    .invoice
         input(v-model='task.points'  type='text'  placeholder='sats'  @keypress.enter='setValue')
-        button(@click.stop='setValue') *ln-invoice {{task.points}} sats*
+        button(@click.stop='setValue') pay {{task.points}} sats
+    .showaddr(@click='switchAddr' v-if='$store.state.upgrades.paymode !== "bitcoin"') *use BTC address
 
 </template>
 
@@ -50,28 +50,30 @@ export default {
 @import '../styles/colours'
 
 .showaddr
-    width: 20%
     display: inline-block;
     cursor: pointer
     img
         display: inline-block;
 
-button
-    width: 30%
+.invoice
     height: 2.2em
-    display: inline-block;
-    color: main
-    background: lightGrey
-
-input
-    display: inline-block;
-    border-color: rgba(22, 22, 22, 1)
-    border-width: 1px
-    background-color: rgba(22, 22, 22, 0.3)
-    height: 2.2em
-    width: 40%
-    color: main
-    background: lightGrey
-
+    button
+        width: 50%
+        display: inline-block;
+        color: lightGrey
+        background: softGrey
+        height: 100%
+        border: none
+        box-shadow: 0 3px 10px #000;
+    input
+        display: inline-block;
+        border: none
+        background-color: rgba(22, 22, 22, 0.3)
+        height: 2.2em
+        width: 50%
+        color: main
+        background: lightGrey
+        height: 100%
+        box-shadow: 0 3px 10px #000;
 
 </style>
