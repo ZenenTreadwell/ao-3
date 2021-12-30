@@ -2,9 +2,11 @@
 
 .pin(@click='goGo(p.taskId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}"  draggable="true"  :ondragstart='dragStart')
     span(@click.stop='goGoKeep(p.taskId)')
-        img.floatleft(src='../assets/images/badge.svg')
+        img.floatleft(v-if='$store.getters.member.memberId !== p.taskId'  src='../assets/images/badge.svg')
+        img.floatleft(v-else  src='../assets/images/doge.svg')
     span()
-        span.nl.gui {{ p.guild.split(':')[0] }}
+        span.nl.gui(v-if='$store.getters.member.memberId !== p.taskId' ) {{ p.guild.split(':')[0] }}
+        span.nl.gui(v-else) &nbsp;home
 </template>
 
 <script>
@@ -52,13 +54,15 @@ export default {
             let contexts = [] // [this.$store.getters.contextCard.taskId]
 
             // add same pin to context
-            this.$store.getters.guilds.forEach(g => {
-                let baseG = g.guild.split(':')[0]
-                let baseT = t.guild.split(':')[0]
-                if (baseG === baseT  && g.taskId !== t.taskId){
+            let baseT = t.guild.split(':')[0]
+            if (baseT !== ''){
+                this.$store.getters.guilds.forEach(g => {
+                  let baseG = g.guild.split(':')[0]
+                  if (baseG === baseT  && g.taskId !== t.taskId){
                     contexts.push(g.taskId)
-                }
-            })
+                  }
+                })
+            }
             contexts.push(taskId)
             this.$store.commit("goGo", contexts)
         },

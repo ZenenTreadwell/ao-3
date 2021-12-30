@@ -2,9 +2,7 @@
 
 .projects
     pin(v-for='p in pinList'  :key='p.taskId'  :p='p')
-    div(v-if='$store.getters.member.memberId !== $store.getters.contextCard.taskId'  @click='goHome')
-        img.floatleft(src='../assets/images/doge.svg')
-        span.nl.gui.smaller &nbsp;home
+    pin(v-if='$store.getters.member.memberId !== $store.getters.contextCard.taskId'  :p='$store.getters.memberCard')
 
 </template>
 
