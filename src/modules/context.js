@@ -1,5 +1,4 @@
 // const _ = require( 'lodash')
-
 const state = []
 
 const mutations = {
@@ -26,6 +25,11 @@ const mutations = {
         let p = state.pop()
         state.push(tId)
         state.push(p)
+    },
+    applyEvent(state, ev){
+        if (ev.type === 'task-removed' && ev.taskId === state[state.length - 1]){
+            state.pop()
+        }
     }
 }
 
