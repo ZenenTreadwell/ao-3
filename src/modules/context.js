@@ -8,9 +8,15 @@ const mutations = {
         window.scrollTo(0, 0);
     },
     goDeeper(state, target){
-        state.push(target)
+        let targetIndex = state.indexOf(target)
+        if (targetIndex === -1){
+            state.push(target)
+        } else if (targetIndex !== state[state.length - 1]){
+            let swapy = state[state.length - 1]
+            state[state.length - 1] = target
+            state[targetIndex] = swapy
+        }
         window.scrollTo(0, 0);
-
     },
     goHigher(state, tId){
         let popped = false

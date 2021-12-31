@@ -16,6 +16,7 @@
             hypercard(:b="b"  :key="b.taskId"  :inId='taskId'  :c='panelIds')
     .box(v-else)
         hypercard(:b="c[sanePosition]"  :inId='taskId'  :key='c[sanePosition].taskId')
+    .piledrop(v-if='c.length < 1'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave' :class='{dropping:dropping}'  @click='stackTap')
 </template>
 
 <script>
@@ -34,11 +35,7 @@ export default {
         let orbTap = new Hammer.Tap({ time: 400 })
         orbmc.add(orbTap)
         orbmc.on('tap', (e) => {
-            if (this.$store.state.upgrades.create && this.$store.state.upgrades.color !== this.stack){
-                return this.$store.commit('setColor', this.stack)
-            }
-            this.$store.commit('toggleCreate')
-            this.$store.commit('setColor', this.stack)
+            this.stackTap()
 
             // this.toggleOpen()
             e.stopPropagation()
@@ -128,6 +125,13 @@ export default {
       }
   },
   methods:{
+    stackTap(){
+        if (this.$store.state.upgrades.create && this.$store.state.upgrades.color !== this.stack){
+            return this.$store.commit('setColor', this.stack)
+        }
+        this.$store.commit('toggleCreate')
+        this.$store.commit('setColor', this.stack)
+    },
     dragLeave(){
         this.dropping = false
     },
@@ -281,6 +285,9 @@ export default {
 @import '../styles/button'
 @import '../styles/donut'
 
+.piledrop
+    min-height: 7.987em
+
 .orby
     height: 2.72em
     margin-top: -0.41em
@@ -335,5 +342,11 @@ export default {
 
 .donut.dropping
     border-color: blue
+
+// // ? no work - add color to drop area?
+// .piledrop.dropping
+//     border-color: blue
+//     border-style: solid
+//     background: blue
 
 </style>
