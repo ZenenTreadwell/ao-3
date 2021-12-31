@@ -7,7 +7,6 @@ import loader from './modules/loader'
 import eventstream from './modules/eventstream'
 import upgrades from './modules/upgrades'
 import context from './modules/context'
-import calculations from './calculations'
 
 export default createStore({
   modules: {
@@ -21,33 +20,30 @@ export default createStore({
       hashMap: modules.hashMap,
   },
   getters: {
-      selectedCheckCard(state, getters){
-          let x = state.upgrades.selectedCheck
-          if (getters.contextCompleted[x]){
-              return getters.contextCompleted[x]
-          }
-          return false
-      },
       memberCard(state, getters){
-          let memberCard = _.merge(calculations.blankCard('', '', ''), state.tasks[state.hashMap[getters.member.memberId]])
-          return memberCard
+          return state.tasks[state.hashMap[getters.member.memberId]]
       },
-      contextCard(state){ // XXX why does this update constantly!!
-          let contextCard = _.merge(calculations.blankCard('', '', ''), state.tasks[state.hashMap[ state.context[state.context.length - 1] ]])
-          return contextCard
+
+      contextCard(state){
+          return state.tasks[state.hashMap[ state.context[state.context.length - 1]]]
       },
+
       contextDeck(state, getters){
-          return getters.contextCard.subTasks.slice().reverse().map(t => state.tasks[state.hashMap[t]]).filter(t => !!t && t.color )
+          return getters.contextCard.subTasks
+              .map(t => state.tasks[state.hashMap[t]])
+              .filter(t => !!t && t.color )
+              .reverse()
       },
+
       contextCompleted(state, getters){
           let upValence = []
           let downValence = []
           getters.contextCard.highlights.forEach(h => {
-            if (h.valence){
-              upValence.push(h.memberId)
-            } else {
-              downValence.push(h.memberId)
-            }
+              if (h.valence){
+                  upValence.push(h.memberId)
+              } else {
+                  downValence.push(h.memberId)
+              }
           })
           return getters.contextCard.completed
               .map(tId => state.tasks[state.hashMap[tId]])
@@ -114,12 +110,7 @@ export default createStore({
           })
           return _.uniq(byCompletion)
       },
-      all(state, getters){
-          if (getters.contextCard.stackView.completed){
-              return getters.contextCompleted
-          }
-          return getters.contextDeck
-      },
+      // fivestack view
       red(state, getters){
           if (getters.contextCard.stackView.completed){
               return getters.contextCompleted.filter(d => d.color === 'red')
@@ -150,44 +141,50 @@ export default createStore({
           }
           return getters.contextDeck.filter(d => d.color === 'blue')
       },
-      memberIds(state){
-          return state.members.map(c => c.memberId)
-      },
-      resourceIds(state){
-          return state.resources.map(c => c.resourceId)
-      },
+
       guilds(state) {
-          let gg = state.tasks
-              .filter(p => p.guild)
+          let gg = state.tasks.filter(p => p.guild && p.guild.split(':')[0])
           return gg.sort( (a, b) => b.deck.length - a.deck.length )
       },
+
       uniqGuilds(state, getters) {
-          let uniq = []
-          return getters.guilds.filter(g => {
+          let uniqBase = []
+          let groupings = []
+          getters.guilds.forEach(g => {
               let baseG = g.guild.split(':')[0]
-              if (baseG && uniq.indexOf(baseG) === -1){
-                  uniq.push(baseG)
+              let i = uniqBase.indexOf(baseG)
+              if (i === -1){
+                  uniqBase.push(baseG)
+                  groupings.push([g.taskId])
                   return true
+              } else {
+                  groupings[i].push(g.taskId)
               }
               return false
           })
+          return {
+              uniqBase,
+              groupings
+          }
       },
+
       isLoggedIn(state, getters){
-          let isLoggedIn = !!getters.member.memberId
-          return isLoggedIn
+          return !!getters.member.memberId
       },
       member(state){
           let loggedInMember = {}
           let memberId = false
-          state.sessions.forEach(session => {
+          state.sessions.some(session => {
               if (state.loader.session === session.session){
                   memberId = session.ownerId
+                  return true
               }
           })
 
-          state.members.forEach( m => {
+          state.members.some( m => {
               if (m.memberId === memberId) {
                   _.assign(loggedInMember, m)
+                  return true
               }
           })
           return loggedInMember

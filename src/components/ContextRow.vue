@@ -28,20 +28,11 @@ export default {
     methods: {
         goHigher(){
             let t = this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
-            if (
-                t.guild &&
-                this.$store.getters.uniqGuilds.map(g => g.guild.split(':')[0]).indexOf(t.guild.split(':')[0]) > -1
-            ){
-                console.log('dont go higher?')
-                let contexts = []
-                this.$store.getters.guilds.forEach(g => {
-                    let baseG = g.guild.split(':')[0]
-                    let baseT = t.guild.split(':')[0]
-                    if (baseG === baseT  && g.taskId !== t.taskId  && g.taskId !== this.taskId){
-                        contexts.push(g.taskId)
-                    }
-                })
-                contexts.reverse().push(this.taskId)
+            let i = this.$store.getters.uniqGuilds.uniqBase.indexOf(t.guild.split(':')[0])
+            if (i !== -1){
+                let contexts = this.$store.getters.uniqGuilds.groupings[i]
+                contexts = contexts.filter(x => x !== this.taskId)
+                contexts.push(this.taskId)
                 return this.$store.commit("goGo", contexts)
             }
             this.$store.commit("goHigher", this.taskId)

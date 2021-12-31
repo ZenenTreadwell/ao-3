@@ -11,7 +11,7 @@ const mutations = {
         let targetIndex = state.indexOf(target)
         if (targetIndex === -1){
             state.push(target)
-        } else if (targetIndex !== state[state.length - 1]){
+        } else if (targetIndex !== state.length - 1){
             let swapy = state[state.length - 1]
             state[state.length - 1] = target
             state[targetIndex] = swapy

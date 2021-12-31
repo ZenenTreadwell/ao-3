@@ -102,10 +102,14 @@ export default {
         },
         rowsGuilds(){
             let g = []
-            this.$store.getters.uniqGuilds.forEach(t => {
-                if (t.deck.indexOf(this.m.memberId) > -1){
-                    g.push(t.guild)
-                }
+            this.$store.getters.uniqGuilds.groupings.forEach(group => {
+                group.forEach(taskId => {
+                  let t = this.$store.state.tasks[ this.$store.state.hashMap[taskId] ]
+                  let base = t.guild.split(':')[0]
+                  if (g.indexOf(base) === -1 && t.deck.indexOf(this.m.memberId) > -1){
+                    g.push(base)
+                  }
+                })
             })
             return g
         },

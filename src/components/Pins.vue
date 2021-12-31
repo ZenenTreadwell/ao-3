@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 .projects
-    pin(v-for='p in pinList'  :key='p.taskId'  :p='p')
+    pin(v-for='p in pinList'  :p='p')
     pin(v-if='$store.getters.member.memberId !== $store.getters.contextCard.taskId'  :p='$store.getters.memberCard')
 
 </template>
@@ -10,23 +10,11 @@
 import Pin from './Pin'
 export default {
     components: { Pin },
-    methods: {
-      goHome(){
-          this.$store.commit("goGo", [this.$store.getters.member.memberId])
-      },
-    },
     computed: {
         pinList(){
-            if (
-                this.$store.getters.contextCard.guild
-            ){
-                let pin = this.$store.getters.contextCard.guild.split(':')[0]
-                return this.$store.getters.uniqGuilds.filter(g => {
-                    return g.guild.split(':')[0] !== pin
-                })
-            } else {
-                return this.$store.getters.uniqGuilds
-            }
+            return this.$store.getters.uniqGuilds.groupings.map(x => {
+                return this.$store.state.tasks[this.$store.state.hashMap[x[0]]]
+            })
         }
     }
 }

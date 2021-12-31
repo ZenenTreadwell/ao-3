@@ -1,19 +1,19 @@
 <template lang='pug'>
 .deck(v-if='$store.getters.contextCard.taskId'   :key='$store.getters.contextCard.taskId')
-    .paperwrapper.padsides
+    .paperwrapper
         .card.openwidth(:class='{ adjustwidth : $store.state.upgrades.mode !== "doge", closedwidth : $store.state.upgrades.mode === "doge"}')
             member-row
             resource-book(v-if='$store.state.upgrades.mode === "timecube"')
-        .upgradesbar(v-show='$store.state.upgrades.mode !== "doge"'  :class='{darkmode: $store.getters.member.stacks === 1}')
-            payments(v-show='$store.state.upgrades.mode === "chest"')
-            calendar(v-show='$store.state.upgrades.mode === "timecube"')
-            div(v-show='$store.state.upgrades.mode === "boat"')
+        .upgradesbar(v-if='$store.state.upgrades.mode !== "doge"'  :class='{darkmode: $store.getters.member.stacks === 1}')
+            payments(v-if='$store.state.upgrades.mode === "chest"')
+            calendar(v-if='$store.state.upgrades.mode === "timecube"')
+            div(v-if='$store.state.upgrades.mode === "boat"'  :ondrop="drop"   :ondragover="allowDrop" )
                 priorities
                 checkmarks
     div
         panels
     .container
-        roll-stack(v-if='$store.getters.memberIds.indexOf($store.getters.contextCard.taskId) > -1')
+        roll-stack
     pins.rell
 
 </template>
@@ -35,6 +35,22 @@ export default {
       Checkmarks, Panels, Pins, RollStack,
       ResourceBook,
   },
+  methods: {
+    allowDrop(ev){
+        ev.preventDefault()
+    },
+    drop(ev){
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("taskId")
+        this.$store.dispatch("makeEvent", {
+            type: 'task-prioritized',
+            inId: this.$store.getters.contextCard.taskId,
+            fromId: this.$store.getters.contextCard.taskId,
+            taskId: data,
+        })
+        this.$store.commit("setMode", 1)
+    },
+  }
 }
 
 </script>
@@ -80,10 +96,7 @@ export default {
 
 .paperwrapper
     position: relative
-
-.paperwrapper.padsides
     display: flex
-    flex-wrap: wrap
     justify-content: center
 
 .card.closedwidth
@@ -91,10 +104,11 @@ export default {
     transition: width 2s;
 
 .card.adjustwidth
-    box-shadow: 0 3px 10px #000;
+    box-shadow: 2px -2px 2px softGrey;
     margin-right: -1em
     max-width: 100%
     max-width: 15em
+    max-width: 20vw
     transition: width 2s;
 
 </style>

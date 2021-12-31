@@ -1,7 +1,7 @@
 <template lang='pug'>
 
-.pin(@click='goGo(p.taskId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}"  draggable="true"  :ondragstart='dragStart')
-    span(@click.stop='goGoKeep(p.taskId)')
+.pin(@click='goGo'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}"  draggable="true"  :ondragstart='dragStart')
+    span(@click.stop='goGoKeep')
         img.floatleft(v-if='$store.getters.member.memberId !== p.taskId'  src='../assets/images/badge.svg')
         img.floatleft(v-else  src='../assets/images/doge.svg')
     span()
@@ -46,24 +46,26 @@ export default {
             ev.preventDefault()
             this.dropping = true
         },
-        goGoKeep(taskId){
-            this.$store.commit("goDeeper", taskId)
+        goGoKeep(){
+            this.$store.commit("goDeeper", this.p.taskId)
         },
-        goGo(taskId){
-            let t = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
+        goGo(){
             let contexts = [] // [this.$store.getters.contextCard.taskId]
+            if (this.$store.getters.member.memberId !== this.p.taskId){
+                let t = this.$store.state.tasks[this.$store.state.hashMap[this.p.taskId]]
 
-            // add same pin to context
-            let baseT = t.guild.split(':')[0]
-            if (baseT !== ''){
-                this.$store.getters.guilds.forEach(g => {
-                  let baseG = g.guild.split(':')[0]
-                  if (baseG === baseT  && g.taskId !== t.taskId){
-                    contexts.push(g.taskId)
-                  }
-                })
+                // add same pin to context
+                let baseT = t.guild.split(':')[0]
+                if (baseT !== ''){
+                  this.$store.getters.guilds.forEach(g => {
+                    let baseG = g.guild.split(':')[0]
+                    if (baseG === baseT  && g.taskId !== t.taskId){
+                      contexts.push(g.taskId)
+                    }
+                  })
+                }
             }
-            contexts.push(taskId)
+            contexts.push(this.p.taskId)
             this.$store.commit("goGo", contexts)
         },
     },
