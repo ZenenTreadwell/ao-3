@@ -28,12 +28,14 @@ export default {
     methods: {
         goHigher(){
             let t = this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
-            let i = this.$store.getters.uniqGuilds.uniqBase.indexOf(t.guild.split(':')[0])
-            if (i !== -1){
-                let contexts = this.$store.getters.uniqGuilds.groupings[i]
-                contexts = contexts.filter(x => x !== this.taskId)
-                contexts.push(this.taskId)
-                return this.$store.commit("goGo", contexts)
+            if (t.guild){
+                let i = this.$store.getters.uniqGuilds.uniqBase.indexOf(t.guild.split(':')[0])
+                if (i !== -1){
+                  let contexts = this.$store.getters.uniqGuilds.groupings[i]
+                  contexts = contexts.filter(x => x !== this.taskId)
+                  contexts.push(this.taskId)
+                  return this.$store.commit("goGo", contexts)
+                }
             }
             this.$store.commit("goHigher", this.taskId)
         },

@@ -23,7 +23,7 @@
             img.front.nopad.darkcircle(v-if='card.guild'  src="../assets/images/badge.svg")
             span.front.nudge.downshift(v-if='card.guild')  {{ card.guild }}
         linky.cardname.front(v-else-if='!isMember'  :x='card.name')
-    //- preview-deck(:task='card')
+    preview-deck(:task='card').faded
 </template>
 
 <script>
@@ -221,6 +221,9 @@ export default {
 <style lang='stylus' scoped>
 
 @import '../styles/colours'
+
+.faded
+    opacity: 0.1
 
 img.darkcircle
     height: 1.1em

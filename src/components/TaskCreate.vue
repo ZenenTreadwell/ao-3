@@ -174,7 +174,7 @@ export default {
               this.showSearch = true
               process.nextTick(() => {
                   try {
-                    let start = Date.now()
+                    // let start = Date.now()
                     let regex = new RegExp(search, 'i')
                     this.$store.state.tasks.forEach(t => {
                       if (t.taskId === this.$store.getters.contextCard.taskId) return //
@@ -189,7 +189,7 @@ export default {
                         doges.push(member)
                       }
                     })
-                    console.log('search blocked for ', Date.now() - start, 'ms')
+                    // console.log('search blocked for ', Date.now() - start, 'ms') // ~25ms@3000cards
                   } catch (err){
                     return
                   }

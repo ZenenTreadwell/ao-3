@@ -165,7 +165,7 @@ export default {
         if (this.inId){
             this.todaysEvents.forEach(t => {
                 if (!t){
-                    return console.log('bad todays event')
+                    return console.log('bad todays event', t)
                 }
                 t.claims.forEach(cl => {
                     let date = getDMY(cl.timestamp)
@@ -207,13 +207,13 @@ export default {
             level1.forEach( tId => {
                   let card = this.$store.state.tasks[this.$store.state.hashMap[tId]]
                   if (card){
-                      level2 = level2.concat(card.priorities).concat(card.completed).concat(card.subTask)
+                      level2 = level2.concat(card.priorities).concat(card.completed).concat(card.subTasks)
                   }
             })
             level2.forEach( tId => {
                   let card = this.$store.state.tasks[this.$store.state.hashMap[tId]]
                   if (card){
-                      allTasks = allTasks.concat(card.priorities).concat(card.completed).concat(card.subTask)
+                      allTasks = allTasks.concat(card.priorities).concat(card.completed).concat(card.subTasks)
                   }
             })
             allTasks = allTasks.concat(level1).concat(level2)

@@ -14,8 +14,8 @@ cast.on('device', d => {
     let taskId = cryptoUtils.createHash(d.friendlyName)
     castDeviceIds.push(taskId)
     castDeviceMap[taskId] = d.friendlyName
+    console.log('chromecastable card:', chalk.bold.red(d.friendlyName))
 })
-
 
 function checkForChargedEvent( resourceId ){
     let charged
