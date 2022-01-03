@@ -3,7 +3,8 @@ var net = require('net');
 let PORT = process.env.PORT || 8003
 const uuidV1 = require('uuid/v1')
 
-var cookieBuff = fs.readFileSync('/home/taylor/.tor/control_auth_cookie')
+console.log(process.env.HOME + '/.tor/control_auth_cookie')
+var cookieBuff = fs.readFileSync(process.env.HOME + '/.tor/control_auth_cookie')
 var cookie = Buffer.from(cookieBuff).toString('hex')
 
 let controlClient = net.connect({host: '127.0.0.1', port: 9051}, () => {

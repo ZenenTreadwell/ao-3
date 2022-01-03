@@ -3,7 +3,7 @@
 .memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId, dropping}'  @click='goGo(m.memberId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='offDrop'  draggable='true'  :ondragstart='dragStart')
     .row(v-if='b')
         .three.grid.ptr(:class='{bolder: m.memberId === $store.getters.member.memberId}')
-            span(v-if='m.memberId === $store.getters.member.memberId')  &nbsp;&nbsp;&#9829;
+            span(v-if='m.memberId === $store.getters.member.memberId')  &nbsp;&nbsp;->
             current(:memberId='m.memberId' @click.stop)
             br
             span.smaller(v-if='mia > 1') &nbsp;&nbsp; mia {{ mia }} days

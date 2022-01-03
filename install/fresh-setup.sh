@@ -15,14 +15,24 @@ libgmp-dev libsqlite3-dev python python3 python3-mako libsodium-dev build-essent
 libcurl4-gnutls-dev libssl-dev fakeroot devscripts
 
 echo 'Installing node'
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 source ~/.bashrc
-nvm install stable
+nvm install 16
 source ~/.bashrc
 
 echo 'Installing bitcoind'
+
+export ARCHY=$(uname -m)
+if [ $ARCHY == 'x86_64' ]
+then
 wget https://bitcoincore.org/bin/bitcoin-core-22.0/bitcoin-22.0-x86_64-linux-gnu.tar.gz
 tar xf bitcoin-22.0-x86_64-linux-gnu.tar.gz
+fi
+if [ $ARCHY == 'armv7l' ]
+then
+wget https://bitcoincore.org/bin/bitcoin-core-22.0/bitcoin-22.0-arm-linux-gnueabihf.tar.gz
+tar xf bitcoin-22.0-arm-linux-gnueabihf.tar.gz
+fi
 sudo cp bitcoin-22.0/bin/* /usr/local/bin/
 
 echo 'Installing lightningd'
