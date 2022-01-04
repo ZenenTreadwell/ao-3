@@ -16,7 +16,7 @@ function postEvent(address, secret, body, callback){
           if (err){
               return callback(err)
           }
-          console.log('got ', resBody)
+          callback(err, resBody)
   })
 }
 

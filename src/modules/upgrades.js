@@ -2,6 +2,7 @@ const modes = ["doge", "boat", "timecube", "chest", "badge"]
 const paymodes = ["mempool", "bitcoin", "lightning", "channels"]
 
 const state = {
+    rollStack: [],
     rollStackPosition: 0,
     refocus: 0,
     keypressed: '',
@@ -23,6 +24,12 @@ const state = {
 }
 
 const mutations = {
+    rollStackSet(state, x=[]){
+        state.rollStack = x
+    },
+    rollStackPush(state,x){
+        state.rollStack.push(x)
+    },
     setRollStackPosition(state, x){
         state.rollStackPosition = x
     },

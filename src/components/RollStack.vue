@@ -21,7 +21,19 @@ import _ from 'lodash'
 import Propagating from 'propagating-hammerjs'
 import Hypercard from "./Card"
 
+//
+// function rollStackMagic()
+
 export default {
+  data(){
+      return {
+          orbuuid: uuidv1(),
+          componentKey: 0,
+          dropping: false,
+          reverseIndex: this.$store.state.tasks.length - 1,
+          loadingAll: false
+      }
+  },
   mounted(){
         let orbel = this.$refs.mandelorb
         if(!orbel) return
@@ -29,6 +41,7 @@ export default {
 
         let orbTap = new Hammer.Tap({ time: 400 })
         orbmc.add(orbTap)
+
         orbmc.on('tap', (e) => {
             // on click?
             let gotOne = false
@@ -36,14 +49,18 @@ export default {
                 let potential = this.$store.state.tasks[this.reverseIndex]
                 if (_.indexOf(potential.deck, this.$store.getters.contextCard.taskId) > -1){
                     gotOne = true
-                    this.c.push(potential)
+                    this.$store.commit("rollStackPush", potential.taskId)
                     this.$store.commit("setRollStackPosition", this.c.length - 1)
                 }
                 this.reverseIndex --
                 if (this.reverseIndex < 0){
-                    gotOne = true // not really but break
+                    gotOne = true
+                    // not really but break
                 }
             }
+            // if (!gotOne){
+            //     this.$store.commit("rollStackPush", this.$store.state.guilds[0])
+            // }
             e.stopPropagation()
         })
 
@@ -82,17 +99,7 @@ export default {
         orbmc.add(orbPress)
         orbmc.on('press', (e) => {
             e.stopPropagation()
-            this.loadingAll = true
-            setTimeout(()=>{
-                while (this.reverseIndex >= 0){
-                  let potential = this.$store.state.tasks[this.reverseIndex]
-                  if (_.indexOf(potential.deck, this.$store.getters.contextCard.taskId) > -1){
-                    this.c.push(potential)
-                  }
-                  this.reverseIndex --
-                }
-                this.loadingAll = false
-            }, 3)
+            this.$store.commit('rollStackSet')
         })
 
         let prevel = this.$refs.previous
@@ -133,16 +140,6 @@ export default {
         e.stopPropagation()
         })
   },
-  data(){
-      return {
-          orbuuid: uuidv1(),
-          componentKey: 0,
-          dropping: false,
-          c: [],
-          reverseIndex: this.$store.state.tasks.length - 1,
-          loadingAll: false
-      }
-  },
   methods:{
     dragLeave(){
         this.dropping = false
@@ -153,7 +150,9 @@ export default {
     },
     drop(ev){
         ev.preventDefault();
-        // todo?
+        var data = ev.dataTransfer.getData("taskId")
+        this.$store.commit("rollStackPush", data)
+        this.$store.commit("setRollStackPosition", this.$store.state.upgrades.rollStack.length - 1)
     },
     first() {
         this.$store.commit("setRollStackPosition", 0)
@@ -181,6 +180,11 @@ export default {
     },
   },
   computed: {
+    c(){
+        return this.$store.state.upgrades.rollStack.map(x => {
+            return this.$store.state.tasks[this.$store.state.hashMap[x]]
+        })
+    },
     position(){
         return this.$store.state.upgrades.rollStackPosition
     },
