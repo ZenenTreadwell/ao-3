@@ -39,11 +39,29 @@ const actions = {
                 .set("Authorization", state.token)
                 .end((err, res)=> {
                   if (!(err || !res.body)) {
-                    console.log('loaded ', res.body.length, 'cards')
-                    commit('applyEvent', {
-                      type: 'tasks-received',
-                      tasks: res.body
-                    })
+                      console.log('fetched ', res.body.length, 'cards')
+                      if (res.body.length > 100){
+                          let total = res.body.length - 1
+                          let i = 0
+                          while (total > 0){
+                              let tasks = res.body.slice(Math.max(0, total - 100), total)
+                              total -= 100
+                              i ++
+                              setTimeout(()=>{
+                                  console.log('applying', tasks.length, 'tasks')
+                                  commit('applyEvent', {
+                                      type: 'tasks-received',
+                                      tasks
+                                  })
+                              }, 4 * i)
+                          }
+
+                      } else {
+                          commit('applyEvent', {
+                              type: 'tasks-received',
+                              tasks: res.body
+                          })
+                      }
                   }
                 })
             request

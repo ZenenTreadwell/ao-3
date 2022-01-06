@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.priority(@click='goDeeper(taskId, inId)'  draggable="true"  :ondrop.stop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart')
+.priority(@click='goDeeper(taskId, inId)'  draggable="true"  :ondrop.stop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart'  :ondragleave='dragLeave')
     .row.agedwrapper(:class='cardInputSty')
         .check()
             img.checkmark.right.front(v-if='isCompleted' src='../assets/images/completed.svg'  @click.stop='checky')
@@ -37,6 +37,7 @@ export default {
       return {
           updatePlz: 0,
           timerInterval: null,
+          dropping: false,
       }
     },
     mounted(){
@@ -73,6 +74,7 @@ export default {
       drop(ev){
           ev.preventDefault();
           ev.stopPropagation();
+          this.dropping = false
           // prioritize
           var data = ev.dataTransfer.getData("taskId")
           if (this.taskId === data){
@@ -85,8 +87,12 @@ export default {
               taskId: data,
           })
       },
+      dragLeave(){
+          this.dropping = false
+      },
       allowDrop(ev){
           ev.preventDefault()
+          this.dropping = true
       },
       dragStart(ev){
           ev.dataTransfer.setData("taskId", this.taskId);
@@ -194,10 +200,12 @@ export default {
         cardInputSty() {
           if (this.$store.getters.member.stacks === 1) {
               return {
+                  dropping: this.dropping,
                   nowx: true
               }
           } else {
               return {
+                dropping: this.dropping,
                 redwx : this.card.color == 'red',
                 bluewx : this.card.color == 'blue',
                 greenwx : this.card.color == 'green',
@@ -292,4 +300,7 @@ img.checkmark
 
 .tally.right.front.lesspadding
     padding-right: 0
+
+.row.agedwrapper.dropping
+    background: blue
 </style>

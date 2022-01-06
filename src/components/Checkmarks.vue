@@ -3,12 +3,12 @@
 .upgrades(v-if='!$store.getters.contextMember')
     div.tr
         span.bg
-            span(v-for='n in $store.getters.contextRelevantMembers'   :key='n'  @click='toggleHighlight(n)'  @click.ctrl='toggleHighlight(n, true)')
+            span(v-for='n in $store.getters.contextRelevantMembers'  :class='{dropping: dropping === n}'  :key='n'  @click='toggleHighlight(n)'  @click.ctrl='toggleHighlight(n, true)'   :ondrop="dropWrap(n)"  :ondragover="allowDropWrap(n)"  :ondragleave='dragLeave')
                 span(:class='{highlight: isHighlighted(n), lowdark: isLowdarked(n) }') &nbsp; {{ getName(n) }} &nbsp;
-            span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='drop') *leave*
+            span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='leave') *leave*
             span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click='grab') *join*
             span.ptr(v-if='$store.getters.contextCard.deck.length === 0' @click='remove') &nbsp; *delete*
-    span.ptr(@click='tryToggle'  v-if='!$store.getters.contextMember')
+    span.ptr(@click='tryToggle')
         span &nbsp;&nbsp;&nbsp;
         span
             img.completedcheckmark.redwx(src='../assets/images/completed.svg')
@@ -35,7 +35,35 @@
 <script>
 
 export default {
+    data(){
+        return {
+            dropping: false
+        }
+    },
     methods: {
+        dragLeave(){
+            this.dropping = false
+        },
+        dropWrap(memberId){
+            return (ev) => {
+                ev.preventDefault();
+                ev.stopPropagation();
+                this.dropping = false
+                var data = ev.dataTransfer.getData("taskId")
+                this.$store.dispatch("makeEvent", {
+                  type: 'task-sub-tasked',
+                  inId: memberId,
+                  taskId: data,
+                })
+
+            }
+        },
+        allowDropWrap(memberId){
+            return (ev) => {
+                ev.preventDefault()
+                this.dropping = memberId
+            }
+        },
         tryToggle(){
             this.$store.dispatch("makeEvent", {
                 type: "completed-toggled",
@@ -75,7 +103,7 @@ export default {
                 taskId: this.$store.getters.contextCard.taskId,
             })
         },
-        drop(){
+        leave(){
             this.$store.dispatch("makeEvent", {
                 type: 'task-dropped',
                 taskId: this.$store.getters.contextCard.taskId,
@@ -96,6 +124,9 @@ export default {
 @import '../styles/colours'
 @import '../styles/skeleton'
 @import '../styles/switch'
+
+.dropping
+    background: blue
 
 .witchswitch
     margin-top: -1em

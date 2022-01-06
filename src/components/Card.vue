@@ -1,5 +1,5 @@
 <template lang='pug'>
-.task(:class="cardInputSty"  @click='goDeeper'  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart').dont-break-out.agedwrapper
+.task(:class="cardInputSty"  @click='goDeeper'  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart'   :ondragleave='dragLeave').dont-break-out.agedwrapper
     img.diamond(v-for='t in b.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)'  @click='$store.commit("setMode", 1)')
     pinner(:b='b', :inId='inId')
     //- tally(:b='b')
@@ -33,15 +33,20 @@ import PreviewDeck from './PreviewDeck'
 export default {
     data(){
         return {
-            showCopied: false
+            showCopied: false,
+            dropping: false,
         }
     },
     props: ['b', 'inId', 'c'],
     components: { PreviewDeck, Pinner, Linky, Current, Tally},
     methods: {
+        dragLeave(){
+            this.dropping = false
+        },
         styl(color){
             if (!color  || this.$store.getters.member.stacks === 1) return
             return {
+                dropping :this.dropping,
                 redwx : color == 'red',
                 bluewx : color == 'blue',
                 greenwx : color == 'green',
@@ -52,6 +57,7 @@ export default {
         },
         drop(ev){
             ev.preventDefault();
+            this.dropping = false
             var data = ev.dataTransfer.getData("taskId")
             if (this.b.taskId === data){
                 return
@@ -69,6 +75,7 @@ export default {
         },
         allowDrop(ev){
             ev.preventDefault()
+            this.dropping = true
         },
         dragStart(ev){
             ev.dataTransfer.setData("taskId", this.b.taskId);
@@ -155,10 +162,12 @@ export default {
           }
           if (this.$store.getters.member.stacks === 1) {
               return {
+                  dropping: this.dropping,
                   nowx: true
               }
           }
           return {
+              dropping: this.dropping,
               redwx : this.b.color == 'red',
               bluewx : this.b.color == 'blue',
               greenwx : this.b.color == 'green',
@@ -323,5 +332,8 @@ img.chest
     top: 0
     height: 1em
     cursor: pointer
+
+.task.dropping
+    background: blue
 
 </style>

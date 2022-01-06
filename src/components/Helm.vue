@@ -4,9 +4,9 @@
     img.gear(@click.stop='$store.commit("toggleSettings")'  src='../assets/images/gear.svg')
     img.bull(@click.stop='$store.commit("toggleNodeInfo")'  src='../assets/images/bull.svg')
     img.doge(@click.stop='$store.commit("toggleAccounts")'  src='../assets/images/doge.svg'  :ondragover='toggl')
-    settings(@click.stop  v-if='$store.state.upgrades.showSettings').settings
-    lightning(@click.stop  v-if='$store.state.upgrades.showNodeInfo').lightning
-    accounts(@click.stop  v-if='$store.state.upgrades.showAccounts').accounts
+    settings(@click.stop  v-show='$store.state.upgrades.showSettings').settings
+    lightning(@click.stop  v-show='$store.state.upgrades.showNodeInfo').lightning
+    accounts(@click.stop  v-show='$store.state.upgrades.showAccounts').accounts
 
 </template>
 

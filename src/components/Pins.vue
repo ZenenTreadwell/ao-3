@@ -12,7 +12,8 @@ export default {
     components: { Pin },
     computed: {
         pinList(){
-            return this.$store.getters.uniqGuilds.groupings.map(x => {
+            return this.$store.getters.uniqGuilds.groupings
+            .map(x => {
                 return this.$store.state.tasks[this.$store.state.hashMap[x[0]]]
             })
         }

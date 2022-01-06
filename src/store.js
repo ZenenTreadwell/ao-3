@@ -34,7 +34,6 @@ export default createStore({
               .filter(t => !!t && t.color )
               .reverse()
       },
-
       contextCompleted(state, getters){
           let upValence = []
           let downValence = []
@@ -98,15 +97,15 @@ export default createStore({
       },
       contextRelevantMembers(state, getters){
           let byCompletion = []
+          getters.contextCard.deck.forEach(mId => {
+              byCompletion.push(mId)
+          })
           getters.contextCompleted.forEach(c => {
               c.claimed.forEach(mId => {
                   if (getters.contextCard.deck.indexOf(mId) > -1){
                       byCompletion.push(mId)
                   }
               })
-          })
-          getters.contextCard.deck.forEach(mId => {
-              byCompletion.push(mId)
           })
           return _.uniq(byCompletion)
       },
@@ -143,7 +142,7 @@ export default createStore({
       },
 
       guilds(state) {
-          let gg = state.tasks.filter(p => p.guild && p.guild.split(':')[0])
+          let gg = state.tasks.filter(p => p.guild && p.guild.split(':')[0] && state.context.indexOf(p.taskId) === -1)
           return gg.sort( (a, b) => b.deck.length - a.deck.length )
       },
 

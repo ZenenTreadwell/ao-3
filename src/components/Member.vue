@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.memberrow.membershipcard(:ondrop="drop"   :ondragover="allowDrop"  )
+.memberrow.membershipcard(:class='{dropping}'  :ondrop="drop"   :ondragover="allowDrop"  :ondragleave='dragLeave')
     .bottomright()
         div(:class='{here: $store.state.upgrades.mode === "chest"}')
             img.boosted(src='../assets/images/hourglass.svg'  v-if='$store.state.upgrades.mode === "doge" && m.action'  @click.stop='goDeeper(m.action)')
@@ -46,7 +46,10 @@ let debounce = false
 
 export default {
     data(){
-        return {copied: false}
+        return {
+            copied: false,
+            dropping: false
+        }
     },
     components: {Current, Linky, Auth, Card, Coin, Checkbox, Pinner, ResourceBook, Currentr},
     computed:{
@@ -105,14 +108,19 @@ export default {
                 blackwx : color == 'black',
             }
         },
+        dragLeave(){
+            this.dropping = false
+        },
         dragStart(ev){
             ev.dataTransfer.setData("taskId", this.$store.getters.contextCard.taskId);
         },
         allowDrop(ev){
             ev.preventDefault()
+            this.dropping = true
         },
         drop(ev){
             ev.preventDefault();
+            this.dropping = false
             var data = ev.dataTransfer.getData("taskId")
             this.$store.dispatch("makeEvent", {
                 type: 'task-prioritized',
@@ -363,5 +371,8 @@ ul.left
 
 .stash span
     cursor: pointer;
+
+.memberrow.membershipcard.dropping
+    background: blue
 
 </style>
