@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-#nodes
+#nodes(v-if='$store.state.cash.info.id')
     .breathing
     .row
         .four.grid.boxy(v-if='$store.state.cash.info.mempool')
@@ -308,7 +308,7 @@ export default {
     text-align: center
     overflow-y: scroll;
     max-height: 100vh;
-    
+
 .inactive
     opacity: 0.3456
 

@@ -31,6 +31,7 @@
                   img.placmage(src='./assets/images/gear.svg')
                   div Settings
   router-view(v-else)
+  
 </template>
 
 <script>
@@ -80,6 +81,14 @@ export default {
 @import "./styles/normalize";
 @import "./styles/skeleton";
 @import "./styles/colours";
+
+.reqStatus
+    background: blue
+    color: black
+    position: absolute;
+    bottom: 3em
+    left: 3em
+    font-size: 2em
 
 .cb
     text-align: center

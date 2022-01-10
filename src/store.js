@@ -23,11 +23,9 @@ export default createStore({
       memberCard(state, getters){
           return state.tasks[state.hashMap[getters.member.memberId]]
       },
-
       contextCard(state){
           return state.tasks[state.hashMap[ state.context[state.context.length - 1]]]
       },
-
       contextDeck(state, getters){
           return getters.contextCard.subTasks
               .map(t => state.tasks[state.hashMap[t]])

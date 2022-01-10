@@ -180,32 +180,36 @@ function checkFunds(){
 }
 
 function getInfo(){
-    return client
-        .getinfo()
-        .then(mainInfo => {
-            bitClient
-                .getBlockStats(mainInfo.blockheight)
-                .then( blockfo => {
-                    mainInfo.blockfo = blockfo
-                    client.listfunds()
-                        .then(result => {
-                            mainInfo.channels = result.channels
-                            mainInfo.outputs = result.outputs
-                            getMempool().then(mempool => {
-                                mainInfo.mempool = mempool
-                                try {
-                                    allEvents.getNodeInfo(mainInfo)
-                                } catch (err) {
-                                    console.log('getNodeInfo error:  ', err)
-                                }
-                            })
+    try {
+      return client
+          .getinfo()
+          .then(mainInfo => {
+              bitClient
+                  .getBlockStats(mainInfo.blockheight)
+                  .then( blockfo => {
+                      mainInfo.blockfo = blockfo
+                      client.listfunds()
+                          .then(result => {
+                              mainInfo.channels = result.channels
+                              mainInfo.outputs = result.outputs
+                              getMempool().then(mempool => {
+                                  mainInfo.mempool = mempool
+                                  try {
+                                      allEvents.getNodeInfo(mainInfo)
+                                  } catch (err) {
+                                      console.log('getNodeInfo error:  ', err)
+                                  }
+                              })
 
-                        })
-                        .catch(console.log)
-              })
+                          })
+                          .catch(console.log)
+                })
 
-        })
-        .catch(console.log)
+          })
+          .catch(console.log)
+    } catch (err) {
+        console.log('likely cannot get block due to syncing or pruning, should resolve after caught up', err)
+    }
 }
 
 function recordEveryInvoice(start){

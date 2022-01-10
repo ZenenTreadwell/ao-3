@@ -520,7 +520,7 @@ function tasksMuts(tasks, ev) {
       tasks.push(calculations.blankCard(ev.resourceId, ev.resourceId, 'red', ev.timestamp, [ev.memberId], [ev.resourceId]))
       break
     case "member-created":
-      tasks.push(calculations.blankCard(ev.memberId, ev.memberId, 'blue', ev.timestamp))
+      tasks.push(calculations.blankCard(ev.memberId, ev.memberId, 'purple', ev.timestamp))
       break
     case "task-created":
       tasks.push(calculations.blankCard(ev.taskId, ev.name, ev.color, ev.timestamp, ev.deck))
