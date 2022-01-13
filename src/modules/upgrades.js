@@ -16,9 +16,6 @@ const state = {
     showAccounts: false,
     showNodeInfo: false,
     showSettings: false,
-    bird: false,
-    barking: false,
-    pinging: false,
     chosenDay: new Date().getDate(),
     selectedCheck:false,
 }
@@ -74,9 +71,6 @@ const mutations = {
     setSearch(state, x){
         state.search = x
     },
-    toggleBird(state){
-        state.bird = !state.bird
-    },
     toggleCreate(state){
         state.create = !state.create
     },
@@ -109,16 +103,6 @@ const mutations = {
     closePayMode(state) {
         state.paymode = false
     },
-    bark(state) {
-        state.barking = true
-        state.pinging = true
-        setTimeout(()=> {
-            state.barking = false
-        }, 1000)
-        setTimeout(()=> {
-            state.pinging = false
-        }, 2000)
-    }
 }
 
 module.exports = {

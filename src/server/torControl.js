@@ -8,7 +8,7 @@ var cookieBuff = fs.readFileSync(process.env.HOME + '/.tor/control_auth_cookie')
 var cookie = Buffer.from(cookieBuff).toString('hex')
 
 let controlClient = net.connect({host: '127.0.0.1', port: 9051}, () => {
-    controlClient.write('AUTHENTICATE ' + cookie + '"\r\n');
+    controlClient.write('AUTHENTICATE ' + cookie + '\r\n');
 });
 
 let hiddenServicePortSplit

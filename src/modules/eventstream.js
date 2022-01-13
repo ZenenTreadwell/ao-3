@@ -69,13 +69,6 @@ const actions = {
         if (getters.member.memberId === ev.memberId || ev.blame === getters.member.memberId){
             return // console.log('filtering my ev')
         }
-        if(ev.type === 'doge-barked' || ev.type === 'resource-used') {
-            if (getters.member && !getters.member.muted){
-                let flip = new Audio(require('../assets/sounds/ping.wav'))
-                flip.play()
-            }
-            commit('bark')
-        }
         commit('show', ev)
         setTimeout(()=>{
             commit('hide')

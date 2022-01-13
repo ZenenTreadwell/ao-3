@@ -119,9 +119,6 @@ export default {
                 memberId: this.$store.getters.member.memberId,
             })
         },
-        toggleBird(){
-            this.$store.commit('toggleBird')
-        },
         goDeeper(){
             this.$store.commit("goDeeper", this.b.taskId)
         },
