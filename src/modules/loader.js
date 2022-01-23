@@ -34,7 +34,7 @@ const actions = {
         commit("setReqStatus", "pending")
         attachSocket(commit, dispatch, () =>{
             let startTs = Date.now()
-            if (rootState.tasks.length === 0){ // ?
+            if (rootState.tasks.length === 0){
               request
                   .post('/tasks/gg')
                   .set("Authorization", state.token)
@@ -63,6 +63,7 @@ const actions = {
                                 tasks: res.body
                             })
                         }
+
                     }
                   })
             }

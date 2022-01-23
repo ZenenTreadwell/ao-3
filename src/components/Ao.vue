@@ -18,6 +18,15 @@ import TaskCreate from './TaskCreate'
 import Deck from './Deck'
 
 export default {
+    mounted(){
+      for (const move in this.$route.params) {
+          let taskId = this.$route.params[move]
+          console.log('in url,', {taskId})
+          if (taskId && this.$store.state.tasks.some(t => t.taskId === taskId)){
+              this.$store.commit("goDeeper", taskId)
+          }
+      }
+    },
     components: {
         EventFeed, Helm, TaskCreate, Contexts, Deck
     },

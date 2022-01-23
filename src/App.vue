@@ -31,7 +31,7 @@
                   img.placmage(src='./assets/images/gear.svg')
                   div Settings
   router-view(v-else)
-  
+
 </template>
 
 <script>

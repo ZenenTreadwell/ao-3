@@ -108,9 +108,7 @@ export default {
     },
     methods: {
         tryGoIn(){
-            let h = crypto.createHash('sha256')
-            h.update(this.task.name)
-            let hash = h.digest('hex')
+            let hash = crypto.createCardHash(this.task.name)
             let card = this.$store.state.hashMap[hash]
             if (card){
                 this.$store.commit('goDeeper', hash)

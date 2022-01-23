@@ -1,6 +1,6 @@
 const uuidV1 = require('uuid/v1')
 const _ = require('lodash')
-const crypto = require('crypto')
+const cryptoUtils = require('../crypto')
 
 const { serverState } = require('./state')
 const dctrlDb = require('./dctrlDb')
@@ -284,9 +284,7 @@ function sessionKilled(session, callback) {
 }
 
 function taskCreated(name, color, deck, inId, memberId, callback) {
-    let h = crypto.createHash('sha256')
-    h.update(name)
-    let hash = h.digest('hex')
+    let hash = cryptoUtils.createCardHash(name)
     let isExist = false
     serverState.tasks.forEach( t => {
         if (t.taskId === hash || t.hash === hash){
@@ -294,7 +292,6 @@ function taskCreated(name, color, deck, inId, memberId, callback) {
         }
     })
     if (isExist) return callback('err exists')
-
     let newEvent = {
         type: "task-created",
         taskId: hash,

@@ -11,10 +11,10 @@ let castDeviceIds = []
 let castDeviceMap = {}
 
 cast.on('device', d => {
-    let taskId = cryptoUtils.createHash(d.friendlyName)
+    let taskId = cryptoUtils.createCardHash(d.friendlyName)
     castDeviceIds.push(taskId)
     castDeviceMap[taskId] = d.friendlyName
-    console.log('chromecastable card:', chalk.bold.red(d.friendlyName))
+    console.log(chalk.bold.red(d.friendlyName), 'castable')
 })
 
 function checkForChargedEvent( resourceId ){
@@ -82,17 +82,16 @@ function reactions(ev){
                 break
             case 'task-claimed':
                 let fName = castDeviceMap[ev.inId]
-                if (fName){
-                    try {
-                        cast.devices.forEach(d => {
-                          if (d.friendlyName === fName) {
-                            let mediaUrl = serverState.tasks[serverState.hashMap[ev.taskId]].name
-                            d.play(mediaUrl)
-                          }
-                        })
-                    } catch (err){
-                        console.log('cast-api error, continue', err)
-                    }
+                let d = cast.devices.filter(d => d.friendlyName === fName)[0]
+                if (fName && d){
+                      let mediaUrl = serverState.tasks[serverState.hashMap[ev.taskId]].name
+                      try {
+                          d.play(mediaUrl)
+                      } catch(err) {
+                          cast.update()
+                      }
+                }else {
+                    cast.update()
                 }
                 break
             case 'member-field-updated':
