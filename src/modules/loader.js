@@ -49,7 +49,6 @@ const actions = {
                                 total -= 100
                                 i ++
                                 setTimeout(()=>{
-                                    console.log('applying', tasks.length, 'tasks')
                                     commit('applyEvent', {
                                         type: 'tasks-received',
                                         tasks
