@@ -1,13 +1,17 @@
 <template lang='pug'>
 
-.memberrow.membershipcard(:class='{dropping}'  :ondrop="drop"   :ondragover="allowDrop"  :ondragleave='dragLeave')
-    .bottomright()
+.activecard(:class='{dropping}'  :ondrop="drop"   :ondragover="allowDrop"  :ondragleave='dragLeave')
+    .topleft
         div(:class='{here: $store.state.upgrades.mode === "chest"}')
             img.boosted(src='../assets/images/hourglass.svg'  v-if='$store.state.upgrades.mode === "doge" && m.action'  @click.stop='goDeeper(m.action)')
-            //- .stash(v-if='$store.state.upgrades.mode === "chest"') {{ card.boost.toLocaleString() }}
-            .stash
-                checkbox(:b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
-            //-
+    .topright()
+        .tabber(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}'   :ondragover='toBoatOnly')
+            img.roro(v-if='$store.state.upgrades.mode !== "boat"  && card.priorities.length > 0'  v-for='t in card.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
+            img(src='../assets/images/completed.svg')
+        .tabber(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}'  :ondragover='toTimeCubeOnly')
+            img(src='../assets/images/timecube.svg')
+        .tabber(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
+            img(src='../assets/images/bitcoin.svg')
     .row.center.clearboth(@click='copyCard'  draggable="true"  :ondragstart='dragStart' )
         label
             div(v-if='$store.getters.contextMember')
@@ -19,14 +23,8 @@
                 pinner(:b='$store.getters.contextCard', :inId='$store.getters.contextCard.taskId')
                 linky(:x='card.name')
                 img(v-show='copied'  src='../assets/images/clipboard.svg')
-    div
-        .bottomleft(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}'   :ondragover='toBoat')
-            img.roro(v-if='$store.state.upgrades.mode !== "boat"  && card.priorities.length > 0'  v-for='t in card.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
-            img(src='../assets/images/completed.svg')
-        .bottomleft(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}'  :ondragover='toTimeCube')
-            img(src='../assets/images/timecube.svg')
-        .bottomleft(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
-            img(src='../assets/images/bitcoin.svg')
+    .centererer
+        checkin(:b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
     .clearboth
 </template>
 
@@ -37,7 +35,7 @@ import Coin from './Coin'
 import Currentr from './Currentr'
 import Linky from './Linky'
 import Auth from './Auth'
-import Checkbox from './Checkbox'
+import Checkin from './Checkin'
 import Card from './Card'
 import Pinner from './Pinner'
 import ResourceBook from './ResourceBook'
@@ -51,7 +49,7 @@ export default {
             dropping: false
         }
     },
-    components: {Current, Linky, Auth, Card, Coin, Checkbox, Pinner, ResourceBook, Currentr},
+    components: {Current, Linky, Auth, Card, Coin, Checkin, Pinner, ResourceBook, Currentr},
     computed:{
         m(){
             return this.$store.getters.contextMember
@@ -137,6 +135,9 @@ export default {
                 this.$store.commit("setMode", 3)
             }
         },
+        toTimeCubeOnly(){
+            this.$store.commit("setMode", 2)
+        },
         toTimeCube(){
             if (debounce){
                 return
@@ -148,6 +149,9 @@ export default {
                 this.$store.commit("setMode", 2)
             }
             setTimeout(()=> debounce = false, 333)
+        },
+        toBoatOnly(){
+            this.$store.commit("setMode", 1)
         },
         toBoat(){
             if (debounce){
@@ -230,7 +234,7 @@ export default {
     border-radius: 50%;
     margin-right: 0.4em;
 
-.bottomleft img.roro
+.tabber img.roro
     transform: rotate(45deg);
     height: 0.333333em
     float: left;
@@ -267,12 +271,12 @@ label
 .spacer
     margin-bottom: 3em
 
-.membershipcard
+.activecard
     // padding: 1em
     background-color: rgba(255,255,255,.888)
     margin-bottom: 1em
     padding-bottom: 1em
-    padding-top: 1em
+    // padding-top: 1em
     // box-shadow:
     //     0 0 6px 3px white,  /* inner white */
     //     0 0 7px 4px lightGrey, /* middle magenta */
@@ -298,7 +302,10 @@ label
     cursor: pointer
 
 
-.bottomleft
+.centererer
+    text-align: center
+
+.tabber
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: main;
     display: inline-block
@@ -307,21 +314,30 @@ label
     color: lightGrey
     text-align: center
     opacity: 0.3
+    background-color: white;
+    width: 3em;
+    border-bottom-left-radius: 40%;
+    border-bottom-right-radius: 40%;
+    border-bottom-width: 3px;
+    border-color: main;
+    border-bottom-style: solid
+    border-left-style: solid
+    border-right-style: solid
+    margin-left: .77em
     img
         height: 1.11em
-.bottomleft:hover
+.tabber:hover
     opacity: 0.88
 
-.bottomleft.activationsequence
+.tabber.activationsequence
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
-    border: none;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     // box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     opacity: 1
-.bottomright
+.topright
     width: fit-content
     right: 0.1em
     top: 0.1em
@@ -372,7 +388,7 @@ ul.left
 .stash span
     cursor: pointer;
 
-.memberrow.membershipcard.dropping
+.activecard.dropping
     background: blue
 
 </style>

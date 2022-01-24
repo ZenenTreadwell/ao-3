@@ -2,7 +2,7 @@
 .deck(v-if='$store.getters.contextCard.taskId'   :key='$store.getters.contextCard.taskId')
     .paperwrapper
         .card.openwidth(:class='{ adjustwidth : $store.state.upgrades.mode !== "doge", closedwidth : $store.state.upgrades.mode === "doge"}')
-            member-row
+            active-card
             resource-book(v-if='$store.state.upgrades.mode === "timecube"')
         .upgradesbar(v-if='$store.state.upgrades.mode !== "doge"'  :class='{darkmode: $store.getters.member.stacks === 1}')
             payments(v-if='$store.state.upgrades.mode === "chest"')
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import MemberRow from './Member'
+import ActiveCard from './ActiveCard'
 import Payments from './Payments'
 import Calendar from './Calendar'
 import Priorities from './Priorities'
@@ -31,7 +31,7 @@ import ResourceBook from './ResourceBook'
 
 export default {
   components:{
-      MemberRow, Payments, Calendar, Priorities,
+      ActiveCard, Payments, Calendar, Priorities,
       Checkmarks, Panels, Pins, RollStack,
       ResourceBook,
   },

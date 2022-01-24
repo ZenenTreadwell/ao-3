@@ -42,7 +42,6 @@
 import calculations from '../calculations'
 import Hammer from 'hammerjs'
 import cryptoUtils from '../crypto'
-import crypto from 'crypto'
 import Current from './Current'
 
 let searchDebounce = setTimeout(()=>{}, 123123123123123)
@@ -108,7 +107,7 @@ export default {
     },
     methods: {
         tryGoIn(){
-            let hash = crypto.createCardHash(this.task.name)
+            let hash = cryptoUtils.createCardHash(this.task.name)
             let card = this.$store.state.hashMap[hash]
             if (card){
                 this.$store.commit('goDeeper', hash)

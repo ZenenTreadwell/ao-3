@@ -3,8 +3,8 @@
 .checkbox(ref='checkbox'  :id='uuid')
     span(v-if='$store.getters.contextMember.memberId === b.taskId')
     span(v-else-if='$store.getters.contextCard.taskId === b.taskId')
-        img.checkmark.doge(v-if='isCompleted'  src='../assets/images/doge.svg')
-        img.checkmark.doge.incomplete(v-else  src='../assets/images/doge.svg')
+        img.checkmark.doge(v-if='isCompleted'  src='../assets/images/thumbsup.svg')
+        img.checkmark.doge.incomplete(v-else  src='../assets/images/thumbsup.svg')
     span(v-else)
         img.checkmark(v-if='isCompleted'  src='../assets/images/completed.svg')
         img.checkmark(v-else  src='../assets/images/uncompleted.svg')
@@ -77,12 +77,14 @@ export default {
 @import '../styles/colours'
 
 .doge
-    background: main
+    // background: main
     border-radius: 50%
     padding: 0.1234em
+    opacity: 1
 
 .doge.incomplete
-    background: softerGrey
+    // background: softerGrey
+    opacity: 0.4
 
 .checkbox
     cursor: pointer
