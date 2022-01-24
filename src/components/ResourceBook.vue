@@ -2,10 +2,10 @@
 
 #newresource
     //(:class='{shown: showSetTime}')
-    div(v-if='!cardStart.timeSet')
+    div
         //- .close(@click='showSetTime = false') x
-        label select day
-        input(v-model='ymd' type='date')
+        //- label select day
+        //- input(v-model='ymd' type='date')
         label select hour
         .row.padd
             select.eight.grid(v-model='hour')
@@ -26,27 +26,16 @@
                 option(value='pm') pm
         button(@click='book')
             span schedule
-    .timetill(v-else)
-        span(v-if='cardStart.days > 1'  @click='clearSchedule') in {{ cardStart.days.toFixed(1) }} days
-        span(v-else-if='cardStart.hours > 1'  @click='clearSchedule') in {{ cardStart.hours.toFixed(1) }} hours
-        span(v-else-if='cardStart.minutes > 1'  @click='clearSchedule') in {{ cardStart.minutes.toFixed(1) }} minutes
+
 </template>
 
 <script>
 
 export default {
+    props: ['chosenDay'],
     methods: {
-        clearSchedule(){
-            this.$store.dispatch('makeEvent', {
-                type: 'resource-booked',
-                resourceId: this.$store.getters.contextCard.taskId,
-                memberId: this.$store.getters.member.memberId,
-                startTs: 0,
-                endTs: 0,
-            })
-        },
         book(){
-            if (!this.showSetTime) return this.showSetTime = true
+            // if (!this.showSetTime) return this.showSetTime = true
             this.$store.dispatch('makeEvent', {
                 type: 'resource-booked',
                 resourceId: this.tId,
@@ -99,7 +88,7 @@ export default {
         },
         calcTime(){
             const HOUR = 60 * 60 * 1000
-            let d = new Date(this.ymd)
+            let d = new Date(this.chosenDay.year, this.chosenDay.month, this.chosenDay.day)
 
             let pmAmOffset
             switch (this.meridiem) {
@@ -111,13 +100,13 @@ export default {
                     break
             }
 
-            let tzOffset = d.getTimezoneOffset()
-            let timezoneOffset = ( tzOffset / 60 ) * HOUR
+            // let tzOffset = d.getTimezoneOffset()
+            // let timezoneOffset = ( tzOffset / 60 ) * HOUR
 
             let durationOffset = parseInt(this.duration) * HOUR
             let hourOffset = parseInt(this.hour) * HOUR
 
-            let start = d.getTime() + pmAmOffset + hourOffset + timezoneOffset
+            let start = d.getTime() + pmAmOffset + hourOffset // + timezoneOffset
 
             return {
                 start,
@@ -139,13 +128,6 @@ export default {
 button
     background: softGrey
     color: lightGrey
-
-.timetill
-    cursor: pointer;
-
-.timetill span:hover
-    text-decoration: line-through;
-
 
 .close
     float: right;

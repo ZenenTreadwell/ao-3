@@ -124,22 +124,22 @@ function reactions(ev){
                 let changeLightning = totalInChannels - channelSatTotalTracker
                 let changeChain = totalInOutputs - outputSatTotalTracker
                 if (i === 0){
-                    console.log('wallet balance:')
+                    console.log('wallet balance:', chalk.bold.yellow('(sats)'))
                 }
                 i ++
                 if (changeLightning === totalInChannels  && i === 1){
-                    console.log('', chalk.bold.yellow(totalInChannels.toLocaleString()), "sats in channels")
+                    console.log('', chalk.bold.yellow(totalInChannels.toLocaleString()), "in channels")
                 } else if (changeLightning > 0){
-                    console.log('', chalk.bold.yellow(totalInChannels.toLocaleString()), "sats in channels", chalk.bold.green('+', changeLightning ))
+                    console.log('', chalk.bold.yellow(totalInChannels.toLocaleString()), "in channels", chalk.bold.green('+', changeLightning ))
                 } else if (changeLightning < 0){
-                    console.log('', chalk.bold.yellow(totalInChannels.toLocaleString()), "sats in channels", chalk.bold.red('-', - changeLightning ))
+                    console.log('', chalk.bold.yellow(totalInChannels.toLocaleString()), "in channels", chalk.bold.red('-', - changeLightning ))
                 }
                 if (changeChain === totalInOutputs  && i === 1){
-                    console.log('', chalk.bold.yellow(totalInOutputs.toLocaleString()), "sats on chain")
+                    console.log('', chalk.bold.yellow(totalInOutputs.toLocaleString()), "on chain")
                 } else if (changeChain > 0){
-                    console.log('', chalk.bold.yellow(totalInOutputs.toLocaleString()), "sats on chain", chalk.bold.green('+', changeChain))
+                    console.log('', chalk.bold.yellow(totalInOutputs.toLocaleString()), "on chain", chalk.bold.green('+', changeChain))
                 } else if (changeChain < 0){
-                    console.log('', chalk.bold.yellow(totalInOutputs.toLocaleString()), "sats on chain", chalk.bold.red('-', - changeChain))
+                    console.log('', chalk.bold.yellow(totalInOutputs.toLocaleString()), "on chain", chalk.bold.red('-', - changeChain))
                 }
                 outputSatTotalTracker = totalInOutputs
                 channelSatTotalTracker = totalInChannels

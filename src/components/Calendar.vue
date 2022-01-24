@@ -17,6 +17,7 @@
       .weekdayfull(@click='clickDateBar') {{ chosenWeekDay }}
       .grey
           .datenumber  {{ $store.state.upgrades.chosenDay }}
+          resource-book(:chosenDay='chosenDay')
           .ptr.bg(v-for='n in selectedDaysEvs')
               span(v-if='n.type === "task-claimed"'  @click='goDeeper(n.taskId, n.inId)')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }} &nbsp;
@@ -45,6 +46,8 @@ import Day from './Day.vue'
 import Current from './Current.vue'
 import Currentr from './Currentr.vue'
 import Linky from './Linky'
+import ResourceBook from './ResourceBook'
+
 
 function getDMY(ts){
     let d = new Date(ts)
@@ -57,7 +60,7 @@ function getDMY(ts){
 export default {
   components: {
     Day, Currentr, Current,
-    Linky,
+    Linky, ResourceBook
   },
   methods: {
       allowDrop(ev){
@@ -143,6 +146,13 @@ export default {
   computed: {
     inId(){
         return this.$store.getters.contextCard.taskId
+    },
+    chosenDay(){
+        return {
+            year: this.year,
+            month: this.month,
+            day: this.$store.state.upgrades.chosenDay
+        }
     },
     chosenWeekDay(){
         let date = new Date(this.year, this.month, this.$store.state.upgrades.chosenDay)

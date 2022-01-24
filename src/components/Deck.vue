@@ -3,7 +3,7 @@
     .paperwrapper
         .card.openwidth(:class='{ adjustwidth : $store.state.upgrades.mode !== "doge", closedwidth : $store.state.upgrades.mode === "doge"}')
             active-card
-            resource-book(v-if='$store.state.upgrades.mode === "timecube"')
+            //- resource-book(v-if='$store.state.upgrades.mode === "timecube"')
         .upgradesbar(v-if='$store.state.upgrades.mode !== "doge"'  :class='{darkmode: $store.getters.member.stacks === 1}')
             payments(v-if='$store.state.upgrades.mode === "chest"')
             calendar(v-if='$store.state.upgrades.mode === "timecube"')
@@ -108,7 +108,7 @@ export default {
     margin-right: -1em
     max-width: 100%
     max-width: 15em
-    max-width: 20vw
+    // max-width: 20vw
     transition: width 2s;
 
 </style>

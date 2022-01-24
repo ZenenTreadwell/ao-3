@@ -23,6 +23,10 @@
                 pinner(:b='$store.getters.contextCard', :inId='$store.getters.contextCard.taskId')
                 linky(:x='card.name')
                 img(v-show='copied'  src='../assets/images/clipboard.svg')
+            span.timetill(v-if='cardStart.timeSet')
+                span(v-if='cardStart.days > 1'  @click='clearSchedule') in {{ cardStart.days.toFixed(1) }} days
+                span(v-else-if='cardStart.hours > 1'  @click='clearSchedule') in {{ cardStart.hours.toFixed(1) }} hours
+                span(v-else-if='cardStart.minutes > 1'  @click='clearSchedule') in {{ cardStart.minutes.toFixed(1) }} minutes
     .centererer
         checkin(:b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
     .clearboth
@@ -51,6 +55,32 @@ export default {
     },
     components: {Current, Linky, Auth, Card, Coin, Checkin, Pinner, ResourceBook, Currentr},
     computed:{
+        cardStart(){
+            let days = 0
+            let hours = 0
+            let minutes = 0
+            let cstar = {
+                timeSet: false,
+                days,
+                hours,
+                minutes
+            }
+            let msTill = this.$store.getters.contextCard.book.startTs - Date.now()
+            if ( this.$store.getters.contextCard.book.startTs && msTill > 0){
+              cstar.timeSet = true
+              cstar.days = msTill / (1000 * 60 * 60 * 24)
+              if (cstar.days > 1){
+                  return cstar
+              }
+              cstar.hours = cstar.days * 24
+              if (cstar.hours > 1){
+                  return cstar
+              }
+              cstar.minutes = cstar.hours * 60
+              return cstar
+            }
+            return cstar
+        },
         m(){
             return this.$store.getters.contextMember
         },
@@ -84,6 +114,15 @@ export default {
         },
     },
     methods: {
+        clearSchedule(){
+            this.$store.dispatch('makeEvent', {
+                type: 'resource-booked',
+                resourceId: this.$store.getters.contextCard.taskId,
+                memberId: this.$store.getters.member.memberId,
+                startTs: 0,
+                endTs: 0,
+            })
+        },
         goDeeper(taskId){
             this.$store.commit("closeAll")
             this.$store.commit("goDeeper", taskId)
@@ -225,6 +264,12 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
+
+.timetill
+    cursor: pointer;
+
+.timetill span:hover
+    text-decoration: line-through;
 
 .doge
     height: 1.0789em
