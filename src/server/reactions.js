@@ -124,7 +124,7 @@ function reactions(ev){
                 let changeLightning = totalInChannels - channelSatTotalTracker
                 let changeChain = totalInOutputs - outputSatTotalTracker
                 if (i === 0){
-                    console.log('current wallet:')
+                    console.log('wallet balance:')
                 }
                 i ++
                 if (changeLightning === totalInChannels  && i === 1){

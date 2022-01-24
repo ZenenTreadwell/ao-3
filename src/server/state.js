@@ -79,14 +79,13 @@ function initialize(callback) {
     let start = Date.now()
     torControl( (err, onion) => {
       if (onion) onion = onion.trim()
-      console.log(chalk.bold.blue('http://' + onion))
       serverState.cash.address = onion
       pubState.cash.address = onion
       dctrlDb.recover((err, backup) => {
             let ts = 0
             if (backup.length > 0){
                 ts = backup[0].timestamp
-                console.log(chalk.green('using backup from ', Date(ts)))
+                console.log(chalk.green('backup from ', Date(ts)))
                 applyBackup(backup[0])
             }
             dctrlDb.getAll(ts, (err, all) => {
@@ -95,11 +94,11 @@ function initialize(callback) {
                     applyEvent(serverState, Object.assign({}, ev) )
                     applyEvent(pubState, removeSensitive( Object.assign({}, ev) ))
                 })
-                console.log('current state: \n',
-                    chalk.bold.cyan(all.length, 'events \n'),
-                    chalk.bold.green(serverState.tasks.length, 'cards \n'),
-                    chalk.bold.magenta(serverState.members.length, 'accounts \n'),
-                    chalk.bold.red(serverState.resources.length, 'resources')
+                console.log(
+                    chalk.bold.green(serverState.tasks.length, 'cards'),
+                    chalk.bold.magenta(serverState.members.length, 'accounts'),
+                    chalk.bold.red(serverState.resources.length, 'resources'),
+                    chalk.bold.cyan('from', all.length, 'events')
                 )
 
                 // integrity check on hashMap (hashMap is broked)
@@ -111,6 +110,7 @@ function initialize(callback) {
                     }
                 })
 
+                console.log(chalk.bold.blue('http://' + onion))
                 callback(null)
             })
       })

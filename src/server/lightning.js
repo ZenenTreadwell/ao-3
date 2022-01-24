@@ -29,8 +29,11 @@ bitClient.getBlockchainInfo().then(x => {
             blocks -= halving
         }
         supply += reward * blocks
-        console.log('validated supply of', (supply * sats).toLocaleString() , 'sats')
-        console.log('miner reward is', (reward * sats).toLocaleString(), 'sats, ', Math.round((halving - blocks) * 10 / 60 / 24).toString() , 'days till halving')
+        console.log(
+            chalk.bold.yellow( (supply * sats).toLocaleString(), 'supply'),
+            chalk.bold.cyan('+' + (reward * sats).toLocaleString() + '/block'),
+            chalk.bold.green(Math.round((halving - blocks) * 10 / 60 / 24).toString() , 'days to halving')
+        )
     }
 }).catch( err => {
     console.log(chalk.red('cannot connect to bitcoind'))

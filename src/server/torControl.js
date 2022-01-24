@@ -23,12 +23,10 @@ module.exports = function(callback){
         } else if (i === 1) {
           hiddenServicePortSplit = splitFromBuffer(x)
           hiddenServicePortSplit = hiddenServicePortSplit.filter(x => x !== 'HiddenServicePort')
-          console.log({hiddenServicePortSplit})
           controlClient.write("GETCONF HiddenServiceDir \r\n")
         } else if (i === 2){
           hiddenServiceDirSplit = splitFromBuffer(x)
           hiddenServiceDirSplit = hiddenServiceDirSplit.filter(x => x !== 'HiddenServiceDir')
-          console.log({hiddenServiceDirSplit})
           onion = checkCurrentPortHasConfigAndReturnOnion(hiddenServicePortSplit, hiddenServiceDirSplit, PORT)
           if (!onion){
             let newConf = buildNewConfString(hiddenServicePortSplit, hiddenServiceDirSplit, PORT)

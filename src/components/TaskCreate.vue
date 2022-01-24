@@ -279,8 +279,9 @@ export default {
                 return
             }
             let foundId = false
+            let potentialCardHash = cryptoUtils.createCardHash(potentialCard)
             this.$store.state.tasks.some(t => {
-                if (t.name === potentialCard){
+                if (t.taskId === potentialCardHash){
                     foundId = t.taskId
                     return true
                 }
