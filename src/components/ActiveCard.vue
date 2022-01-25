@@ -1,10 +1,7 @@
 <template lang='pug'>
 
 .activecard(:class='{dropping}'  :ondrop="drop"   :ondragover="allowDrop"  :ondragleave='dragLeave')
-    .topleft
-        div(:class='{here: $store.state.upgrades.mode === "chest"}')
-            img.boosted(src='../assets/images/hourglass.svg'  v-if='$store.state.upgrades.mode === "doge" && m.action'  @click.stop='goDeeper(m.action)')
-    .topright()
+    .topright
         .tabber(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}'   :ondragover='toBoatOnly')
             img.roro(v-if='$store.state.upgrades.mode !== "boat"  && card.priorities.length > 0'  v-for='t in card.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
             img(src='../assets/images/completed.svg')
@@ -339,13 +336,8 @@ label
     cursor: pointer
 
 .topright
-    float: right
-    width: fit-content
-    position: relative
-    bottom: 0
-    right: -1em
     cursor: pointer
-
+    // float: left
 
 .centererer
     text-align: center
@@ -360,7 +352,7 @@ label
     text-align: center
     opacity: 0.3
     background-color: white;
-    width: 3em;
+    width: 3.3em;
     border-bottom-left-radius: 40%;
     border-bottom-right-radius: 40%;
     border-bottom-width: 3px;
@@ -373,6 +365,8 @@ label
         height: 1.11em
 .tabber:hover
     opacity: 0.88
+    background-color: lightGrey;
+
 
 .tabber.activationsequence
     -webkit-box-sizing: content-box;
@@ -382,11 +376,9 @@ label
     text-overflow: ellipsis;
     // box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     opacity: 1
-.topright
-    width: fit-content
-    right: 0.1em
-    top: 0.1em
-    float: right
+
+.tabber.activationsequence:hover
+    background-color: lightGrey;
 
 .stash
     display: inline

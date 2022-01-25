@@ -85,12 +85,12 @@
                         .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL", gr: $store.getters.member.stacks === 5}')
                         .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL", bl: $store.getters.member.stacks === 5}')
             .section {{ $store.state.cash.info.channels.length }} channels
-    .row.boxy
-        .row.bg(v-if='sats > 0') 1 CAD =
+    .boxy
+        div(v-if='sats > 0') 1 CAD =
             span {{ sats }} sats
-        .row.bg 1 BTC = 100 000 000 sats
-        .row.bg.ptr(@click='clicktopay') *click to pay*
-        .row {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
+        div(v-else) 1 BTC = 100 000 000 sats
+        .ptr(@click='clicktopay') *donate now*
+        div {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
 </template>
 
 <script>

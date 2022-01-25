@@ -2,9 +2,9 @@
 
 div
     .invoice
-        input(v-model='task.points'  type='text'  placeholder='sats'  @keypress.enter='setValue')
-        button(@click.stop='setValue') pay {{task.points}} sats
-    .showaddr(@click='switchAddr' v-if='$store.state.upgrades.paymode !== "bitcoin"') *use BTC address
+        input(v-model='task.points'  type='text'  placeholder='invoice amount, zero for any amount'  @keypress.enter='setValue')
+        button(@click.stop='setValue') send bitcoin on lightning
+    button.showaddr(@click='switchAddr' v-if='$store.state.upgrades.paymode !== "bitcoin"') send bitcoin on chain
 
 </template>
 
@@ -15,7 +15,7 @@ export default {
     data() {
         return {
             task: {
-                points: this.b.completeValue,
+                points: '',
             }
         }
     },

@@ -2,8 +2,8 @@
 
 .bird
     div(@click.stop='toggleSend')
-        img.birdy(v-if='!showSend && !b.guild' src='../assets/images/badge.svg')
-        div.birdy.smallguild(v-else  :class='{ open : showSend }')
+        img.birdy(v-if='!showSend && !b.guild' src='../assets/images/badge.svg'  :class='{darkcircle: b.guild}')
+        div.birdy.smallguild(v-else  :class='{ open : showSend, darkcircle: b.guild }')
     .guildcreate(v-if='showSend'  @click.stop  :class='{ bumpup : editing }')
         input(v-model='task.guild'  type='text'  :placeholder='task.guild'  @keypress.enter='titleIt(false)')
         button(@click='titleIt')
@@ -126,5 +126,9 @@ button
 
 .theTitle
     color: main
+
+.darkcircle
+    background-color: main
+    border-radius: 50%
 
 </style>

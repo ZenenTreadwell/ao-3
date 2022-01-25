@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 .priorities
-    div.center(v-if='priorities.length === 0') ~task list empty~
+    div.center(v-if='priorities.length === 0') prioritize a card by clicking on the top right corner or dragging it up
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer
