@@ -2,19 +2,19 @@
 
 .panel
     .row
-      .four.columns
+      .four.grid
           stack(stack='red', :position='$store.getters.contextCard.stackView["red"]',  :taskId='$store.getters.contextCard.taskId')
           span &nbsp;
-      .four.columns
+      .four.grid
           stack(stack='green', :position='$store.getters.contextCard.stackView["green"]',  :taskId='$store.getters.contextCard.taskId')
           span &nbsp;
-      .four.columns
+      .four.grid
           stack(stack='blue', :position='$store.getters.contextCard.stackView["blue"]',  :taskId='$store.getters.contextCard.taskId')
     .row
-      .two.columns
-      .four.columns
+      .two.grid
+      .four.grid
           stack(stack='yellow', :position='$store.getters.contextCard.stackView["yellow"]',  :taskId='$store.getters.contextCard.taskId')
-      .four.columns
+      .four.grid
           stack(stack='purple', :position='$store.getters.contextCard.stackView["purple"]',  :taskId='$store.getters.contextCard.taskId')
 
 </template>
@@ -31,7 +31,7 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
-@import '../styles/skeleton'
+@import '../styles/grid'
 
 .panel
     margin: 0 1em 1em 1em

@@ -13,7 +13,7 @@
     div
         panels
     .container
-        roll-stack
+        data-vis
     pins.rell
 
 </template>
@@ -26,14 +26,15 @@ import Priorities from './Priorities'
 import Checkmarks from './Checkmarks'
 import Panels from './Panels'
 import Pins from './Pins'
-import RollStack from './RollStack'
+// import RollStack from './RollStack'
+import DataVis from './DataVis'
 import ResourceBook from './ResourceBook'
 
 export default {
   components:{
       ActiveCard, Payments, Calendar, Priorities,
-      Checkmarks, Panels, Pins, RollStack,
-      ResourceBook,
+      Checkmarks, Panels, Pins, // RollStack,
+      ResourceBook, DataVis
   },
   methods: {
     allowDrop(ev){

@@ -8,7 +8,7 @@
             span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='leave') *leave*
             span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click='grab') *join*
             span.ptr(v-if='$store.getters.contextCard.deck.length === 0' @click='remove') &nbsp; *delete*
-    span.ptr(@click='tryToggle')
+    span.ptr(@click='tryToggle'  v-if='$store.getters.contextCard.completed.length > 0')
         span &nbsp;&nbsp;&nbsp;
         span
             img.completedcheckmark.redwx(src='../assets/images/completed.svg')
