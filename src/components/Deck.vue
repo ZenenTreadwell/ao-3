@@ -1,5 +1,6 @@
 <template lang='pug'>
-.deck(v-if='$store.getters.contextCard.taskId'   :key='$store.getters.contextCard.taskId')
+//    :key='$store.getters.contextCard.taskId'
+.deck(v-if='$store.getters.contextCard.taskId')
     .paperwrapper
         .card.openwidth(:class='{ adjustwidth : $store.state.upgrades.mode !== "doge", closedwidth : $store.state.upgrades.mode === "doge"}')
             active-card
