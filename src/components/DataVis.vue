@@ -15,6 +15,7 @@ var margin = {
 
 export default {
   mounted() {
+    document.getElementById("my_dataviz").innerHTML = "";
     setTimeout(this.drawVis, 5000)
   },
   methods: {
@@ -39,10 +40,12 @@ export default {
         let source = n.id
         let subs = t.subTasks.concat(t.priorities)//.concat(t.completed)
         subs.forEach(target => {
-          linksX.push({
-            source,
-            target
-          })
+          if (this.$store.state.tasks[this.$store.state.hashMap[target]].deck.indexOf(this.$store.getters.member.memberId) > -1){
+              linksX.push({
+                source,
+                target
+              })
+          }
         })
       })
 
