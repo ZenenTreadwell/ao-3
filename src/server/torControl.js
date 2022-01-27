@@ -36,11 +36,13 @@ module.exports = function(callback){
             callback(null, onion)
           }
         } else if (i === 3){
+            controlClient.write("SAVECONF \r\n" )
+        } else if (i === 4){
           controlClient.write("GETCONF HiddenServicePort \r\n")
-        } else if (i === 4) {
+        } else if (i === 5) {
           hiddenServicePortSplit = splitFromBuffer(x)
           controlClient.write("GETCONF HiddenServiceDir \r\n")
-        } else if (i === 5){
+        } else if (i === 6){
           hiddenServiceDirSplit = splitFromBuffer(x)
           onion = checkCurrentPortHasConfigAndReturnOnion(hiddenServicePortSplit, hiddenServiceDirSplit, PORT)
           if (!onion){
