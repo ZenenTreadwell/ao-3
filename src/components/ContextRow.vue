@@ -29,9 +29,13 @@ export default {
         goHigher(){
             let t = this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
             if (t.guild){
-                let i = this.$store.getters.uniqGuilds.uniqBase.indexOf(t.guild.split(':')[0])
+                let lookingfor = t.guild.split(':')[0]
+                let i = this.$store.getters.uniqGuilds.uniqBase.indexOf(lookingfor)
+
+                console.log('should have got index', i, {lookingfor}, this.$store.getters.uniqGuilds.uniqBase)
                 if (i !== -1){
                   let contexts = this.$store.getters.uniqGuilds.groupings[i]
+                  console.log('should have found grouping', {contexts})
                   contexts = contexts.filter(x => x !== this.taskId)
                   contexts.push(this.taskId)
                   return this.$store.commit("goGo", contexts)

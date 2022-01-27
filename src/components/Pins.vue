@@ -2,7 +2,7 @@
 
 .projects
     pin(v-for='p in pinList'  :p='p')
-    pin(v-if='$store.getters.member.memberId !== $store.getters.contextCard.taskId'  :p='$store.getters.memberCard')
+    pin(:p='$store.getters.memberCard')
 
 </template>
 

@@ -140,7 +140,7 @@ export default createStore({
       },
 
       guilds(state) {
-          let gg = state.tasks.filter(p => p.guild && p.guild.split(':')[0] && state.context.indexOf(p.taskId) === -1)
+          let gg = state.tasks.filter(p => p.guild && p.guild.split(':')[0])
           return gg.sort( (a, b) => b.deck.length - a.deck.length )
       },
 

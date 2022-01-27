@@ -1,10 +1,11 @@
 <template lang='pug'>
 
-.pin(@click='goGo'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping}"  draggable="true"  :ondragstart='dragStart')
+.pin(@click='goGo'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave="offDrop"  :class="{dropping, hidded : $store.state.context.indexOf(p.taskId) > -1}"  draggable="true"  :ondragstart='dragStart')
+  .poon
     span(@click.stop='goGoKeep')
-        img.floatleft(v-if='$store.getters.member.memberId !== p.taskId'  src='../assets/images/badge.svg')
+        img.floatleft(v-if='$store.getters.member.memberId !== p.taskId'  src='../assets/images/badge.svg'  :class='{rotated: $store.state.context.indexOf(p.taskId) > -1}')
         img.floatleft(v-else  src='../assets/images/doge.svg')
-    span()
+    span
         span.nl.gui(v-if='$store.getters.member.memberId !== p.taskId' ) {{ p.guild.split(':')[0] }}
         span.nl.gui(v-else) &nbsp;home
 </template>
@@ -77,16 +78,23 @@ export default {
 
 @import '../styles/colours'
 
-.selected
-    font-weight: 900;
-    font-size: 1.19em
+.hidded
+    opacity: 0
+
+.rotated
+    transform: rotate(180deg)
 
 .dropping
     background: blue
 
+.pin .poon:hover
+    background: main
+
 span.nl.gui
-    font-size: 1.1em
-    opacity: 0.3
+    font-weight: 1300;
+    font-size: 1.2em
+    opacity: 1
+    width: 100%
 span.nl.gui:hover
     opacity: 1
 
