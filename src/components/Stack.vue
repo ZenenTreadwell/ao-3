@@ -6,7 +6,8 @@
         span.third(:class='{hidden:open}'  ref='previous')
             .donut.hidden
         span.third(ref='mandelorb')
-            .donut(:class='{pileselected:$store.state.upgrades.color===stack  && $store.state.upgrades.create, dropping:dropping}')
+            .donut.chcky(v-if='$store.getters.contextCard.stackView.completed')
+            .donut(v-else  :class='{pileselected:$store.state.upgrades.color===stack  && $store.state.upgrades.create, dropping:dropping}')
         span.third(:class='{hidden:open}'  ref='next')
             .donut.hidden
     .open(v-if='open')
@@ -342,6 +343,17 @@ export default {
 
 .donut.dropping
     border-color: blue
+
+.donut.chcky
+    background-image: url('../assets/images/completed.svg')
+    background-color: softGrey
+    border:none
+    border-radius: 0
+    border-width: 0
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 3em
+    width: 3em
 
 // // ? no work - add color to drop area?
 // .piledrop.dropping
