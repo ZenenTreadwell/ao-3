@@ -31,8 +31,6 @@ export default {
     color: lightGrey
     font-style: italic;
     border-radius: 3%
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: main;
 
 img.floatleft
     max-height: 1em

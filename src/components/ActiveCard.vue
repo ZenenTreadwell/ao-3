@@ -343,8 +343,6 @@ label
     text-align: center
 
 .tabber
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: main;
     display: inline-block
     width: 33.3%
     cursor: pointer

@@ -247,19 +247,20 @@ img.darkcircle
 img.checkmark.right.front.notaction
     opacity: .1773
 
-.row.agedwrapper
-    box-shadow: 3px 1px 7px 1px main
+// .row.agedwrapper
+    // box-shadow: 3px 1px 7px 1px main
 
 .priority
     clear: both
 
 .agedwrapper
     position: relative
-    margin-top: 0.5em
-    width: calc(100% - 2em)
+    margin-top: 0.22em
+    width: calc(100% - 1em)
     padding: 0.5em
-    margin-right: 0.5em
-    margin-left: 0.5em
+    cursor: crosshair;
+    // margin-right: 0.5em
+    // margin-left: 0.5em
 
 .cardname
     z-index: 15

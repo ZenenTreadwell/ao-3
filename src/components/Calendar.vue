@@ -20,6 +20,7 @@
           resource-book(:chosenDay='chosenDay')
           .ptr.bg(v-for='n in selectedDaysEvs')
               span(v-if='n.type === "task-claimed"'  @click='goDeeper(n.taskId, n.inId)')
+                  img.completedcheckmark(:class='styl(getCardColor(n.taskId))'  src='../assets/images/completed.svg')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }} &nbsp;
                   span(v-if='n.taskId === $store.getters.contextCard.taskId')
                       img.completedcheckmark.dark(src='../assets/images/doge.svg')
@@ -63,6 +64,22 @@ export default {
     Linky, ResourceBook
   },
   methods: {
+      styl(color){
+          if (!color  || this.$store.getters.member.stacks === 1) return
+          return {
+              redwx : color == 'red',
+              bluewx : color == 'blue',
+              greenwx : color == 'green',
+              yellowwx : color == 'yellow',
+              purplewx : color == 'purple',
+              blackwx : color == 'black',
+          }
+      },
+      getCardColor(tId){
+          let task = this.$store.state.tasks[this.$store.state.hashMap[tId]]
+          if (task) return task.color
+          return 'red'
+      },
       allowDrop(ev){
           ev.preventDefault()
       },

@@ -107,7 +107,11 @@ export default {
     font-size: 1.9em
     color: lightGrey
     min-height: 1.3em
+    min-width: 1.3em
     cursor: pointer
+    color: main
+    text-align: center
+    opacity: 0.2
 
 .dot:before
     content: "\2022";

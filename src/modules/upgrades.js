@@ -11,7 +11,7 @@ const state = {
     search: '',
     modes,
     paymodes,
-    mode: modes[0],
+    mode: modes[1],
     paymode: paymodes[1],
     showAccounts: false,
     showNodeInfo: false,

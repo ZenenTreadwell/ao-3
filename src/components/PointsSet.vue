@@ -30,12 +30,18 @@ export default {
           }
         },
         setValue() {
+            let value
+            if (this.task.points > 0){
+                value = this.task.points
+            } else {
+                value = 0
+            }
             this.$store.commit("setMode", 3)
             this.$store.commit("setPayMode", 2)
             this.$store.dispatch("makeEvent", {
                 type: 'task-valued',
                 taskId: this.b.taskId,
-                value: this.task.points,
+                value,
             })
         },
     },

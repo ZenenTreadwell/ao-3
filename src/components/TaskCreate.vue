@@ -454,8 +454,6 @@ textarea.inactive
   bottom: -1em
   left: 50%
   transform: translateX(-50%)
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: main;
   // box-shadow:
   //     0 0 6px 3px white,
   //     0 0 7px 4px lightGrey,
