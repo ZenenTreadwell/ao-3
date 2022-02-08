@@ -2,6 +2,8 @@
 div
     #my_dataviz
     button(@click='drawVis') redraw
+    input(v-model='radius')
+    input(v-model='charge')
 </template>
 
 <script>
@@ -18,6 +20,12 @@ var margin = {
 export default {
   mounted() {
       this.drawVis()
+  },
+  data(){
+      return {
+          radius: 4,
+          charge: -1
+      }
   },
   methods: {
     drawVis() {
@@ -70,7 +78,7 @@ export default {
         .data(data.links)
         .enter()
         .append("line")
-        .style("stroke", "#fff")
+        .style("stroke", "#5c5c5c")
 
       // Initialize the nodes
       var node = svg
@@ -78,7 +86,7 @@ export default {
         .data(data.nodes)
         .enter()
         .append("circle")
-        .attr("r", 20/5)
+        .attr("r", this.radius)
         .attr("data", d => {
             return d.id
         })
@@ -92,15 +100,15 @@ export default {
             }
         })
         .style("cursor", "pointer")
-        .on("mouseover", function() {
-            d3.select(this).transition()
+        .on("mouseover", d => {
+            d3.select(d.target).transition()
               .duration(100)
               .attr("r", 20)
         })
-        .on("mouseout", function() {
-          d3.select(this).transition()
-            .duration(1000)
-            .attr("r", 20/5)
+        .on("mouseout", d => {
+          d3.select(d.target).transition()
+            .duration(1111)
+            .attr("r", this.radius)
         })
         .on("click", d => {
             let taskId = d.target.getAttribute("data")
@@ -117,7 +125,7 @@ export default {
           }) // This provide  the id of a node
           .links(data.links) // and this the list of links
         )
-        .force("charge", d3.forceManyBody().strength(-5)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
+        .force("charge", d3.forceManyBody().strength(this.charge)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
         .force("center", d3.forceCenter(width / 2, height / 2)) // This force attracts nodes to the center of the svg area
         .on("end", ticked);
 
