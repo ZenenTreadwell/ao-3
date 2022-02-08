@@ -1,9 +1,26 @@
 <template lang='pug'>
 div
     #my_dataviz
-    button(@click='drawVis') redraw
-    input(v-model='radius')
-    input(v-model='charge')
+    .centerer
+        button(@click='drawVis') redraw
+    .grid
+        .three.grid
+            label radius
+        .three.grid
+            label charge
+        .three.grid
+            label width
+        .three.grid
+            label height
+    .grid
+        .three.grid
+            input(v-model='radius')
+        .three.grid
+            input(v-model='charge')
+        .three.grid
+            input(v-model='width')
+        .three.grid
+            input(v-model='height')
 </template>
 
 <script>
@@ -13,9 +30,7 @@ var margin = {
     right: 30,
     bottom: 30,
     left: 40
-  },
-  width = 800 - margin.left - margin.right,
-  height = 800 - margin.top - margin.bottom;
+  }
 
 export default {
   mounted() {
@@ -23,8 +38,10 @@ export default {
   },
   data(){
       return {
-          radius: 4,
-          charge: -1
+          height: 800 + margin.top + margin.bottom,
+          width: 800 - margin.left - margin.right,
+          radius: 3.33,
+          charge: -1.11
       }
   },
   methods: {
@@ -66,8 +83,8 @@ export default {
       console.log(data.nodes.length, 'nodes &', data.links.length, 'links')
       var svg = d3.select("#my_dataviz")
         .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("width", this.width)
+        .attr("height", this.height)
         .append("g")
         .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
@@ -78,7 +95,7 @@ export default {
         .data(data.links)
         .enter()
         .append("line")
-        .style("stroke", "#5c5c5c")
+        .style("stroke", "#E4F1F2")
 
       // Initialize the nodes
       var node = svg
@@ -126,7 +143,7 @@ export default {
           .links(data.links) // and this the list of links
         )
         .force("charge", d3.forceManyBody().strength(this.charge)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-        .force("center", d3.forceCenter(width / 2, height / 2)) // This force attracts nodes to the center of the svg area
+        .force("center", d3.forceCenter(this.width / 2, this.height / 2)) // This force attracts nodes to the center of the svg area
         .on("end", ticked);
 
       // This function is run at each iteration of the force algorithm, updating the nodes position.
@@ -160,7 +177,15 @@ export default {
 
 <style lang="stylus" scoped>
 
-circle
-    cursor: pointer;
+@import '../styles/colours'
+@import '../styles/grid'
+
+label
+    color: lightGrey
+
+.centerer
+    text-align: center;
+    button
+        width: 69%
 
 </style>
