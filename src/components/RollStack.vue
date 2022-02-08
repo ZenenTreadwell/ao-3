@@ -50,7 +50,6 @@ export default {
                 if (_.indexOf(potential.deck, this.$store.getters.contextCard.taskId) > -1){
                     gotOne = true
                     this.$store.commit("rollStackPush", potential.taskId)
-                    this.$store.commit("setRollStackPosition", this.c.length - 1)
                 }
                 this.reverseIndex --
                 if (this.reverseIndex < 0){

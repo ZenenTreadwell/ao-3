@@ -26,6 +26,7 @@ const mutations = {
     },
     rollStackPush(state,x){
         state.rollStack.push(x)
+        state.rollStackPosition = state.rollStack.length - 1
     },
     setRollStackPosition(state, x){
         state.rollStackPosition = x

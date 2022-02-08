@@ -1,5 +1,7 @@
 <template lang='pug'>
-#my_dataviz
+div
+    #my_dataviz
+    button(@click='drawVis') redraw
 </template>
 
 <script>
@@ -15,7 +17,7 @@ var margin = {
 
 export default {
   mounted() {
-    setTimeout(this.drawVis, 5000)
+      this.drawVis()
   },
   methods: {
     drawVis() {
@@ -76,8 +78,37 @@ export default {
         .data(data.nodes)
         .enter()
         .append("circle")
-        .attr("r", 20/6)
-        .style("fill", "#fff")
+        .attr("r", 20/5)
+        .attr("data", d => {
+            return d.id
+        })
+        .style("fill", d => {
+            switch(this.$store.state.tasks[this.$store.state.hashMap[d.id]].color){
+                case "red": return "#ffb3b1";
+                case "yellow": return "#FFFF99";
+                case "green": return "#b3ffb3";
+                case "purple": return "#b39ef7";
+                case "blue": return "#79aeff";
+            }
+        })
+        .style("cursor", "pointer")
+        .on("mouseover", function(d) {
+            d3.select(this).transition()
+              .duration(100)
+              .attr("r", 20)
+        })
+        .on("mouseout", function(d) {
+          d3.select(this).transition()
+            .duration(1000)
+            .attr("r", 20/5)
+        })
+        .on("click", d => {
+            let taskId = d.target.getAttribute("data")
+            console.log(d, taskId)
+            this.$store.commit("rollStackPush", taskId)
+            this.$store.commit("rollStackPush", taskId)
+
+        })
 
       // Let's list the force we wanna apply on the network
       d3.forceSimulation(data.nodes) // Force algorithm is applied to data.nodes
@@ -87,7 +118,7 @@ export default {
           }) // This provide  the id of a node
           .links(data.links) // and this the list of links
         )
-        .force("charge", d3.forceManyBody().strength(-0.5)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
+        .force("charge", d3.forceManyBody().strength(-5)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
         .force("center", d3.forceCenter(width / 2, height / 2)) // This force attracts nodes to the center of the svg area
         .on("end", ticked);
 
@@ -121,5 +152,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+
+circle
+    cursor: pointer;
 
 </style>

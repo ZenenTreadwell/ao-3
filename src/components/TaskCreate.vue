@@ -111,9 +111,7 @@ export default {
             let card = this.$store.state.hashMap[hash]
             if (card){
                 this.$store.commit('goDeeper', hash)
-            } else {
-                console.log('no hash found')
-            }
+            } 
         },
         pileRecalled() {
           if (!this.$store.state.upgrades.create){
