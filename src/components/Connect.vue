@@ -1,7 +1,8 @@
 <template lang='pug'>
 
 .Connect
-    label.bg card id: {{ $store.getters.contextCard.taskId }}
+    label.bg(@click='copyLink') card id: {{ $store.getters.contextCard.taskId }}
+        img.clippy(v-show='linkCopied'  src='../assets/images/clipboard.svg')
     select(v-model='sendTo')
         option(value='') send
         option(v-for='w in $store.state.ao' :value='w.address'  :disabled='w.outboundSecret===false')
@@ -26,6 +27,7 @@ export default {
     components: {Tag},
     data() {
         return {
+            linkCopied: false,
             sendTo:'',
             showAddress: false,
             showSecret: false,
@@ -54,6 +56,18 @@ export default {
                 }
             })
 
+        },
+        copyLink(){
+            let lnk = window.location.href + this.$store.getters.contextCard.taskId
+            console.log('this is sparta', lnk)
+            navigator.clipboard.writeText(lnk)
+                .then(() => {
+                    this.linkCopied = true
+                })
+                .catch(err => {
+                    console.log(err, 'copy attempt failed, printing to console:')
+                    console.log(lnk)
+                })
         },
         showSecr(){
             this.showSecret = true
@@ -119,6 +133,9 @@ export default {
 @import '../styles/grid'
 @import '../styles/button'
 @import '../styles/input'
+
+label.bg
+    cursor:pointer
 
 code label
     font-size: 0.678em
