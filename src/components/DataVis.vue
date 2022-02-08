@@ -92,19 +92,18 @@ export default {
             }
         })
         .style("cursor", "pointer")
-        .on("mouseover", function(d) {
+        .on("mouseover", function() {
             d3.select(this).transition()
               .duration(100)
               .attr("r", 20)
         })
-        .on("mouseout", function(d) {
+        .on("mouseout", function() {
           d3.select(this).transition()
             .duration(1000)
             .attr("r", 20/5)
         })
         .on("click", d => {
             let taskId = d.target.getAttribute("data")
-            console.log(d, taskId)
             this.$store.commit("rollStackPush", taskId)
             this.$store.commit("rollStackPush", taskId)
 
