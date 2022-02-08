@@ -11,7 +11,7 @@
         span.third(:class='{hidden:open}'  ref='next')
             .donut.hidden
     .box
-        hypercard(v-if='c.length > 0'  :b="c[sanePosition]"  :inId='taskId'  :key='c[sanePosition].taskId')
+        hypercard(v-if='c.length > 0'  :b="c[sanePosition]"  :inId='$store.getters.contextCard.taskId'  :key='c[sanePosition].taskId')
 </template>
 
 <script>

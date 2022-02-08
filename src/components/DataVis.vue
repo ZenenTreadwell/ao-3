@@ -25,12 +25,6 @@ div
 
 <script>
 import * as d3 from 'd3'
-var margin = {
-    top: 10,
-    right: 30,
-    bottom: 30,
-    left: 40
-  }
 
 export default {
   mounted() {
@@ -38,8 +32,8 @@ export default {
   },
   data(){
       return {
-          height: 800 + margin.top + margin.bottom,
-          width: 800 - margin.left - margin.right,
+          height: 800,
+          width: 800,
           radius: 3.33,
           charge: -1.11
       }
@@ -86,10 +80,7 @@ export default {
         .attr("width", this.width)
         .attr("height", this.height)
         .append("g")
-        .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
 
-      // Initialize the links
       var link = svg
         .selectAll("line")
         .data(data.links)
@@ -97,7 +88,6 @@ export default {
         .append("line")
         .style("stroke", "#E4F1F2")
 
-      // Initialize the nodes
       var node = svg
         .selectAll("circle")
         .data(data.nodes)
@@ -130,11 +120,8 @@ export default {
         .on("click", d => {
             let taskId = d.target.getAttribute("data")
             this.$store.commit("rollStackPush", taskId)
-            this.$store.commit("rollStackPush", taskId)
-
         })
 
-      // Let's list the force we wanna apply on the network
       d3.forceSimulation(data.nodes) // Force algorithm is applied to data.nodes
         .force("link", d3.forceLink() // This force provides links between nodes
           .id(function(d) {

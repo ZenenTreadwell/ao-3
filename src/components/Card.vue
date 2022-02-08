@@ -81,6 +81,7 @@ export default {
             ev.dataTransfer.setData("taskId", this.b.taskId);
         },
         pop(){
+            this.rollStackPull()
             this.$store.dispatch("makeEvent", {
                 type: 'task-popped',
                 taskId: this.b.taskId,
@@ -88,6 +89,7 @@ export default {
             })
         },
         upboat(){
+            this.rollStackPull()
             this.$store.dispatch("makeEvent", {
                 type: 'task-prioritized',
                 taskId: this.b.taskId,
@@ -96,6 +98,7 @@ export default {
             })
         },
         remove(){
+            this.rollStackPull()
             this.$store.dispatch("makeEvent", {
                 type: 'task-de-sub-tasked',
                 taskId: this.b.taskId,
@@ -141,6 +144,9 @@ export default {
                   console.log(this.b.name)
               })
         },
+        rollStackPull(){
+            this.$store.commit("rollStackPull", this.b.taskId)
+        }
     },
     computed: {
         actions(){

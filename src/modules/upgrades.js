@@ -28,6 +28,9 @@ const mutations = {
         state.rollStack.push(x)
         state.rollStackPosition = state.rollStack.length - 1
     },
+    rollStackPull(state, taskId){
+        state.rollStack = state.rollStack.filter(t => t !== taskId)
+    },
     setRollStackPosition(state, x){
         state.rollStackPosition = x
     },
