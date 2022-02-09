@@ -2,8 +2,6 @@
 div
     .gridbox
         #my_dataviz
-    .centerer
-        button(@click='drawVis') redraw
     .gridbox
       .grid
           .three.grid
@@ -18,6 +16,8 @@ div
           .three.grid
               label height
               input(v-model='height')
+    .gridbox.centerer
+            button(@click='drawVis') redraw
 
 </template>
 
@@ -33,7 +33,7 @@ export default {
           height: 800,
           width: 800,
           radius: 3.33,
-          charge: -1.11
+          charge: -5.11
       }
   },
   methods: {
@@ -153,8 +153,10 @@ label
     color: lightGrey
 
 .centerer
+    pointer-events: none;
     text-align: center;
     button
+        pointer-events: all;
         width: 69%
 
 </style>
