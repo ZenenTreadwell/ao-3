@@ -108,7 +108,8 @@ export default {
         })
         .style("cursor", "pointer")
         .on("mouseover", d => {
-            d3.select(d.target).transition()
+            d3.select(d.target)
+              .transition()
               .duration(100)
               .attr("r", 20)
         })
@@ -123,39 +124,24 @@ export default {
         })
 
       d3.forceSimulation(data.nodes) // Force algorithm is applied to data.nodes
-        .force("link", d3.forceLink() // This force provides links between nodes
-          .id(function(d) {
-            return d.id;
-          }) // This provide  the id of a node
-          .links(data.links) // and this the list of links
-        )
-        .force("charge", d3.forceManyBody().strength(this.charge)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-        .force("center", d3.forceCenter(this.width / 2, this.height / 2)) // This force attracts nodes to the center of the svg area
+        .force("link", d3.forceLink().id( d => d.id).links(data.links)  )
+        .force("charge", d3.forceManyBody().strength(this.charge).theta(0.5)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
+        .force("center", d3.forceCenter(this.width / 2, this.height / 2).strength(0.5)) // This force attracts nodes to the center of the svg area
+        .force("collision", d3.forceCollide(this.radius + 1))
+        // .tick(3)
         .on("end", ticked);
 
       // This function is run at each iteration of the force algorithm, updating the nodes position.
       function ticked() {
-        link
-          .attr("x1", function(d) {
-            return d.source.x;
-          })
-          .attr("y1", function(d) {
-            return d.source.y;
-          })
-          .attr("x2", function(d) {
-            return d.target.x;
-          })
-          .attr("y2", function(d) {
-            return d.target.y;
-          });
+          link
+            .attr("x1", d => d.source.x)
+            .attr("y1", d => d.source.y)
+            .attr("x2", d => d.target.x)
+            .attr("y2", d => d.target.y);
 
-        node
-          .attr("cx", function(d) {
-            return d.x + 1;
-          })
-          .attr("cy", function(d) {
-            return d.y - 1;
-          });
+          node
+            .attr("cx", d => d.x + 1)
+            .attr("cy", d => d.y - 1);
       }
     }
   }
