@@ -1,6 +1,7 @@
 <template lang='pug'>
 
 #tasks
+  .gridbox
     .fixedstatus(v-if='c.length > 1  && sanePosition !== -1'  ) {{ sanePosition + 1 }} of {{ c.length }}
     .ptr(ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
         span.third(:class='{hidden:open}'  ref='previous')

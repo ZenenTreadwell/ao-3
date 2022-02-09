@@ -1,26 +1,24 @@
 <template lang='pug'>
 div
-    #my_dataviz
+    .gridbox
+        #my_dataviz
     .centerer
         button(@click='drawVis') redraw
-    .grid
-        .three.grid
-            label radius
-        .three.grid
-            label charge
-        .three.grid
-            label width
-        .three.grid
-            label height
-    .grid
-        .three.grid
-            input(v-model='radius')
-        .three.grid
-            input(v-model='charge')
-        .three.grid
-            input(v-model='width')
-        .three.grid
-            input(v-model='height')
+    .gridbox
+      .grid
+          .three.grid
+              label radius
+              input(v-model='radius')
+          .three.grid
+              label charge
+              input(v-model='charge')
+          .three.grid
+              label width
+              input(v-model='width')
+          .three.grid
+              label height
+              input(v-model='height')
+
 </template>
 
 <script>
@@ -123,15 +121,13 @@ export default {
             this.$store.commit("rollStackPush", taskId)
         })
 
-      d3.forceSimulation(data.nodes) // Force algorithm is applied to data.nodes
-        .force("link", d3.forceLink().id( d => d.id).links(data.links)  )
-        .force("charge", d3.forceManyBody().strength(this.charge).theta(0.5)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-        .force("center", d3.forceCenter(this.width / 2, this.height / 2).strength(0.5)) // This force attracts nodes to the center of the svg area
-        .force("collision", d3.forceCollide(this.radius + 1))
-        // .tick(3)
+      d3.forceSimulation(data.nodes)
+        .force("link", d3.forceLink().id( d => d.id).links(data.links))
+        .force("charge", d3.forceManyBody().strength(this.charge))
+        .force("center", d3.forceCenter(this.width / 2, this.height / 2).strength(1.337))
+        .force("collision", d3.forceCollide(this.radius + 1.7))
         .on("end", ticked);
 
-      // This function is run at each iteration of the force algorithm, updating the nodes position.
       function ticked() {
           link
             .attr("x1", d => d.source.x)

@@ -4,7 +4,6 @@
     .paperwrapper
         .card.openwidth(:class='{ adjustwidth : $store.state.upgrades.mode !== "doge", closedwidth : $store.state.upgrades.mode === "doge"}')
             active-card
-            //- resource-book(v-if='$store.state.upgrades.mode === "timecube"')
         .upgradesbar(v-if='$store.state.upgrades.mode !== "doge"'  :class='{darkmode: $store.getters.member.stacks === 1}')
             payments(v-if='$store.state.upgrades.mode === "chest"')
             calendar(v-if='$store.state.upgrades.mode === "timecube"')
@@ -13,9 +12,8 @@
                 checkmarks
     div
         panels
-    .container
-        roll-stack
-        data-vis
+    roll-stack
+    data-vis
     pins.rell
 
 </template>
