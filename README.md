@@ -1,21 +1,16 @@
 ```
-## Install Dependencies
-wget https://raw.githubusercontent.com/AutonomousOrganization/ao-3/master/install/fresh-setup.sh
-chmod +x fresh-setup.sh
-sudo ./fresh-setup.sh
+## Alchemy 
+git clone https://github.com/ZenenTreadwell/Alchemy.git 
+make autonomy
 
-# Install ao-3
+# Nodejs 
 git clone https://github.com/AutonomousOrganization/ao-3
-cd ao-3
 npm install
-npm run checkconfig  
 npm run build
 npm start
-
-npm run decrypt <encrypted card>
 ```
 
-### ao towards autonomous organization
+### autonomous organization
 
 AO is a notepad that can be used to collect your ideas and every idea is a potential checkmark, like reading that book or swimming in the ocean. AO is meant to reflect you, not stimulate you. To explore what you do in the small window of opportunity your body and your health provides you. If you intend to honestly discover yourself and better yourself, then AO may be worth your time.
 
