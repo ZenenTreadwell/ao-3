@@ -183,31 +183,35 @@ function checkFunds(){
 }
 
 function getInfo(){
+    function fundInfo(mainInfo){
+      client.listfunds()
+            .then(result => {
+                mainInfo.channels = result.channels
+                mainInfo.outputs = result.outputs
+                getMempool().then(mempool => {
+                    mainInfo.mempool = mempool
+                    try {
+                        allEvents.getNodeInfo(mainInfo)
+                    } catch (err) {
+                        console.log('getNodeInfo error:  ', err)
+                    }
+                })
+
+            })
+    }
     try {
       return client
           .getinfo()
           .then(mainInfo => {
+              if (mainInfo.warning_bitcoind_sync){
+                  return fundInfo(mainInfo)
+              }
               bitClient
                   .getBlockStats(mainInfo.blockheight)
                   .then( blockfo => {
                       mainInfo.blockfo = blockfo
-                      client.listfunds()
-                          .then(result => {
-                              mainInfo.channels = result.channels
-                              mainInfo.outputs = result.outputs
-                              getMempool().then(mempool => {
-                                  mainInfo.mempool = mempool
-                                  try {
-                                      allEvents.getNodeInfo(mainInfo)
-                                  } catch (err) {
-                                      console.log('getNodeInfo error:  ', err)
-                                  }
-                              })
-
-                          })
-                          .catch(console.log)
-                })
-
+                      fundInfo(mainInfo)
+                  })  
           })
           .catch(console.log)
     } catch (err) {

@@ -3,19 +3,19 @@
 .upgrades
     points-set(:b='$store.getters.contextCard')
     .payreq.ptr(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"'  @click='copy(b.bolt11, true)')
-        tag(:d='b.bolt11'  size='5')
+        tag(v-if='b.bolt11'  :d='b.bolt11'  size='5')
         .section.ptr
             img(src='../assets/images/clipboard.svg'  v-if='showCopiedBolt ')
             span {{b.bolt11}}
     .payreq.ptr(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"'  @click='copy(b.btcAddr)')
         tag(v-if='b.btcAddr'  :d='b.btcAddr'  size='7')
-        .ptr.mh(v-else  @click='getAddr') *show bitcoin address*
         .section.ptr(v-if='b.btcAddr'  )
             img(src='../assets/images/clipboard.svg'  v-if='showCopiedAddr ')
             span {{b.btcAddr}}
     .section(v-else) node unavailable :(
     .paddy
         div(v-for='p in b.payments') {{ getDateString(p.timestamp) }} ~ {{p.amount.toLocaleString()}}
+    .ptr.mh(v-if='$store.state.upgrades.paymode === "lightning" || !b.btcAddr' @click='getAddr') *use bitcoin address*
 </template>
 
 <script>
@@ -59,10 +59,13 @@ export default {
 
         },
         getAddr(){
-            this.$store.dispatch("makeEvent", {
-                type: 'address-updated',
-                taskId: this.b.taskId
-            })
+            this.$store.commit('setPayMode', 0)	
+            if (!this.b.btcAddr) {
+                this.$store.dispatch("makeEvent", {
+                    type: 'address-updated',
+                    taskId: this.b.taskId
+                })
+            }
         },
         getDateString(ts){
             let d = new Date(ts)
@@ -105,4 +108,7 @@ export default {
     background-color: rgba(0,0,0,0)
     border-radius: 0.5em
 
+.ptr.mh 
+    float: right 
+    
 </style>

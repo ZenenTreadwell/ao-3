@@ -2,9 +2,9 @@
 
 div
     .invoice
-        input(v-model='task.points'  type='text'  placeholder='invoice amount, zero for any amount'  @keypress.enter='setValue')
-        button(@click.stop='setValue') send bitcoin on lightning
-    button.showaddr(@click='switchAddr' v-if='$store.state.upgrades.paymode !== "bitcoin"') send bitcoin on chain
+        input(v-model='task.points'  type='text'  placeholder='sats amount'  @keypress.enter='setValue')
+        button(@click.stop='setValue') get &#9889; qr
+    // button.showaddr(@click='switchAddr' v-if='$store.state.upgrades.paymode !== "bitcoin"') send bitcoin on chain
 
 </template>
 
@@ -70,16 +70,14 @@ export default {
         background: softGrey
         height: 100%
         border: none
-        box-shadow: 0 3px 10px #000;
     input
         display: inline-block;
-        border: none
+        border-top: none
         background-color: rgba(22, 22, 22, 0.3)
         height: 2.2em
         width: 50%
         color: main
         background: lightGrey
         height: 100%
-        box-shadow: 0 3px 10px #000;
 
 </style>

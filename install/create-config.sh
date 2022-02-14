@@ -32,13 +32,6 @@ then
 		sudo mkdir -p /usr/local/etc/tor
 fi
 
-if [ ! -f $TORRCPATH ];
-then
-		sudo echo "ControlPort 9051" >> $TORRCPATH
-    sudo echo "CookieAuthentication 1" >> $TORRCPATH
-    sudo chmod 666 $TORRCPATH
-fi
-
 AUTHDEETS=$(python3 ./rpcauth.py ao)
 AUTHLINE=$(echo $AUTHDEETS | grep -o rpcauth=ao:[^[:space:]]*[[:space:]])
 PASSLINE=$(echo $AUTHDEETS | grep -o [^[:space:]]*\$)
