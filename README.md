@@ -1,3 +1,4 @@
+AO is meant to be a stepping stone into Linux and the open source revolution. It is best setup using an hero install script that installs and configures tor, bitcoind, lightningd, and ao to startup automatically: 
 ```
 ## Alchemy 
 git clone https://github.com/ZenenTreadwell/Alchemy.git 
