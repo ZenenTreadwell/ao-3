@@ -16,10 +16,10 @@ npm start
 
 AO is an infinitely expanding recursive notepad, checklist and calendar. AO reflects you, purposely doesn't stimulate or prompt you.  
 
-AO runs on Linux, it is owned & controlled by only your. You can share the tor onion and others can interact directly with you. Together you can expand ideas and work to realize them together. 
+AO runs on Linux, it is owned & controlled by only you. You can share the tor onion and others can interact directly with you. Together you can expand ideas and work to realize them together. 
 
 AO is participating fully and productively in an open public money system. Bitcoin is immune to politics. 
 
-AO can be extended to [control raspberry pi's](https://github.com/AutonomousOrganization/pi) to bridge the digital world to the physical world. I.e. vending machine, electronic locks...
+AO can be extended to control raspberry [pi's](https://github.com/AutonomousOrganization/pi) to bridge the digital world to the physical world i.e. vending machine, electronic lock...
 
-Technology has often in history been the precursor to political and social revolution. The semiconductor all but guarantees the birth of a new political order. Will it be corperate-state fascism or human trancendent dogeism. Our generations choices will determine what is to come for humanity.
+Technology has often in history been the precursor to political and social revolution. The semiconductor all but guarantees the birth of a new political order. Will it be corpo-state techno fascism or human trancendent dogeism? Our generations choices will determine what is to come for humanity.
