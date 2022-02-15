@@ -18,7 +18,7 @@ AO is an infinitely expanding recursive notepad, checklist and calendar. AO refl
 
 AO runs on Linux, it is owned & controlled by only you. You can share the tor onion and others can interact directly with you. Together you can expand ideas and work to realize them together. 
 
-AO is participating fully and productively in an open public money system. Bitcoin is immune to politics. 
+AO is participating fully and productively in an open public money system. Bitcoin is immune to politics. Lightning addresses bitcoin's largest weaknesses: scalability, speed, and privacy.
 
 AO can be extended to control raspberry [pi's](https://github.com/AutonomousOrganization/pi) to bridge the digital world to the physical world i.e. vending machine, electronic lock...
 
