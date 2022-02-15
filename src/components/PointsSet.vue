@@ -21,7 +21,7 @@ export default {
     },
     methods: {
         switchAddr(){
-          this.$store.commit("setPayMode", 1)
+          this.$store.commit("setPayMode", 0)
           if (!this.b.btcAddr){
               this.$store.dispatch("makeEvent", {
                   type: 'address-updated',
@@ -37,7 +37,7 @@ export default {
                 value = 0
             }
             this.$store.commit("setMode", 3)
-            this.$store.commit("setPayMode", 2)
+            this.$store.commit("setPayMode", 1)
             this.$store.dispatch("makeEvent", {
                 type: 'task-valued',
                 taskId: this.b.taskId,

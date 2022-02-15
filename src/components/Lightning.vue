@@ -1,9 +1,9 @@
 <template lang='pug'>
 
-#nodes(v-if='$store.state.cash.info.id')
+#nodes
     .breathing
     .row
-        .four.grid.boxy(v-if='$store.state.cash.info.mempool')
+        .four.grid.boxy(v-if='$store.state.cash.info.mempool && $store.state.cash.info.blockfo')
             .section {{ confirmedBalance.toLocaleString() }} chain sats
             .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
             .section block {{ $store.state.cash.info.blockheight.toLocaleString()}}
@@ -63,6 +63,7 @@
                     div(v-if='u && u.value > 0 && u.scriptPubKey.addresses') {{ u.value }} : {{u.scriptPubKey.addresses}} - unspent
                 div(v-for='outp in filteredOut') {{ outp.value }} : {{outp.scriptPubKey.addresses}}
                 .chanfo(v-if='showOutputs'  v-for='n in $store.state.cash.info.outputs'  @click='checkTxid(n.txid)') txid: {{n.txid}} : {{n.output}}
+        .four.grid(v-else) node syncing
         .eight.grid.boxy(v-if='$store.state.cash.info.channels')
             .section.fr {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }} remote sats
             .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') {{ parseFloat( nn.channel_sat ).toLocaleString() }} local sats

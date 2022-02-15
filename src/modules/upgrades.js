@@ -1,5 +1,5 @@
 const modes = ["doge", "boat", "timecube", "chest", "badge"]
-const paymodes = ["mempool", "bitcoin", "lightning", "channels"]
+const paymodes = ["bitcoin", "lightning"]
 
 const state = {
     rollStack: [],
