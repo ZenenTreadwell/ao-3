@@ -3,22 +3,23 @@ AO is meant to be a stepping stone into Linux and the open source revolution. It
 ## Alchemy 
 git clone https://github.com/ZenenTreadwell/Alchemy.git 
 make autonomy
-
+```
+For developers ao-3 is a nodejs project with sqlite3 event store. The frontend is a Vue single page application and the backend is an Express server.
+```
 # Nodejs 
 git clone https://github.com/AutonomousOrganization/ao-3
 npm install
 npm run build
 npm start
 ```
+### seeding autonomous organization
 
-### autonomous organization
+AO is an infinitely expanding recursive notepad, checklist and calendar. AO reflects you, purposely doesn't stimulate or prompt you.  
 
-AO is a notepad that can be used to collect your ideas and every idea is a potential checkmark, like reading that book or swimming in the ocean. AO is meant to reflect you, not stimulate you. To explore what you do in the small window of opportunity your body and your health provides you. If you intend to honestly discover yourself and better yourself, then AO may be worth your time.
+AO runs on Linux, it is owned & controlled by only your. You can share the tor onion and others can interact directly with you. Together you can expand ideas and work to realize them together. 
 
-Physically controlling a computer is only ownership if you **can** know everything the software on it is doing. The true owner is whoever wrote the code you cannot read, ie Microsoft, Apple. AO runs on Linux, it is owned by you, you can share the tor onion and others can interact directly with you. Together you can expand ideas and track who is realizing those ideas. Sending Bitcoin to any card is support of the owner of the AO, and true communication about what is valued.
+AO is participating fully and productively in an open public money system. Bitcoin is immune to politics. 
 
-Bitcoin is a public money system. It is immune to political interference. Humanity needs only one public money, one universally accessible store of value, one international market. AO runs beside a bitcoin node and lightning node that are positive contributors to this blossoming open financial system.
+AO can be extended to [control raspberry pi's](https://github.com/AutonomousOrganization/pi) to bridge the digital world to the physical world. I.e. vending machine, electronic locks...
 
-AO can be extended to [control raspberry pi's](https://github.com/AutonomousOrganization/pi) connected to hardware like a vending machine or a lock.
-
-The first step is to take your thoughts, your interaction, your life off of other people's computers. Our choices now will create the new characteristics of human power and will determine if the semiconductor ultimately realized or destroyed liberty.
+Technology has often in history been the precursor to political and social revolution. The semiconductor all but guarantees the birth of a new political order. Will it be corperate-state fascism or human trancendent dogeism. Our generations choices will determine what is to come for humanity.
