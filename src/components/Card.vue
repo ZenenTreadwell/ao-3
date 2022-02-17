@@ -123,6 +123,7 @@ export default {
             })
         },
         goDeeper(){
+            this.$store.commit("rollStackPull", this.b.taskId)
             this.$store.commit("goDeeper", this.b.taskId)
         },
         purge(){

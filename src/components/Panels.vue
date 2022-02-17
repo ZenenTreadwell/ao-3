@@ -36,7 +36,6 @@ export default {
 .panel
     margin: 0 1em 1em 1em
     clear: both
-    padding-bottom: 1.5em
     min-height: 5.9em
     background-size: cover
     background-position: center center

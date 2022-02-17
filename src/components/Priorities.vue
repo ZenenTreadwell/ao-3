@@ -1,7 +1,8 @@
 <template lang='pug'>
 
 .priorities
-    div.center(v-if='priorities.length === 0') prioritize a card by clicking on the top right corner or dragging it up
+    div.center(v-if='priorities.length === 0 && $store.getters.contextCard.subTasks.length > 0') prioritize a card by clicking it on the top right corner
+    div.center(v-else-if='priorities.length === 0 && $store.getters.contextCard.subTasks.length === 0') create a card with the bar at the bottom of the page
     .clearboth(v-for='(t, i) of priorities'  :key='t')
       .row.priority
           .priorityContainer

@@ -7,7 +7,7 @@
             .donut.hidden
         span.third(ref='mandelorb')
             .donut.chcky(v-if='$store.getters.contextCard.stackView.completed')
-            .donut(v-else  :class='{pileselected:$store.state.upgrades.color===stack  && $store.state.upgrades.create, dropping:dropping}')
+            .donut(v-else  :class='{pileselected:$store.getters.contextCard.stackView[stack] === -1, dropping:dropping}')
         span.third(:class='{hidden:open}'  ref='next')
             .donut.hidden
     .open(v-if='open')
@@ -36,8 +36,8 @@ export default {
         let orbTap = new Hammer.Tap({ time: 400 })
         orbmc.add(orbTap)
         orbmc.on('tap', (e) => {
-            this.stackTap()
 
+            this.toggleOpen()
             // this.toggleOpen()
             e.stopPropagation()
         })
@@ -76,8 +76,8 @@ export default {
         let orbPress = new Hammer.Press({ time: 400 })
         orbmc.add(orbPress)
         orbmc.on('press', (e) => {
-            this.toggleOpen()
             e.stopPropagation()
+            this.stackTap()
         })
 
         let prevel = this.$refs.previous
@@ -143,6 +143,7 @@ export default {
     drop(ev){
         ev.preventDefault();
         var data = ev.dataTransfer.getData("taskId")
+	this.$store.commit('rollStackPull', data)
         this.$store.dispatch("makeEvent", {
             type: 'task-colored',
             inId: this.$store.getters.contextCard.taskId,
@@ -152,6 +153,7 @@ export default {
         setTimeout(() => this.dropping = false, 444)
     },
     toggleOpen(){
+        this.$store.commit('setColor', this.stack)
         if (this.position !== -1){
             let touchyOpen = {
               type: 'task-touched',

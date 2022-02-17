@@ -220,8 +220,8 @@ img.spin
       background-image: url('../assets/images/moonbag.svg')
       height: 2em;
       width: 2em;
-      border-width: 0.4em
-
+      transform: rotate(-44deg)
+      border-width: 1.2em
 #tasks
     width: 100%
 
@@ -240,9 +240,6 @@ img
     margin: 0
     margin-bottom: -.6em
     margin-bottom: -.6em;
-
-.box
-    min-height: 1em
 
 .center
     text-align: center
