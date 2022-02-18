@@ -29,14 +29,13 @@ import { crawler } from '../calculations.js'
 
 export default {
   mounted() {
-      this.drawVis()
       setInterval( () => {
          if (this.renderTarget !== this.$store.getters.contextCard.taskId) this.drawVis()
       }, 7777)
   },
   data(){
       return {
-          renderCard: null,
+          renderTarget: null,
           height: 800,
           width: 800,
           radius: 3.33,
@@ -60,7 +59,6 @@ export default {
                 .forEach(x => nodes.push(x))
             nodes.push({
                 id: contextMemberId,
-                name: this.$store.getters.contextMember.name
             })
         } else {
             contextMemberId = this.$store.getters.member.memberId
@@ -80,14 +78,16 @@ export default {
             let source = n.id
             let subs = t.subTasks.concat(t.priorities)
             subs.forEach(target => {
-                  if (useMap(target).deck.indexOf(contextMemberId) === -1) {
-                      nodes.push({id: target})
-                  }
                   links.push({
                       source,
                       target
                   })
             })
+        })
+        links.forEach(l => nodes.push({id: l.target}))
+        let uniqNodes = _.uniq(nodes.map(n => n.id))
+        nodes = uniqNodes.map(taskId => {
+            return {"id": taskId}
         })
         return { nodes, links }
     },
