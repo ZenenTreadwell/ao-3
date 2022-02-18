@@ -23,6 +23,7 @@ div
 
 <script>
 import * as d3 from 'd3'
+import forceBoundary from 'd3-force-boundary'
 
 export default {
   mounted() {
@@ -34,12 +35,12 @@ export default {
           width: 800,
           radius: 3.33,
           charge: -5.11,
-          svg: null, 
+          svg: null,
       }
   },
   computed: {
     mapData(){
-        let nodes = [], links = [] 
+        let nodes = [], links = []
         let useMap = (taskId) => this.$store.state.tasks[this.$store.state.hashMap[taskId]]
         let contextMemberId = this.$store.getters.contextMember.memberId
         if (contextMemberId) {
@@ -82,16 +83,16 @@ export default {
         .attr("width", this.width)
         .attr("height", this.height)
         .append("g")
-      var data = this.mapData 
+      var data = this.mapData
       console.log("drawing map with" , data.nodes.length, "nodes &", data.links.length, "links")
       let useMap = (taskId) => this.$store.state.tasks[this.$store.state.hashMap[taskId]]
-     
+
       var link = this.svg
         .selectAll("line")
         .data(data.links)
         .enter()
         .append("line")
-        .style("stroke", "#E4F1F2") 
+        .style("stroke", "#E4F1F2")
       var node = this.svg
         .selectAll("circle")
         .data(data.nodes)
@@ -134,16 +135,11 @@ export default {
         //.exit().remove()
 
       d3.forceSimulation(data.nodes)
+        .force("boundary", forceBoundary(this.radius, this.radius , this.width - this.radius, this.height - this.radius))
         .force("link", d3.forceLink().id( d => d.id).links(data.links))
         .force("charge", d3.forceManyBody().strength(this.charge))
-        .force("center", d3.forceCenter(this.width / 2, 100).strength(1.337))
+        .force("center", d3.forceCenter(this.width / 2, 200).strength(1.337))
         .force("collision", d3.forceCollide(this.radius + 1.7))
-        .force("bounds", () => {
-            for (let n of data.nodes) {
-                if (n.x > this.width || n.x < 0) n.x = Math.random() * this.width
-                if (n.y > this.height || n.y < 0) n.y = Math.random() * this.height
-            }
-        })
         .on("end", () => {
           link
             .attr("x1", d => d.source.x)
