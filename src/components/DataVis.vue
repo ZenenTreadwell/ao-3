@@ -2,35 +2,41 @@
 div
     .gridbox
         #my_dataviz
-    .gridbox
-      .grid
-          .three.grid
-              label radius
-              input(v-model='radius')
-          .three.grid
-              label charge
-              input(v-model='charge')
-          .three.grid
-              label width
-              input(v-model='width')
-          .three.grid
-              label height
-              input(v-model='height')
-    .gridbox.centerer
-            button(@click='drawVis') redraw
+    //  .gridbox
+    //    .grid
+    //        .three.grid
+    //            label radius
+    //            input(v-model='radius')
+    //        .three.grid
+    //            label charge
+    //            input(v-model='charge')
+    //        .three.grid
+    //            label width
+    //            input(v-model='width')
+    //        .three.grid
+    //            label height
+    //            input(v-model='height')
+    //.gridbox.centerer
+    //        button(@click='drawVis') redraw
 
 </template>
 
 <script>
 import * as d3 from 'd3'
 import forceBoundary from 'd3-force-boundary'
+import _ from 'lodash'
+import { crawler } from '../calculations.js'
 
 export default {
   mounted() {
       this.drawVis()
+      setInterval( () => {
+         if (this.renderTarget !== this.$store.getters.contextCard.taskId) this.drawVis()
+      }, 7777)
   },
   data(){
       return {
+          renderCard: null,
           height: 800,
           width: 800,
           radius: 3.33,
@@ -49,14 +55,25 @@ export default {
                 .map((t) => {
                     return {
                         id:  t.taskId,
-                        name: t.name
                     }
                   })
                 .forEach(x => nodes.push(x))
-         nodes.push({
-          id: contextMemberId,
-          name: this.$store.getters.contextMember.name
-        })
+            nodes.push({
+                id: contextMemberId,
+                name: this.$store.getters.contextMember.name
+            })
+        } else {
+            contextMemberId = this.$store.getters.member.memberId
+            let contextTaskId = this.$store.getters.contextCard.taskId
+            let localcontents = crawler(this.$store.state.tasks, contextTaskId) 
+            this.$store.state.tasks.forEach( t => {
+                if (t.subTasks.indexOf(contextTaskId) > -1 || t.priorities.indexOf(contextTaskId) > -1){
+                    localcontents.push(t.taskId)
+                }
+            })
+            localcontents.push(contextTaskId)
+            _.uniq(localcontents).forEach(taskId => nodes.push({id: taskId}))
+            
         }
         nodes.forEach(n => {
             let t = useMap(n.id)
@@ -78,6 +95,7 @@ export default {
   methods: {
     drawVis() {
       document.getElementById("my_dataviz").innerHTML = "";
+      this.renderTarget = this.$store.getters.contextCard.taskId
       this.svg = d3.select("#my_dataviz")
         .append("svg")
         .attr("width", this.width)
@@ -92,19 +110,26 @@ export default {
         .data(data.links)
         .enter()
         .append("line")
-        .style("stroke", "#E4F1F2")
+        .style("stroke", d => {
+            let t = useMap(d.source)
+            if (t.priorities.indexOf(d.target) > -1) return "#E40000"
+            return "#E4F1F2"
+        })
       var node = this.svg
         .selectAll("circle")
         .data(data.nodes)
         .enter()
         .append("circle")
-        .attr("r", this.radius)
+        .attr("r", d => {
+            if (d.id === this.$store.getters.contextCard.taskId) return this.radius * 3.3 
+            return this.radius
+        })
         .attr("data", d => {
             return d.id
         })
         .style("fill", d => {
             let card = useMap(d.id)
-            if (card.deck.indexOf(this.$store.getters.contextMember.memberId) === -1){
+            if (card.deck.indexOf(this.$store.getters.member.memberId) === -1){
                 return "#E4F1F2"
             }
             switch(card.color){
@@ -139,7 +164,10 @@ export default {
         .force("link", d3.forceLink().id( d => d.id).links(data.links))
         .force("charge", d3.forceManyBody().strength(this.charge))
         .force("center", d3.forceCenter(this.width / 2, 200).strength(1.337))
-        .force("collision", d3.forceCollide(this.radius + 1.7))
+        .force("collision", d3.forceCollide( d => { 
+            if (d.id === this.$store.getters.contextCard.taskId) return this.radius * 3.3 
+            return this.radius + 1.77
+        }))
         .on("end", () => {
           link
             .attr("x1", d => d.source.x)
@@ -170,5 +198,6 @@ label
     button
         pointer-events: all;
         width: 69%
+        opacity: 0.4
 
 </style>

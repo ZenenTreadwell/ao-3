@@ -5,7 +5,6 @@
     contexts
     deck
     task-create
-    .breathingroom
     event-feed
 </template>
 
@@ -50,9 +49,6 @@ export default {
 
 <style lang="stylus"  scoped>
 @import "../styles/colours";
-
-.breathingroom
-    height: 27em
 
 .app2
     position: fixed

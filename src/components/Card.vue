@@ -228,7 +228,7 @@ export default {
     position: absolute
     left: 0
     bottom: 0
-    height: 1.3em
+    height: 2.1em
     cursor: pointer
 
 .vine
@@ -245,11 +245,11 @@ img.chest
     padding:20px
 
 .viney
-    height: 1.3em
     position: absolute
     bottom: 0
     right: 0
     cursor: pointer
+    height: 2.1em
 
 .send
     height: 1.1em
@@ -313,7 +313,6 @@ img.chest
 
 .square.hidden
     opacity: 0.1234
-    border-color: lightGrey
 
 .hidden
     opacity: 0
@@ -333,8 +332,8 @@ img.chest
 .flaggy
     position: absolute
     right: 0
+    height: 2.1em
     top: 0
-    height: 1em
     cursor: pointer
 
 .task.dropping
