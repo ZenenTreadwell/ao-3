@@ -26,18 +26,12 @@ import * as d3 from 'd3'
 
 export default {
   mounted() {
-      this.svg = d3.select("#my_dataviz")
-        .append("svg")
-        .attr("width", this.width)
-        .attr("height", this.height)
-        .append("g")
       this.drawVis()
   },
   data(){
-      let width = 800, height = 800
       return {
-          height,
-          width,
+          height: 800,
+          width: 800,
           radius: 3.33,
           charge: -5.11,
           svg: null, 
@@ -79,26 +73,28 @@ export default {
         })
         return { nodes, links }
     },
-    links(){
-      var linksX = []
-      return linksX
-    },
   },
   methods: {
     drawVis() {
-      // document.getElementById("my_dataviz").innerHTML = "";
+      document.getElementById("my_dataviz").innerHTML = "";
+      this.svg = d3.select("#my_dataviz")
+        .append("svg")
+        .attr("width", this.width)
+        .attr("height", this.height)
+        .append("g")
       var data = this.mapData 
       console.log("drawing map with" , data.nodes.length, "nodes &", data.links.length, "links")
       let useMap = (taskId) => this.$store.state.tasks[this.$store.state.hashMap[taskId]]
+     
       var link = this.svg
         .selectAll("line")
         .data(data.links)
-      
-      var circle = this.svg
+        .enter()
+        .append("line")
+        .style("stroke", "#E4F1F2") 
+      var node = this.svg
         .selectAll("circle")
         .data(data.nodes)
-      circle.exit().remove();
-      var node = circle
         .enter()
         .append("circle")
         .attr("r", this.radius)
@@ -134,12 +130,8 @@ export default {
             let taskId = d.target.getAttribute("data")
             this.$store.commit("rollStackPush", taskId)
         })
-
-      link.exit().remove()
-      link
-        .enter()
-        .append("line")
-        .style("stroke", "#E4F1F2")
+        // don't get how this is supposed to work (thinking with joins)
+        //.exit().remove()
 
       d3.forceSimulation(data.nodes)
         .force("link", d3.forceLink().id( d => d.id).links(data.links))
@@ -148,13 +140,11 @@ export default {
         .force("collision", d3.forceCollide(this.radius + 1.7))
         .force("bounds", () => {
             for (let n of data.nodes) {
-                n.x = Math.min(this.width - this.radius*2, Math.max(this.radius*2, n.x))
-                n.y = Math.min(this.height - this.radius*2, Math.max(this.radius*2, n.y))
+                if (n.x > this.width || n.x < 0) n.x = Math.random() * this.width
+                if (n.y > this.height || n.y < 0) n.y = Math.random() * this.height
             }
         })
-        .on("end", ticked);
-      ticked()
-      function ticked() {
+        .on("end", () => {
           link
             .attr("x1", d => d.source.x)
             .attr("y1", d => d.source.y)
@@ -164,7 +154,7 @@ export default {
           node
             .attr("cx", d => d.x + 1)
             .attr("cy", d => d.y - 1);
-      }
+        })
     }
   }
 }
