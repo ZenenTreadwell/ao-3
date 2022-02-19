@@ -6,7 +6,7 @@
             span(v-if='m.memberId === $store.getters.member.memberId')  &nbsp;&nbsp;->
             current(:memberId='m.memberId' @click.stop)
             br
-            span.smaller(v-if='mia > 1') &nbsp;&nbsp; mia {{ mia }} days
+            span.smaller(v-if='mia > 2') &nbsp;&nbsp; mia {{ mia }} 
         .one.grid(@click.stop)
             coin(:b='b')
         .eight.grid
@@ -89,7 +89,8 @@ export default {
     },
     computed:{
         mia(){
-            return Math.round((Date.now() - this.m.lastUsed) / 1000 / 60 / 60 / 24)
+            let m = (Date.now() - this.m.lastUsed) / 1000 / 60 / 60 / 24
+            return parseInt(m)
         },
         isLoggedIn(){
             let isLoggedIn
@@ -175,6 +176,6 @@ img
     opacity: 0.9
 
 .smaller
-    font-size: 0.78em
+    font-size: 0.5078em
 
 </style>
