@@ -65,18 +65,17 @@ export default {
             let contextTaskId = this.$store.getters.contextCard.taskId
             let localcontents = crawler(this.$store.state.tasks, contextTaskId) 
             this.$store.state.tasks.forEach( t => {
-                if (t.subTasks.indexOf(contextTaskId) > -1 || t.priorities.indexOf(contextTaskId) > -1){
+                if (t.subTasks.indexOf(contextTaskId) > -1 || t.priorities.indexOf(contextTaskId) > -1 || t.completed.indexOf(contextTaskId) > 1){
                     localcontents.push(t.taskId)
                 }
             })
             localcontents.push(contextTaskId)
             _.uniq(localcontents).forEach(taskId => nodes.push({id: taskId}))
-            
         }
         nodes.forEach(n => {
             let t = useMap(n.id)
             let source = n.id
-            let subs = t.subTasks.concat(t.priorities)
+            let subs = t.subTasks.concat(t.priorities).concat(t.completed)
             subs.forEach(target => {
                   links.push({
                       source,
@@ -112,7 +111,8 @@ export default {
         .append("line")
         .style("stroke", d => {
             let t = useMap(d.source)
-            if (t.priorities.indexOf(d.target) > -1) return "#E40000"
+            if (t.priorities.indexOf(d.target) > -1) return "#fcccd5"
+            if (t.completed.indexOf(d.target) > -1) return "#abbcff"
             return "#E4F1F2"
         })
       var node = this.svg
