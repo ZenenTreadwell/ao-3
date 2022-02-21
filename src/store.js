@@ -165,8 +165,8 @@ export default createStore({
           }
       },
 
-      isLoggedIn(state, getters){
-          return !!getters.member.memberId
+      isLoggedIn(state){
+          return state.tasks.length > 0
       },
       member(state){
           let loggedInMember = {}

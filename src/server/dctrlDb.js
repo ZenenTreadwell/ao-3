@@ -4,10 +4,9 @@ const uuidV1 = require('uuid/v1')
 const dbengine = require( 'better-sqlite3')
 const cryptoUtils = require('../crypto')
 const chalk = require('chalk')
-const config = require('../../configuration')
+const config = require('./configParser').config
 let PORT = process.env.PORT || 8003
-let dblocation = config.sqlite3.file
-// XXX - changing port is a quick way to get new db, but bad?
+let dblocation = config.aodir + '/database.sqlite3'
 if (PORT !== 8003){
     dblocation = dblocation.replace('database', PORT)
 }

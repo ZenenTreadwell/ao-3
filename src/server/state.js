@@ -2,7 +2,7 @@ const _ = require( 'lodash')
 const dctrlDb = require( './dctrlDb')
 const M = require( '../mutations')
 const modules = require( '../modules')
-const config = require( '../../configuration')
+const config = require( './configParser').config
 const crypto = require('../crypto')
 const chalk = require('chalk')
 const fs = require('fs')
@@ -11,7 +11,7 @@ let ALIAS = process.env.ALIAS || config.alias || 'AO'
 
 let publicKey
 try {
-    let filekey = fs.readFileSync(config.privateKey, {encoding:'utf8'})
+    let filekey = fs.readFileSync(config.aodir + '/key', {encoding:'utf8'})
     publicKey = crypto.derivePublicKey(filekey)
 } catch (err){
     console.log(chalk.red('key import error from', config.privateKey), err)

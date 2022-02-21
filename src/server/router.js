@@ -1,4 +1,4 @@
-const configuration = require('../../configuration.js')
+const configuration = require('./configParser').config
 const express = require( 'express')
 const path = require( 'path')
 const bodyParser = require( 'body-parser')
@@ -13,7 +13,7 @@ const openAo = require('./openAo')
 module.exports = function applyRouter(app){
     app.use(express.static(path.join(__dirname, '../../dist')))
     app.use(express.static(path.join(__dirname, '../../public')))
-    if (configuration.openAo === true){
+    if (configuration.open === true){
         app.use(openAo)
     }
     app.get('/*', (req, res) => {

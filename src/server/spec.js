@@ -21,8 +21,8 @@ router.post('/events', (req, res, next) => {
 
 const fs = require('fs')
 const crypto = require('crypto')
-const con = require('../../configuration')
-const priv = fs.readFileSync(con.privateKey)
+const config = require('./configParser').config
+const priv = fs.readFileSync(config.aodir + '/key')
 
 router.post('/events', (req, res, next)=>{
   let errRes = []

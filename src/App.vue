@@ -44,8 +44,13 @@ export default {
         let session = window.localStorage.session
         if (token && session){
             this.$store.commit('setAuth', {token, session})
-            this.$store.dispatch('loadCurrent')
+        } else {
+            const params = new URLSearchParams(window.location.search)
+            token = params.get('token') 
+            console.log('got token from params', token)
+            if (token) this.$store.commit('setAuth', {token})
         }
+        this.$store.dispatch('loadCurrent')
         window.addEventListener('keypress', this.alwaysFocus)
         window.addEventListener('keydown', this.alwaysFocusDown)
     },

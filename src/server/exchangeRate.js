@@ -1,7 +1,7 @@
 // https://apiv2.bitcoinaverage.com/#requests
+// disabled config settings here, considering removing this integration
 const crypto = require('crypto');
 const request = require('superagent')
-const config = require('../../configuration')
 const events = require('./events')
 const state = require('./state')
 const validators = require('./validators')
@@ -23,12 +23,12 @@ function createBitcoinAverageSignature(){
     // Step 1 - Create a payload consisting of “timestamp.public_key”:
     const msSince1970 = Date.now()
     const unixTime = (Date.now() / 1000).toFixed(0)
-    const step1 = unixTime +'.'+ config.bitcoinAverage.pub
+    const step1 = unixTime +'.'+ '' // config.bitcoinAverage.pub
 
     // Step 2 - The payload needs to be HMAC encrypted with the sha256 algorithm
     // using your API secret key that corresponds to the given public key in the
     // payload. This result is called a ‘digest_value’ and needs to be in hex
-    const hmac = crypto.createHmac('sha256', config.bitcoinAverage.secret)
+    const hmac = crypto.createHmac('sha256', '') // config.bitcoinAverage.secret)
     hmac.update(step1);
     const step2 = hmac.digest('hex')
 
