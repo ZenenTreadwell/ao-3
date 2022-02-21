@@ -218,10 +218,6 @@ img.spin
 
 .donut.moonbag
       background-image: url('../assets/images/moonbag.svg')
-      height: 2em;
-      width: 2em;
-      transform: rotate(-44deg)
-      border-width: 1.2em
 #tasks
     width: 100%
 

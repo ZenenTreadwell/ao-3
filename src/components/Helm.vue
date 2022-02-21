@@ -1,7 +1,8 @@
 <template lang='pug'>
 
 .helm
-    img.gear(@click.stop='$store.commit("toggleSettings")'  src='../assets/images/gear.svg')
+    img.gear(v-if='trash'  @click.stop='$store.commit("toggleSettings")'  src='../assets/images/trash.svg' :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='dragLeave')
+    img.gear(v-else  @click.stop='$store.commit("toggleSettings")'  src='../assets/images/gear.svg' :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='dragLeave')
     img.bull(@click.stop='$store.commit("toggleNodeInfo")'  src='../assets/images/bull.svg')
     img.doge(@click.stop='$store.commit("toggleAccounts")'  src='../assets/images/doge.svg'  :ondragover='toggl')
     settings(@click.stop  v-show='$store.state.upgrades.showSettings').settings
@@ -15,15 +16,40 @@
 import Settings from './Settings'
 import Lightning from './Lightning'
 import Accounts from './Accounts'
-
+import { crawler } from '../calculations'
 export default {
     data(){
-        return {hackyToggleStopper: false }
+        return {
+            hackyToggleStopper: false,
+            trash: false 
+        }
     },
     components: {
         Settings, Lightning, Accounts
     },
     methods: {
+        drop(ev){
+            this.trash = false
+            var data = ev.dataTransfer.getData("taskId")
+            let history = crawler(this.$store.state.tasks, data)
+            history.forEach(taskId => { 
+                let task = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
+                if (task.deck.length === 0 || task.deck.length === 1 && task.deck[0] === this.$store.getters.member.memberId) {
+                    console.log('removing', taskId, 'from state')
+                    this.$store.dispatch("makeEvent", {
+                        type: 'task-removed',
+                        taskId
+                    })
+                }
+            })
+        },
+        allowDrop(ev){
+            ev.preventDefault()
+            this.trash = true
+        },
+        dragLeave(){
+            this.trash = false
+        },
         toggl(ev){
             ev.preventDefault()
             if (!this.hackyToggleStopper){
