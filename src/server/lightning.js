@@ -8,7 +8,6 @@ const LightningClient = require( './lightning-client')
 const {serverState} = require( './state')
 const client = new LightningClient(config.lightningdir, true);
 const Client = require('bitcoin-core');
-console.log('in lightning.js', config.bitcoinrpcpass)
 const bitClient = new Client({
     network: 'mainnet',
     username: 'ao',

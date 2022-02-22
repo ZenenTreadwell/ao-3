@@ -1,23 +1,22 @@
 <template lang='pug'>
 
 .Connect
-    label.bg(@click='copyLink') card id: {{ $store.getters.contextCard.taskId }}
+    label.bg(@click='copyLink') Copy link to here
         img.clippy(v-show='linkCopied'  src='../assets/images/clipboard.svg')
-    select(v-model='sendTo')
-        option(value='') send
-        option(v-for='w in $store.state.ao' :value='w.address'  :disabled='w.outboundSecret===false')
-            span(@click='copyAddress(w.address)') {{w.address}}
     br
+    label Send here to there
+    div(v-for='w in $store.state.ao' @click='copyAddress(w.address)') 
+        input.radio(type='radio' name='aoconnect'  :value='w.address' :checked='sendTo === w.address' :disabled='w.outboundSecret===false') 
+        span {{w.alias}}-{{w.address}} 
     button(v-if='sendTo'  @click='trySend') send
+    br
+    code.ptr(@click='showSecr') Copy {{ $store.state.cash.alias }} connect string:
+      span(v-show='showSecret')
+        img.clippy(src='../assets/images/clipboard.svg')
     .input-container
         input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
-        label target ao connect string
+        label paste target connect string
     button(v-if='ao.address.length > 0'  @click='connect') connect
-    code.ptr(@click='showSecr') {{ $store.state.cash.alias }} connect string:
-      span(v-show='showSecret')
-        br
-        label {{ $store.state.cash.address }}:{{ $store.state.loader.token }}
-        img.clippy(src='../assets/images/clipboard.svg')
 </template>
 
 <script>
@@ -84,6 +83,7 @@ export default {
 
         },
         copyAddress(addr){
+          this.sendTo = addr
           navigator.clipboard.writeText(addr)
               .then(() => {
                   //
@@ -133,7 +133,8 @@ export default {
 @import '../styles/grid'
 @import '../styles/button'
 @import '../styles/input'
-
+input.radio 
+    width: auto
 label.bg
     cursor:pointer
 
@@ -163,4 +164,8 @@ code
     word-wrap: break-word
     word-break: break-word
 
+button
+    background: softGrey
+    color: white
+    max-width: 13em
 </style>

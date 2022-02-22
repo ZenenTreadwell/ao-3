@@ -1,5 +1,5 @@
 <template lang='pug'>
-.app(@click='$store.commit("closeAll")')
+.app(v-if='$store.getters.contextCard' @click='$store.commit("closeAll")')
     .app2(:class='cardInputSty')
     helm
     contexts

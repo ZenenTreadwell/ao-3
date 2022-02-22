@@ -1,10 +1,10 @@
 <template lang='pug'>
 
 #settings
-    .aligncenter
-        button(@click='logout') log out
+    //    .aligncenter
+    //    button(@click='logout') log out
     .row
-        .six.columns.boxy
+        .six.columns
             .section account updates
             select(v-model='change.field', @change='empty')
                 option(value='name') name
@@ -27,8 +27,8 @@
                             img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                             span - repeat correctly
             .aligncenter
-                  button(@click='update'  v-if='inputType !== "password"') update {{ change.field }}
-        .six.columns.boxy
+                  button(@click='update'  v-if='inputType !== "password"') update 
+        .six.columns
             .section account preferences
             //- .check.click(@click='toggleTooltips')
             //-     img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
@@ -227,11 +227,6 @@ export default {
 #settings
     overflow-y: scroll
     max-height: 100vh;
-
-.boxy
-    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
-    padding: .378em
-    margin-bottom: 1em
 
 input:-webkit-autofill {
     -webkit-box-shadow:0 0 0 50px white inset; /* Change the color to your own background color */

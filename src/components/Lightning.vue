@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-#nodes
+#nodes(v-if='$store.state.cash.info.address')
     .breathing
     .row
         .four.grid.boxy(v-if='$store.state.cash.info.mempool && $store.state.cash.info.blockfo')
