@@ -38,10 +38,7 @@ const actions = {
                   .post('/tasks/gg')
                   .set("Authorization", state.token)
                   .end((err, res)=> {
-                       commit('applyEvent', {
-                           type: 'tasks-received',
-                           tasks: res.body
-                       })
+                       commit('loadCards', res.body)
                   })
             }
             if (rootState.members.length === 0){

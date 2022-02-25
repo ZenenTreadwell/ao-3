@@ -20,10 +20,11 @@
 </template>
 
 <script>
-
+import _ from 'lodash'
 import PreviewDeck from './PreviewDeck'
 import Coin from './Coin'
 import Current from './Current'
+
 
 export default {
     data(){
@@ -103,16 +104,13 @@ export default {
         },
         rowsGuilds(){
             let g = []
-            this.$store.getters.uniqGuilds.groupings.forEach(group => {
-                group.forEach(taskId => {
-                  let t = this.$store.state.tasks[ this.$store.state.hashMap[taskId] ]
-                  let base = t.guild.split(':')[0]
-                  if (g.indexOf(base) === -1 && t.deck.indexOf(this.m.memberId) > -1){
-                    g.push(base)
-                  }
-                })
+            this.$store.state.cash.pins.forEach(taskId => {
+                let t = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
+                if (t.deck.indexOf(this.b.taskId)){
+                    g.push(t.guild)
+                }
             })
-            return g
+            return _.uniq(g)
         },
         b(){
             return this.$store.state.tasks[this.$store.state.hashMap[this.m.memberId]]

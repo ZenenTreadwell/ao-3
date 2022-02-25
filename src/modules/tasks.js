@@ -3,13 +3,13 @@ const M = require('../mutations')
 const state = []
 
 const mutations = {
-    setCurrent(tasks, current){
-        tasks.length = 0
-        current.tasks.forEach( task => {
-            tasks.push(task)
+    applyEvent: M.tasksMuts,
+    loadCards(state, ev){
+        console.log("loading cards", ev.length, state.length)
+        ev.forEach(x => {
+            state.push(x)
         })
-    },
-    applyEvent: M.tasksMuts
+    }
 }
 
 const actions = {

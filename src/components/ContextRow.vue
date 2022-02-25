@@ -30,9 +30,9 @@ export default {
             let t = this.$store.state.tasks[this.$store.state.hashMap[this.taskId]]
             if (t.guild){
                 let lookingfor = t.guild.split(':')[0]
-                let i = this.$store.getters.uniqGuilds.uniqBase.indexOf(lookingfor)
+                let i = this.$store.getters.pinGroups.uniqBase.indexOf(lookingfor)
                 if (i !== -1){
-                  let contexts = this.$store.getters.uniqGuilds.groupings[i]
+                  let contexts = this.$store.getters.pinGroups.groupings[i]
                   contexts = contexts.filter(x => x !== this.taskId)
                   contexts.push(this.taskId)
                   return this.$store.commit("goGo", contexts)

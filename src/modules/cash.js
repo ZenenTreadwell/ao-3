@@ -13,6 +13,7 @@ const state = {
     channels: [],
     info: {},
     pay_index: 0,
+    pins: [],
 }
 
 const mutations = {
@@ -29,6 +30,7 @@ const mutations = {
         state.channels = current.cash.channels
         state.info = current.cash.info
         state.pay_index = current.cash.pay_index
+        state.pins = current.cash.pins
     },
     applyEvent: M.cashMuts
 }

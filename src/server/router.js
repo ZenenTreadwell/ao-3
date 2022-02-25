@@ -28,7 +28,16 @@ module.exports = function applyRouter(app){
     app.use(fobtap) // rfid scan
     app.use(lightningRouter)
     app.post('/state', (req, res) => {
-        res.json(state.pubState)
+        let xd = {
+            hashMap: state.pubState.hashMap,
+            ao: state.pubState.ao,
+            sessions: state.pubState.sessions,
+            members: state.pubState.members,
+            tasks: [],
+            resources: state.pubState.resources,
+            cash:state.pubState.cash 
+        }
+        res.json(xd)
     })
     app.post('/tasks/:taskId', (req, res) => {
         res.json(state.serverState.tasks)

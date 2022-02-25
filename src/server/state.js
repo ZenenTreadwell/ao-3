@@ -37,6 +37,7 @@ function baseState(){
         usedTxIds: [],
         outputs: [],
         channels: [],
+        pins: [],
         info: {},
       },
     }

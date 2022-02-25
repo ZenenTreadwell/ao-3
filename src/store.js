@@ -20,6 +20,27 @@ export default createStore({
       hashMap: modules.hashMap,
   },
   getters: {
+      pinGroups(state){
+          let groupings = [], uniqBase = []
+          state.cash.pins.forEach(taskId => {
+              let g = state.tasks[state.hashMap[taskId]]
+              let baseSplit = g.guild.split(':')
+              let baseG = baseSplit[0]
+              let i = uniqBase.indexOf(baseG)
+              if (i === -1){
+                  uniqBase.push(baseG)
+                  groupings.push([g.taskId])
+                  return true
+              } else {
+                  groupings[i].push(g.taskId)
+              }
+              return false
+          })
+          return {
+              uniqBase,
+              groupings
+          }
+      },
       memberCard(state, getters){
           return state.tasks[state.hashMap[getters.member.memberId]]
       },
@@ -29,8 +50,6 @@ export default createStore({
       contextDeck(state, getters){
           return getters.contextCard.subTasks
               .map(t => state.tasks[state.hashMap[t]])
-              .filter(t => !!t && t.color )
-              .reverse()
       },
       contextCompleted(state, getters){
           let upValence = []
@@ -138,33 +157,6 @@ export default createStore({
           }
           return getters.contextDeck.filter(d => d.color === 'blue')
       },
-
-      guilds(state) {
-          let gg = state.tasks.filter(p => p.guild && p.guild.split(':')[0])
-          return gg.sort( (a, b) => b.deck.length - a.deck.length )
-      },
-
-      uniqGuilds(state, getters) {
-          let uniqBase = []
-          let groupings = []
-          getters.guilds.forEach(g => {
-              let baseG = g.guild.split(':')[0]
-              let i = uniqBase.indexOf(baseG)
-              if (i === -1){
-                  uniqBase.push(baseG)
-                  groupings.push([g.taskId])
-                  return true
-              } else {
-                  groupings[i].push(g.taskId)
-              }
-              return false
-          })
-          return {
-              uniqBase,
-              groupings
-          }
-      },
-
       isLoggedIn(state){
           return state.tasks.length > 0
       },
@@ -186,20 +178,6 @@ export default createStore({
           })
           return loggedInMember
       },
-      // weights(state, getters){ // fractional reserve doge
-      //     let w = {}
-      //     getters.memberIds.forEach(mId => {
-      //         let member = state.tasks[state.hashMap[mId]]
-      //         member.priorities.forEach(p => {
-      //             if (!w[p]) {
-      //                 w[p] = 1 / member.priorities.length
-      //             } else {
-      //                 w[p] += (1 / member.priorities.length)
-      //             }
-      //         })
-      //     })
-      //     return w
-      // },
   },
   middlewares: [],
   strict: process.env.NODE_ENV !== 'production'

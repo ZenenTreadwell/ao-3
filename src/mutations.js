@@ -1,16 +1,7 @@
-// state is the result of events fed through the mutation
-// mutation(currentState, newEvent) = newState
-// see /src/server/state.js initialize, applyEvent
-// see /src/modules/*  applyEvent
-
 const _ = require('lodash')
 const calculations = require('./calculations')
-// const crypto = require('./crypto')
 
-let inAddressConnect
-let outAddressConnect
-let color
-let colors
+let inAddressConnect, outAddressConnect, color, colors
 
 function aoMuts(aos, ev) {
   switch (ev.type) {
@@ -82,6 +73,12 @@ function cashMuts(cash, ev) {
       break
     case "get-node-info":
       cash.info = ev.info
+      break
+    case "task-guilded":
+      cash.pins = _.filter(cash.pins, p => p !== ev.taskId)
+      if (ev.guild && ev.guild.split(':')[0]){
+          cash.pins.push(ev.taskId)
+      }
       break
   }
 }
@@ -305,7 +302,7 @@ function tasksMuts(tasks, ev) {
             }
             if (task.taskId === ev.inId){
                 if (task.stackView[ev.color] !== -1){
-                    task.stackView[ev.color] = 0
+                    task.stackView[ev.color] = task.subTasks.length
                 }
                 task.subTasks = _.filter(task.subTasks, tId => tId !== ev.taskId)
                 task.priorities = _.filter(task.priorities, tId => tId !== ev.taskId)
@@ -422,7 +419,7 @@ function tasksMuts(tasks, ev) {
         absorbingTask.priorities = _.uniq(absorbingTask.priorities.concat(explodingTask.priorities))
         // absorbingTask.completed = _.uniq(absorbingTask.completed.concat(explodingTask.completed))
         colors.forEach(c => {
-            absorbingTask.stackView[c] = 0
+            absorbingTask.stackView[c] = absorbingTask.subTasks.length - 1
         })
       }
       break
@@ -471,7 +468,7 @@ function tasksMuts(tasks, ev) {
           task.priorities = _.filter(task.priorities, tId => ev.tasks.indexOf(tId) === -1)
           task.subTasks = task.subTasks.concat(ev.tasks)
           colors.forEach( c => {
-              task.stackView[c] = 0
+              task.stackView[c] = task.subTasks.length - 1
           })
         }
       })
@@ -530,7 +527,7 @@ function tasksMuts(tasks, ev) {
           task.subTasks.push(ev.taskId)
           task.stackView.completed = false
           if (task.stackView[ev.color] > -1){
-              task.stackView[ev.color] = 0
+              task.stackView[ev.color] = task.subTasks.length - 1
           }
         }
       })
@@ -708,7 +705,7 @@ function tasksMuts(tasks, ev) {
           task.subTasks = _.filter(task.subTasks, tId => tId !== ev.taskId)
           task.subTasks.push(ev.taskId)
           if (color){
-              task.stackView[color] = 0
+              task.stackView[color] = task.subTasks.length - 1
           }
         }
       })

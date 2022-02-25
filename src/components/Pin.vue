@@ -51,20 +51,14 @@ export default {
             this.$store.commit("goDeeper", this.p.taskId)
         },
         goGo(){
-            let contexts = [] // [this.$store.getters.contextCard.taskId]
+            let contexts = [] 
             if (this.$store.getters.member.memberId !== this.p.taskId){
-                let t = this.$store.state.tasks[this.$store.state.hashMap[this.p.taskId]]
-
-                // add same pin to context
-                let baseT = t.guild.split(':')[0]
-                if (baseT !== ''){
-                  this.$store.getters.guilds.forEach(g => {
-                    let baseG = g.guild.split(':')[0]
-                    if (baseG === baseT  && g.taskId !== t.taskId){
-                      contexts.push(g.taskId)
+                this.$store.getters.pinGroups.groupings.some(g => {
+                    if (g.indexOf(this.p.taskId) > -1){
+                       contexts = g.filter(x => x !== this.p.taskId)
+                       return true
                     }
-                  })
-                }
+                })
             }
             contexts.push(this.p.taskId)
             this.$store.commit("goGo", contexts)
