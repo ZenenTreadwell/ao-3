@@ -10,7 +10,7 @@
         .one.grid(@click.stop)
             coin(:b='b')
         .eight.grid
-            span(v-for='x in rowsGuilds') {{x.split(':')[0]}} &nbsp;
+            span(v-for='x in rowsGuilds') {{x}} &nbsp;
             .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
                 img.boosted(src='../assets/images/hourglass.svg'  v-if='m.action'  @click.stop='goGo(m.action)')
                 span(v-if='!m.active'  @click.stop='deleteUser').hover.red delete
@@ -106,11 +106,12 @@ export default {
             let g = []
             this.$store.state.cash.pins.forEach(taskId => {
                 let t = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
-                if (t.deck.indexOf(this.b.taskId)){
-                    g.push(t.guild)
+                if (t.deck.indexOf(this.b.taskId) > -1){
+                    g.push(t.guild.split(':')[0])
                 }
             })
-            return _.uniq(g)
+            let f = _.uniq(g)
+            return f
         },
         b(){
             return this.$store.state.tasks[this.$store.state.hashMap[this.m.memberId]]
