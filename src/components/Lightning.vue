@@ -171,6 +171,7 @@ export default {
         clicktopay(){
             this.$store.commit("toggleNodeInfo")
             this.$store.commit("setMode", 3)
+            this.$store.commit("setPayMode", 0)
             if (!this.$store.getters.contextCard.btcAddr){
                 this.$store.dispatch("makeEvent", {
                   type: 'address-updated',

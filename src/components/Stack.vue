@@ -335,10 +335,11 @@ export default {
     height: 0
     position: relative;
     color: lightGrey
-    left: 0
-    top: 2em;
     pointer-events: none;
     opacity: 0.5;
+    left: 47%;
+    top: 1.5em;
+    font-size: 0.81em;
 
 .donut.pileselected
     border-color: lightGrey

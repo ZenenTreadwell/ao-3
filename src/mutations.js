@@ -525,6 +525,9 @@ function tasksMuts(tasks, ev) {
         if (task.taskId === ev.inId) {
           task.subTasks = _.filter(task.subTasks, tId => tId !== ev.taskId)
           task.subTasks.push(ev.taskId)
+          if (task.deck.indexOf(ev.memberId) === -1){
+              task.deck.push(ev.memberId)
+          }
           task.stackView.completed = false
           if (task.stackView[ev.color] > -1){
               task.stackView[ev.color] = task.subTasks.length - 1

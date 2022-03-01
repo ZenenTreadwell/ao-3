@@ -111,6 +111,7 @@ export default {
             let card = this.$store.state.hashMap[hash]
             if (card){
                 this.$store.commit('goDeeper', hash)
+                this.task.name = ''
             } 
         },
         pileRecalled() {
