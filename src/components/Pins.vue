@@ -27,6 +27,9 @@ export default {
 @import '../styles/colours'
 
 .projects
+    position: fixed 
+    left: 0.07em 
+    bottom: 0.07em
     z-index: 40000000
     color: lightGrey
     font-style: italic;
