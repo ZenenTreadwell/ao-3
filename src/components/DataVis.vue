@@ -187,7 +187,6 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
-@import '../styles/grid'
 
 label
     color: lightGrey

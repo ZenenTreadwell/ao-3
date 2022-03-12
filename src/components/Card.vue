@@ -200,8 +200,6 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
-@import '../styles/skeleton'
-@import '../styles/grid'
 @import '../styles/button'
 @import '../styles/spinners'
 @import '../styles/donut'

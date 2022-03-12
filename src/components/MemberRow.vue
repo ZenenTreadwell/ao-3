@@ -1,22 +1,20 @@
 <template lang='pug'>
 
 .memberrow(v-if='m.memberId'  :key='m.memberId'  :class='{loggedIn: m.memberId === $store.getters.member.memberId, dropping}'  @click='goGo(m.memberId)'  :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='offDrop'  draggable='true'  :ondragstart='dragStart')
-    .row(v-if='b')
-        .three.grid.ptr(:class='{bolder: m.memberId === $store.getters.member.memberId}')
-            span(v-if='m.memberId === $store.getters.member.memberId')  &nbsp;&nbsp;->
+    .flexrow(v-if='b')
+        .vouch(@click.stop)
+            coin(:b='b')
+        .name.ptr(:class='{bolder: m.memberId === $store.getters.member.memberId}')
             current(:memberId='m.memberId' @click.stop)
             br
             span.smaller(v-if='mia > 2') &nbsp;&nbsp; mia {{ mia }} 
-        .one.grid(@click.stop)
-            coin(:b='b')
-        .eight.grid
+        .pinlist
             span(v-for='x in rowsGuilds') {{x}} &nbsp;
             .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
                 img.boosted(src='../assets/images/hourglass.svg'  v-if='m.action'  @click.stop='goGo(m.action)')
-                span(v-if='!m.active'  @click.stop='deleteUser').hover.red delete
-                span(:class="{faded:b.boost <= 0}")
-                    span  &nbsp; &nbsp;
-                    img.boosted.doge(src='../assets/images/doge.svg')
+                img.boosted.doge(v-if="b.boost > 0 && m.active"  src='../assets/images/doge.svg')
+                img.boosted.trash(v-else @click.stop='deleteUser' src='../assets/images/trash.svg')
+
 </template>
 
 <script>
@@ -28,7 +26,10 @@ import Current from './Current'
 
 export default {
     data(){
-        return { dropping: false }
+        return { 
+            dropping: false, 
+            now: Date.now()
+        }
     },
     props: ['m'],
     components: {PreviewDeck, Coin, Current},
@@ -90,7 +91,7 @@ export default {
     },
     computed:{
         mia(){
-            let m = (Date.now() - this.m.lastUsed) / 1000 / 60 / 60 / 24
+            let m = (this.now - this.m.lastUsed) / 1000 / 60 / 60 / 24
             return parseInt(m)
         },
         isLoggedIn(){
@@ -130,23 +131,30 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
-@import '../styles/grid'
 
 .memberrow
-    padding-right: 0.33em
-    padding-top: 0.33em
+    padding: 0.33em
     margin-bottom: 0.33em
     background: lightGrey
     cursor: pointer
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
 .memberrow.dropping
     background: blue
-
+.flexrow
+    display: flex
+.name 
+    flex-grow: 3 
+.vouch 
+    flex-grow: 1
+.pinlist 
+    flex-grow: 7
 .doge
     background: main
     border-radius: 50%
     padding: .123em
-
+.trash 
+    background: main
+    padding: .123em
 .red
     color: darkred
 

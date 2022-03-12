@@ -1,31 +1,25 @@
 <template lang='pug'>
 
 #newresource
-    //(:class='{shown: showSetTime}')
-    div
-        //- .close(@click='showSetTime = false') x
-        //- label select day
-        //- input(v-model='ymd' type='date')
-        label select hour
-        .row.padd
-            select.eight.grid(v-model='hour')
-                option(value='1') 1
-                option(value='2') 2
-                option(value='3') 3
-                option(value='4') 4
-                option(value='5') 5
-                option(value='6') 6
-                option(value='7') 7
-                option(value='8') 8
-                option(value='9') 9
-                option(value='10') 10
-                option(value='11') 11
-                option(value='12') 12
-            select.four.grid(v-model='meridiem')
-                option(value='am') am
-                option(value='pm') pm
-        button(@click='book')
-            span schedule
+    .flexrow.padd
+        select.eight(v-model='hour')
+            option(value='1') 1
+            option(value='2') 2
+            option(value='3') 3
+            option(value='4') 4
+            option(value='5') 5
+            option(value='6') 6
+            option(value='7') 7
+            option(value='8') 8
+            option(value='9') 9
+            option(value='10') 10
+            option(value='11') 11
+            option(value='12') 12
+        select.four(v-model='meridiem')
+            option(value='am') am
+            option(value='pm') pm
+    button(@click='book')
+        span schedule this task
 
 </template>
 
@@ -121,12 +115,19 @@ export default {
 <style lang='stylus' scoped>
 
 @import '../styles/colours'
-@import '../styles/grid'
 @import '../styles/input'
 @import '../styles/button'
 
+.flexrow 
+    display: flex
+select.four 
+    width: unset
+    flex-grow: 1
+select.eight 
+    width: unset
+    flex-grow: 2
 button
-    background: softGrey
+    background: main
     color: lightGrey
 
 .close

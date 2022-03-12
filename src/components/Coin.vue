@@ -1,6 +1,7 @@
 <template lang='pug'>
-.d(v-if='$store.getters.member.memberId !== b.taskId'  @click='toggleGrab')
-    img.dogepepecoin(@mouseover='hoverthumb=true'  @mouseleave='hoverthumb=false'  :class="{ ungrabbedcoin : !isGrabbed, hoverthumb: hoverthumb }" src='../assets/images/thumbsup.svg'  draggable='false')
+.d
+    img.dogepepecoin(@click='toggleGrab'  v-if='$store.getters.member.memberId !== b.taskId'  @mouseover='hoverthumb=true'  @mouseleave='hoverthumb=false'  :class="{ ungrabbedcoin : !isGrabbed, hoverthumb: hoverthumb }" src='../assets/images/thumbsup.svg'  draggable='false')
+    img.dogepepecoin(v-else  src='../assets/images/timecube.svg')
 </template>
 
 <script>

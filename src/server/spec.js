@@ -598,7 +598,8 @@ router.post('/events', (req, res, next)=>{
           break
       case 'task-grabbed':
           if (
-              validators.isTaskId(req.body.taskId, errRes)
+              validators.isTaskId(req.body.taskId, errRes) &&
+              req.body.taskId !== req.body.blame
           ){
               events.taskGrabbed(
                 req.body.taskId,
@@ -611,7 +612,8 @@ router.post('/events', (req, res, next)=>{
           break
       case 'task-dropped':
           if (
-              validators.isTaskId(req.body.taskId, errRes)
+              validators.isTaskId(req.body.taskId, errRes) && 
+              req.body.taskId !== req.body.blame
           ){
               events.taskDropped(
                   req.body.taskId,

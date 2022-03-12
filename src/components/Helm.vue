@@ -67,7 +67,6 @@ export default {
 
 <style lang="stylus" scoped>
 
-@import '../styles/grid';
 @import '../styles/colours';
 
 .helm

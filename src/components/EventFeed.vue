@@ -38,7 +38,6 @@ export default {
 </script>
 
 <style lang='stylus' scoped>
-@import '../styles/grid';
 @import '../styles/breakpoints';
 @import '../styles/colours';
 

@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 .activecard(:class='{dropping}'  :ondrop="drop"   :ondragover="allowDrop"  :ondragleave='dragLeave')
-    .topright
+    .flextabs
         .tabber(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}'   :ondragover='toBoatOnly')
             img.roro(v-if='$store.state.upgrades.mode !== "boat"  && card.priorities.length > 0'  v-for='t in card.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
             img(src='../assets/images/completed.svg')
@@ -335,22 +335,22 @@ label
     left: 0
     cursor: pointer
 
-.topright
+.flextabs
+    display: flex
+    flex-direction:row
+    justify-content: flex-start
     cursor: pointer
-    // float: left
 
 .centererer
     text-align: center
 
 .tabber
-    display: inline-block
-    width: 33.3%
     cursor: pointer
+    flex-shrink: 1
     color: lightGrey
     text-align: center
     opacity: 0.3
-    background-color: white;
-    width: 3.3em;
+    max-width: 3.3em;
     border-bottom-left-radius: 40%;
     border-bottom-right-radius: 40%;
     border-bottom-width: 3px;
@@ -361,6 +361,9 @@ label
     margin-left: .77em
     img
         height: 1.11em
+        padding-top: 0.22em
+        padding-left: 0.37em
+        padding-right: 0.37em
 .tabber:hover
     opacity: 0.88
     background-color: lightGrey;
@@ -399,11 +402,6 @@ label
 .suggest
     font-style: italic
     font-size: 1.3em
-
-.dogecoin
-    width: 3em
-    height: 3em
-    cursor: pointer
 
 .faded
     opacity: 0.39

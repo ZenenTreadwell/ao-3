@@ -2,9 +2,13 @@
 
 #nodes(v-if='$store.state.cash.info.address')
     .breathing
+    .boxy
+        .nodeaddress {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
+        button.ptr(@click='clicktopay') donate
+    div(v-if='sats > 0') 1 CAD = {{ sats }} sats
+    div(v-else) 1 Bitcoin = 100 000 000 sats
     .row
         .four.grid.boxy(v-if='$store.state.cash.info.mempool && $store.state.cash.info.blockfo')
-            .section {{ confirmedBalance.toLocaleString() }} chain sats
             .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
             .section block {{ $store.state.cash.info.blockheight.toLocaleString()}}
             .section {{ ((Date.now() - ($store.state.cash.info.blockfo.time * 1000)) / 60 / 1000).toFixed(1) }} minutes ago
@@ -52,22 +56,8 @@
                     .six.grid
                         .chain  {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000).toFixed() }}
                     .one.grid(:class='getFeeColor($store.state.cash.info.mempool.smartFee.feerate * 10000)')
-            input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
-            button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
-            .chanfo(v-if='fetchedTxn.txid')
-                div txid: {{ fetchedTxn.txid }}
-                div status: {{ fetchedTxnStatus }}
-                div(v-if='fetchedTxn.memPool')
-                    .chain(:class='getFeeColor(fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize)') fee: {{ (fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize).toFixed() }}
-                template(v-if='fetchedTxn.utxo && fetchedTxn.utxo.length > 0'  v-for='u in fetchedTxn.utxo')
-                    div(v-if='u && u.value > 0 && u.scriptPubKey.addresses') {{ u.value }} : {{u.scriptPubKey.addresses}} - unspent
-                div(v-for='outp in filteredOut') {{ outp.value }} : {{outp.scriptPubKey.addresses}}
-                .chanfo(v-if='showOutputs'  v-for='n in $store.state.cash.info.outputs'  @click='checkTxid(n.txid)') txid: {{n.txid}} : {{n.output}}
         .four.grid(v-else) node syncing
         .eight.grid.boxy(v-if='$store.state.cash.info.channels')
-            .section.fr {{ parseFloat( nn.channel_total_sat - nn.channel_sat ).toLocaleString() }} remote sats
-            .section(@click='selectedPeer = false'   :class='{ptr: selectedPeer >= 0}') {{ parseFloat( nn.channel_sat ).toLocaleString() }} local sats
-            div
             .chanfo(v-if='selectedPeer >= 0 && areChannels && selectedChannel')
                 div connected: {{ selectedChannel.connected }}
                 div pubkey: {{ selectedChannel.peer_id }}
@@ -86,12 +76,17 @@
                         .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL", gr: $store.getters.member.stacks === 5}')
                         .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL", bl: $store.getters.member.stacks === 5}')
             .section {{ $store.state.cash.info.channels.length }} channels
-    .boxy
-        div(v-if='sats > 0') 1 CAD =
-            span {{ sats }} sats
-        div(v-else) 1 BTC = 100 000 000 sats
-        .ptr(@click='clicktopay') *donate now*
-        div {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
+    input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
+    button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
+    .chanfo(v-if='fetchedTxn.txid')
+        div txid: {{ fetchedTxn.txid }}
+        div status: {{ fetchedTxnStatus }}
+        div(v-if='fetchedTxn.memPool')
+            .chain(:class='getFeeColor(fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize)') fee: {{ (fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize).toFixed() }}
+        template(v-if='fetchedTxn.utxo && fetchedTxn.utxo.length > 0'  v-for='u in fetchedTxn.utxo')
+            div(v-if='u && u.value > 0 && u.scriptPubKey.addresses') {{ u.value }} : {{u.scriptPubKey.addresses}} - unspent
+        div(v-for='outp in filteredOut') {{ outp.value }} : {{outp.scriptPubKey.addresses}}
+        .chanfo(v-if='showOutputs'  v-for='n in $store.state.cash.info.outputs'  @click='checkTxid(n.txid)') txid: {{n.txid}} : {{n.output}}
 </template>
 
 <script>
@@ -270,6 +265,9 @@ export default {
 @import '../styles/grid'
 @import '../styles/button'
 @import '../styles/input'
+
+.nodeaddress
+    line-break: anywhere
 
 .boxy
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
@@ -473,3 +471,4 @@ h5
     max-height: 13em
     overflow-y: scroll;
 </style>
+

@@ -710,7 +710,6 @@ textarea.inactive
     opacity: 0
 
 .gem
-    opacity: 0.69
     cursor: pointer;
     width: -webkit-min-content;
     width: 100%;
@@ -725,9 +724,6 @@ textarea.inactive
     padding-bottom: 0.2em;
     img
         height: 2em
-
-.gem:hover
-    opacity: 1
 
 button.lock img
     float: left
