@@ -1,7 +1,6 @@
 <template lang='pug'>
-div
-    .gridbox
-        #my_dataviz
+.datavisbox
+    #my_dataviz
     //  .gridbox
     //    .grid
     //        .three.grid
@@ -187,7 +186,9 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
-
+.datavisbox
+    position: relative
+    text-align: center
 label
     color: lightGrey
 
