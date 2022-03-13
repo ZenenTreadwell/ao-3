@@ -1,9 +1,13 @@
 <template lang='pug'>
 
 #auth(v-if='!confirmed')
-  .mainbg(v-if='$store.state.loader.reqStatus === "pending"')
-      img.spin(src='../assets/images/gear.svg')
-  .centertitle(v-else) Welcome, choose name or login:
+  .switcher(@click='toggleExisting')
+      .five.center(:class='{existing: !existing}') create new
+      .two
+          .switch
+              input(@click.stop  type="checkbox"  v-model='existing')
+              span.slider.round
+      .five.center(:class='{existing}') login
   div(v-if='!existing')
       .input-container
           input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
@@ -11,27 +15,21 @@
           span.focus-border
       button(@click="createAccount") create
   div(v-if='existing')
-      .grid
-          .six.grid
+      .flexrow
+          .inputhalf
               .input-container
                   input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="username", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
                   label name
                   span.focus-border
-          .six.grid
+          .inputhalf
             .input-container
                 input.input-effect#password(type='password', v-model='pass', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createSession'  :class='{"has-content":!!pass}')
                 label password
                 span.focus-border
       button(@click="createSession") log in
   .warning(v-if='err') {{err}}
-  .notethis New accounts will be created with a random password and your browser session will be saved for later. If you would like to set a custom password use the gear at the bottom right after creating.
-  .switcher.grid(@click='toggleExisting')
-      .five.grid.center(:class='{existing: !existing}') new
-      .two.grid
-          .switch
-              input(@click.stop  type="checkbox"  v-model='existing')
-              span.slider.round
-      .five.grid.center(:class='{existing}') login
+  .mainbg(v-if='$store.state.loader.reqStatus === "pending"')
+      img.spin(src='../assets/images/gear.svg')
 
 </template>
 
@@ -117,21 +115,25 @@ export default {
 @import '../styles/button'
 @import '../styles/switch'
 @import '../styles/input'
-@import '../styles/grid'
 @import '../styles/spinners'
 
 #auth
     background: lightGrey
     padding: 3em
     border-style: solid
-    padding-bottom: 8.8em
 
+.flexrow 
+    display: flex 
+.inputhalf
+    flex-grow: 1
 .mainbg
     background: #404040
     text-align: center
 
-.existing
+.center 
     text-align: center
+
+.existing
     background: main
     color: lightGrey
 
@@ -151,6 +153,14 @@ export default {
     margin-top: 1.3em
     margin-bottom: 1.3em
     cursor: pointer
+    display: flex
+
+.five 
+    flex-grow: 5
+
+.two 
+    flex-grow: 2
+    text-align: center
 
 .notethis
     margin-top: 1em

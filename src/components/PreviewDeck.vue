@@ -2,23 +2,19 @@
 
 .preview(@click.stop   v-if='deck.length > 0 && $store.getters.contextCard.taskId !== task.taskId')
     .prev(v-if='preview') {{ preview }}
-    .row
-        .one.grid
-            span &nbsp;
-        .two.grid
+    .flexrow
+        .beadcolumn
             .bead( v-if='red.length > 0'   v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='setPreview(b.name)'  @mouseleave='setPreview(false)')
-        .two.grid
+        .beadcolumn
             .bead( v-if='blue.length > 0' v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='setPreview(b.name)'  @mouseleave='setPreview(false)')
-        .two.grid
+        .beadcolumn
             .bead( v-if='red.length === 0'  v-for="(b,i) in yellow", @click='goto(b.taskId)'  :class='{yellowwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='setPreview(b.name)'  @mouseleave='setPreview(false)')
             .bead( v-for="(b,i) in red"  :b="b", @click='goto(b.taskId)'  :class='{redwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='setPreview(b.name)'  @mouseleave='setPreview(false)')
-        .two.grid
+        .beadcolumn
             .bead( v-for="(b,i) in green", @click='goto(b.taskId)'  :class='{greenwx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='setPreview(b.name)'  @mouseleave='setPreview(false)')
-        .two.grid
+        .beadcolumn
             .bead( v-if='blue.length === 0'  v-for="(b,i) in purple", @click='goto(b.taskId)'  :class='{purplewx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='setPreview(b.name)'  @mouseleave='setPreview(false)')
             .bead( v-for="(b,i) in blue", @click='goto(b.taskId)'  :class='{bluewx: $store.getters.member.stacks === 5}'  draggable="true"  :ondragstart='dragStartWrap(b)'  @mouseenter='setPreview(b.name)'  @mouseleave='setPreview(false)')
-        .one.grid
-            span &nbsp;
 </template>
 
 <script>
@@ -82,8 +78,11 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.flexrow
+    display: flex 
 
-@import '../styles/grid'
+.beadcolumn
+    flex-grow: 1
 
 .prev
     position: absolute;

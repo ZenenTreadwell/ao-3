@@ -1,12 +1,12 @@
 <template lang="pug">
 
 #calendar(:key='inId')
-  .row.menu
-      .four.grid.dot(@click.stop='prevMonth')
-      .four.grid(@click='clickDateBar')
+  .menu
+      .thirdy.dot(@click.stop='prevMonth')
+      .thirdy(@click='clickDateBar')
           .ptr {{ monthName }} - {{year}}
               span(v-if='$store.state.upgrades.chosenDay') - {{ $store.state.upgrades.chosenDay }}
-      .four.grid.dot(@click.stop='nextMonth')
+      .thirdy.dot(@click.stop='nextMonth')
   .calmonth(v-if='!$store.state.upgrades.chosenDay')
       .weekday(v-for='day in DAYS_OF_WEEK') {{ day }}
       .placeholder(v-for='placeholder in firstDay')
@@ -287,7 +287,6 @@ export default {
 
 <style lang='stylus' scoped>
 @import '../styles/colours';
-@import '../styles/grid';
 
 #calendar
     color: main
@@ -304,8 +303,12 @@ export default {
     padding: 0.33em
     border-radius: 3%
 
-.row.menu
+.menu
     cursor: pointer
+    display: flex
+
+.thirdy
+    flex-grow: 1
 
 .grey
     background-color: softGrey

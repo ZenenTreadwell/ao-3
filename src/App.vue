@@ -2,34 +2,7 @@
 
 .app
   .container(v-if='!$store.getters.isLoggedIn')
-      div &nbsp;
       auth
-      .statement
-          .row.cb Each Card
-          div &nbsp;
-          .row
-              .four.columns.plac(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
-                  img.placmage(src='./assets/images/completed.svg')
-                  div Checklist
-              .four.columns.plac(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}')
-                  img.placmage(src='./assets/images/timecube.svg')
-                  div Calendar
-              .four.columns.plac(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
-                  img.placmage(src='./assets/images/bitcoin.svg')
-                  div Bitcoin
-      .statement.dark
-          .row.cb Each Server
-          div &nbsp;
-          .row
-              .four.columns.plac(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}')
-                  img.placmage(src='./assets/images/doge.svg')
-                  div Accounts
-              .four.columns.plac(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}')
-                  img.placmage(src='./assets/images/bull.svg')
-                  div Node
-              .four.columns.plac(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
-                  img.placmage(src='./assets/images/gear.svg')
-                  div Settings
   router-view(v-else)
 
 </template>
@@ -117,7 +90,6 @@ iframe
     background: #404040
     color: main
     font-size: 1.0912334455em
-    // font-family: helvetica
     min-height: 100vh
 
 .statement
@@ -130,5 +102,7 @@ iframe
 .statement.dark
     background: main
     color: lightGrey
+.container
+    padding-top: 4em 
 
 </style>

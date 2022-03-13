@@ -1,21 +1,22 @@
 <template lang='pug'>
 
 .panel
-    .row
-      .four.grid
+    .flexrow
+      .pile
           stack(stack='red', :position='$store.getters.contextCard.stackView["red"]',  :taskId='$store.getters.contextCard.taskId')
           span &nbsp;
-      .four.grid
+      .pile
           stack(stack='green', :position='$store.getters.contextCard.stackView["green"]',  :taskId='$store.getters.contextCard.taskId')
           span &nbsp;
-      .four.grid
+      .pile
           stack(stack='blue', :position='$store.getters.contextCard.stackView["blue"]',  :taskId='$store.getters.contextCard.taskId')
-    .row
-      .two.grid
-      .four.grid
+    .flexrow
+      .offsetter &nbsp;
+      .pile
           stack(stack='yellow', :position='$store.getters.contextCard.stackView["yellow"]',  :taskId='$store.getters.contextCard.taskId')
-      .four.grid
+      .pile
           stack(stack='purple', :position='$store.getters.contextCard.stackView["purple"]',  :taskId='$store.getters.contextCard.taskId')
+      .offsetter &nbsp;
 
 </template>
 
@@ -31,7 +32,6 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
-@import '../styles/grid'
 
 .panel
     margin: 0 1em 1em 1em
@@ -40,9 +40,15 @@ export default {
     background-size: cover
     background-position: center center
     overflow: visible
+.flexrow
+    display: flex 
 
-.two.columns, .stay
-    height: 1em
+.pile 
+    flex-grow: 4 
+    padding-left: .2em
+    padding-right: .2em
 
+.offsetter
+    flex-grow: 1
 
 </style>

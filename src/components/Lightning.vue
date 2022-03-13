@@ -5,59 +5,12 @@
     .boxy
         .nodeaddress {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
         button.ptr(@click='clicktopay') donate
-    div(v-if='sats > 0') 1 CAD = {{ sats }} sats
-    div(v-else) 1 Bitcoin = 100 000 000 sats
-    .row
-        .four.grid.boxy(v-if='$store.state.cash.info.mempool && $store.state.cash.info.blockfo')
-            .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
-            .section block {{ $store.state.cash.info.blockheight.toLocaleString()}}
-            .section {{ ((Date.now() - ($store.state.cash.info.blockfo.time * 1000)) / 60 / 1000).toFixed(1) }} minutes ago
-            .section.sampler(@click='sampler') {{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed(1) }} MB unconfirmed transactions
-            .section last block fee percentiles (sat/byte):
-            .section
-                .grid
-                    .five.grid
-                        p 90th
-                    .six.grid
-                        .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[4] }}
-                    .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[4])')
-            .section
-                .grid
-                    .five.grid
-                        p 75th
-                    .six.grid
-                        .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[3] }}
-                    .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[3])')
-            .section
-                .grid
-                    .five.grid
-                        p 50th
-                    .six.grid
-                        .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[2] }}
-                    .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[2])')
-            .section
-                .grid
-                    .five.grid
-                        p 25th
-                    .six.grid
-                        .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[1] }}
-                    .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[1])')
-            .section
-                .grid
-                    .five.grid
-                        p 10th
-                    .six.grid
-                        .chain  {{ $store.state.cash.info.blockfo.feerate_percentiles[0] }}
-                    .one.grid(:class='getFeeColor($store.state.cash.info.blockfo.feerate_percentiles[0])')
-            .section
-                .grid
-                    .five.grid
-                        p recommend
-                    .six.grid
-                        .chain  {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000).toFixed() }}
-                    .one.grid(:class='getFeeColor($store.state.cash.info.mempool.smartFee.feerate * 10000)')
-        .four.grid(v-else) node syncing
-        .eight.grid.boxy(v-if='$store.state.cash.info.channels')
+    .price(v-if='sats > 0') 1 CAD = {{ sats }} sats
+    .price(v-else) 1 Bitcoin = 100 000 000 sats
+    .flexrow
+        .third 
+            block-info
+        .twothirds.boxy(v-if='$store.state.cash.info.channels')
             .chanfo(v-if='selectedPeer >= 0 && areChannels && selectedChannel')
                 div connected: {{ selectedChannel.connected }}
                 div pubkey: {{ selectedChannel.peer_id }}
@@ -93,8 +46,9 @@
 
 import calculations from '../calculations'
 import request from 'superagent'
-
+import BlockInfo from './BlockInfo'
 export default {
+    components: { BlockInfo },
     data(){
         return {
             showOutputs: false,
@@ -175,18 +129,6 @@ export default {
 
             }
         },
-        getFeeColor(x){
-            if (this.$store.getters.member.stacks === 1) return
-            if (x > 100) return { high : 1}
-            if (x > 50) return { midhigh : 1}
-            if (x > 10) return { mid: 1}
-            return {low: 1}
-        },
-        sampler(){
-            let checkId = this.$store.state.cash.info.mempool.sampleTxns[this.sampleIndex % this.$store.state.cash.info.mempool.sampleTxns.length]
-            this.checkTxid(checkId)
-            this.sampleIndex ++
-        },
         checkPeer(x){
             request
                 .post('/lightning/peer')
@@ -261,10 +203,18 @@ export default {
 <style lang='stylus' scoped>
 
 @import '../styles/colours'
-@import '../styles/skeleton'
-@import '../styles/grid'
 @import '../styles/button'
 @import '../styles/input'
+.flexrow
+    display: flex 
+
+.third 
+    flex-grow: 1 
+.twothirds
+    flex-grow: 2
+.price 
+    text-align: center
+    padding-bottom: .9em
 
 .nodeaddress
     line-break: anywhere
@@ -305,7 +255,6 @@ export default {
     height: 2em
 
 #nodes
-    text-align: center
     overflow-y: scroll;
     max-height: 100vh;
 
@@ -392,20 +341,6 @@ p
 
 .outputs
   cursor: pointer
-
-.one.grid.high
-  background: wrexred
-  min-height: 1em
-.one.grid.midhigh
-  background: wrexyellow
-  min-height: 1em
-.one.grid.mid
-  background: wrexblue
-  min-height: 1em
-.one.grid.low
-  background: wrexgreen
-  min-height: 1em
-
 
 .break
     overflow-wrap: break-word;
