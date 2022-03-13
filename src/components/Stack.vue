@@ -1,13 +1,13 @@
 <template lang='pug'>
 
 #tasks
-    .fixedstatus(v-if='c.length > 1  && sanePosition !== -1'  ) {{ sanePosition + 1 }} of {{ c.length }}
     .ptr(ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
         span.third(:class='{hidden:open}'  ref='previous')
             .donut.hidden
         span.third(ref='mandelorb')
             .donut.chcky(v-if='$store.getters.contextCard.stackView.completed')
             .donut(v-else  :class='{pileselected: $store.state.upgrades.color === stack, pileopen: $store.getters.contextCard.stackView[stack] === -1, dropping:dropping}')
+            .fixedstatus(v-if='c.length > 1  && sanePosition !== -1'  ) {{ sanePosition + 1 }} of {{ c.length }}
         span.third(:class='{hidden:open}'  ref='next')
             .donut.hidden
     .open(v-if='open')
@@ -333,15 +333,15 @@ export default {
     margin-bottom: 0.8em
 
 .fixedstatus
-    height: 0
-    position: relative;
     color: lightGrey
     pointer-events: none;
     opacity: 0.5;
-    left: 47%;
-    top: 1.5em;
     font-size: 0.81em;
-
+    text-align: center 
+    padding-bottom: 1.5em;
+    height: 0;
+    position: relative;
+    top: -3.5em;
 .donut.pileselected
     border-color: lightGrey
 
