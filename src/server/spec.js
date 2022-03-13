@@ -577,10 +577,10 @@ router.post('/events', (req, res, next)=>{
                 utils.buildResCallback(res)
               )
           } else if (
-              validators.isResourceId(req.body.resourceId, errRes)
+              validators.isResourceId(req.body.taskId, errRes)
           ){
               events.resourcePurged(
-                req.body.resourceId,
+                req.body.taskId,
                 req.body.blame,
                 utils.buildResCallback(res)
               )

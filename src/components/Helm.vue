@@ -1,8 +1,10 @@
+
 <template lang='pug'>
 
 .helm
-    img.gear(v-if='trash'  @click.stop='$store.commit("toggleSettings")'  src='../assets/images/trash.svg' :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='dragLeave')
-    img.gear(v-else  @click.stop='$store.commit("toggleSettings")'  src='../assets/images/gear.svg' :ondrop="drop"  :ondragover="allowDrop"  :ondragleave='dragLeave')
+    .gear(:ondrop="drop"  :ondragover="allowDrop"  :ondragleave='dragLeave')
+        img.gear(v-if='trash'  @click.stop='$store.commit("toggleSettings")'  src='../assets/images/trash.svg' )
+        img.gear(v-else  @click.stop='$store.commit("toggleSettings")'  src='../assets/images/gear.svg')
     img.bull(@click.stop='$store.commit("toggleNodeInfo")'  src='../assets/images/bull.svg')
     img.doge(@click.stop='$store.commit("toggleAccounts")'  src='../assets/images/doge.svg'  :ondragover='toggl')
     settings(@click.stop  v-show='$store.state.upgrades.showSettings').settings
@@ -29,13 +31,12 @@ export default {
     },
     methods: {
         drop(ev){
-            this.trash = false
+            setTimeout(() => this.trash = false, 999)
             var data = ev.dataTransfer.getData("taskId")
             let history = crawler(this.$store.state.tasks, data)
             history.forEach(taskId => { 
                 let task = this.$store.state.tasks[this.$store.state.hashMap[taskId]]
-                if (task.deck.length === 0 || task.deck.length === 1 && task.deck[0] === this.$store.getters.member.memberId) {
-                    console.log('removing', taskId, 'from state')
+                if (task && task.deck.length === 0 || task.deck.length === 1 && task.deck[0] === this.$store.getters.member.memberId) {
                     this.$store.dispatch("makeEvent", {
                         type: 'task-removed',
                         taskId
@@ -88,6 +89,7 @@ img
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     padding: 1.5em
     background: linear-gradient(to top left, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
+
 .lightning
     position: fixed
     z-index: 80090000
@@ -97,6 +99,7 @@ img
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     padding: 1.5em
     background: linear-gradient(to bottom left, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
+
 .accounts
     position: fixed
     z-index: 80090000
@@ -109,7 +112,8 @@ img
 .gear
     bottom: 0
     right: 0
-
+    height: 3.3em
+    width: 2.7em
 .bull
     top: 0
     right: 0

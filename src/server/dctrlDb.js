@@ -106,6 +106,7 @@ function insertEvent(ev, callback) {
       err = actualErr
     }
     if (callback) {
+        callback(err, {result,ev})
     }
 }
 
