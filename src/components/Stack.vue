@@ -3,13 +3,11 @@
 #tasks
     .ptr(ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
         span.third(:class='{hidden:open}'  ref='previous')
-            .donut.hidden
         span.third(ref='mandelorb')
             .donut.chcky(v-if='$store.getters.contextCard.stackView.completed')
             .donut(v-else  :class='{pileselected: $store.state.upgrades.color === stack, pileopen: $store.getters.contextCard.stackView[stack] === -1, dropping:dropping}')
             .fixedstatus(v-if='c.length > 1  && sanePosition !== -1'  ) {{ sanePosition + 1 }} of {{ c.length }}
         span.third(:class='{hidden:open}'  ref='next')
-            .donut.hidden
     .open(v-if='open')
         div(v-for='(b, i) in c'  :key="b.taskId")
             .orby(v-if='i > 0'  @click='orbswap(b.taskId)'  :class='{hidden:!$store.getters.member.guides}')
@@ -313,6 +311,7 @@ export default {
     margin: 0
     margin-bottom: -.6em
     margin-bottom: -.6em;
+    display: flex
 
 .box
     min-height: 1em
@@ -324,13 +323,11 @@ export default {
     opacity: 0
 
 .third
-    display: inline-block
+    flex-grow: 1
     text-align: center
-    width: 33%
 .third .donut
     position: relative;
-    left: 33%
-    margin-bottom: 0.8em
+    left: calc(50% - 1.7em)
 
 .fixedstatus
     color: lightGrey
@@ -338,10 +335,11 @@ export default {
     opacity: 0.5;
     font-size: 0.81em;
     text-align: center 
+    position: absolute 
     padding-bottom: 1.5em;
     height: 0;
     position: relative;
-    top: -3.5em;
+    top: -2.7em;
 .donut.pileselected
     border-color: lightGrey
 
