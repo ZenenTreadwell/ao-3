@@ -7,7 +7,7 @@
             .donut.hidden
         span.third(ref='mandelorb')
             .donut.chcky(v-if='$store.getters.contextCard.stackView.completed')
-            .donut(v-else  :class='{pileselected:$store.getters.contextCard.stackView[stack] === -1, dropping:dropping}')
+            .donut(v-else  :class='{pileselected: $store.state.upgrades.color === stack, pileopen: $store.getters.contextCard.stackView[stack] === -1, dropping:dropping}')
         span.third(:class='{hidden:open}'  ref='next')
             .donut.hidden
     .open(v-if='open')
@@ -36,9 +36,7 @@ export default {
         let orbTap = new Hammer.Tap({ time: 400 })
         orbmc.add(orbTap)
         orbmc.on('tap', (e) => {
-
-            this.toggleOpen()
-            // this.toggleOpen()
+            this.stackTap()
             e.stopPropagation()
         })
 
@@ -128,7 +126,10 @@ export default {
   methods:{
     stackTap(){
         if (this.$store.state.upgrades.create && this.$store.state.upgrades.color !== this.stack){
-            return this.$store.commit('setColor', this.stack)
+            this.$store.commit('setColor', this.stack)
+        } 
+        if (this.$store.state.upgrades.create && this.$store.state.upgrades.color === this.stack){
+            this.toggleOpen()
         }
         this.$store.commit('toggleCreate')
         this.$store.commit('setColor', this.stack)
@@ -343,6 +344,9 @@ export default {
 
 .donut.pileselected
     border-color: lightGrey
+
+.donut.pileopen 
+    border-bottom-style: none
 
 .donut.dropping
     border-color: blue
