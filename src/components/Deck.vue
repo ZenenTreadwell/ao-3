@@ -66,7 +66,6 @@ export default {
     display: flex
 .card
     font-size:1.00111em
-    margin-top: 0.061em
     display: inline-block
     flex-grow: 1
 
@@ -83,7 +82,7 @@ export default {
 .upgradesbar
     height: fit-content
     flex-grow:3.7333
-    background: lightGrey
+    background: #e4f1f2aa
     padding: 0.07789em
 
 .darkmode

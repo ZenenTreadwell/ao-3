@@ -566,7 +566,7 @@ textarea.inactive
     position: fixed
     width: 100%
     height: 90%
-    background-color: rgba(22, 22, 22, 0.2)
+    background-color: rgba(22, 22, 22, 1)
     z-index: 148
     top: 0
     left: 0

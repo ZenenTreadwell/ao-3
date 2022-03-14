@@ -47,6 +47,7 @@ export default {
     flex-grow: 4 
     padding-left: .2em
     padding-right: .2em
+    min-width: 6.04321em
 
 .offsetter
     flex-grow: 1

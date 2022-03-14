@@ -3,7 +3,7 @@
 .activecard(:class='{dropping}'  :ondrop="drop"   :ondragover="allowDrop"  :ondragleave='dragLeave')
     .flextabs
         .tabber(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}'   :ondragover='toBoatOnly')
-            img.roro(v-if='$store.state.upgrades.mode !== "boat"  && card.priorities.length > 0'  v-for='t in card.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
+            // img.roro(v-if='$store.state.upgrades.mode !== "boat"  && card.priorities.length > 0'  v-for='t in card.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
             img(src='../assets/images/completed.svg')
         .tabber(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}'  :ondragover='toTimeCubeOnly')
             img(src='../assets/images/timecube.svg')
@@ -315,7 +315,7 @@ label
 
 .activecard
     // padding: 1em
-    background-color: rgba(255,255,255,.888)
+    background-color: rgba(255,255,255,.833)
     margin-bottom: 1em
     padding-bottom: 1em
     // padding-top: 1em

@@ -141,7 +141,7 @@ export default {
 .day
     position: relative
     overflow: visible
-    background-color: lightGrey
+    background-color: #e4f1f2aa
 
 .day:hover
     border-style: dashed
