@@ -30,8 +30,8 @@ function attachSocket(commit, dispatch, callback){
 
 const actions = {
     loadCurrent({ commit, dispatch, state, rootState }){
-        commit("setReqStatus", "pending")
         attachSocket(commit, dispatch, () =>{
+            commit("setReqStatus", "pending")
             let startTs = Date.now()
             if (rootState.tasks.length === 0){
               request
@@ -86,7 +86,7 @@ const state = {
 
 const mutations = {
     setReqStatus(loader, status){
-        loader.reqStatus += status
+        loader.reqStatus = status
     },
     setAuth(loader, auth){
         loader.token = auth.token

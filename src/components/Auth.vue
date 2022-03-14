@@ -1,6 +1,8 @@
 <template lang='pug'>
 
 #auth(v-if='!confirmed')
+  .mainbg(v-if='$store.state.loader.reqStatus === "pending"')
+      img.spin(src='../assets/images/gear.svg')
   .switcher(@click='toggleExisting')
       .five.center(:class='{existing: !existing}') create new
       .two
@@ -28,8 +30,6 @@
                 span.focus-border
       button(@click="createSession") log in
   .warning(v-if='err') {{err}}
-  .mainbg(v-if='$store.state.loader.reqStatus === "pending"')
-      img.spin(src='../assets/images/gear.svg')
 
 </template>
 
