@@ -252,6 +252,7 @@ export default {
         resetCard(){
             this.task.name = ''
             this.$store.commit('focus', '')
+            this.encryptIt = false
             document.getElementById("btnpanel").blur()
         },
         subTaskTask(taskId) {

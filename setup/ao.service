@@ -1,0 +1,14 @@
+[Unit]
+Description=ao-daemon
+
+[Service]
+WorkingDirectory=HOME/ao-AO
+ExecStart=NODE NODE_PARAMS HOME/ao-AO/src/server/app.js
+User=USER
+Type=simple
+Restart=on-failure
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+
