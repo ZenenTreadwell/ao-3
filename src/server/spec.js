@@ -288,6 +288,7 @@ router.post('/events', (req, res, next)=>{
           })
           if (secret){
               connector.postEvent(req.body.address, secret, req.body.ev, (err, connectorRes) => {
+                  console.log({err, connectorRes})
                   if (err){
                       res.status(400).send(err)
                   } else {

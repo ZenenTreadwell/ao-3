@@ -1,11 +1,9 @@
 <template lang='pug'>
 
 #settings
-    //    .aligncenter
-    //    button(@click='logout') log out
     .row
         .six.columns
-            .section account updates
+            .section update
             select(v-model='change.field', @change='empty')
                 option(value='name') name
                 option(value='secret') password
@@ -27,9 +25,11 @@
                             img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                             span - repeat correctly
             .aligncenter
-                  button(@click='update'  v-if='inputType !== "password"') update 
+                button(@click='update'  v-if='inputType !== "password"') update 
         .six.columns
-            .section account preferences
+            .aligncenter
+                button(@click='logout') log out
+            .section preferences
             //- .check.click(@click='toggleTooltips')
             //-     img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
             //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
@@ -256,7 +256,8 @@ button
 
 .section
     color:main
-    font-size: 0.9em
+    font-size: 1.14em
+    font-weight: bold
     margin-bottom: .9em
 
 .fw

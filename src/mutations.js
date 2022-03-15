@@ -80,6 +80,19 @@ function cashMuts(cash, ev) {
           cash.pins.push(ev.taskId)
       }
       break
+    case "task-removed": 
+      cash.pins = _.filter(cash.pins, p => p !== ev.taskId)
+      break 
+    case "tasks-recieved":
+      ev.tasks.forEach(t => {
+         cash.pins = _.filter(cash.pins, p => p !== t.taskId)
+      })
+      ev.tasks.forEach(t => {
+        if (t.guild && t.guild.split(':')[0]){
+          cash.pins.push(t.taskId)
+        }
+      })
+      break
   }
 }
 

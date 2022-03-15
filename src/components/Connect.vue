@@ -1,22 +1,26 @@
 <template lang='pug'>
 
 .Connect
-    label.bg(@click='copyLink') Copy link to here
+    label.bg(@click='copyLink') Copy link to this card
         img.clippy(v-show='linkCopied'  src='../assets/images/clipboard.svg')
+        span(v-show='linkCopied')  &nbsp; {{linkCopied}}
     br
-    label Send here to there
+    .section(v-if='$store.state.ao.length > 0') Send card to: 
     div(v-for='w in $store.state.ao' @click='copyAddress(w.address)') 
         input.radio(type='radio' name='aoconnect'  :value='w.address' :checked='sendTo === w.address' :disabled='w.outboundSecret===false') 
         span {{w.alias}}-{{w.address}} 
-    button(v-if='sendTo'  @click='trySend') send
+    .centerer
+        button(v-if='sendTo'  @click='trySend') send
     br
+    .input-container
+        input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
+        label target connect string
+    .centerer
+        button(v-if='ao.address.length > 0'  @click='connect') connect
     code.ptr(@click='showSecr') Copy {{ $store.state.cash.alias }} connect string:
       span(v-show='showSecret')
         img.clippy(src='../assets/images/clipboard.svg')
-    .input-container
-        input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
-        label paste target connect string
-    button(v-if='ao.address.length > 0'  @click='connect') connect
+        span &nbsp; {{$store.state.cash.address + ':' + $store.state.loader.token}}
 </template>
 
 <script>
@@ -61,7 +65,8 @@ export default {
             console.log('this is sparta', lnk)
             navigator.clipboard.writeText(lnk)
                 .then(() => {
-                    this.linkCopied = true
+                    this.linkCopied = lnk
+                    setTimeout( () => this.linkCopied = false, 7777)
                 })
                 .catch(err => {
                     console.log(err, 'copy attempt failed, printing to console:')
@@ -135,7 +140,8 @@ input.radio
     width: auto
 label.bg
     cursor:pointer
-
+.section 
+    font-weight: bold 
 code label
     font-size: 0.678em
 
@@ -143,6 +149,9 @@ code label
     height: 1em
     display: inline-block;
     cursor: pointer
+
+.centerer 
+    text-align: center
 
 span
     text-align: center
