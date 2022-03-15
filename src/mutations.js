@@ -83,7 +83,7 @@ function cashMuts(cash, ev) {
     case "task-removed": 
       cash.pins = _.filter(cash.pins, p => p !== ev.taskId)
       break 
-    case "tasks-recieved":
+    case "tasks-received":
       ev.tasks.forEach(t => {
          cash.pins = _.filter(cash.pins, p => p !== t.taskId)
       })
