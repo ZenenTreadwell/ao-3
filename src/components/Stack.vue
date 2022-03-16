@@ -2,12 +2,12 @@
 
 #tasks
     .ptr(ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
-        span.third(:class='{hidden:open}'  ref='previous')
+        span.third.dot(:class='{hidden:open || c.length <= 1}'  ref='previous')
         span.third(ref='mandelorb')
             .donut.chcky(v-if='$store.getters.contextCard.stackView.completed')
             .donut(v-else  :class='{pileselected: $store.state.upgrades.color === stack, pileopen: $store.getters.contextCard.stackView[stack] === -1, dropping:dropping}')
             .fixedstatus(v-if='c.length > 1  && sanePosition !== -1'  ) {{ sanePosition + 1 }} of {{ c.length }}
-        span.third(:class='{hidden:open}'  ref='next')
+        span.third.dot(:class='{hidden:open || c.length <= 1}'  ref='next')
     .open(v-if='open')
         div(v-for='(b, i) in c'  :key="b.taskId")
             .orby(v-if='i > 0'  @click='orbswap(b.taskId)'  :class='{hidden:!$store.getters.member.guides}')
@@ -286,6 +286,16 @@ export default {
 @import '../styles/colours'
 @import '../styles/button'
 @import '../styles/donut'
+
+.dot
+    font-size: 1.9em
+    color: softGrey
+    z-index: 1
+    content-align: center 
+    text-align: center 
+
+.dot:before
+    content: "\2022";
 
 .piledrop
     min-height: 7.987em

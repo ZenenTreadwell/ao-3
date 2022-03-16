@@ -1,9 +1,10 @@
 const config = require( './configParser').config
+const chalk = require('chalk');
+const _ = require('lodash')
 const uuidV1 = require( 'uuid/v1')
 const express = require( 'express')
 const lightningRouter = express.Router()
 const allEvents = require('./events')
-const calculations = require( '../calculations')
 const LightningClient = require( './lightning-client')
 const {serverState} = require( './state')
 const client = new LightningClient(config.lightningdir, true);
@@ -13,10 +14,6 @@ const bitClient = new Client({
     username: 'ao',
     password: config.bitcoinrpcpass 
 }) 
-const chalk = require('chalk');
-
-const _ = require('lodash')
-const crypto = require('../crypto')
 
 bitClient.getBlockchainInfo().then(x => {
     if (x.initialblockdownload){
