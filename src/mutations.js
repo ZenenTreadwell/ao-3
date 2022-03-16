@@ -245,6 +245,20 @@ function sessionsMuts(sessions, ev) {
         session: ev.address,
       })
       break
+    case "member-purged": 
+      sessions.forEach((s, i) => {
+        if (s.ownerId == ev.memberId) {
+          _.pullAt(sessions, i)
+        }
+      })
+      break 
+    case "ao-disconnected": 
+      sessions.forEach((s, i) => {
+        if (s.ownerId == ev.address) {
+          _.pullAt(sessions, i)
+        }
+      })
+      break 
   }
 }
 

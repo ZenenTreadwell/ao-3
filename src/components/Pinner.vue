@@ -22,7 +22,7 @@ export default {
             showGuildCreate: false,
             showSend:false,
             task: {
-                guild: this.b.guild? this.b.guild : '',
+                guild: this.b.guild ? this.b.guild : '',
             },
         }
     },
