@@ -21,6 +21,11 @@ const state = {
 }
 
 const mutations = {
+    applyEvent(state, ev){
+        if (ev.type === "task-removed"){
+            state.rollStack = state.rollStack.filter(t => t !== ev.taskId)
+        }
+    },
     rollStackSet(state, x=[]){
         state.rollStack = x
     },

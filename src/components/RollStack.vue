@@ -44,23 +44,33 @@ export default {
         orbmc.add(orbTap)
 
         orbmc.on('tap', (e) => {
-            // on click?
             let gotOne = false
-            while (!gotOne){
-                let potential = this.$store.state.tasks[this.reverseIndex]
-                if (_.indexOf(potential.deck, this.$store.getters.contextCard.taskId) > -1){
-                    gotOne = true
-                    this.$store.commit("rollStackPush", potential.taskId)
-                }
-                this.reverseIndex --
-                if (this.reverseIndex < 0){
-                    gotOne = true
-                    // not really but break
+            if (this.$store.getters.contextMember){
+                while (!gotOne){
+                    let potential = this.$store.state.tasks[this.reverseIndex]
+                    if (_.indexOf(potential.deck, this.$store.getters.contextCard.taskId) > -1){
+                        gotOne = true
+                        this.$store.commit("rollStackPush", potential.taskId)
+                    }
+                    this.reverseIndex --
+                    if (this.reverseIndex <= 0){
+                        gotOne = true
+                    }
                 }
             }
-            // if (!gotOne){
-            //     this.$store.commit("rollStackPush", this.$store.state.guilds[0])
-            // }
+            if (!gotOne){
+                while (!gotOne) {
+                    let potential = this.$store.state.tasks[this.reverseIndex]
+                    if (potential.deck.length === 0){
+                        gotOne = true
+                        this.$store.commit("rollStackPush", potential.taskId)
+                    }
+                    this.reverseIndex --
+                    if (this.reverseIndex <= 0){
+                        gotOne = true
+                    }
+                }
+            }
             e.stopPropagation()
         })
 
