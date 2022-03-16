@@ -104,7 +104,7 @@ export default {
         },
         connect(){
             let split = this.ao.address.split(':')
-            if (this.$store.state.ao.some(a => ( a.address === split[0]) && !split[1] ) ){
+            if (this.$store.state.ao.some(a => a.address === split[0] && split.length === 1 ) ){
                 this.$store.dispatch('makeEvent', {
                     type: "ao-disconnected",
                     address: split[0],

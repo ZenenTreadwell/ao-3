@@ -443,7 +443,6 @@ textarea.inactive
 .boatContainer button.create
     color: main
 
-
 #createtask
   width: 69%
   margin: 0 auto 0 auto
