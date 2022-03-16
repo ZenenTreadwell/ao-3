@@ -249,7 +249,7 @@ router.post('/events', (req, res, next)=>{
       case 'ao-outbound-connected':
           connector.postEvent(req.body.address, req.body.secret, {
               type: 'ao-inbound-connected',
-              address: state.serverState.cash.address,
+              address: state.serverState.cash.address.trim(),
               secret: req.body.secret, //
           }, (err, subscriptionResponse) => {
               if (err || !subscriptionResponse  || !subscriptionResponse.result.lastInsertRowid){
@@ -268,7 +268,7 @@ router.post('/events', (req, res, next)=>{
               validators.isNotes(req.body.secret, errRes)
           ){
               events.aoInboundConnected(
-                req.body.address,
+                req.body.address.trim(),
                 req.body.secret,
                 utils.buildResCallback(res)
               )

@@ -855,18 +855,17 @@ function tasksMuts(tasks, ev) {
       if (task) {
         let originalIndex = task.subTasks.indexOf(ev.swapId1)
         let swapIndex = task.subTasks.indexOf(ev.swapId2)
-
         let originalIndexCompleted = task.completed.indexOf(ev.swapId1)
         let swapIndexCompleted = task.completed.indexOf(ev.swapId2)
 
-        if (originalIndex > -1 && swapIndex > -1 && originalIndex < swapIndex) {
+        if (originalIndex > -1 && swapIndex > -1 && originalIndex > swapIndex) {
           let newST = task.subTasks.slice()
           newST[originalIndex] = ev.swapId2
           newST[swapIndex] = ev.swapId1
           task.subTasks = newST
         }
 
-        if (originalIndexCompleted > -1 && swapIndexCompleted > -1 && originalIndexCompleted < swapIndexCompleted) {
+        if (originalIndexCompleted > -1 && swapIndexCompleted > -1 && originalIndexCompleted > swapIndexCompleted) {
           let newCompleted = task.completed.slice()
           newCompleted[originalIndexCompleted] = ev.swapId2
           newCompleted[swapIndexCompleted] = ev.swapId1
