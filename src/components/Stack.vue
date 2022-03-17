@@ -295,7 +295,8 @@ export default {
     text-align: center 
 
 .dot:before
-    content: "\2022";
+    padding-top: 0.3em
+    content: "\2022"
 
 .piledrop
     min-height: 7.987em
