@@ -293,9 +293,9 @@ export default {
     z-index: 1
     content-align: center 
     text-align: center 
+    padding-top: 0.3em
 
 .dot:before
-    padding-top: 0.3em
     content: "\2022"
 
 .piledrop

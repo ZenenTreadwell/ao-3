@@ -44,7 +44,7 @@ export default {
     display: flex 
 
 .pile 
-    flex-grow: 4 
+    flex: 3 3 min-content
     padding-left: .2em
     padding-right: .2em
     min-width: 6.04321em
