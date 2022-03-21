@@ -7,6 +7,9 @@
             .donut.chcky(v-if='$store.getters.contextCard.stackView.completed')
             .donut(v-else  :class='{pileselected: $store.state.upgrades.color === stack, pileopen: $store.getters.contextCard.stackView[stack] === -1, dropping:dropping}')
             .fixedstatus(v-if='c.length > 1  && sanePosition !== -1'  ) {{ sanePosition + 1 }} of {{ c.length }}
+            .fixedstatus(v-else-if='c.length === 1') 1 
+            .fixedstatus(v-else-if='c.length === 0') -
+            .fixedstatus(v-else-if='sanePosition === -1') {{c.length}}
         span.third.dot(:class='{hidden:open || c.length <= 1}'  ref='next')
     .open(v-if='open')
         div(v-for='(b, i) in c'  :key="b.taskId")
@@ -123,14 +126,13 @@ export default {
   },
   methods:{
     stackTap(){
-        if (this.$store.state.upgrades.create && this.$store.state.upgrades.color !== this.stack){
-            this.$store.commit('setColor', this.stack)
-        } 
-        if (this.$store.state.upgrades.create && this.$store.state.upgrades.color === this.stack){
+        this.$store.commit('toggleCreate')
+        if (this.c.length > 1 && this.$store.state.upgrades.create){
             this.toggleOpen()
         }
-        this.$store.commit('toggleCreate')
-        this.$store.commit('setColor', this.stack)
+        if (this.$store.state.upgrades.color !== this.stack){
+            this.$store.commit('setColor', this.stack)
+        }
     },
     dragLeave(){
         this.dropping = false

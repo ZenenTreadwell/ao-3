@@ -1,23 +1,7 @@
 <template lang='pug'>
 .datavisbox
+    button(@click='drawVis') draw map
     #my_dataviz
-    //  .gridbox
-    //    .grid
-    //        .three.grid
-    //            label radius
-    //            input(v-model='radius')
-    //        .three.grid
-    //            label charge
-    //            input(v-model='charge')
-    //        .three.grid
-    //            label width
-    //            input(v-model='width')
-    //        .three.grid
-    //            label height
-    //            input(v-model='height')
-    //.gridbox.centerer
-    //        button(@click='drawVis') redraw
-
 </template>
 
 <script>
@@ -27,11 +11,7 @@ import _ from 'lodash'
 import { crawler } from '../calculations.js'
 
 export default {
-  mounted() {
-      setInterval( () => {
-         if (this.renderTarget !== this.$store.getters.contextCard.taskId) this.drawVis()
-      }, 7777)
-  },
+  mounted() {},
   data(){
       return {
           renderTarget: null,
@@ -186,12 +166,20 @@ export default {
 <style lang="stylus" scoped>
 
 @import '../styles/colours'
+@import '../styles/button'
+
 .datavisbox
     position: relative
     text-align: center
+    min-height: 600px
+
 label
     color: lightGrey
-
+button 
+    margin-top: 1em
+    margin-right: 2.4em
+    max-width: 7em 
+    
 .centerer
     pointer-events: none;
     text-align: center;
