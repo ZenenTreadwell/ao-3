@@ -26,7 +26,7 @@ export default {
     },
     name(){
         if (this.m) return this.m.name
-        return undefined
+        return this.memberId
     },
   }
 }

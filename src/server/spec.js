@@ -252,7 +252,7 @@ router.post('/events', (req, res, next)=>{
               address: state.serverState.cash.address.trim(),
               secret: req.body.secret, //
           }, (err, subscriptionResponse) => {
-              if (err || !subscriptionResponse  || !subscriptionResponse.result.lastInsertRowid){
+              if (err || !subscriptionResponse  || !subscriptionResponse.lastInsertRowid){
                   return res.status(200).send(['ao-connect failed'])
               }
               events.aoOutboundConnected(

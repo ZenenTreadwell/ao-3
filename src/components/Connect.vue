@@ -6,7 +6,7 @@
         span(v-show='linkCopied')  &nbsp; {{linkCopied}}
     br
     .section(v-if='$store.state.ao.length > 0') Send card to: 
-    div(v-for='w in $store.state.ao' @click='copyAddress(w.address)') 
+    div(v-for='w in $store.state.ao' @click='copyAddress(w.address, w.outboundSecret===false)') 
         input.radio(type='radio' name='aoconnect'  :value='w.address' :checked='sendTo === w.address' :disabled='w.outboundSecret===false') 
         span {{w.alias}}-{{w.address}} 
     .centerer
@@ -87,8 +87,10 @@ export default {
                 })
 
         },
-        copyAddress(addr){
-          this.sendTo = addr
+        copyAddress(addr, disabled){
+          if (!disabled){
+              this.sendTo = addr
+          }
           navigator.clipboard.writeText(addr)
               .then(() => {
                   //
