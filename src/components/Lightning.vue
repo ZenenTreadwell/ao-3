@@ -35,7 +35,7 @@
         div txid: {{ fetchedTxn.txid }}
         div status: {{ fetchedTxnStatus }}
         div(v-if='fetchedTxn.memPool')
-            .chain(:class='getFeeColor(fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize)') fee: {{ (fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize).toFixed() }}
+            .chain fee: {{ (fetchedTxn.memPool.fee * 100000000 / fetchedTxn.memPool.vsize).toFixed() }}
         template(v-if='fetchedTxn.utxo && fetchedTxn.utxo.length > 0'  v-for='u in fetchedTxn.utxo')
             div(v-if='u && u.value > 0 && u.scriptPubKey.addresses') {{ u.value }} : {{u.scriptPubKey.addresses}} - unspent
         div(v-for='outp in filteredOut') {{ outp.value }} : {{outp.scriptPubKey.addresses}}

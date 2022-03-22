@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.bird
+.bird(:class='{itsapin:b.guild }')
     div(@click.stop='toggleSend')
         img.birdy(v-if='!showSend && !b.guild' src='../assets/images/badge.svg'  :class='{darkcircle: b.guild}')
         div.birdy.smallguild(v-else  :class='{ open : showSend, darkcircle: b.guild }')
@@ -122,11 +122,13 @@ button
     position: relative
     z-index: 10
 
-.theTitle
-    color: main
-
 .darkcircle
     background-color: main
     border-radius: 50%
+
+.itsapin
+    background: black;
+    color: white;
+    height: 3em;
 
 </style>

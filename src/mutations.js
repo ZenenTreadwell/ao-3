@@ -710,6 +710,9 @@ function tasksMuts(tasks, ev) {
           task.subTasks = _.filter(task.subTasks, taskId => taskId !== ev.taskId)
           task.priorities.push(ev.taskId)
         }
+        if (task.taskId === ev.taskId && task.deck.indexOf(ev.blame) === -1){
+            task.deck.push(ev.blame)
+        }
       })
       break
     case "task-completed":
@@ -730,6 +733,9 @@ function tasksMuts(tasks, ev) {
         }
       })
       tasks.forEach(task => {
+        if (task.taskId === ev.taskId && task.deck.indexOf(ev.blame) === -1){
+              task.deck.push(ev.blame)
+        }
         if (task.taskId === ev.inId) {
           task.priorities = _.filter(task.priorities, taskId => taskId !== ev.taskId)
           task.subTasks = _.filter(task.subTasks, tId => tId !== ev.taskId)

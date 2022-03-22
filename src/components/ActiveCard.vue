@@ -11,7 +11,7 @@
             img(src='../assets/images/bitcoin.svg')
     .row.center.clearboth(@click='copyCard'  draggable="true"  :ondragstart='dragStart' )
         label
-            div(v-if='$store.getters.contextMember')
+            .itsamember(v-if='$store.getters.contextMember')
                 img.doge(src='../assets/images/doge.svg')
                 linky(:x='m.name')
             div(v-else-if='$store.getters.contextResource')
@@ -423,5 +423,10 @@ ul.left
 
 .activecard.dropping
     background: blue
+
+.itsamember
+    background: black;
+    color: white;
+    height: 3em;
 
 </style>

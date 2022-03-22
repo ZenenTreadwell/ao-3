@@ -41,6 +41,7 @@ export default {
                 inId:  this.p.taskId,
                 taskId: data,
             })
+            this.$store.commit("rollStackPull", data)
             setTimeout(() => this.dropping = false, 444)
         },
         allowDrop(ev){
