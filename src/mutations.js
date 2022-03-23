@@ -8,6 +8,7 @@ function aoMuts(aos, ev) {
     case "ao-inbound-connected":
       inAddressConnect = aos.some(a => {
         if (a.address === ev.address) {
+          a.alias = ev.alias
           a.inboundSecret = ev.secret
           a.lastContact = Date.now()
           return true
@@ -15,6 +16,7 @@ function aoMuts(aos, ev) {
       })
       if (!inAddressConnect) {
         let newEv = {
+          alias: ev.alias,
           address: ev.address,
           outboundSecret: false,
           inboundSecret: ev.secret,

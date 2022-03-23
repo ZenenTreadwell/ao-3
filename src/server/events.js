@@ -77,10 +77,11 @@ function highlighted(taskId, memberId, valence, blame, callback){
     dctrlDb.insertEvent(newEvent, callback)
 }
 
-function aoInboundConnected(address, secret, callback){
+function aoInboundConnected(address, alias, secret, callback){
     let newEvent = {
         type: "ao-inbound-connected",
         address,
+        alias,
         secret,
         i: serverState.tasks.length,
     }
