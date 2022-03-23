@@ -6,11 +6,13 @@
         span(v-show='linkCopied')  &nbsp; {{linkCopied}}
     br
     .section(v-if='$store.state.ao.length > 0') Send card to: 
-    div(v-for='w in $store.state.ao' @click='copyAddress(w.address, w.outboundSecret===false)') 
-        input.radio(type='radio' name='aoconnect'  :value='w.address' :checked='sendTo === w.address' :disabled='w.outboundSecret===false') 
-        span {{w.alias}}-{{w.address}} 
-    .centerer
-        button(v-if='sendTo'  @click='trySend') send
+    .onionlist
+        .flexonion(v-for='w in $store.state.ao' @click='copyAddress(w.address, w.outboundSecret===false)') 
+            input.radio(type='radio' name='aoconnect'  :value='w.address' :checked='sendTo === w.address' :disabled='w.outboundSecret===false') 
+            span(:class='{faded: w.outboundSecret === false}') 
+                span(v-if='w.alias') {{w.alias}} @ 
+                span {{w.address}} 
+    button(v-if='sendTo'  @click='trySend') send
     br
     .input-container
         input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
@@ -146,7 +148,17 @@ label.bg
     font-weight: bold 
 code label
     font-size: 0.678em
+.onionlist 
+    max-height: 6em 
+    overflow-y: scroll
+    margin-bottom: 0.4321em
 
+.flexonion
+    display: flex 
+    input
+        flex: 1 1 auto 
+    span 
+        flex 7 7 auto
 .clippy
     height: 1em
     display: inline-block;
@@ -177,4 +189,10 @@ button
     background: softGrey
     color: white
     max-width: 13em
+
+.faded
+    opacity: 0.3
+
+
+
 </style>

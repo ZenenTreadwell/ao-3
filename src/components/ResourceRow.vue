@@ -72,12 +72,6 @@ export default {
             this.$store.commit("setPayMode", 1)
             this.$store.commit("goDeeper", this.r.resourceId)
             this.$store.commit("goDeeper", taskId)
-            let payplx = {
-                type: 'task-valued',
-                taskId: taskId,
-                value: this.r.charged,
-            }
-            console.log(payplx)
             this.$store.dispatch("makeEvent", {
                 type: 'task-valued',
                 taskId: taskId,
