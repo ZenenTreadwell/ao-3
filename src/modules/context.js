@@ -36,6 +36,9 @@ const mutations = {
         if (ev.type === 'task-removed' && ev.taskId === state[state.length - 1]){
             state.pop()
         }
+        if (state.length === 0){
+            state.push(ev.blame)
+        }
     }
 }
 

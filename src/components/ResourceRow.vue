@@ -110,7 +110,8 @@ export default {
             this.$store.dispatch("makeEvent", newEv)
         },
         goDeeper(){
-            this.$store.commit("goDeeper", this.$store.getters.resourceIds)
+            this.$store.commit("goDeeper", this.r.resourceId)
+            this.$store.commit("toggleAccounts")
         },
     }
 }
