@@ -4,7 +4,6 @@ div
     .invoice
         input(v-model='task.points'  type='text'  placeholder='sats amount'  @keypress.enter='setValue')
         button(@click.stop='setValue') get &#9889; qr
-    // button.showaddr(@click='switchAddr' v-if='$store.state.upgrades.paymode !== "bitcoin"') send bitcoin on chain
 
 </template>
 
@@ -38,6 +37,7 @@ export default {
             }
             this.$store.commit("setMode", 3)
             this.$store.commit("setPayMode", 1)
+            console.log( this.b.taskId, value ) 
             this.$store.dispatch("makeEvent", {
                 type: 'task-valued',
                 taskId: this.b.taskId,

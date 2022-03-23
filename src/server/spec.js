@@ -137,6 +137,7 @@ router.post('/events', (req, res, next)=>{
           validators.isTaskId(req.body.taskId, errRes) &&
           validators.isAmount(req.body.value, errRes)
         ) {
+          req.body.value = req.body.value.toString()
           events.taskValued(
             req.body.taskId,
             req.body.value,

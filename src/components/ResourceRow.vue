@@ -2,10 +2,8 @@
 
 .memberrow.membershipcard(v-if='card'  @dblclick='goDeeper')
     label.hackername {{ r.name }} ({{r.charged}})
-        span(v-if='cantAfford') ! inactive account !
     .container
         div(v-for='o in optionList')
-            img.paytrigger.notfaded(v-if='r.charged > 0'   src='../assets/images/bitcoin.svg'  @click.stop='payPlz(o[3])')
             button(:class='{faded: cantAfford}'  @click.stop='use(o[0], o[3])')
                 span(v-if='getResourceName(o[1])') {{getResourceName(o[1])}}
                 span(v-else) {{ o[1] }}
@@ -71,8 +69,15 @@ export default {
         payPlz(taskId){
             this.$store.commit("setMode", 3)
             this.$store.commit("toggleAccounts")
-            this.$store.commit("setPayMode", 2)
+            this.$store.commit("setPayMode", 1)
             this.$store.commit("goDeeper", this.r.resourceId)
+            this.$store.commit("goDeeper", taskId)
+            let payplx = {
+                type: 'task-valued',
+                taskId: taskId,
+                value: this.r.charged,
+            }
+            console.log(payplx)
             this.$store.dispatch("makeEvent", {
                 type: 'task-valued',
                 taskId: taskId,
