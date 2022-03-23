@@ -13,6 +13,7 @@
                 span(v-if='w.alias') {{w.alias}} @ 
                 span {{w.address}} 
     button(v-if='sendTo'  @click='trySend') send
+    span &nbsp; {{$store.state.loader.reqStatus}}ms
     br
     .input-container
         input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
