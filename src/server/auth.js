@@ -40,11 +40,7 @@ function socketAuth(socket, data, callback){
     let authorized
     state.serverState.sessions.forEach(session => {
         if (session.token === data.token){
-            state.serverState.members.forEach(m => {
-                if (m.memberId === session.ownerId){
-                    authorized = true
-                }
-            })
+            authorized = true
         }
     })
     callback(null, authorized)
