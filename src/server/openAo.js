@@ -21,7 +21,6 @@ router.get('/newaccount/:name', (req, res) => {
                }
             })
             state.serverState.sessions.some(x => {
-                console.log('settion :', x)
                 if (x.session === session){
                     ownerId = x.ownerId
                     return true

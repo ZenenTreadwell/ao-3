@@ -12,6 +12,7 @@
         span(v-for='m in recentlyUsed')
             img.paytrigger(v-if='m === "lightning"'  src='../assets/images/lightning.svg')
             current(v-else  :memberId='m')
+    .centererer(v-if='!cantAfford') Warning: button will trigger resource
 </template>
 
 <script>
@@ -163,5 +164,8 @@ label
 
 .notfaded
     opacity: 1
+
+.centererer 
+    text-align: center
 
 </style>

@@ -25,6 +25,7 @@
                 span(v-else-if='cardStart.hours > 1'  @click='clearSchedule') in {{ cardStart.hours.toFixed(1) }} hours
                 span(v-else-if='cardStart.minutes > 1'  @click='clearSchedule') in {{ cardStart.minutes.toFixed(1) }} minutes
     .clearboth
+    .centererer(v-if='$store.state.upgrades.mode === "chest"') {{$store.getters.contextCard.boost}}
 </template>
 
 <script>
