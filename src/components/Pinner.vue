@@ -97,7 +97,7 @@ button
 .guildcreate input
     border-color: rgba(22, 22, 22, 1)
     border-width: 1px
-    background-color: rgba(22, 22, 22, 0.3)
+    background-color: rgba(222, 222, 222, 0.3)
     height: 2.2em
     width: 60%
 
