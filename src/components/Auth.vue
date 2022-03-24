@@ -3,20 +3,15 @@
 #auth(v-if='!confirmed')
   .mainbg(v-if='$store.state.loader.reqStatus === "pending"')
       img.spin(src='../assets/images/gear.svg')
-  .switcher(@click='toggleExisting')
-      .five.center(:class='{existing: !existing}') create new
-      .two
-          .switch
-              input(@click.stop  type="checkbox"  v-model='existing')
-              span.slider.round
-      .five.center(:class='{existing}') login
-  div(v-if='!existing')
-      .input-container
-          input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
-          label name
-          span.focus-border
-      button(@click="createAccount") create
-  div(v-if='existing')
+  //.switcher(@click='toggleExisting')
+  //    .five.center(:class='{existing: !existing}') create new
+  //    .two
+  //        .switch
+  //            input(@click.stop  type="checkbox"  v-model='existing')
+  //            span.slider.round
+  //    .five.center(:class='{existing}') login
+  .authbox.centertitle welcome to ao 
+  .authbox
       .flexrow
           .inputhalf
               .input-container
@@ -30,6 +25,12 @@
                 span.focus-border
       button(@click="createSession") log in
   .warning(v-if='err') {{err}}
+  .authbox
+      .input-container
+          input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
+          label name
+          span.focus-border
+      button(@click="createAccount") create new account
 
 </template>
 
@@ -117,10 +118,11 @@ export default {
 @import '../styles/input'
 @import '../styles/spinners'
 
-#auth
+.authbox
     background: lightGrey
-    padding: 3em
+    padding: 1.3em 3em 3em 3em
     border-style: solid
+    margin-bottom: 2.2em
 
 .flexrow 
     display: flex 
