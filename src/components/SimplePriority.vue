@@ -22,6 +22,8 @@
         span(v-else-if='card.guild')
             img.front.nopad.darkcircle(v-if='card.guild'  src="../assets/images/badge.svg")
             span.front.nudge.downshift(v-if='card.guild')  {{ card.guild }}
+        span(v-else-if='isResource')
+            span {{ isResource }}
         linky.cardname.front(v-else-if='!isMember'  :x='card.name')
     preview-deck(:task='card').faded
 </template>
@@ -221,6 +223,16 @@ export default {
               if (this.$store.getters.member.memberId === c.memberId && now - c.timestamp < 30000) return true
           })
         },
+        isResource(){
+            let isR = false
+            this.$store.state.resources.some(r => {
+                if (r.resourceId === this.taskId){
+                    isR = r.name
+                    return true
+                }
+            })
+            return isR
+        }
     }
 }
 

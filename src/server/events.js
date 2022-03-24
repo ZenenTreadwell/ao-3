@@ -1,7 +1,6 @@
 const uuidV1 = require('uuid/v1')
 const _ = require('lodash')
 const cryptoUtils = require('../crypto')
-
 const { serverState } = require('./state')
 const dctrlDb = require('./dctrlDb')
 

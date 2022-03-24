@@ -52,7 +52,6 @@ function socketAuth(socket, data, callback){
 
 function serverAuth(req, res, next){
     const {ownerId, secret} = getIdSecret(req.headers.name)
-
     if (secret && req.headers.authorization && req.headers.session){
         let sessionKey = cryptoUtils.createHash(req.headers.session + secret)
         let token = cryptoUtils.hmacHex(req.headers.session, sessionKey)

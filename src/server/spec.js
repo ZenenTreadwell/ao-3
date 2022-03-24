@@ -359,6 +359,7 @@ router.post('/events', (req, res, next)=>{
           break
       case 'member-field-updated':
           if (
+              (req.body.field === 'name' && validators.isValidName(req.body.newfield, errRes)) &&
               validators.isMemberId(req.body.memberId, errRes) &&
               validators.isField(req.body.field, errRes) &&
               validators.yesSir(req.body.newfield, errRes)

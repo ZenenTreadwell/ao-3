@@ -14,7 +14,20 @@ router.get('/newaccount/:name', (req, res) => {
         events.memberCreated(req.params.name, '', secret, (err2, res2) => {
             let session = uuidV1()
             let token = uuidV1()
-            let ownerId = res2.ev.memberId
+            let ownerId 
+            state.serverState.members.some(m => {
+               if (m.name === req.params.name){
+                   ownerId = m.memberId
+               }
+            })
+            state.serverState.sessions.some(x => {
+                console.log('settion :', x)
+                if (x.session === session){
+                    ownerId = x.ownerId
+                    return true
+                }
+            })
+
             events.sessionCreated(ownerId, session, token, (err3, res3)=>{
                 res.json({token, session})
             })

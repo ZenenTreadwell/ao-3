@@ -1,10 +1,10 @@
 <template lang='pug'>
-// this component logic is overloaded because it is used as checkbox on priorities and on current card
-.checkbox(ref='checkbox'  :id='uuid')
+.checkbox(@click.stop='complete'  ref='checkbox'  :id='uuid')
     span(v-if='$store.getters.contextMember.memberId === b.taskId')
     span(v-else-if='$store.getters.contextCard.taskId === b.taskId')
         img.checkmark.doge(v-if='isCompleted'  src='../assets/images/thumbsup.svg')
         img.checkmark.doge.incomplete(v-else  src='../assets/images/thumbsup.svg')
+        span *check in*
     span(v-else)
         img.checkmark(v-if='isCompleted'  src='../assets/images/completed.svg')
         img.checkmark(v-else  src='../assets/images/uncompleted.svg')
@@ -12,38 +12,9 @@
 
 <script>
 
-import uuidv1 from 'uuid/v1'
-import Hammer from 'hammerjs'
-import Propagating from 'propagating-hammerjs'
 
 export default {
-    props: ['b', 'inId'],
-    data() {
-        return {
-            uuid:  uuidv1(),
-        }
-    },
-    mounted() {
-        let checkel = document.getElementById(this.uuid)
-        if(!checkel) return
-        let checkmc = Propagating(new Hammer.Manager(checkel))
-        let checkTap = new Hammer.Tap({ event: 'singletap', time: 400 })
-        let checkDoubleTap = new Hammer.Tap({ event: 'doubletap', taps: 2, time: 400, interval: 400 })
-        checkmc.add([checkDoubleTap, checkTap])
-        checkDoubleTap.recognizeWith(checkTap)
-        checkTap.requireFailure(checkDoubleTap)
-        checkmc.on('singletap', (e) => {
-            if(!this.isCompleted) {
-                this.complete()
-            } else {
-                this.uncheck()
-            }
-            e.stopPropagation()
-        })
-        checkmc.on('doubletap', (e) => {
-            e.stopPropagation()
-        })
-    },
+    props: ['b'],
     computed: {
         isCompleted(){
             let now = Date.now()
@@ -56,7 +27,7 @@ export default {
         complete(){
             this.$store.dispatch("makeEvent", {
               type: 'task-claimed',
-              inId: this.inId,
+              inId: this.b.taskId,
               taskId: this.b.taskId,
             })
         },
@@ -64,7 +35,7 @@ export default {
             this.$store.dispatch("makeEvent", {
               type: 'task-unclaimed',
               taskId: this.b.taskId,
-              inId:  this.inId,
+              inId:  this.b.taskId,
               notes: ''
             })
         },
@@ -90,6 +61,9 @@ export default {
     cursor: pointer
     min-width: 0.75em
     text-align: center
+    position: absolute 
+    bottom: 0
+
 
 img.checkmark
     margin-bottom: -0.25em

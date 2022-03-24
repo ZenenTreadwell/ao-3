@@ -24,8 +24,6 @@
                 span(v-if='cardStart.days > 1'  @click='clearSchedule') in {{ cardStart.days.toFixed(1) }} days
                 span(v-else-if='cardStart.hours > 1'  @click='clearSchedule') in {{ cardStart.hours.toFixed(1) }} hours
                 span(v-else-if='cardStart.minutes > 1'  @click='clearSchedule') in {{ cardStart.minutes.toFixed(1) }} minutes
-    .centererer
-        checkin(:b='$store.getters.contextCard'  :inId='$store.getters.contextCard.taskId')
     .clearboth
 </template>
 

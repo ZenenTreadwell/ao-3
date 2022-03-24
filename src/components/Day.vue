@@ -12,13 +12,14 @@
         span.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goDeeper(t.taskId, t.inId)' :class='{smaller: ev.length > 15}' )
             img.completedcheckmark.doge(v-if='t.taskId === $store.getters.contextCard.taskId'  src='../assets/images/doge.svg')
             img.completedcheckmark(v-else   :class='styl(getCardColor(t.taskId))'  src='../assets/images/completed.svg')
-
+    checkin(v-if='isToday' :b='$store.getters.contextCard')
 </template>
 
 <script>
 import Linky from './Linky'
 import Current from './Current'
 import Currentr from './Currentr'
+import Checkin from './Checkin'
 
 function getDMY(ts){
     let d = new Date(ts)
@@ -34,7 +35,7 @@ export default {
     data(){
         return { dropping: false }
     },
-    components: { Linky, Current, Currentr },
+    components: { Linky, Current, Currentr, Checkin },
     props: ['day', 'month', 'year', 'inId', 'ev', 'isToday'],
     computed: {
         createdToday(){

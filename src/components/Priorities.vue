@@ -10,7 +10,7 @@
               hyperpriority.fw(:taskId='t'  :c='priorities')
               .dot(v-if='!hasCompleted(t)'  @click='prioritized(t)')
               .dot(v-else  @click='completed(t)')
-      .row.subpriority(v-for='(st, j) of getSubPriorities(t)'   :key='st')
+      .row.subpriority(v-if='!$store.getters.contextResource'  v-for='(st, j) of getSubPriorities(t)'   :key='st')
           .clearboth.opensubcard
               hyperpriority(:taskId='st'  :inId="t"  :c='getSubPriorities(t)')
           .row.subsubpriority(v-for='(st2, k) of getSubPriorities(st)'  :key='st2')
