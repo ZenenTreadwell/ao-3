@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import Current from './Current'
 
 export default {
@@ -30,7 +31,7 @@ export default {
                     memberlist.push(used.memberId)
                 }
             })
-            return memberlist
+            return _.uniq(memberlist)
         },
         cantAfford(){
             return this.$store.getters.memberCard.boost < this.r.charged || this.$store.getters.memberCard.boost <= 0
