@@ -1,7 +1,9 @@
-AO is meant to be a stepping stone into Linux and the open source revolution. It is best setup using an hero install script that installs and configures tor, bitcoind, lightningd, and ao to startup automatically: 
+AO is meant to help you take control of your own data & communication by using open source technology . You to have a computer with Linux, tor, bitcoind, lightningd. To install from scratch on a new Linux install like Manjaro, Ubuntu or Raspbian, you can use the setup/wizard script:  
 ```
-cd setup && chmod +x setup.sh && ./setup.sh
+cd setup && chmod +x wizard.sh && ./wizard.sh
 ```
+This should get everything installed and running when the computer starts up. Check out localhost:8003 to see your ao. Using bitcoin-cli & lightning-cli to take control of your node. AO shows you bitcoin addresses and lightning payment requests that go into your local lightning node. It is your responsibility to understand the [backup process](https://lightning.readthedocs.io/BACKUP.html).
+
 For developers ao-3 is a nodejs project with sqlite3 event store. The frontend is a Vue single page application and the backend is an Express server.
 ```
 # Nodejs 

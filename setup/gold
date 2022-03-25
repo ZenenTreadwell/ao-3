@@ -69,7 +69,7 @@ install_clboss() {
 configure_bitcoin() {
     mkdir -p ~/.bitcoin
 
-    AUTHDEETS=$(python3 scripts/rpcauth.py ao)
+    AUTHDEETS=$(python3 ./rpcauth.py ao)
     AUTHLINE=$(say "$AUTHDEETS" | sed '2q;d' )
     PASSLINE=$(say "$AUTHDEETS" | sed '4q;d' )
 

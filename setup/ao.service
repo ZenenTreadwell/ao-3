@@ -3,7 +3,7 @@ Description=ao-daemon
 
 [Service]
 WorkingDirectory=HOME/ao-AO
-ExecStart=NODE NODE_PARAMS HOME/ao-AO/src/server/app.js
+ExecStart=NODE HOME/ao-3/src/server/app.js
 User=USER
 Type=simple
 Restart=on-failure
