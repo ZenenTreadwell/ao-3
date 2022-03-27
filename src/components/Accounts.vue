@@ -6,8 +6,8 @@
     member-row(v-for="m in pendingDeactivations"  :m='m'  :key='m.memberId')
     member-row(v-for="m in nonMembers"  :m='m'  :key='m.memberId')
     .flexrow
-        .pinlist &nbsp;&nbsp; ^^ - vouch for who you know/like 
-
+        .pinlist &nbsp;&nbsp; ^^ - vouch 
+        .fr activate account with sats to use resources, contribute rent - ^^ &nbsp;&nbsp;
 </template>
 
 <script>
@@ -51,5 +51,8 @@ export default {
     overflow-y: scroll
     max-height: 100vh
     padding-top: 3.5em
+
+.fr 
+    float: right
 
 </style>
