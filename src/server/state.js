@@ -105,7 +105,7 @@ function initialize(callback) {
                 // integrity check on hashMap (hashMap is broked)
                 pubState.tasks.forEach( (t, i) => {
                     if (pubState.hashMap[t.taskId] !== i) {
-                      // console.log('!! how is the map being broken???', t.name, 'fixing?')
+                      console.log(i, 'map retro fixed!!?', t.name.slice(0,7))
                       pubState.hashMap[t.taskId] = i
                       serverState.hashMap[t.taskId] = i
                     }

@@ -5,6 +5,9 @@
     member-row(v-for="m in coreMembers"  :m='m'  :key='m.memberId')
     member-row(v-for="m in pendingDeactivations"  :m='m'  :key='m.memberId')
     member-row(v-for="m in nonMembers"  :m='m'  :key='m.memberId')
+    .flexrow
+        .pinlist &nbsp;&nbsp; ^^ - vouch for who you know/like 
+
 </template>
 
 <script>

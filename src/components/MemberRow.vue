@@ -4,7 +4,7 @@
     .flexrow(v-if='b')
         .vouch(@click.stop)
             coin(:b='b')
-        .name.ptr(:class='{bolder: m.memberId === $store.getters.member.memberId}')
+        .name.ptr.bolder
             current(:memberId='m.memberId' @click.stop)
             br
             span.smaller(v-if='mia > 2') &nbsp;&nbsp; mia {{ mia }} 
@@ -13,8 +13,9 @@
             .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
                 img.boosted(src='../assets/images/hourglass.svg'  v-if='m.action'  @click.stop='goGo(m.action)')
                 img.boosted.doge(v-if="b.boost > 0 && m.active"  src='../assets/images/doge.svg')
+                img.boosted(v-else-if="$store.getters.member.memberId === m.memberId"  src='../assets/images/bitcoin.svg')
                 img.boosted.trash(v-else @click.stop='deleteUser' src='../assets/images/trash.svg')
-
+        
 </template>
 
 <script>
@@ -143,11 +144,11 @@ export default {
 .flexrow
     display: flex
 .name 
-    flex-grow: 3 
+    flex: 3 3 auto 
 .vouch 
-    flex-grow: 1
+    flex: 0 0 3em
 .pinlist 
-    flex-grow: 7
+    flex: 7 7 auto
 .doge
     background: main
     border-radius: 50%

@@ -102,7 +102,7 @@ function insertEvent(ev, callback) {
     try{
       result = preparedStmts.insertEvent.run(JSON.stringify(ev), ev.timestamp);
     } catch(actualErr) {
-      console.log("insertEvent try", {actualErr, ev})
+      console.log("insertEvent try", {actualErr, ev}) // this can be reached by nondb errors (ie in mutations) ?
       err = actualErr
     }
     if (callback) {

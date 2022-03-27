@@ -3,14 +3,8 @@
 #auth(v-if='!confirmed')
   .mainbg(v-if='$store.state.loader.reqStatus === "pending"')
       img.spin(src='../assets/images/gear.svg')
-  //.switcher(@click='toggleExisting')
-  //    .five.center(:class='{existing: !existing}') create new
-  //    .two
-  //        .switch
-  //            input(@click.stop  type="checkbox"  v-model='existing')
-  //            span.slider.round
-  //    .five.center(:class='{existing}') login
   .authbox.centertitle welcome to ao 
+      .warning(v-if='err') {{err}}
   .authbox
       .flexrow
           .inputhalf
@@ -24,7 +18,6 @@
                 label password
                 span.focus-border
       button(@click="createSession") log in
-  .warning(v-if='err') {{err}}
   .authbox
       .input-container
           input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
@@ -169,5 +162,9 @@ export default {
 
 .spin
     height: 3em
+
+.warning
+    position: absolute;
+    left: 1em;
 
 </style>

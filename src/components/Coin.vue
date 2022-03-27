@@ -1,7 +1,6 @@
 <template lang='pug'>
 .d
     img.dogepepecoin(@click='toggleGrab'  v-if='$store.getters.member.memberId !== b.taskId'  @mouseover='hoverthumb=true'  @mouseleave='hoverthumb=false'  :class="{ ungrabbedcoin : !isGrabbed, hoverthumb: hoverthumb }" src='../assets/images/thumbsup.svg'  draggable='false')
-    img.dogepepecoin(v-else  src='../assets/images/timecube.svg')
 </template>
 
 <script>
