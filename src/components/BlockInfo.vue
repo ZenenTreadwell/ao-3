@@ -2,10 +2,10 @@
 div
     .boxy(v-if='$store.state.cash.info.mempool && $store.state.cash.info.blockfo')
         .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
-        .section block {{ $store.state.cash.info.blockheight.toLocaleString()}}
-        .section {{ ((Date.now() - ($store.state.cash.info.blockfo.time * 1000)) / 60 / 1000).toFixed(1) }} minutes ago
-        .section.sampler(@click='sampler') {{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed(1) }} MB unconfirmed transactions
-        .section last block fee percentiles (sat/byte):
+        .section block: {{ $store.state.cash.info.blockheight.toLocaleString()}}
+        .section age: {{ ((Date.now() - ($store.state.cash.info.blockfo.time * 1000)) / 60 / 1000).toFixed(1) }} minutes 
+        //.section.sampler(@click='sampler') {{ ($store.state.cash.info.mempool.bytes / 1000000).toFixed(1) }} MB unconfirmed transactions
+        .section fee percentiles (sat/byte):
         .section
             .grid
                 .five.grid
@@ -83,12 +83,12 @@ export default {
     display: flex 
 
 .five 
-    flex-grow: 5
+    flex: 5 5 3em
 .six 
-    flex-grow: 6 
+    flex: 6 6 3em
 .one 
     min-height:1em
-    flex-grow: 1
+    flex: 1 1 3em
 
 </style>
 

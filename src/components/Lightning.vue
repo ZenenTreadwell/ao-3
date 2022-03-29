@@ -11,14 +11,6 @@
         .third 
             block-info
         .twothirds.boxy(v-if='$store.state.cash.info.channels')
-            .chanfo(v-if='selectedPeer >= 0 && areChannels && selectedChannel')
-                div connected: {{ selectedChannel.connected }}
-                div pubkey: {{ selectedChannel.peer_id }}
-                div(@click='checkTxid(selectedChannel.funding_txid)') txid: {{ selectedChannel.funding_txid }}
-                div(v-if='selectedChannel.state !== "CHANNELD_NORMAL"') state: {{ selectedChannel.state }}
-                div
-                    div in activity: {{ fetchedPeer.in_payments_fulfilled }} / {{ fetchedPeer.in_payments_offered }}
-                    div out activity: {{ fetchedPeer.out_payments_fulfilled }} / {{ fetchedPeer.out_payments_offered }}
             .row.channellimiter
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id')
@@ -28,10 +20,9 @@
                     .localremote(v-show='selectedPeer !== i'   @click='selectPeer(i)')
                         .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL", gr: $store.getters.member.stacks === 5}')
                         .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL", bl: $store.getters.member.stacks === 5}')
-            .section {{ $store.state.cash.info.channels.length }} channels
-    input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
-    button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
+            .section {{ $store.state.cash.info.channels.length }} &#9889;channels
     .chanfo(v-if='fetchedTxn.txid')
+        label Transaction Info:
         div txid: {{ fetchedTxn.txid }}
         div status: {{ fetchedTxnStatus }}
         div(v-if='fetchedTxn.memPool')
@@ -40,6 +31,16 @@
             div(v-if='u && u.value > 0 && u.scriptPubKey.addresses') {{ u.value }} : {{u.scriptPubKey.addresses}} - unspent
         div(v-for='outp in filteredOut') {{ outp.value }} : {{outp.scriptPubKey.addresses}}
         .chanfo(v-if='showOutputs'  v-for='n in $store.state.cash.info.outputs'  @click='checkTxid(n.txid)') txid: {{n.txid}} : {{n.output}}
+    .chanfo(v-if='selectedPeer >= 0 && areChannels && selectedChannel')
+        label Channel Info: 
+        div pubkey: {{ selectedChannel.peer_id }}
+        div(@click='checkTxid(selectedChannel.funding_txid)') txid: {{ selectedChannel.funding_txid }}
+        div(v-if='selectedChannel.state !== "CHANNELD_NORMAL"') state: {{ selectedChannel.state }}
+        div
+            div in: {{ fetchedPeer.in_payments_fulfilled }} / {{ fetchedPeer.in_payments_offered }}
+            div out: {{ fetchedPeer.out_payments_fulfilled }} / {{ fetchedPeer.out_payments_offered }}
+    input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
+    button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
 </template>
 
 <script>
@@ -209,9 +210,9 @@ export default {
     display: flex 
 
 .third 
-    flex-grow: 1 
+    flex: 1 1 auto
 .twothirds
-    flex-grow: 2
+    flex: 2 2 auto
 .price 
     text-align: center
     padding-bottom: .9em

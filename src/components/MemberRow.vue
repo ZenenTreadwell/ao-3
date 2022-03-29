@@ -10,11 +10,11 @@
             span.smaller(v-if='mia > 2') &nbsp;&nbsp; mia {{ mia }} 
         .pinlist
             span(v-for='x in rowsGuilds') {{x}} &nbsp;
-            .absoright(@click='delayedPaymode'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
+            .absoright(@click='delayedPaymode' @click.ctrl='deleteUser'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
                 img.boosted(src='../assets/images/hourglass.svg'  v-if='m.action'  @click.stop='goGo(m.action)')
-                img.boosted.doge(v-if="b.boost > 0 && m.active"  src='../assets/images/doge.svg')
-                img.boosted(v-else-if="$store.getters.member.memberId === m.memberId"  src='../assets/images/bitcoin.svg')
-                img.boosted.trash(v-else @click.stop='deleteUser' src='../assets/images/trash.svg')
+                img.boosted.doge(:class="{faded: !(b.boost > 0 && m.active)}"  src='../assets/images/doge.svg' )
+                //img.boosted(v-else-if="$store.getters.member.memberId === m.memberId"  src='../assets/images/bitcoin.svg')
+                //img.boosted.trash(v-else @click.stop='deleteUser' src='../assets/images/trash.svg')
         
 </template>
 

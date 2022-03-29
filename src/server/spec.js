@@ -41,8 +41,14 @@ router.post('/events', (req, res, next)=>{
           }
           break
       case "member-purged":
+          let isActive = state.serverState.members.some(m => {
+              if (m.memberId === req.body.memberId && (m.boost > 0 || m.active)){
+                  return true
+              }
+          })
           if (
-            validators.isMemberId(req.body.memberId, errRes)
+            validators.isMemberId(req.body.memberId, errRes) &&
+            validators.isNotes(isActive, errRes)
           ) {
             events.memberPurged(
               req.body.memberId,

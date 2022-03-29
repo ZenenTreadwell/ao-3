@@ -6,12 +6,12 @@
         tag(v-if='b.bolt11'  :d='b.bolt11'  size='5')
         .section.ptr
             img(src='../assets/images/clipboard.svg'  v-if='showCopiedBolt ')
-            span {{b.bolt11}}
+            span(v-if='b.bolt11') {{b.bolt11}}
     .payreq.ptr(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"'  @click='copy(b.btcAddr)')
         tag(v-if='b.btcAddr'  :d='b.btcAddr'  size='7')
         .section.ptr(v-if='b.btcAddr'  )
             img(src='../assets/images/clipboard.svg'  v-if='showCopiedAddr ')
-            span {{b.btcAddr}}
+            span(v-if='b.btcAddr') {{b.btcAddr}}
     .section(v-else) node unavailable :(
     .paddy
         div(v-for='p in b.payments') {{ getDateString(p.timestamp) }} ~ {{p.amount.toLocaleString()}}

@@ -6,8 +6,8 @@
     member-row(v-for="m in pendingDeactivations"  :m='m'  :key='m.memberId')
     member-row(v-for="m in nonMembers"  :m='m'  :key='m.memberId')
     .flexrow
+        .fr active - ^^ &nbsp;&nbsp;
         .pinlist &nbsp;&nbsp; ^^ - vouch 
-        .fr activate account with sats to use resources, contribute rent - ^^ &nbsp;&nbsp;
 </template>
 
 <script>
