@@ -1,5 +1,5 @@
 #!/bin/sh
-# Bare Metal Alchemist, 2022
+# Bare Metal Alchemist, 2022 git://zenen.space/Alchemy
 
 RED="\e[0;31m"
 GREEN="\e[0;32m"
@@ -534,7 +534,8 @@ mkdir -p $HOME/.ao
 echo -e "Installing ${BLUE}ao-3${RESET}"
 npm install
 npm run build
-
+cat ~/.ao/key >> ~/.ao/keybackups
+node createPrivateKey.js > ~/.ao/key
 # ------------------- Step 7 - Systemd Setup -------------------
 
 echo -e "\n${BOLD}Alright, almost there!${RESET} Now we just need to set up the system daemons for Tor, Bitcoin, Lightning, and the AO so that everything opens on startup."
@@ -560,9 +561,6 @@ activate_service lightning
 echo ""
 build_service_from_template ao "NODE=`which node`" "AO=$AO" 
 activate_service ao
-
-echo "this should be nginx"
-activate_service nginx
 
 # ------------------- Step 9 - Health Check -------------------
 

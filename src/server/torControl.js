@@ -3,19 +3,21 @@ var net = require('net');
 let PORT = process.env.PORT || 8003
 const uuidV1 = require('uuid/v1')
 
-console.log(process.env.HOME + '/.tor/control_auth_cookie')
-var cookieBuff = fs.readFileSync(process.env.HOME + '/.tor/control_auth_cookie')
-var cookie = Buffer.from(cookieBuff).toString('hex')
-
-let controlClient = net.connect({host: '127.0.0.1', port: 9051}, () => {
-    controlClient.write('AUTHENTICATE ' + cookie + '\r\n');
-});
-
 let hiddenServicePortSplit
 let hiddenServiceDirSplit
 let onion
 var i = -1
 module.exports = function(callback){
+	try {
+		var cookieBuff = fs.readFileSync(process.env.HOME + '/.tor/control_auth_cookie')
+		var cookie = Buffer.from(cookieBuff).toString('hex')
+	} catch { 
+		console.log("Couldn't access", process.env.HOME + '/.tor/control_auth_cookie')
+		return callback("ERR: failed to access cookie")	
+	}
+	let controlClient = net.connect({host: '127.0.0.1', port: 9051}, () => {
+	    controlClient.write('AUTHENTICATE ' + cookie + '\r\n');
+	});
     controlClient.on('data', (x) => {
         i ++
         if (i ===0){
