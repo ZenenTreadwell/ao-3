@@ -75,15 +75,6 @@ install_if_needed() {
                     say "$package already installed!"
                 fi
                 ;;
-            "mac")
-                # TODO Better installation detection than "check_for"
-                if [ -z $(check_for $package) ]; then
-                    say "installing $package"
-                    brew install $package
-                else
-                    say "$package already installed!"
-                fi
-                ;;
         esac
     done
 }
@@ -118,9 +109,6 @@ if [ -z $DISTRO ]; then
     elif [ -f "/etc/fedora-release" ]; then
         DISTRO="fedora"
         say "${GREEN}Fedora${RESET} detected as the Operating System"
-    elif [ $(uname | grep -c "Darwin") -eq 1 ]; then
-        DISTRO="mac"
-        say "${GREEN}MacOS${RESET} detected."
     else
         say "I don't know ${RED}what OS you're running${RESET}! Cancelling this operation."
         exit 1
@@ -145,10 +133,6 @@ if [ -z "$UPDATED" ]; then
         "fedora")
             sudo dnf update
             sudo dnf upgrade
-            ;;
-        "mac")
-            install
-            sudo brew update
             ;;
     esac
 fi
@@ -290,13 +274,14 @@ install_bitcoin() {
 
     tar -xvf 🜍/bitcoin-22.0.tar.gz
     sleep 1
-    cd bitcoin-22.0
+    pushd bitcoin-22.0
     chmod +x autogen.sh
     ./autogen.sh
     ./configure --disable-wallet
     make 
     sudo make install
     #rm -rf bitcoin-22.0
+    popd
 }
 
 install_lightning() {
@@ -483,9 +468,6 @@ case $DISTRO in
         install_if_needed wget python gmp sqlite3 autoconf-archive pkgconf libev \
             python-mako python-pip net-tools zlib libsodium gettext nginx
         ;;
-    "mac")
-        # install_if_needed better-computer
-        ;;
     "fedora")
         install_if_needed git wget tor sqlite3 autoconf autoconf-archive automake \
         python python3 python3-mako pkg-config fakeroot devscripts
@@ -496,7 +478,6 @@ echo ""
 
 if [ -z $NVM_DIR ]; then
     install_nvm
-	source ./iron
 else
     echo -e "${BLUE}Node${RESET} already installed!"
 fi
