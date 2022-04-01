@@ -2,7 +2,6 @@
 Description=ao-daemon
 
 [Service]
-WorkingDirectory=HOME/ao-AO
 ExecStart=NODE HOME/ao-3/src/server/app.js
 User=USER
 Type=simple
