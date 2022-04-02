@@ -146,21 +146,9 @@ say "${BOLD}You're good to go!${RESET} Go ${BLUE}make something cool${RESET} :)"
 say ""
 
 locate_torrc() {
-    if [ -n $TORRCPATH ]; then
-        if [ -f $HOME/.tor/torrc ]; then
-            TORRCPATH="${HOME}/.tor/torrc"
-        elif [ -f /usr/local/etc/tor/torrc ]; then
-            TORRCPATH='/usr/local/etc/tor/torrc'
-        elif [ -f /etc/tor/torrc ]; then
-            TORRCPATH='/etc/tor/torrc'
-        else
-            echo -e "${RED}Uh oh...${RESET} I couldn't figure out where your torrc file is. That might cause some issues"
-            sleep 3
-            echo "Anyways..."
-            sleep 2
-        fi
-    fi
-
+	sudo rm /usr/local/etc/tor/torrc 
+	sudo rm /etc/tor/torrc
+    TORRCPATH="${HOME}/.tor/torrc"
     echo -e "Your torrc is located at ${BLUE}${TORRCPATH}${RESET}"
 }
 
@@ -175,10 +163,10 @@ configure_tor() {
     read torrc_reset
     case $torrc_reset in
         "Y" | "y")
-            cp torrc-template .
-            sudo sed -i "s#USER#${USER}#g" torrc-template
-            sudo sed -i "s#HOME#${HOME}#g" torrc-template
-            sudo mv torrc-template $TORRCPATH
+            cp torrc-template tmp_torrc
+            sed -i "s#USER#${USER}#g" tmp_torrc
+            sed -i "s#HOME#${HOME}#g" tmp_torrc
+            mv tmp_torrc $TORRCPATH
             echo -e "${GREEN}Torrc file reset!${RESET}"
             ;;
         '*')
@@ -338,6 +326,7 @@ configure_bitcoin() {
     fi
 
     sed -i "s/BTC_LOGIN/${AUTHLINE}/" $HOME/.bitcoin/bitcoin.conf
+	echo bitcoinrpcpass=$PASSLINE >> $HOME/.ao/config
     say ""
 
     ask_for prune "Next question - would you like to operate bitcoin in pruned mode? \
@@ -524,8 +513,8 @@ echo -e "\n${BOLD}Alright, almost there!${RESET} Now we just need to set up the 
 build_service_from_template tor "TORRCPATH=$TORRCPATH" "TORPATH=`which tor`"
 
 # Creating the .tor directory
-sudo mkdir -p $HOME/.tor
-sudo chown tor $HOME/.tor
+mkdir -p $HOME/.tor
+sudo chown $USER $HOME/.tor
 sudo chgrp $USER $HOME/.tor
 sudo chmod 770 $HOME/.tor
 
@@ -540,7 +529,7 @@ build_service_from_template lightning "LIGHTNINGD=`which lightningd`"
 activate_service lightning
 
 echo ""
-build_service_from_template ao "NODE=`which node`" "AO=$AO" 
+build_service_from_template ao "NODE=`which node`" "AO=`pwd`/../src/server/app.js" 
 activate_service ao
 
 # ------------------- Step 9 - Health Check -------------------

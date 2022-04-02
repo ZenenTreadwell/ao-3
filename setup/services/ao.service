@@ -2,7 +2,7 @@
 Description=ao-daemon
 
 [Service]
-ExecStart=NODE HOME/ao-3/src/server/app.js
+ExecStart=NODE AO
 User=USER
 Type=simple
 Restart=on-failure

@@ -68,7 +68,7 @@ function splitFromBuffer(x){
 }
 
 function buildNewConfString(hiddenServicePortSplit, hiddenServiceDirSplit, port){
-    let targetDir = "/var/lib/tor/" + uuidV1()
+    let targetDir = process.env.HOME + '/.tor/' + uuidV1()
     try {
         fs.mkdirSync(targetDir, '0700')
     } catch (err){
