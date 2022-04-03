@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Bare Metal Alchemist, 2022 git://zenen.space/Alchemy
 
 RED="\e[0;31m"
