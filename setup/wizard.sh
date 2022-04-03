@@ -248,7 +248,7 @@ activate_service() {
     if [ -f "$SERVICE_FILE" ]; then
         echo -e "Enabling and starting ${GREEN}${SERVICE}${RESET}"
         sudo systemctl enable ${SERVICE}
-        sudo systemctl start ${SERVICE}
+        sudo systemctl restart ${SERVICE}
     fi
 }
 
