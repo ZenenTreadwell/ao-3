@@ -194,6 +194,10 @@ set_node_to() {
 install_nvm() {
     echo -e "${BOLD}Installing Node Version Manager${RESET}"
 	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+	export NVM_DIR="$HOME/.nvm"
+	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+	[[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
+	nvm --version
 }
 
 # ------------------- Systemd / Services -------------------
@@ -447,7 +451,7 @@ case $DISTRO in
         # Note -- I'm not sure if these are all needed but I'm not in the mood to check
         install_if_needed git wget sqlite3 zlib1g-dev libtool-bin autoconf autoconf-archive automake autotools-dev \
         libgmp-dev libsqlite3-dev python python3 python3-mako libsodium-dev build-essential pkg-config libev-dev \
-        libcurl4-gnutls-dev libssl-dev fakeroot devscripts
+        libcurl4-gnutls-dev libssl-dev fakeroot devscripts libboost-all-dev curl
         ;;
     "arch")
         if [[ ! $(pacman -Qg base-devel) ]]; then
@@ -455,11 +459,11 @@ case $DISTRO in
         fi
 
         install_if_needed wget python gmp sqlite3 autoconf-archive pkgconf libev \
-            python-mako python-pip net-tools zlib libsodium gettext nginx
+            python-mako python-pip net-tools zlib libsodium gettext nginx curl
         ;;
     "fedora")
         install_if_needed git wget tor sqlite3 autoconf autoconf-archive automake \
-        python python3 python3-mako pkg-config fakeroot devscripts
+        python python3 python3-mako pkg-config fakeroot devscripts curl
         ;;
 esac
 echo ""

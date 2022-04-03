@@ -1,6 +1,6 @@
 User USER
 Log notice syslog
-DataDirectory /var/lib/tor
+DataDirectory HOME/.tor
 ControlPort 9051
 CookieAuthentication 1
 CookieAuthFile HOME/.tor/control_auth_cookie
