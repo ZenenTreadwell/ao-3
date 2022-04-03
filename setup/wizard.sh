@@ -181,11 +181,9 @@ configure_tor() {
 
 set_node_to() {
     if check_for nvm; then
-        if [ ! $(node -v) = $1 ]; then
-            nvm install $1
-            nvm alias default $1
-            nvm use default
-        fi
+        nvm install $1
+        nvm alias default $1
+        nvm use default
     else
         echo "nvm not available, something went wrong..."
     fi
@@ -198,6 +196,8 @@ install_nvm() {
 	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 	[[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
 	nvm --version
+	echo "Note the above information on your nvm -Node Version Manager- install. Enter to continue"
+	read 
 }
 
 # ------------------- Systemd / Services -------------------
@@ -469,7 +469,7 @@ esac
 echo ""
 # ------------------- Step 2 - AO Environment Setup -------------------
 
-if [ -z $NVM_DIR ]; then
+if ! check_for nvm; then
     install_nvm
 else
     echo -e "${BLUE}Node${RESET} already installed!"
