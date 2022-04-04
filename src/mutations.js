@@ -542,9 +542,7 @@ function tasksMuts(tasks, ev) {
             }
             if (task.highlights.length > 0){
                 task.stackView.completed = true
-            } else {
-                task.stackView.completed = false
-            }
+            } 
         }
       })
       break
@@ -797,6 +795,7 @@ function tasksMuts(tasks, ev) {
             task.claimed.push(ev.memberId)
           }
           task.claims.push(ev)
+          task.lastClaimed = ev.timestamp
         }
 
         if (ev.inId !== ev.taskId && task.taskId === ev.inId) {

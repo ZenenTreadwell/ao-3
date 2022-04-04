@@ -3,12 +3,12 @@
 .upgrades(v-if='!$store.getters.contextMember')
     div.tr
         span.bg
-            span(v-for='n in $store.getters.contextRelevantMembers'  :class='{dropping: dropping === n}'  :key='n'  @click='toggleHighlight(n)'  @click.ctrl='toggleHighlight(n, true)'   :ondrop="dropWrap(n)"  :ondragover="allowDropWrap(n)"  :ondragleave='dragLeave')
+            span(v-for='n in $store.getters.contextRelevantMembers'  :class='{dropping: dropping === n}'  :key='n'  @click.stop='toggleHighlight(n)'  @click.stop.ctrl='toggleHighlight(n, true)'   :ondrop="dropWrap(n)"  :ondragover="allowDropWrap(n)"  :ondragleave='dragLeave')
                 span(:class='{highlight: isHighlighted(n), lowdark: isLowdarked(n) }') &nbsp; {{ getName(n) }} &nbsp;
-            span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click='leave') *leave*
-            span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click='grab') *join*
-            span.ptr(v-if='$store.getters.contextCard.deck.length === 0' @click='remove') &nbsp; *delete*
-    span.ptr(@click='tryToggle'  v-if='$store.getters.contextCard.completed.length > 0')
+            span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click.stop='leave') *leave*
+            span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click.stop='grab') *join*
+            span.ptr(v-if='$store.getters.contextCard.deck.length === 0' @click.stop='remove') &nbsp; *delete*
+    span.ptr(@click.stop='tryToggle'  v-if='$store.getters.contextCard.completed.length > 0')
         span &nbsp;&nbsp;&nbsp;
         span
             img.completedcheckmark.redwx(src='../assets/images/completed.svg')
@@ -65,6 +65,7 @@ export default {
             }
         },
         tryToggle(){
+            console.log('try toggle called')
             this.$store.dispatch("makeEvent", {
                 type: "completed-toggled",
                 taskId: this.$store.getters.contextCard.taskId,

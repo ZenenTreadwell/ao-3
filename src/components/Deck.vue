@@ -10,7 +10,9 @@
                 priorities
                 checkmarks
     div
-        panels
+        panels(v-if='!$store.getters.contextCard.stackView.completed')
+        .container(v-else) 
+            simple-priority(v-for='n in $store.getters.contextCompleted'  :taskId='n.taskId')
     roll-stack
     data-vis
     pins.rell
@@ -28,12 +30,13 @@ import Pins from './Pins'
 import RollStack from './RollStack'
 import DataVis from './DataVis'
 import ResourceBook from './ResourceBook'
+import SimplePriority from './SimplePriority'
 
 export default {
   components:{
       ActiveCard, Payments, Calendar, Priorities,
       Checkmarks, Panels, Pins, RollStack,
-      ResourceBook, DataVis
+      ResourceBook, DataVis, SimplePriority
   },
   methods: {
     allowDrop(ev){

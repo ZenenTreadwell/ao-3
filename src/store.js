@@ -69,6 +69,7 @@ export default createStore({
                       downValence.every(mId => t.claimed.indexOf(mId) === -1)
                   )
               })
+              .sort( (a, b) => a.lastClaimed < b.lastClaimed)
       },
       completedByColor(state, getters){
           let red = 0
@@ -128,37 +129,22 @@ export default createStore({
       },
       // fivestack view
       red(state, getters){
-          if (getters.contextCard.stackView.completed){
-              return getters.contextCompleted.filter(d => d.color === 'red')
-          }
           return getters.contextDeck.filter(d => d.color === 'red')
       },
       yellow(state, getters){
-          if (getters.contextCard.stackView.completed){
-              return getters.contextCompleted.filter(d => d.color === 'yellow')
-          }
           return getters.contextDeck.filter(d => d.color === 'yellow')
       },
       green(state, getters){
-          if (getters.contextCard.stackView.completed){
-              return getters.contextCompleted.filter(d => d.color === 'green')
-          }
           return getters.contextDeck.filter(d => d.color === 'green')
       },
       purple(state, getters){
-          if (getters.contextCard.stackView.completed){
-              return getters.contextCompleted.filter(d => d.color === 'purple')
-          }
           return getters.contextDeck.filter(d => d.color === 'purple')
       },
       blue(state, getters){
-          if (getters.contextCard.stackView.completed){
-              return getters.contextCompleted.filter(d => d.color === 'blue')
-          }
           return getters.contextDeck.filter(d => d.color === 'blue')
       },
-      isLoggedIn(state){
-          return state.tasks.length > 0
+      isLoggedIn(state, getters){
+          return getters.member.memberId
       },
       member(state){
           let loggedInMember = {}

@@ -4,8 +4,7 @@
     .ptr(ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
         span.third.dot(:class='{hidden:open || c.length <= 1}'  ref='previous')
         span.third(ref='mandelorb')
-            .donut.chcky(v-if='$store.getters.contextCard.stackView.completed')
-            .donut(v-else  :class='{pileselected: $store.state.upgrades.color === stack, pileopen: $store.getters.contextCard.stackView[stack] === -1, dropping:dropping}')
+            .donut(:class='{pileselected: $store.state.upgrades.color === stack, pileopen: $store.getters.contextCard.stackView[stack] === -1, dropping:dropping}')
             .fixedstatus(v-if='c.length > 1  && sanePosition !== -1'  ) {{ sanePosition + 1 }} of {{ c.length }}
             .fixedstatus(v-else-if='c.length === 1') 1 
             .fixedstatus(v-else-if='c.length === 0') -
@@ -362,16 +361,6 @@ export default {
 .donut.dropping
     border-color: blue
 
-.donut.chcky
-    background-image: url('../assets/images/completed.svg')
-    background-color: softGrey
-    border:none
-    border-radius: 0
-    border-width: 0
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 3em
-    width: 3em
 
 // // ? no work - add color to drop area?
 // .piledrop.dropping
