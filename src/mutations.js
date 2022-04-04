@@ -302,6 +302,14 @@ function hashMapMuts(hashMap, ev){
                 }
             })
             break
+        case "ao-disconnected":
+            delete hashMap[ev.address]
+            Object.keys(hashMap).forEach(tId => {
+                if (hashMap[tId] > ev.i){
+                    hashMap[tId] --
+                }
+            })
+            break
         case "member-purged":
             delete hashMap[ev.memberId]
             Object.keys(hashMap).forEach(tId => {
@@ -540,8 +548,6 @@ function tasksMuts(tasks, ev) {
         }
       })
       break
-    case "ao-disconnected":
-      break
     case "resource-created":
       tasks.push(calculations.blankCard(ev.resourceId, ev.resourceId, 'red', ev.timestamp, [ev.memberId], [ev.resourceId]))
       break
@@ -665,6 +671,22 @@ function tasksMuts(tasks, ev) {
             crawler = newCards
           } while (crawler.length > 0)
         }
+      })
+      break
+    case "ao-disconnected":
+      tasks.forEach((task, i) => {
+        if (task.taskId === ev.address) {
+          tasks.splice(i, 1)
+        }
+      })
+      tasks.forEach(t => {
+          t.subTasks = _.filter(t.subTasks, st => st !== ev.address)
+          t.priorities = _.filter(t.priorities, st => st !== ev.address)
+          t.completed = _.filter(t.completed, st => st !== ev.address)
+          t.claimed = _.filter(t.claimed, st => st !== ev.address)
+          t.claims = _.filter(t.claims, cl => cl.memberId !== ev.address)
+          t.deck = _.filter(t.deck, st => st !== ev.address)
+          if (t.book & (t.book.resourceId === ev.address || t.book.memberId === ev.address)) t.book = {}
       })
       break
     case "member-purged":

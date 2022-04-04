@@ -101,6 +101,7 @@ function aoDisconnected(address, callback) {
     let newEvent = {
         type: "ao-disconnected",
         address,
+        i: serverState.tasks.length,
     }
     dctrlDb.insertEvent(newEvent, callback)
 }
