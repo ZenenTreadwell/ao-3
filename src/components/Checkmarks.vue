@@ -8,7 +8,7 @@
             span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click.stop='leave') *leave*
             span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click.stop='grab') *join*
             span.ptr(v-if='$store.getters.contextCard.deck.length === 0' @click.stop='remove') &nbsp; *delete*
-    span.ptr(@click.stop='tryToggle'  v-if='$store.getters.contextCard.completed.length > 0')
+    span.ptr(@click.stop='tryToggle'  v-if='$store.getters.contextCard.completed.length > 0  || $store.getters.contextCard.stackView.completed')
         span &nbsp;&nbsp;&nbsp;
         span
             img.completedcheckmark.redwx(src='../assets/images/completed.svg')
@@ -65,7 +65,6 @@ export default {
             }
         },
         tryToggle(){
-            console.log('try toggle called')
             this.$store.dispatch("makeEvent", {
                 type: "completed-toggled",
                 taskId: this.$store.getters.contextCard.taskId,

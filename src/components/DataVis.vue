@@ -1,7 +1,7 @@
 <template lang='pug'>
 .datavisbox
-    button(@click='drawVis') draw map
     #my_dataviz
+    button(@click='drawVis') draw connection map
 </template>
 
 <script>
@@ -167,7 +167,8 @@ export default {
 
 @import '../styles/colours'
 @import '../styles/button'
-
+#my_dataviz
+    min-height:100px
 .datavisbox
     position: relative
     text-align: center
@@ -176,16 +177,10 @@ export default {
 label
     color: lightGrey
 button 
-    margin-top: 1em
     margin-right: 2.4em
-    max-width: 7em 
-    
-.centerer
-    pointer-events: none;
-    text-align: center;
-    button
-        pointer-events: all;
-        width: 69%
-        opacity: 0.4
+    max-width: 17em 
+    pointer-events: all;
+    opacity: 0.4
+    margin-bottom:6em
 
 </style>
