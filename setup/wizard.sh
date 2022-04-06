@@ -3,11 +3,18 @@
 
 RED="\e[0;31m"
 GREEN="\e[0;32m"
-BLUE="\e[0;34m"
 BOLD="\e[1m"
 ITALIC="\e[3m"
 ULINE="\e[4m"
 RESET="\e[0m"
+
+if [ "$EUID" -eq 0 ]; then
+    echo -e "${RED}Woah there!${RESET} Seems you're running this script as a superuser."
+    echo ""
+    echo "That might cause some issues with permissions and whatnot. Run this script as your default user (without sudo) and I'll ask you when I need superuser permissions"
+    echo ""
+    exit 1
+fi
 
 say() {
     printf "%b\n" "${1}"
@@ -35,22 +42,12 @@ ask_for() {
 check_for() {
     command -v "$1" >/dev/null
 }
-if [ "$EUID" -eq 0 ]; then
-    echo -e "${RED}Woah there!${RESET} Seems you're running this script as a superuser."
-    echo ""
-    echo "That might cause some issues with permissions and whatnot. Run this script as your default user (without sudo) and I'll ask you when I need superuser permissions"
-    echo ""
-    exit 1
-fi
 
-
-# This one installs utilities to your OS (If you need them!)
 install_if_needed() {
     for package in "$@" # $@ means "all the arguments you passed 
     do
         case $DISTRO in
             "debian")
-                # TODO Better installation detection than check_for
                 if [ -z $(check_for $package) ]; then
                     say "installing $package"
                     sudo apt install -y $package
@@ -67,7 +64,6 @@ install_if_needed() {
                 fi
                 ;;
             "fedora")
-                # TODO Better installation detection than "check_for"
                 if [ -z $(check_for $package) ]; then
                     say "installing $package"
                     sudo dnf install -y $package
@@ -78,7 +74,6 @@ install_if_needed() {
         esac
     done
 }
-
 
 say ""
 say "${GREEN}${ULINE}System Basics${RESET}"
@@ -118,7 +113,7 @@ fi
 if [ -z "$UPDATED" ]; then
     say ""
     say "Updating the repositories..."
-    say "(you'll probably need to input ${BLUE}your 'sudo' password${RESET} here)"
+    say "(you'll probably need to input ${GREEN}your 'sudo' password${RESET} here)"
     case $DISTRO in
         "debian")
             sudo apt update
@@ -142,24 +137,23 @@ say "${GREEN}${ULINE}Core Dependencies${RESET}"
 install_if_needed git wget make
 
 say ""
-say "${BOLD}You're good to go!${RESET} Go ${BLUE}make something cool${RESET} :)"
+say "${BOLD}You're good to go!${RESET} Go ${GREEN}make something cool${RESET} :)"
 say ""
 
 locate_torrc() {
 	sudo rm /usr/local/etc/tor/torrc 
 	sudo rm /etc/tor/torrc
     TORRCPATH="${HOME}/.tor/torrc"
-    echo -e "Your torrc is located at ${BLUE}${TORRCPATH}${RESET}"
+    echo -e "Your torrc is located at ${GREEN}${TORRCPATH}${RESET}"
 }
 
 configure_tor() {
     locate_torrc
-
-    echo -e "Your existing torrc file has the following settings: "
+    echo -e "${GREEN}Existing torrc:${RESET}"
     echo ""
     cat $TORRCPATH | grep '^[^#]'
     echo ""
-    echo -en "Would you like to reset it?: ${BLUE}(y/n)${RESET} "
+    echo -en "Would you like to reset it?: ${GREEN}(y/n)${RESET} "
     read torrc_reset
     case $torrc_reset in
         "Y" | "y")
@@ -174,7 +168,6 @@ configure_tor() {
             ;;
     esac
     echo ""
-
     echo -e "Tor configuration ${GREEN}complete!${RESET}"
 }
 
@@ -190,13 +183,13 @@ set_node_to() {
 }
 
 install_nvm() {
-    echo -e "${BOLD}Installing Node Version Manager${RESET}"
+    say "${BOLD}Installing Node Version Manager${RESET}"
 	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 	export NVM_DIR="$HOME/.nvm"
 	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 	[[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
 	nvm --version
-	echo "Note the above information on your nvm -Node Version Manager- install. Enter to continue"
+	say "Node Version Manager- install. ${GREEN}Enter to continue${RESET}"
 	read 
 }
 
@@ -211,7 +204,7 @@ build_service_from_template() {
         SERVICE_FILE=/etc/systemd/system/${SERVICE}.service
         if [ -f "$SERVICE_FILE" ]; then
             echo "Seems like you've already installed ${SERVICE} here!"
-            echo -en "Would you like to recreate it? ${BLUE}(y/n)${RESET} "
+            echo -en "Would you like to recreate it? ${GREEN}(y/n)${RESET} "
             read reset
             case $reset in
                 "Y" | "y")
@@ -225,17 +218,15 @@ build_service_from_template() {
 
         if [ ! -f "$SERVICE_FILE" ]; then
             sudo cp ./services/${SERVICE}.service $SERVICE_FILE
-
-            # Common template values
             sudo sed -i "s#USER#${USER}#g" $SERVICE_FILE
             sudo sed -i "s#HOME#${HOME}#g" $SERVICE_FILE
             for keyval; do
                 KEY=$(echo $keyval | cut -d'=' -f 1)
                 VAL=$(echo $keyval | cut -d'=' -f 2)
-
                 echo "Substituting $KEY for $VAL"
                 sudo sed -i "s#$KEY#$VAL#g" $SERVICE_FILE
             done
+            activate_service $SERVICE
         fi
     else
         echo "No service template available for $SERVICE"
@@ -254,16 +245,10 @@ activate_service() {
 
 install_bitcoin() {
     say "${BOLD}Installing Bitcoin Core${RESET}"
-
-    # We're building bitcoin from source here. It might be slower than
-    # downloading the pre-built binaries but this is more reliable
     if [ ! -e 🜍/bitcoin-22.0* ]; then
         wget https://bitcoincore.org/bin/bitcoin-core-22.0/bitcoin-22.0.tar.gz -P 🜍/
     fi
-
-    # This still relies on package management though
     install_if_needed boost
-
     tar -xvf 🜍/bitcoin-22.0.tar.gz
     sleep 1
     pushd bitcoin-22.0
@@ -272,7 +257,6 @@ install_bitcoin() {
     ./configure --disable-wallet
     make 
     sudo make install
-    #rm -rf bitcoin-22.0
     popd
 }
 
@@ -285,7 +269,6 @@ install_lightning() {
     make
     sudo make install
     popd
-    #rm -rf lightning 
 }
 
 install_clboss() {
@@ -293,103 +276,79 @@ install_clboss() {
     git clone https://github.com/ZmnSCPxj/clboss.git ./clboss
     pushd ./clboss
     git checkout master
-    mkdir -p m4
     autoreconf -fi
     ./configure
     make
     sudo make install
     popd
-    #rm -rf clboss 
 }
 
 configure_bitcoin() {
     mkdir -p ~/.bitcoin
-
-    AUTHDEETS=$(python3 ./rpcauth.py ao)
-    AUTHLINE=$(say "$AUTHDEETS" | sed '2q;d' )
-    PASSLINE=$(say "$AUTHDEETS" | sed '4q;d' )
-
-    if  [ -f $HOME/.bitcoin/bitcoin.conf ]; then
-        say "Looks like you already have a ${BLUE}bitcoin.conf${RESET} file!"
-        say ""
-        cat $HOME/.bitcoin/bitcoin.conf
-        say ""
-        ask_for btc_reconf "Would you like to reset it? ${BLUE}(y/n)${RESET}: "
-        case $btc_reconf in
-            "y" | "Y")
-                cp sample_bitcoin.conf $HOME/.bitcoin/bitcoin.conf
-                say 'Reset bitcoin configuration file'
-                ;;
-            "n" | "N")
-                say "Cool, we'll leave it as is then".
-                ;;
-        esac
-    else
-        cp sample_bitcoin.conf $HOME/.bitcoin/bitcoin.conf
-        say 'Created default bitcoin config'
-    fi
-
-    sed -i "s/BTC_LOGIN/${AUTHLINE}/" $HOME/.bitcoin/bitcoin.conf
-	echo bitcoinrpcpass=$PASSLINE >> $HOME/.ao/config
+    say "${GREEN}Existing bitcoin.conf${RESET}"
+    cat $HOME/.bitcoin/bitcoin.conf
     say ""
-
-    ask_for prune "Next question - would you like to operate bitcoin in pruned mode? \
-This reduces its file size from ~500GB to something more portable ${BLUE}(y/n)${RESET}: "
-    say ""
-    case $prune in
-        y | Y)
-            say "Let's ${GREEN}enable pruning${RESET} to keep the file size down, then."
-            prune_size=0
-            while [ "$prune_size" -lt 550 ]; do
-                ask_for prune_size "How many Mb are you willing to put towards btc? Min 550: "
-            done
-
-            sed -i "s/txindex=1/prune=${prune_size}/" $HOME/.bitcoin/bitcoin.conf
+    ask_for btc_reconf "Would you like to reset it? ${GREEN}(y/n)${RESET}: "
+    case $btc_reconf in
+        "y" | "Y")
+            AUTHDEETS=$(python3 ./rpcauth.py ao)
+            AUTHLINE=$(say "$AUTHDEETS" | sed '2q;d' )
+            PASSLINE=$(say "$AUTHDEETS" | sed '4q;d' )
+            cp sample_bitcoin.conf $HOME/.bitcoin/bitcoin.conf
+            sed -i "s/BTC_LOGIN/${AUTHLINE}/" $HOME/.bitcoin/bitcoin.conf
+            sed -Ei "s/bitcoinrpcpass=.+$//g"  $HOME/.ao/config
+	        echo bitcoinrpcpass=$PASSLINE >> $HOME/.ao/config
+            say 'Reset bitcoin configuration file'
+            ask_for prune "Next question - would you like to operate bitcoin in pruned mode? ${GREEN}(y/n)${RESET}:"
+            say ""
+            case $prune in
+                y | Y)
+                    say "Let's ${GREEN}enable pruning${RESET} to keep the file size down, then."
+                    prune_size=0
+                    while [ "$prune_size" -lt 550 ]; do
+                        ask_for prune_size "How many Mb are you willing to put towards btc? Min 550: "
+                    done
+                    sed -i "s/txindex=1/prune=${prune_size}/" $HOME/.bitcoin/bitcoin.conf
+                    ;;
+                *)
+                    say "Okay great! We'll leave the bitcoin config it as it is."
+                    ;;
+            esac
             ;;
-        *)
-            say "Okay great! We'll leave the bitcoin config it as it is."
+        "n" | "N")
+            say "Cool, we'll leave it as is then".
             ;;
     esac
+
 }
 
 configure_lightning() {
     mkdir -p $HOME/.lightning
-
-    if  [ -f $HOME/.lightning/config ]; then
-        say "Looks like you already have a ${BLUE}lightning config${RESET} file!"
-        say ""
-        cat $HOME/.lightning/config
-        say ""
-        ask_for ln_reconf "Would you like to reset it? ${BLUE}(y/n)${RESET}: "
-        case $ln_reconf in
-            "y" | "Y")
-                cp sample_lightning_config $HOME/.lightning/config
-                say "${GREEN}Reset lightning configuration file${RESET}"
-                ;;
-            "n" | "N")
-                say "Cool, we'll leave it as is then".
-                ;;
-        esac
-    else
-        cp sample_lightning_config $HOME/.lightning/config
-        say "${GREEN}Created default lightning config${RESET}"
-    fi
-
+    say "${GREEN}Existing lightning config${RESET}"
+    cat $HOME/.lightning/config
     say ""
-    ask_for clboss_enable "Would you like to use clboss to automatically open lightning channels? ${BLUE}(y/n)${RESET}: "
-    case $clboss_enable in
+    ask_for ln_reconf "Would you like to reset it? ${GREEN}(y/n)${RESET}: "
+    case $ln_reconf in
         "y" | "Y")
-            if ! check_for clboss; then
-                install_clboss
-            fi
-            sed -i "s/#plugin/plugin/" $HOME/.lightning/config
-            sed -i "s/#log/log/" $HOME/.lightning/config
-            echo ""
-            say "${GREEN}clboss successfully configured!${RESET}"
-            ;;
-        "n" | "N")
+            cp sample_lightning_config $HOME/.lightning/config
+            say "${GREEN}Reset lightning configuration file${RESET}"
             say ""
-            say "Sounds good. You might want to open some channels manually to participate in the network!".
+            ask_for clboss_enable "Would you like to use clboss to automatically open lightning channels? ${GREEN}(y/n)${RESET}: "
+            case $clboss_enable in
+                "y" | "Y")
+                    if ! check_for clboss; then
+                        install_clboss
+                    fi
+                    sed -i "s/#plugin/plugin/" $HOME/.lightning/config
+                    sed -i "s/#log/log/" $HOME/.lightning/config
+                    echo ""
+                    say "${GREEN}clboss successfully configured!${RESET}"
+                    ;;
+                "n" | "N")
+                    say ""
+                    say "Sounds good. You might want to open some channels manually to participate in the network!".
+                    ;;
+            esac
             ;;
     esac
 }
@@ -413,7 +372,6 @@ bitcoin_is_synced() {
     fi
 }
 
-GOLD=1
 clear
 echo ''
 echo '       d8888  .d88888b.       8888888                   888             888 888                  '
@@ -433,7 +391,7 @@ echo ""
 echo -e "This script is designed to ask you just enough questions to keep you involved in the process,"
 echo -e "while making it as easy as possible for you to get it going." 
 echo ""
-echo -e "${BLUE}press enter to continue${RESET}"
+echo -e "${GREEN}press enter to continue${RESET}"
 read
 
 if [ "$EUID" -eq 0 ]; then
@@ -445,7 +403,7 @@ if [ "$EUID" -eq 0 ]; then
 fi
 
 echo -e "Making sure we've got the basics "
-echo -e "(you'll probably need to input ${BLUE}your 'sudo' password${RESET} here)"
+echo -e "(you'll probably need to input ${GREEN}your 'sudo' password${RESET} here)"
 case $DISTRO in
     "debian")
         # Note -- I'm not sure if these are all needed but I'm not in the mood to check
@@ -457,7 +415,6 @@ case $DISTRO in
         if [[ ! $(pacman -Qg base-devel) ]]; then
             sudo pacman -S base-devel --noconfirm
         fi
-
         install_if_needed wget python gmp sqlite3 autoconf-archive pkgconf libev \
             python-mako python-pip net-tools zlib libsodium gettext nginx curl
         ;;
@@ -472,10 +429,10 @@ echo ""
 if ! check_for nvm; then
     install_nvm
 else
-    echo -e "${BLUE}Node${RESET} already installed!"
+    echo -e "${GREEN}Node${RESET} already installed!"
 fi
 
-echo -e "Setting Node to ${BLUE}v16.13.0${RESET} for compatibility"
+echo -e "Setting Node to ${GREEN}v16.13.0${RESET} for compatibility"
 set_node_to v16.13.0
 echo ""
 echo -e "${GREEN}Done!${RESET}"
@@ -505,7 +462,7 @@ configure_tor
 
 echo -e "${BOLD}Configuring AO Core${RESET}\n"
 mkdir -p $HOME/.ao
-echo -e "Installing ${BLUE}ao-3${RESET}"
+echo -e "Installing ${GREEN}ao-3${RESET}"
 npm install
 npm run build
 cat ~/.ao/key >> ~/.ao/keybackups
@@ -514,7 +471,6 @@ node createPrivateKey.js > ~/.ao/key
 
 echo -e "\n${BOLD}Alright, almost there!${RESET} Now we just need to set up the system daemons for Tor, Bitcoin, Lightning, and the AO so that everything opens on startup."
 
-build_service_from_template tor "TORRCPATH=$TORRCPATH" "TORPATH=`which tor`"
 
 # Creating the .tor directory
 mkdir -p $HOME/.tor
@@ -522,19 +478,10 @@ sudo chown $USER $HOME/.tor
 sudo chgrp $USER $HOME/.tor
 sudo chmod 770 $HOME/.tor
 
-activate_service tor
-
-echo ""
+build_service_from_template tor "TORRCPATH=$TORRCPATH" "TORPATH=`which tor`"
 build_service_from_template bitcoin "BITCOIND=`which bitcoind`"
-activate_service bitcoin
-
-echo ""
 build_service_from_template lightning "LIGHTNINGD=`which lightningd`"
-activate_service lightning
-
-echo ""
 build_service_from_template ao "NODE=`which node`" "AO=`pwd`/../src/server/app.js" 
-activate_service ao
 
 # ------------------- Step 9 - Health Check -------------------
 
@@ -577,7 +524,4 @@ activate_service ao
  echo '*********************************************************'
  clboss --version
 echo ""
-echo -e "$BOLD\nOkay, well that's everything!${RESET}\n\nAs long as everything worked properly, \
-you should be ready to continue your journey\ntowards autonomy by opening ${BLUE}$ACCESS_POINT${RESET} in your browser."
-
 exit 0
