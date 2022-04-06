@@ -273,7 +273,6 @@ router.post('/events', (req, res, next)=>{
       case 'ao-inbound-connected':
           if (
               validators.isNotes(req.body.address, errRes) &&
-              validators.isNotes(req.body.alias, errRes) &&
               validators.isNotes(req.body.secret, errRes)
           ){
               events.aoInboundConnected(
