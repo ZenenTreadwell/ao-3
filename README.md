@@ -1,4 +1,4 @@
-AO is a meta-project, the goal is to get people to control their own hardware, control their own data, communicate directly with eachother, and leverage the power of open source protocals.   
+AO is a meta-project, the goal is to get people to control their own hardware, control their own data, communicate directly with each other, and leverage the power of open source protocols.   
 
 To start you need to install Linux onto a computer, laptop, or [mini-board](https://www.hardkernel.com/shop/odroid-c4/). Once you have an install of Manjaro, Ubuntu or Raspbian you can use the ao setup wizard which will install: tor, bitcoin, lightning and ao and configure them all to startup on boot.   
 ```
