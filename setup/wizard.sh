@@ -300,18 +300,12 @@ configure_bitcoin() {
 	        echo bitcoinrpcpass=$PASSLINE >> $HOME/.ao/config
             say 'Reset bitcoin configuration file'
             ask_for prune "Next question - would you like to operate bitcoin in pruned mode? ${GREEN}(y/n)${RESET}:"
-            say ""
             case $prune in
                 y | Y)
-                    say "Let's ${GREEN}enable pruning${RESET} to keep the file size down, then."
-                    prune_size=0
-                    while [ "$prune_size" -lt 550 ]; do
-                        ask_for prune_size "How many Mb are you willing to put towards btc? Min 550: "
-                    done
-                    sed -i "s/txindex=1/prune=${prune_size}/" $HOME/.bitcoin/bitcoin.conf
+                    echo prune=555 >> $HOME/.bitcoin/bitcoin.conf
                     ;;
                 *)
-                    say "Okay great! We'll leave the bitcoin config it as it is."
+                    say "Creating archival node, good choice."
                     ;;
             esac
             ;;
@@ -319,7 +313,6 @@ configure_bitcoin() {
             say "Cool, we'll leave it as is then".
             ;;
     esac
-
 }
 
 configure_lightning() {
@@ -459,9 +452,9 @@ install_if_needed tor
 configure_tor
 
 # ------------------- Step 3 - AO Installation -------------------
-
 echo -e "${BOLD}Configuring AO Core${RESET}\n"
 mkdir -p $HOME/.ao
+touch $HOME/.ao/config
 echo -e "Installing ${GREEN}ao-3${RESET}"
 npm install
 npm run build

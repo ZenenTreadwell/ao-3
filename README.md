@@ -1,10 +1,13 @@
-To install from scratch on a fresh Linux install like Manjaro, Ubuntu or Raspbian, you can use the setup/wizard script:  
-```
-cd setup && chmod +x wizard.sh && ./wizard.sh
-```
-This should get everything installed and running when the computer starts up. Check out localhost:8003 to see your ao. Use bitcoin-cli & lightning-cli to control your nodes. AO shows bitcoin addresses and lightning invoices that go into your local node. It is your responsibility to understand the [backup process](https://lightning.readthedocs.io/BACKUP.html). [Clboss](https://github.com/ZmnSCPxj/clboss) is optionally installed by the wizard and is recommended. It will automatically open and balance channels so you can just get started using lightning. 
+AO is a meta-project, the goal is to get people to control their own hardware, control their own data, communicate directly with eachother, and leverage the power of open source protocals.   
 
-For devs the frontend is a Vue single page app (src/App.vue) and the backend is an Express server (src/server/app.js). The database is by default at (~/.ao/database.sqlite3), it is a single table: events.  
+To start you need to install Linux onto a computer, laptop, or [mini-board](https://www.hardkernel.com/shop/odroid-c4/). Once you have an install of Manjaro, Ubuntu or Raspbian you can use the ao setup wizard which will install: tor, bitcoin, lightning and ao and configure them all to startup on boot.   
+```
+git clone https://github.com/AutonomousOrganization/ao-3.git
+cd ao-3/setup && ./wizard.sh
+```
+Check out localhost:8003 to start using ao. Use bitcoin-cli & lightning-cli to control your nodes. It is your responsibility to understand the [backup process](https://lightning.readthedocs.io/BACKUP.html). 
+
+For devs it's a Vue single page app (src/App.vue) with an Express server (src/server/app.js). The database (~/.ao/database.sqlite3) is a single table: events.  
 
 ```
 # Nodejs 
