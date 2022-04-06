@@ -39,6 +39,7 @@ function aoMuts(aos, ev) {
           outboundSecret: ev.secret,
           inboundSecret: false,
           lastContact: Date.now(),
+          alias: 'ao',
         }
         aos.push(newEv)
       }

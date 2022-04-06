@@ -278,7 +278,7 @@ router.post('/events', (req, res, next)=>{
           ){
               events.aoInboundConnected(
                 req.body.address.trim(),
-                req.body.alias, 
+                req.body.alias || 'ao', 
                 req.body.secret,
                 utils.buildResCallback(res)
               )
