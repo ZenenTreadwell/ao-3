@@ -45,9 +45,10 @@ function aoMuts(aos, ev) {
       }
       break
     case "ao-disconnected":
-      aos.forEach((ao, i) => {
+      aos.some((ao, i) => {
         if (ao.address === ev.address) {
           aos.splice(i, 1)
+          return true
         }
       })
       break
@@ -266,6 +267,7 @@ function sessionsMuts(sessions, ev) {
 }
 
 function hashMapMuts(hashMap, ev){
+    let i
     switch(ev.type){
         case "ao-outbound-connected":
             if (!hashMap[ev.address]) {
@@ -287,7 +289,7 @@ function hashMapMuts(hashMap, ev){
             hashMap[ev.resourceId] = ev.i
             break
         case "tasks-received":{
-            let i = 0
+            i = 0
             ev.tasks.forEach(t => {
                 if (!(hashMap[t.taskId] >= 0)){
                     hashMap[t.taskId] = ev.i + i
@@ -304,25 +306,28 @@ function hashMapMuts(hashMap, ev){
             })
             break
         case "ao-disconnected":
+            i = hashMap[ev.address]
             delete hashMap[ev.address]
             Object.keys(hashMap).forEach(tId => {
-                if (hashMap[tId] > ev.i){
+                if (hashMap[tId] > i){
                     hashMap[tId] --
                 }
             })
             break
         case "member-purged":
+            i = hashMap[ev.memberId]
             delete hashMap[ev.memberId]
             Object.keys(hashMap).forEach(tId => {
-                if (hashMap[tId] > ev.i){
+                if (hashMap[tId] > i){
                     hashMap[tId] --
                 }
             })
             break
         case "resource-purged":
+            i =  hashMap[ev.resourceId]
             delete hashMap[ev.resourceId]
             Object.keys(hashMap).forEach(tId => {
-                if (hashMap[tId] > ev.i){
+                if (hashMap[tId] > i){
                     hashMap[tId] --
                 }
             })
