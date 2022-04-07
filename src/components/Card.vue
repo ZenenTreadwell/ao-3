@@ -2,7 +2,7 @@
 .task(:class="cardInputSty"  @click='goDeeper'  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart'   :ondragleave='dragLeave').dont-break-out.agedwrapper
     img.diamond(v-for='t in b.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)'  @click='$store.commit("setMode", 1)')
     pinner(:b='b', :inId='inId')
-    //- tally(:b='b')
+    tally(:b='b')
     .donut.flaggy.square.hidden(@click.stop='upboat')
     .buffertop
       .cardbody

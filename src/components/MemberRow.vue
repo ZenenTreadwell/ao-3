@@ -13,8 +13,7 @@
             .absoright(@click='delayedPaymode' @click.ctrl='deleteUser'  :class='{loggedInText: m.memberId === $store.getters.member.memberId}')
                 img.boosted(src='../assets/images/hourglass.svg'  v-if='m.action'  @click.stop='goGo(m.action)')
                 img.boosted.doge(:class="{faded: !(b.boost > 0 && m.active)}"  src='../assets/images/doge.svg' )
-                //img.boosted(v-else-if="$store.getters.member.memberId === m.memberId"  src='../assets/images/bitcoin.svg')
-                //img.boosted.trash(v-else @click.stop='deleteUser' src='../assets/images/trash.svg')
+                img.boosted.trash(v-if='mia > 18' @click.stop='deleteUser' src='../assets/images/trash.svg')
         
 </template>
 
@@ -69,6 +68,7 @@ export default {
             this.$store.commit("closeAll")
         },
         deleteUser(){
+            console.log('trying to purge?', this.m.memberId)
             this.$store.dispatch("makeEvent", {
                 type: 'member-purged',
                 memberId: this.m.memberId,

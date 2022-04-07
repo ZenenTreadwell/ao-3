@@ -17,8 +17,8 @@
       .weekdayfull(@click='clickDateBar') {{ chosenWeekDay }}
       .grey
           .datenumber  {{ $store.state.upgrades.chosenDay }}
-          resource-book(:chosenDay='chosenDay')
           .ptr.bg(v-for='n in selectedDaysEvs')
+              checkin(:b='$store.getters.contextCard')
               span(v-if='n.type === "task-claimed"'  @click='goDeeper(n.taskId, n.inId)')
                   img.completedcheckmark(:class='styl(getCardColor(n.taskId))'  src='../assets/images/completed.svg')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }} &nbsp;
@@ -48,7 +48,7 @@ import Current from './Current.vue'
 import Currentr from './Currentr.vue'
 import Linky from './Linky'
 import ResourceBook from './ResourceBook'
-
+import Checkin from './Checkin'
 
 function getDMY(ts){
     let d = new Date(ts)
@@ -61,7 +61,8 @@ function getDMY(ts){
 export default {
   components: {
     Day, Currentr, Current,
-    Linky, ResourceBook
+    Linky, ResourceBook,
+    Checkin
   },
   methods: {
       styl(color){
@@ -86,11 +87,14 @@ export default {
       drop(ev){
           ev.preventDefault();
           var data = ev.dataTransfer.getData("taskId")
+          var startTs = new Date(this.chosenDay.year, this.chosenDay.month, this.chosenDay.day, 7, 7, 7).getTime()
           this.$store.dispatch("makeEvent", {
-              type: 'task-prioritized',
+              type: 'resource-booked',
               inId: this.$store.getters.contextCard.taskId,
-              fromId: this.$store.getters.contextCard.taskId,
-              taskId: data,
+              memberId: this.$store.getters.member.memberId,
+              resourceId: data,
+              startTs,
+              endTs: startTs + 123123,
           })
       },
       checkIsMember(name){

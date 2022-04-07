@@ -48,7 +48,7 @@ router.post('/events', (req, res, next)=>{
           })
           if (
             validators.isMemberId(req.body.memberId, errRes) &&
-            validators.isNotes(isActive, errRes)
+            !isActive
           ) {
             events.memberPurged(
               req.body.memberId,

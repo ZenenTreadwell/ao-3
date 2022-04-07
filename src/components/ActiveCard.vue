@@ -35,7 +35,6 @@ import Coin from './Coin'
 import Currentr from './Currentr'
 import Linky from './Linky'
 import Auth from './Auth'
-import Checkin from './Checkin'
 import Card from './Card'
 import Pinner from './Pinner'
 import ResourceBook from './ResourceBook'
@@ -49,7 +48,7 @@ export default {
             dropping: false
         }
     },
-    components: {Current, Linky, Auth, Card, Coin, Checkin, Pinner, ResourceBook, Currentr},
+    components: {Current, Linky, Auth, Card, Coin, Pinner, ResourceBook, Currentr},
     computed:{
         cardStart(){
             let days = 0
