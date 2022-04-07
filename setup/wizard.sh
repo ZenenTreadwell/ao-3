@@ -8,17 +8,16 @@ ITALIC="\e[3m"
 ULINE="\e[4m"
 RESET="\e[0m"
 
-if [ "$EUID" -eq 0 ]; then
-    echo -e "${RED}Woah there!${RESET} Seems you're running this script as a superuser."
-    echo ""
-    echo "That might cause some issues with permissions and whatnot. Run this script as your default user (without sudo) and I'll ask you when I need superuser permissions"
-    echo ""
-    exit 1
-fi
 
 say() {
     printf "%b\n" "${1}"
 }
+
+if [ "$EUID" -eq 0 ]; then
+    say "${RED}Woah there!${RESET} running this script as a superuser."
+    say "That might cause some issues with permissions. Run this script as your default user (without sudo) and I'll ask you when I need superuser permissions"
+    exit 1
+fi
 
 ask_for() { 
     if [ ${#} -eq 0 ]; then
@@ -37,7 +36,6 @@ ask_for() {
 
     read ${1}
 }
-
 
 check_for() {
     command -v "$1" >/dev/null
@@ -132,28 +130,22 @@ if [ -z "$UPDATED" ]; then
     esac
 fi
 
-say ""
-say "${GREEN}${ULINE}Core Dependencies${RESET}"
-install_if_needed git wget make
-
-say ""
-say "${BOLD}You're good to go!${RESET} Go ${GREEN}make something cool${RESET} :)"
-say ""
-
 locate_torrc() {
 	sudo rm /usr/local/etc/tor/torrc 
 	sudo rm /etc/tor/torrc
+    mkdir -p ${HOME}/.tor 
+    touch ${HOME}/.tor/torrc 
     TORRCPATH="${HOME}/.tor/torrc"
-    echo -e "Your torrc is located at ${GREEN}${TORRCPATH}${RESET}"
+    say "Your torrc is located at ${GREEN}${TORRCPATH}${RESET}"
 }
 
 configure_tor() {
     locate_torrc
-    echo -e "${GREEN}Existing torrc:${RESET}"
+    say "${GREEN}Existing torrc:${RESET}"
     echo ""
     cat $TORRCPATH | grep '^[^#]'
     echo ""
-    echo -en "Would you like to reset it?: ${GREEN}(y/n)${RESET} "
+    say "Would you like to reset it?: ${GREEN}(y/n)${RESET} "
     read torrc_reset
     case $torrc_reset in
         "Y" | "y")
@@ -161,14 +153,14 @@ configure_tor() {
             sed -i "s#USER#${USER}#g" tmp_torrc
             sed -i "s#HOME#${HOME}#g" tmp_torrc
             mv tmp_torrc $TORRCPATH
-            echo -e "${GREEN}Torrc file reset!${RESET}"
+            say "${GREEN}Torrc file reset!${RESET}"
             ;;
         '*')
             echo "Okay, we'll leave it as is."
             ;;
     esac
     echo ""
-    echo -e "Tor configuration ${GREEN}complete!${RESET}"
+    say "Tor configuration ${GREEN}complete!${RESET}"
 }
 
 
@@ -203,15 +195,16 @@ build_service_from_template() {
         echo "Creating $SERVICE.service..."
         SERVICE_FILE=/etc/systemd/system/${SERVICE}.service
         if [ -f "$SERVICE_FILE" ]; then
-            echo "Seems like you've already installed ${SERVICE} here!"
-            echo -en "Would you like to recreate it? ${GREEN}(y/n)${RESET} "
+            say "${GREEN} Existing ${SERVICE} autostart service filei:${RESET}"
+            cat $SERVICE_FILE
+            say "Would you like to recreate it? ${GREEN}(y/n)${RESET} "
             read reset
             case $reset in
                 "Y" | "y")
                     sudo rm $SERVICE_FILE
                     ;;
                 "N" | "n")
-                    echo "Okay, we'll leave it as is."
+                    say "Okay, we'll leave it as is."
                     ;;
             esac
         fi
@@ -237,7 +230,7 @@ activate_service() {
     SERVICE=$1
     SERVICE_FILE=/etc/systemd/system/${SERVICE}.service
     if [ -f "$SERVICE_FILE" ]; then
-        echo -e "Enabling and starting ${GREEN}${SERVICE}${RESET}"
+        say "Enabling and starting ${GREEN}${SERVICE}${RESET}"
         sudo systemctl enable ${SERVICE}
         sudo systemctl restart ${SERVICE}
     fi
@@ -284,7 +277,8 @@ install_clboss() {
 }
 
 configure_bitcoin() {
-    mkdir -p ~/.bitcoin
+    mkdir -p $HOME/.bitcoin
+    touch $HOME/.bitcoin/bitcoin.conf
     say "${GREEN}Existing bitcoin.conf${RESET}"
     cat $HOME/.bitcoin/bitcoin.conf
     say ""
@@ -379,90 +373,84 @@ echo ''
 
 # ------------------- Step 1 - Baseline Setup -------------------
 
-echo -e "${BOLD}Hiya!${RESET} We're going to get you set up with your very own Autonomous Engine."
+say "${BOLD}Hiya!${RESET} We're going to get you set up with your very own Autonomous Engine."
 echo ""
-echo -e "This script is designed to ask you just enough questions to keep you involved in the process,"
-echo -e "while making it as easy as possible for you to get it going." 
+say "This script is designed to ask you just enough questions to keep you involved in the process,"
+say "while making it as easy as possible for you to get it going." 
 echo ""
-echo -e "${GREEN}press enter to continue${RESET}"
+say "${GREEN}press enter to continue${RESET}"
 read
 
 if [ "$EUID" -eq 0 ]; then
-    echo -e "${RED}Woah there!${RESET} Seems you're running this script as a superuser."
+    say "${RED}Woah there!${RESET} Seems you're running this script as a superuser."
     echo ""
     echo "That might cause some issues with permissions and whatnot. Run this script as your default user (without sudo) and I'll ask you when I need superuser permissions"
     echo ""
     exit 1
 fi
 
-echo -e "Making sure we've got the basics "
-echo -e "(you'll probably need to input ${GREEN}your 'sudo' password${RESET} here)"
+say "Making sure we've got the basics "
+say "(you'll probably need to input ${GREEN}your 'sudo' password${RESET} here)"
 case $DISTRO in
     "debian")
         # Note -- I'm not sure if these are all needed but I'm not in the mood to check
         install_if_needed git wget sqlite3 zlib1g-dev libtool-bin autoconf autoconf-archive automake autotools-dev \
         libgmp-dev libsqlite3-dev python python3 python3-mako libsodium-dev build-essential pkg-config libev-dev \
-        libcurl4-gnutls-dev libssl-dev fakeroot devscripts libboost-all-dev curl
+        libcurl4-gnutls-dev libssl-dev fakeroot devscripts libboost-all-dev curl tor make
         ;;
     "arch")
         if [[ ! $(pacman -Qg base-devel) ]]; then
             sudo pacman -S base-devel --noconfirm
         fi
         install_if_needed wget python gmp sqlite3 autoconf-archive pkgconf libev \
-            python-mako python-pip net-tools zlib libsodium gettext nginx curl
+            python-mako python-pip net-tools zlib libsodium gettext nginx curl tor make
         ;;
     "fedora")
         install_if_needed git wget tor sqlite3 autoconf autoconf-archive automake \
-        python python3 python3-mako pkg-config fakeroot devscripts curl
+        python python3 python3-mako pkg-config fakeroot devscripts curl make
         ;;
 esac
 echo ""
 # ------------------- Step 2 - AO Environment Setup -------------------
-
 if ! check_for nvm; then
     install_nvm
 else
-    echo -e "${GREEN}Node${RESET} already installed!"
+    say "${GREEN}Node${RESET} already installed!"
 fi
 
-echo -e "Setting Node to ${GREEN}v16.13.0${RESET} for compatibility"
+say "Setting Node to ${GREEN}v16.13.0${RESET} for compatibility"
 set_node_to v16.13.0
-echo ""
-echo -e "${GREEN}Done!${RESET}"
-echo ""
 
-echo -e "${BOLD}Installing Bitcoin Ecosystem${RESET}"
+say "${BOLD}Installing Bitcoin Ecosystem${RESET}"
     echo ""
 
 if ! check_for bitcoind; then
-    echo -e "Building bitcoind from source... might take a while!"
+    say "Building bitcoind from source... might take a while!"
     install_bitcoin
 fi
 
 if ! check_for lightningd; then
-    echo -e "Building lightningd from source... here we go again"
+    say "Building lightningd from source... here we go again"
     install_lightning
 fi
 
 configure_bitcoin
 configure_lightning
-echo ''
-
-install_if_needed tor
 configure_tor
 
 # ------------------- Step 3 - AO Installation -------------------
-echo -e "${BOLD}Configuring AO Core${RESET}\n"
+say "${BOLD}Configuring AO Core${RESET}\n"
 mkdir -p $HOME/.ao
 touch $HOME/.ao/config
-echo -e "Installing ${GREEN}ao-3${RESET}"
+say "Installing ${GREEN}ao-3${RESET}"
+git pull origin master
 npm install
 npm run build
 cat ~/.ao/key >> ~/.ao/keybackups
 node createPrivateKey.js > ~/.ao/key
 # ------------------- Step 7 - Systemd Setup -------------------
 
-echo -e "\n${BOLD}Alright, almost there!${RESET} Now we just need to set up the system daemons for Tor, Bitcoin, Lightning, and the AO so that everything opens on startup."
+say "\n${BOLD}Alright, almost there!${RESET} Now we just need to set up the system daemons for Tor, Bitcoin, Lightning, and the AO so that everything opens on startup."
 
 
 # Creating the .tor directory
@@ -476,10 +464,33 @@ build_service_from_template bitcoin "BITCOIND=`which bitcoind`"
 build_service_from_template lightning "LIGHTNINGD=`which lightningd`"
 build_service_from_template ao "NODE=`which node`" "AO=`pwd`/../src/server/app.js" 
 
+# ------------------- Step 10 - Spark Wallet -------------------
+say " "
+ask_for sparky "Would you like to setup spark wallet serverr? ${GREEN}(y/n)${RESET}: "
+case $sparky in
+    "y" | "Y")
+        ask_for sparkyname "Enter your spark wallet login name: "
+        ask_for sparkypass "Enter your spark wallet password."
+        mkdir -p $HOME/.spark-wallet
+        echo "login=$sparkyname:$sparkypass" > $HOME/.spark-wallet/config
+        npm install -g spark-wallet
+        say "The above onion wallet address:"
+        say "On iOS: ${BOLD}https://apps.apple.com/us/app/onion-browser/id519296448${RESET}"
+        say "On android: ${BOLD}$https://play.google.com/store/apps/details?id=org.torproject.torbrowser${RESET}"
+        say "Other: ${BOLD}https://www.torproject.org/download/${RESET}"
+        #build_service_from_template spark "SPARKBIN=`which spark-wallet`"
+        #activate_service spark 
+        say "Oops spark wallet service doesnt work yet, you have to start manually: spark-wallet"
+        say "${BOLD}Bookmark this spark wallet address:  ${RESET}"
+        export PORT=9737; export ONESHOT=true; node ../src/server/torControl.js
+        ;;
+esac
+
+
 # ------------------- Step 9 - Health Check -------------------
 
  echo '*********************************************************'
- echo -e "*                  ${BOLD}Version Information${RESET}                  *"
+ say "*                  ${BOLD}Version Information${RESET}                  *"
  echo '*********************************************************'
 
  echo ' '

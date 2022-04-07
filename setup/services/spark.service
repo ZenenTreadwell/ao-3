@@ -1,0 +1,13 @@
+[Unit]
+Description=ao-daemon
+
+[Service]
+ExecStart=SPARKBIN
+User=USER
+Type=simple
+Restart=on-failure
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+

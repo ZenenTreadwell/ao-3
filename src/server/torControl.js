@@ -1,13 +1,19 @@
-var fs = require('fs')
-var net = require('net');
-let PORT = process.env.PORT || 8003
+const fs = require('fs')
+const net = require('net');
+const PORT = process.env.PORT || 8003
 const uuidV1 = require('uuid/v1')
 
-let hiddenServicePortSplit
-let hiddenServiceDirSplit
-let onion
-var i = -1
-module.exports = function(callback){
+if (process.env.ONESHOT) {
+    ogre((err, onion) => {
+        if (err) return console.log(err);
+        console.log("Port",PORT, 'exposed @', onion)
+    })
+}
+
+module.exports = ogre
+function ogre(callback){
+    var i = -1
+    let hiddenServicePortSplit, hiddenServiceDirSplit, onion
 	try {
 		var cookieBuff = fs.readFileSync(process.env.HOME + '/.tor/control_auth_cookie')
 		var cookie = Buffer.from(cookieBuff).toString('hex')

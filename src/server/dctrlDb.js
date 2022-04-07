@@ -7,7 +7,7 @@ const chalk = require('chalk')
 const config = require('./configParser').config
 let PORT = process.env.PORT || 8003
 let dblocation = config.aodir + '/database.sqlite3'
-if (PORT !== 8003){
+if (parseInt(PORT) !== 8003){
     dblocation = dblocation.replace('database', PORT)
 }
 if (process.env.DATABASE){
