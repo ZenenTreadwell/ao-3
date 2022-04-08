@@ -2,9 +2,10 @@
 
 #nodes
     .breathing
-    .boxy(v-if='$store.state.cash.info.address')
-        .nodeaddress {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
-        button.ptr(@click='clicktopay') donate
+    .boxy(v-if='$store.state.cash.info.id')
+        .nodeaddress {{ $store.state.cash.info.id }}
+            span(v-if='$store.state.cash.info.address && $store.state.cash.info.address.length > 0') @{{ $store.state.cash.info.address[0].address }}
+        button.ptr(@click='clicktopay') deposit
     .price(v-if='sats > 0') 1 CAD = {{ sats }} sats
     .price(v-else) 1 Bitcoin = 100 000 000 sats
     .flexrow
