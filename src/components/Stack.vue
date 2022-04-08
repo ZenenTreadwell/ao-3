@@ -179,26 +179,29 @@ export default {
 
     },
     previous(){
-        let position = (this.sanePosition - 1)
-        if (position <= -1){
-            position = this.c.length - 1
+        if (this.position <= 0){
+            return this.last()
         }
         let touchyBack =  {
           type: 'task-touched',
           taskId: this.$store.getters.contextCard.taskId,
           stack: this.stack,
-          position,
+          position:this.position - 1,
         }
         this.$store.dispatch("makeEvent", touchyBack)
         this.$store.commit("applyEvent", touchyBack)
     },
     next(){
+      if (this.position + 1 >= this.c.length){
+          return this.first()
+      }
       let touchyForward = {
         type: 'task-touched',
         taskId: this.$store.getters.contextCard.taskId,
         stack: this.stack,
-        position: (this.position + 1) % this.c.length
+        position: this.position + 1 
       }
+        
       this.$store.dispatch("makeEvent", touchyForward)
       this.$store.commit("applyEvent", touchyForward)
     },

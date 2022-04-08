@@ -18,6 +18,7 @@ const bitClient = new Client({
 bitClient.getBlockchainInfo().then(x => {
     if (x.initialblockdownload){
         console.log('Initial bitcoin sync detected', chalk.red((100 * x.verificationprogress).toFixed(2)), '% complete')
+        allEvents.getNodeInfo(x)
     } else {
         let sats = 100000000
         let halving = 210000

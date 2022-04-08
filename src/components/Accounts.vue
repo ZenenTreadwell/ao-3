@@ -49,7 +49,7 @@ export default {
 #accounts
     padding : 1.5em
     overflow-y: scroll
-    max-height: 100vh
+    max-height: calc(83vh - 3.3em)
     padding-top: 3.5em
 
 .fr 

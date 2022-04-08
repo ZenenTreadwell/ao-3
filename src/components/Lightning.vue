@@ -1,8 +1,8 @@
 <template lang='pug'>
 
-#nodes(v-if='$store.state.cash.info.address')
+#nodes
     .breathing
-    .boxy
+    .boxy(v-if='$store.state.cash.info.address')
         .nodeaddress {{ $store.state.cash.info.id }}@{{ $store.state.cash.info.address[0].address }}
         button.ptr(@click='clicktopay') donate
     .price(v-if='sats > 0') 1 CAD = {{ sats }} sats
@@ -39,8 +39,8 @@
         div
             div in: {{ fetchedPeer.in_payments_fulfilled }} / {{ fetchedPeer.in_payments_offered }}
             div out: {{ fetchedPeer.out_payments_fulfilled }} / {{ fetchedPeer.out_payments_offered }}
-    input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
-    button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
+    // input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
+    // button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
 </template>
 
 <script>

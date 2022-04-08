@@ -111,7 +111,7 @@ export default {
     width: 15%;
     max-width: 5em
     position: absolute;
-    bottom: 0;
+    bottom: -.654321em;
     right: 11.11111%
     height: 3em
 

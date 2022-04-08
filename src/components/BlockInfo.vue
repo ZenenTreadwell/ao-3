@@ -48,7 +48,8 @@ div
                 .six.grid
                     .chain  {{ ($store.state.cash.info.mempool.smartFee.feerate * 10000).toFixed() }}
                 .one.grid(:class='getFeeColor($store.state.cash.info.mempool.smartFee.feerate * 10000)')
-    .four.gridi(v-else) node syncing
+    .boxy(v-else) node syncing {{Math.round($store.state.cash.info.verificationprogress * 10000) / 100 }}% 
+
 </template>
 
 <script> 
