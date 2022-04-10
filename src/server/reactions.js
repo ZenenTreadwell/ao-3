@@ -112,7 +112,6 @@ function reactions(ev){
             case 'member-created':
                 break
             case 'get-node-info':
-                if (ev.info.verificationprogress) return 
                 let channelReducer = (accumulator,current) => accumulator + current.channel_sat
                 let outputReducer = (accumulator,current) => {
                     if (current.status !== "confirmed"){

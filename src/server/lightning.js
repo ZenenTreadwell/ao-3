@@ -15,10 +15,27 @@ const bitClient = new Client({
     password: config.bitcoinrpcpass 
 }) 
 
+var nodeInfo = { 
+    id: '',
+    alias: '',
+    address: [],
+    bitcoinblocks: 0,
+    lightningblocks: 0,
+    initialblockdownload: true, 
+    verificationprogress: null,
+    channels: [],
+    outputs: [],
+    smartfee: 0,
+    feepercentiles: []
+}
+function updateNodeInfo(){ 
+    allEvents.getNodeInfo(nodeInfo)
+}
 bitClient.getBlockchainInfo().then(x => {
     if (x.initialblockdownload){
         console.log('Initial bitcoin sync detected', chalk.red((100 * x.verificationprogress).toFixed(2)), '% complete')
-        allEvents.getNodeInfo(x)
+        nodeInfo.initialblockdownload = x.initialblockdownload
+        nodeInfo.verificationprogress = x.verificationprogress
     } else {
         let sats = 100000000
         let halving = 210000
@@ -49,53 +66,6 @@ function getDecode (rawx){
         .catch(err => {})
 }
 
-function newSample(){
-    return { super: [], high: [], mid:[], low: [] }
-}
-
-var sampleTxns
-function getMempool(){
-    return bitClient.getMempoolInfo()
-        .then(memPoolInfo => {
-              return bitClient.getRawMempool()
-                  .then(rawMemPool => {
-                      sampleTxns = newSample()
-                      let sample = _.sampleSize(rawMemPool, 100)
-                      return sample.reduce( (prevPromise, txid) => {
-                          return prevPromise.then( x => {
-                              return bitClient.getMempoolEntry(txid)
-                                  .then(mentry => {
-                                      let satFee = mentry.fee * 100000000 / mentry.vsize
-                                      if (satFee > 150){
-                                          sampleTxns.super.push(txid)
-                                      } else if (satFee > 50){
-                                          sampleTxns.high.push(txid)
-                                      } else if (satFee > 10){
-                                          sampleTxns.mid.push(txid)
-                                      } else {
-                                          sampleTxns.low.push(txid)
-                                      }
-                                      return Promise.resolve()
-                                  }).catch(noTx => {
-                                      return Promise.resolve()
-                                  })
-                              })
-                      } , Promise.resolve())
-                          .then(x => {
-                              return bitClient.estimateSmartFee(6)
-                                  .then(smartFee => {
-                                      memPoolInfo.smartFee = smartFee
-                                      memPoolInfo.sampleTxns = sampleTxns.super
-                                            .concat(sampleTxns.high)
-                                            .concat(sampleTxns.med)
-                                            .concat(sampleTxns.low)
-                                      return memPoolInfo
-                                  })
-                          })
-                  })
-        })
-}
-
 lightningRouter.post('/lightning/peer', (req,res) => {
     client.listpeers(req.body.pubkey).then(x => {
         res.send(x.peers[0].channels[0])
@@ -103,39 +73,6 @@ lightningRouter.post('/lightning/peer', (req,res) => {
     .catch(err => {
         res.status(400).end()
     })
-})
-
-
-lightningRouter.post('/bitcoin/transaction',(req, res) => {
-      bitClient.getMempoolEntry(req.body.txid)
-          .then(memPool => {
-              getDecode(req.body.txid).then(txn => {
-                  txn.memPool = memPool
-                  res.send(txn)
-              })
-          })
-          .catch(notInMempool => {
-              getDecode(req.body.txid)
-                  .then(txn => {
-                      if (txn.vout) {
-                          try {
-                              Promise.all(txn.vout.map((output, i) => {
-                                return bitClient.getTxOut(req.body.txid, i)
-                              })).then(outs => {
-                                if (outs.some(x => x !== null)){
-                                  txn.utxo = outs
-                                }
-                                res.send(txn)
-                              })
-                          } catch (err){
-                              res.status(400).end()
-                          }
-                      }
-                  }).catch(err => {
-                      res.status(400).end()
-                  })
-          })
-
 })
 
 function createInvoice(sat, label, description, expiresInSec){
@@ -155,7 +92,9 @@ function newAddress(){
 
 function updateAll(){
     checkFunds()
-    getInfo()
+    checkLightning()
+    checkBitcoin()
+    setTimeout(updateNodeInfo, 10456)
 }
 
 function watchOnChain(){
@@ -169,6 +108,8 @@ function checkFunds(){
     return client
         .listfunds()
         .then(result => {
+            nodeInfo.channels = result.channels
+            nodeInfo.outputs = result.outputs
             try {
                 result.outputs.forEach( o => {
                     if (o.status === 'confirmed' && serverState.cash.usedTxIds.indexOf(o.txid) === -1){
@@ -184,49 +125,36 @@ function checkFunds(){
         .catch(err => {})
 }
 
-function getInfo(){
-    function fundInfo(mainInfo){
-      client.listfunds()
-            .then(result => {
-                mainInfo.channels = result.channels
-                mainInfo.outputs = result.outputs
-                getMempool().then(mempool => {
-                    mainInfo.mempool = mempool
-                    try {
-                        allEvents.getNodeInfo(mainInfo)
-                    } catch (err) {
-                        console.log('getNodeInfo error:  ', err)
-                    }
-                })
+function checkLightning(){
+    return client
+        .getinfo()
+        .then(mainInfo => {
+            nodeInfo.alias = mainInfo.alias
+            nodeInfo.id = mainInfo.id
+            nodeInfo.lightningblocks = mainInfo.blockheight
+        }).catch(console.log)
+}
 
-            })
-    }
-    try {
-      return client
-          .getinfo()
-          .then(mainInfo => {
-              if (mainInfo.warning_bitcoind_sync){
-                  return fundInfo(mainInfo)
-              }
-              bitClient
-                  .getBlockStats(mainInfo.blockheight)
-                  .then( blockfo => {
-                      mainInfo.blockfo = blockfo
-                      fundInfo(mainInfo)
-                  })  
-          })
-          .catch(console.log)
-    } catch (err) {
-        console.log('likely cannot get block due to syncing or pruning, should resolve after caught up', err)
-    }
+function checkBitcoin(){
+    return bitClient.getBlockchainInfo()
+        .then(x => {
+            nodeInfo.bitcoinblocks = x.blocks
+            nodeInfo.initialblockdownload = x.initialblockdownload
+            nodeInfo.verificationprogress = x.verificationprogress
+            return bitClient
+                .getBlockStats(nodeInfo.bitcoinblocks, ["feerate_percentiles"])
+                .then( blockfo => {
+                    nodeInfo.feepercentiles = blockfo.feerate_percentiles
+                    bitClient.estimateSmartFee(5).then(y => {
+                        nodeInfo.smartfee = y.feerate
+                    })
+                })  
+        })  
 }
 
 function recordEveryInvoice(start){
     client.waitanyinvoice(start)
         .then(invoice => {
-            if (!invoice.payment_hash){
-                return console.log('no payment hash wth?', {invoice})
-            }
             serverState.tasks.forEach( t => {
                 if (t.payment_hash === invoice.payment_hash){
                     allEvents.taskBoostedLightning(t.taskId, invoice.msatoshi / 1000, invoice.payment_hash, invoice.pay_index)

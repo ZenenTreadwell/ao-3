@@ -11,7 +11,6 @@ For devs it's a Vue single page app (src/App.vue) with an Express server (src/se
 
 ```
 # Nodejs 
-git clone https://github.com/AutonomousOrganization/ao-3 && cd ao-3
 npm install
 npm run build #bundle App.vue
 npm start #serve bundle and start api
