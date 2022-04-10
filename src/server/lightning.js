@@ -14,7 +14,6 @@ const bitClient = new Client({
     username: 'ao',
     password: config.bitcoinrpcpass 
 }) 
-
 var nodeInfo = { 
     id: '',
     alias: '',
@@ -149,7 +148,7 @@ function checkBitcoin(){
                         nodeInfo.smartfee = y.feerate
                     })
                 })  
-        })  
+        }).catch(console.log)  
 }
 
 function recordEveryInvoice(start){
