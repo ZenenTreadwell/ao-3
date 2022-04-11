@@ -6,7 +6,7 @@ const uuidV1 = require('uuid/v1')
 if (process.env.ONESHOT) {
     ogre((err, onion) => {
         if (err) return console.log(err);
-        console.log("Port",PORT, 'exposed @', onion)
+        console.log(onion)
     })
 }
 

@@ -181,8 +181,6 @@ install_nvm() {
 	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 	[[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
 	nvm --version
-	say "Node Version Manager- install. ${GREEN}Enter to continue${RESET}"
-	read 
 }
 
 # ------------------- Systemd / Services -------------------
@@ -372,15 +370,7 @@ echo 'd88P     888  "Y88888P"       8888888 888  888  88888P"  "Y888 "Y888888 88
 echo ''
 
 # ------------------- Step 1 - Baseline Setup -------------------
-
-say "${BOLD}Hiya!${RESET} We're going to get you set up with your very own Autonomous Engine."
-echo ""
-say "This script is designed to ask you just enough questions to keep you involved in the process,"
-say "while making it as easy as possible for you to get it going." 
-echo ""
-say "${GREEN}press enter to continue${RESET}"
-read
-
+sleep 2
 if [ "$EUID" -eq 0 ]; then
     say "${RED}Woah there!${RESET} Seems you're running this script as a superuser."
     echo ""
@@ -396,18 +386,18 @@ case $DISTRO in
         # Note -- I'm not sure if these are all needed but I'm not in the mood to check
         install_if_needed git wget sqlite3 zlib1g-dev libtool-bin autoconf autoconf-archive automake autotools-dev \
         libgmp-dev libsqlite3-dev python python3 python3-mako libsodium-dev build-essential pkg-config libev-dev \
-        libcurl4-gnutls-dev libssl-dev fakeroot devscripts libboost-all-dev curl tor make
+        libcurl4-gnutls-dev libssl-dev fakeroot devscripts libboost-all-dev curl tor make qrencode
         ;;
     "arch")
         if [[ ! $(pacman -Qg base-devel) ]]; then
             sudo pacman -S base-devel --noconfirm
         fi
         install_if_needed wget python gmp sqlite3 autoconf-archive pkgconf libev \
-            python-mako python-pip net-tools zlib libsodium gettext nginx curl tor make
+            python-mako python-pip net-tools zlib libsodium gettext nginx curl tor make qrencode
         ;;
     "fedora")
         install_if_needed git wget tor sqlite3 autoconf autoconf-archive automake \
-        python python3 python3-mako pkg-config fakeroot devscripts curl make
+        python python3 python3-mako pkg-config fakeroot devscripts curl make qrencode
         ;;
 esac
 echo ""
@@ -478,54 +468,50 @@ case $sparky in
         say "On iOS: ${BOLD}https://apps.apple.com/us/app/onion-browser/id519296448${RESET}"
         say "On android: ${BOLD}$https://play.google.com/store/apps/details?id=org.torproject.torbrowser${RESET}"
         say "Other: ${BOLD}https://www.torproject.org/download/${RESET}"
-        #build_service_from_template spark "SPARKBIN=`which spark-wallet`"
-        #activate_service spark 
+        build_service_from_template spark "SPARKBIN=`which spark-wallet`"
+        activate_service spark 
+        sudo ln -s `which node` /usr/bin/node
         say "Oops spark wallet service doesnt work yet, you have to start manually: spark-wallet"
         say "${BOLD}Bookmark this spark wallet address:  ${RESET}"
-        export PORT=9737; export ONESHOT=true; node ../src/server/torControl.js
+        export PORT=9737; export ONESHOT=true; SPARKONION=`node ../src/server/torControl.js`
         ;;
 esac
 
 
 # ------------------- Step 9 - Health Check -------------------
 
- echo '*********************************************************'
- say "*                  ${BOLD}Version Information${RESET}                  *"
- echo '*********************************************************'
-
- echo ' '
- echo 'make Version'
- echo '*********************************************************'
- make --version
-
- echo ' '
- echo 'node Version'
- echo '*********************************************************'
- node --version
-
- echo ' '
- echo 'sqlite3 Version'
- echo '*********************************************************'
- sqlite3 --version
-
- echo ' '
- echo 'tor Version'
- echo '*********************************************************'
- tor --version
-
- echo ' '
- echo 'bitcoind Version'
- echo '*********************************************************'
- bitcoind --version
-
- echo ' '
- echo 'lightningd Version'
- echo '*********************************************************'
- lightningd --version
-
- echo ' '
- echo 'clboss Version'
- echo '*********************************************************'
- clboss --version
-echo ""
+echo 'node Version'
+echo '*********************************************************'
+node --version
+echo ' '
+echo 'sqlite3 Version'
+echo '*********************************************************'
+sqlite3 --version
+echo ' '
+echo 'tor Version'
+echo '*********************************************************'
+tor --version
+echo ' '
+echo 'bitcoind Version'
+echo '*********************************************************'
+bitcoind --version
+echo ' '
+echo 'lightningd Version'
+echo '*********************************************************'
+lightningd --version
+echo ' '
+echo 'clboss Version'
+echo '*********************************************************'
+clboss --version
+case $sparky in
+    "y" | "Y")
+        echo ""
+        echo Your Spark Wallet Onion: 
+        qrencode -m 3 -t ANSIUTF8 $SPARKONION
+    ;;
+esac
+echo ' '
+echo Your AO Onion: 
+export PORT=8003; export ONESHOT=true; qrencode -m 3 -t ANSIUTF8 `node ../src/server/torControl.js`
+echo View it from same computer at http://localhost:8003
 exit 0
