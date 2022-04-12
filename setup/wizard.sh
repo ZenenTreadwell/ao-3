@@ -356,22 +356,36 @@ bitcoin_is_synced() {
         return 2
     fi
 }
-
 clear
-echo ''
-echo '       d8888  .d88888b.       8888888                   888             888 888                  '
-echo '      d88888 d88P" "Y88b        888                     888             888 888                  '
-echo '     d88P888 888     888        888                     888             888 888                  '
-echo '    d88P 888 888     888        888   88888b.  .d8888b  888888  8888b.  888 888  .d88b.  888d888 '
-echo '   d88P  888 888     888        888   888 "88b 88K      888        "88b 888 888 d8P  Y8b 888P"   '
-echo '  d88P   888 888     888        888   888  888 "Y8888b. 888    .d888888 888 888 88888888 888     '
-echo ' d8888888888 Y88b. .d88P        888   888  888      X88 Y88b.  888  888 888 888 Y8b.     888     '
-echo 'd88P     888  "Y88888P"       8888888 888  888  88888P"  "Y888 "Y888888 888 888  "Y8888  888     '
-echo ''
-
-# ------------------- Step 1 - Baseline Setup -------------------
-sleep 2
-if [ "$EUID" -eq 0 ]; then
+echo "                                                              ....                            "
+echo "                                                            .'' .'''                          "
+echo "                            .                             .'   :                              "
+echo "                            \\                          .:    :                               "
+echo "                             \\                        _:    :       ..----.._                "
+echo "                              \\                    .:::.....:::.. .'         ''.             "
+echo "                               \\                 .'  #-. .-######'     #        '.           "
+echo "                                \\                 '.##'/ ' ################       :          "
+echo "                                 \\                  #####################         :          "
+echo "                                  \\               ..##.-.#### .''''###'.._        :          "
+echo "                                   \\             :--:########:            '.    .' :         "
+echo "         d8888  .d88888b.           \\..__...--.. :--:#######.'   '.         '.     :         "
+echo "        d88888 d88P" "Y88b          :     :  : : '':'-:'':'::        .         '.  .'         "
+echo "       d88P888 888     888          '---'''..: :    ':    '..'''.      '.        :'           "
+echo "      d88P 888 888     888             \\  :: : :     '      ''''''.     '.      .:           "
+echo "     d88P  888 888     888              \\ ::  : :     '            '.      '      :          "
+echo "    d88P   888 888     888               \\::   : :           ....' ..:       '     '.        "
+echo "   d8888888888 Y88b. .d88P                \\::  : :    .....####\\ .~~.:.             :       "
+echo "  d88P     888  "Y88888P"                  \\':.:.:.:'#########.===. ~ |.'-.   . '''.. :      "
+echo "                                            \\    .'  ########## \ \ _.' '. '-.       '''.    "
+echo "                                            :\\  :     ########   \ \      '.  '-.        :   "
+echo "                                           :  \\'    '   #### :    \ \      :.    '-.      :  "
+echo "                                          :  .'\\   :'  :     :     \ \       :      '-.    : "
+echo "                                         : .'  .\\  '  :      :     :\ \       :        '.   :"
+echo "                                         ::   :  \\'  :.      :     : \ \      :          '. :"
+echo "                                         ::. :    \\  : :      :    ;  \ \     :           '.:"
+# ------------------- Step 1 - Baseline Setup -------------------                                      
+sleep 2                                                                                                
+if [ "$EUID" -eq 0 ]; then                                                                             
     say "${RED}Woah there!${RESET} Seems you're running this script as a superuser."
     echo ""
     echo "That might cause some issues with permissions and whatnot. Run this script as your default user (without sudo) and I'll ask you when I need superuser permissions"
@@ -381,6 +395,7 @@ fi
 
 say "Making sure we've got the basics "
 say "(you'll probably need to input ${GREEN}your 'sudo' password${RESET} here)"
+echo '                                                                                                 '
 case $DISTRO in
     "debian")
         # Note -- I'm not sure if these are all needed but I'm not in the mood to check
@@ -464,10 +479,6 @@ case $sparky in
         mkdir -p $HOME/.spark-wallet
         echo "login=$sparkyname:$sparkypass" > $HOME/.spark-wallet/config
         npm install -g spark-wallet
-        say "The above onion wallet address:"
-        say "On iOS: ${BOLD}https://apps.apple.com/us/app/onion-browser/id519296448${RESET}"
-        say "On android: ${BOLD}$https://play.google.com/store/apps/details?id=org.torproject.torbrowser${RESET}"
-        say "Other: ${BOLD}https://www.torproject.org/download/${RESET}"
         build_service_from_template spark "SPARKBIN=`which spark-wallet`"
         activate_service spark 
         sudo ln -s `which node` /usr/bin/node
@@ -503,15 +514,22 @@ echo ' '
 echo 'clboss Version'
 echo '*********************************************************'
 clboss --version
+say " "
+say "To browse to an onion use:"
+say "On iOS: ${BOLD}onion-browser${RESET}"
+say "On android: ${BOLD}torbrowser${RESET}"
+say "${BOLD}torproject.org/download${RESET}"
 case $sparky in
     "y" | "Y")
         echo ""
-        echo Your Spark Wallet Onion: 
+        echo Wallet Onion: 
         qrencode -m 3 -t ANSIUTF8 $SPARKONION
+        echo http://localhost:9737
     ;;
 esac
 echo ' '
-echo Your AO Onion: 
+echo AO Onion: 
 export PORT=8003; export ONESHOT=true; qrencode -m 3 -t ANSIUTF8 `node ../src/server/torControl.js`
-echo View it from same computer at http://localhost:8003
+echo http://localhost:8003
+
 exit 0
