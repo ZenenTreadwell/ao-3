@@ -42,7 +42,7 @@ check_for() {
 }
 
 install_if_needed() {
-    for package in "$@" # $@ means "all the arguments you passed 
+    for package in "$@"
     do
         case $DISTRO in
             "debian")
@@ -357,34 +357,34 @@ bitcoin_is_synced() {
     fi
 }
 clear
-echo "                                                              ....                            "
-echo "                                                            .'' .'''                          "
-echo "                            .                             .'   :                              "
-echo "                            \\                          .:    :                               "
-echo "                             \\                        _:    :       ..----.._                "
-echo "                              \\                    .:::.....:::.. .'         ''.             "
-echo "                               \\                 .'  #-. .-######'     #        '.           "
-echo "                                \\                 '.##'/ ' ################       :          "
-echo "                                 \\                  #####################         :          "
-echo "                                  \\               ..##.-.#### .''''###'.._        :          "
-echo "                                   \\             :--:########:            '.    .' :         "
-echo "         d8888  .d88888b.           \\..__...--.. :--:#######.'   '.         '.     :         "
-echo "        d88888 d88P" "Y88b          :     :  : : '':'-:'':'::        .         '.  .'         "
-echo "       d88P888 888     888          '---'''..: :    ':    '..'''.      '.        :'           "
-echo "      d88P 888 888     888             \\  :: : :     '      ''''''.     '.      .:           "
-echo "     d88P  888 888     888              \\ ::  : :     '            '.      '      :          "
-echo "    d88P   888 888     888               \\::   : :           ....' ..:       '     '.        "
-echo "   d8888888888 Y88b. .d88P                \\::  : :    .....####\\ .~~.:.             :       "
-echo "  d88P     888  "Y88888P"                  \\':.:.:.:'#########.===. ~ |.'-.   . '''.. :      "
-echo "                                            \\    .'  ########## \ \ _.' '. '-.       '''.    "
-echo "                                            :\\  :     ########   \ \      '.  '-.        :   "
-echo "                                           :  \\'    '   #### :    \ \      :.    '-.      :  "
-echo "                                          :  .'\\   :'  :     :     \ \       :      '-.    : "
-echo "                                         : .'  .\\  '  :      :     :\ \       :        '.   :"
-echo "                                         ::   :  \\'  :.      :     : \ \      :          '. :"
-echo "                                         ::. :    \\  : :      :    ;  \ \     :           '.:"
+echo "                                                       ....                            "
+echo "                                                    .'' .'''                           "
+echo "                                                   .'   :                              "
+echo "                     \\                          .:    :                               "
+echo "                      \\                        _:    :       ..----.._                "
+echo "                       \\                    .:::.....:::.. .'         ''.             "
+echo "                        \\                 .'  #-. .-######'     #        '.           "
+echo "                         \\                 '.##'/ ' ################       :          "
+echo "                          \\                  #####################         :          "
+echo "                           \\               ..##.-.#### .''''###'.._        :          "
+echo "                            \\             :--:########:            '.    .' :         "
+echo "         d8888  .d88888b.    \\..__...--.. :--:#######.'   '.         '.     :         "
+echo "        d88888 d88P   Y88b   :     :  : : '':'-:'':'::        .         '.  .'         "
+echo "       d88P888 888     888   '---'''..: :    ':    '..'''.      '.        :'           "
+echo "      d88P 888 888     888      \\  :: : :     '      ''''''.     '.      .:           "
+echo "     d88P  888 888     888       \\ ::  : :     '            '.      '      :          "
+echo "    d88P   888 888     888        \\::   : :           ....' ..:       '     '.        "
+echo "   d8888888888 Y88b. .d88P         \\::  : :    .....####\\ .~~.:.             :       "
+echo "  d88P     888   Y88888P            \\':.:.:.:'#########.===. ~ |.'-.   . '''.. :      "
+echo "                                     \\    .'  ########## \ \ _.' '. '-.       '''.    "
+echo "                                     :\\  :     ########   \ \      '.  '-.        :   "
+echo "                                    :  \\'    '   #### :    \ \      :.    '-.      :  "
+echo "                                   :  .'\\   :'  :     :     \ \       :      '-.    : "
+echo "                                  : .'  .\\  '  :      :     :\ \       :        '.   :"
+echo "                                  ::   :  \\'  :.      :     : \ \      :          '. :"
+echo "                                  ::. :    \\  : :      :    ;  \ \     :           '.:"
 # ------------------- Step 1 - Baseline Setup -------------------                                      
-sleep 2                                                                                                
+sleep 5                                                                                                
 if [ "$EUID" -eq 0 ]; then                                                                             
     say "${RED}Woah there!${RESET} Seems you're running this script as a superuser."
     echo ""
@@ -394,8 +394,6 @@ if [ "$EUID" -eq 0 ]; then
 fi
 
 say "Making sure we've got the basics "
-say "(you'll probably need to input ${GREEN}your 'sudo' password${RESET} here)"
-echo '                                                                                                 '
 case $DISTRO in
     "debian")
         # Note -- I'm not sure if these are all needed but I'm not in the mood to check
@@ -439,10 +437,6 @@ if ! check_for lightningd; then
     install_lightning
 fi
 
-configure_bitcoin
-configure_lightning
-configure_tor
-
 # ------------------- Step 3 - AO Installation -------------------
 say "${BOLD}Configuring AO Core${RESET}\n"
 mkdir -p $HOME/.ao
@@ -455,15 +449,13 @@ cat ~/.ao/key >> ~/.ao/keybackups
 node createPrivateKey.js > ~/.ao/key
 # ------------------- Step 7 - Systemd Setup -------------------
 
-say "\n${BOLD}Alright, almost there!${RESET} Now we just need to set up the system daemons for Tor, Bitcoin, Lightning, and the AO so that everything opens on startup."
-
-
-# Creating the .tor directory
 mkdir -p $HOME/.tor
 sudo chown $USER $HOME/.tor
 sudo chgrp $USER $HOME/.tor
 sudo chmod 770 $HOME/.tor
-
+configure_bitcoin
+configure_lightning
+configure_tor
 build_service_from_template tor "TORRCPATH=$TORRCPATH" "TORPATH=`which tor`"
 build_service_from_template bitcoin "BITCOIND=`which bitcoind`"
 build_service_from_template lightning "LIGHTNINGD=`which lightningd`"
@@ -471,7 +463,7 @@ build_service_from_template ao "NODE=`which node`" "AO=`pwd`/../src/server/app.j
 
 # ------------------- Step 10 - Spark Wallet -------------------
 say " "
-ask_for sparky "Would you like to setup spark wallet serverr? ${GREEN}(y/n)${RESET}: "
+ask_for sparky "Would you like to setup spark wallet? ${GREEN}(y/n)${RESET}: "
 case $sparky in
     "y" | "Y")
         ask_for sparkyname "Enter your spark wallet login name: "
