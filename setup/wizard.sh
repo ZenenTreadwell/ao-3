@@ -417,15 +417,8 @@ echo ""
 # ------------------- Step 2 - AO Environment Setup -------------------
 if ! check_for nvm; then
     install_nvm
-else
-    say "${GREEN}Node${RESET} already installed!"
 fi
-
-say "Setting Node to ${GREEN}v16.13.0${RESET} for compatibility"
 set_node_to v16.13.0
-
-say "${BOLD}Installing Bitcoin Ecosystem${RESET}"
-    echo ""
 
 if ! check_for bitcoind; then
     say "Building bitcoind from source... might take a while!"
@@ -447,7 +440,7 @@ npm install
 npm run build
 cat ~/.ao/key >> ~/.ao/keybackups
 node createPrivateKey.js > ~/.ao/key
-# ------------------- Step 7 - Systemd Setup -------------------
+# ------------------- Step 4 - Systemd Setup -------------------
 
 mkdir -p $HOME/.tor
 sudo chown $USER $HOME/.tor
@@ -461,7 +454,7 @@ build_service_from_template bitcoin "BITCOIND=`which bitcoind`"
 build_service_from_template lightning "LIGHTNINGD=`which lightningd`"
 build_service_from_template ao "NODE=`which node`" "AO=`pwd`/../src/server/app.js" 
 
-# ------------------- Step 10 - Spark Wallet -------------------
+# ------------------- Step 5 - Spark Wallet -------------------
 say " "
 ask_for sparky "Would you like to setup spark wallet? ${GREEN}(y/n)${RESET}: "
 case $sparky in
@@ -481,7 +474,7 @@ case $sparky in
 esac
 
 
-# ------------------- Step 9 - Health Check -------------------
+# ------------------- Step 6 - Health Check -------------------
 
 echo 'node Version'
 echo '*********************************************************'

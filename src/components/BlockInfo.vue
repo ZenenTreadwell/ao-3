@@ -2,7 +2,7 @@
 div
     .boxy(v-if='!$store.state.cash.info.initialdownload && $store.state.cash.info.feepercentiles')
         .lim(v-if='$store.getters.limbo > 0') limbo  {{ $store.getters.limbo.toLocaleString() }}
-        .section block: {{ $store.state.cash.info.bitcoinblocks}}
+        .section {{ $store.state.cash.info.bitcoinblocks}} blocks
         .section fee percentiles (sat/byte):
         .section
             .grid
@@ -74,6 +74,7 @@ export default {
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     padding: .378em
     margin-bottom: 1em
+    margin-right: 1.5em
 
 .grid 
     display: flex 
@@ -84,7 +85,8 @@ export default {
     flex: 6 6 3em
 .one 
     min-height:1em
-    flex: 1 1 3em
+    flex: 1 1 1em
+    border-radius: 50%
 
 </style>
 

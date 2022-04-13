@@ -64,10 +64,25 @@ function getDecode (rawx){
         })
         .catch(err => {})
 }
-
+function peerInfo(){
+    return {
+        nodeid:'',
+        alias: '',
+        channel: null,
+        address:null
+    }
+}
 lightningRouter.post('/lightning/peer', (req,res) => {
     client.listpeers(req.body.pubkey).then(x => {
-        res.send(x.peers[0].channels[0])
+        let pinfo = peerInfo()    
+        // should only send what is used
+        pinfo.channel = x.peers[0].channels[0]
+        client.listnodes(req.body.pubkey).then(y => {
+            pinfo.alias = y.alias
+            pinfo.nodeid = y.nodeid
+            pinfo.address = y.addresses[0]
+            res.send(pinfo)
+        })
     })
     .catch(err => {
         res.status(400).end()
@@ -131,6 +146,7 @@ function checkLightning(){
             nodeInfo.alias = mainInfo.alias
             nodeInfo.id = mainInfo.id
             nodeInfo.lightningblocks = mainInfo.blockheight
+            nodeInfo.address = mainInfo.address[0].address
         }).catch(console.log)
 }
 

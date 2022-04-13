@@ -3,8 +3,9 @@
 #nodes
     .breathing
     .boxy(v-if='$store.state.cash.info.id')
+        div {{ $store.state.cash.info.alias}} 
         .nodeaddress {{ $store.state.cash.info.id }}
-            span(v-if='$store.state.cash.info.address && $store.state.cash.info.address.length > 0') @{{ $store.state.cash.info.address[0].address }}
+        // span @{{ $store.state.cash.info.address }}    
         button.ptr(@click='clicktopay') deposit
     .price(v-if='sats > 0') 1 CAD = {{ sats }} sats
     .price(v-else) 1 Bitcoin = 100 000 000 sats
@@ -12,6 +13,8 @@
         .third 
             block-info
         .twothirds.boxy(v-if='$store.state.cash.info.channels')
+            .section(v-if='$store.state.cash.info.id') {{ $store.state.cash.info.channels.length }} &#9889;channels
+                div(v-if='$store.state.cash.info.lightningblocks !== $store.state.cash.info.bitcoinblocks') warning: desync detected
             .row.channellimiter
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id')
@@ -21,16 +24,13 @@
                     .localremote(v-show='selectedPeer !== i'   @click='selectPeer(i)')
                         .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL", gr: $store.getters.member.stacks === 5}')
                         .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL", bl: $store.getters.member.stacks === 5}')
-            .section(v-if='$store.state.cash.info.id') {{ $store.state.cash.info.channels.length }} &#9889;channels
-                div(v-if='$store.state.cash.info.lightningblocks !== $store.state.cash.info.bitcoinblocks') warning: desync detected
     .chanfo(v-if='selectedPeer >= 0 && areChannels && selectedChannel')
         label Channel Info: 
-        div pubkey: {{ selectedChannel.peer_id }}
+        div nodeid: {{ selectedChannel.peer_id }}
+        div alias: {{ifetchedPeer.alias}}
         div(@click='checkTxid(selectedChannel.funding_txid)') txid: {{ selectedChannel.funding_txid }}
         div(v-if='selectedChannel.state !== "CHANNELD_NORMAL"') state: {{ selectedChannel.state }}
-        div
-            div in: {{ fetchedPeer.in_payments_fulfilled }} / {{ fetchedPeer.in_payments_offered }}
-            div out: {{ fetchedPeer.out_payments_fulfilled }} / {{ fetchedPeer.out_payments_offered }}
+        div in: {{ fetchedPeer.channel.in_payments_fulfilled }} / {{ fetchedPeer.channel.in_payments_offered }} out: {{ fetchedPeer.channel.out_payments_fulfilled }} / {{ fetchedPeer.channel.out_payments_offered }}
     // input(v-model='txnCheck'  type='text'  placeholder='check txid'  @keypress.enter='checkTxid(txnCheck)')
     // button(v-if='txnCheck'  @click='checkTxid(txnCheck)') get transaction
 </template>
@@ -204,7 +204,7 @@ export default {
 .third 
     flex: 1 1 auto
 .twothirds
-    flex: 2 2 auto
+    flex: 4 4 auto
 .price 
     text-align: center
     padding-bottom: .9em
@@ -314,15 +314,17 @@ p
     float: right
 
 .local
-    margin: 0
-    background: green
+    margin: 0 0 .1em 0
+    background: lightGrey
     padding: 1em
+    text-align: center
 
 .remote
-    margin: 0
-    background: blue
+    margin: 0 0 .1em 0
+    background: none
     text-align: right
     padding: 1em
+    text-align: center
 
 .chain
     // height: 1.7em
