@@ -80,7 +80,7 @@ lightningRouter.post('/lightning/peer', (req,res) => {
         client.listnodes(req.body.pubkey).then(y => {
             pinfo.alias = y.alias
             pinfo.nodeid = y.nodeid
-            pinfo.address = y.addresses[0]
+            pinfo.address = y.address[0]
             res.send(pinfo)
         })
     })
