@@ -69,18 +69,18 @@ function peerInfo(){
         nodeid:'',
         alias: '',
         channel: null,
-        address:null
+        address:''
     }
 }
 lightningRouter.post('/lightning/peer', (req,res) => {
     client.listpeers(req.body.pubkey).then(x => {
         let pinfo = peerInfo()    
-        // should only send what is used
+        // TODO should only send what is used
         pinfo.channel = x.peers[0].channels[0]
         client.listnodes(req.body.pubkey).then(y => {
-            pinfo.alias = y.alias
-            pinfo.nodeid = y.nodeid
-            pinfo.address = y.address[0]
+            pinfo.alias = y.nodes[0].alias
+            pinfo.nodeid = y.nodes[0].nodeid
+            pinfo.address = y.nodes[0].addresses[0].address
             res.send(pinfo)
         })
     })
