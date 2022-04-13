@@ -19,15 +19,15 @@
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id')
                     .localremote.bordy(v-show='selectedPeer === i'   @click='selectedPeer = false')
-                        .localbar.tall(:style='l(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL", gr: $store.getters.member.stacks === 5}')  {{ parseInt( n.channel_sat ).toLocaleString() }}
-                        .remotebar.tall(:style='r(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL", bl: $store.getters.member.stacks === 5}')  {{ parseInt( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
+                        .localbar.tall(:style='l(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseInt( n.channel_sat ).toLocaleString() }}
+                        .remotebar.tall(:style='r(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseInt( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
                     .localremote(v-show='selectedPeer !== i'   @click='selectPeer(i)')
-                        .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL", gr: $store.getters.member.stacks === 5}')
-                        .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL", bl: $store.getters.member.stacks === 5}')
+                        .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
+                        .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
     .chanfo(v-if='selectedPeer >= 0 && areChannels && selectedChannel')
         label Channel Info: 
-        div nodeid: {{ selectedChannel.peer_id }}
-        div alias: {{ifetchedPeer.alias}}
+        div nodeid: {{ fetchedPeer.nodeid }}
+        div alias: {{fetchedPeer.alias}}
         div(@click='checkTxid(selectedChannel.funding_txid)') txid: {{ selectedChannel.funding_txid }}
         div(v-if='selectedChannel.state !== "CHANNELD_NORMAL"') state: {{ selectedChannel.state }}
         div in: {{ fetchedPeer.channel.in_payments_fulfilled }} / {{ fetchedPeer.channel.in_payments_offered }} out: {{ fetchedPeer.channel.out_payments_fulfilled }} / {{ fetchedPeer.channel.out_payments_offered }}
@@ -372,8 +372,6 @@ h5
     background: linear-gradient(to right, wrexno 0%, wrexno 98.1337%, black 98.1337%, black)
     padding-top: 0.23em
 
-.gr
-    background: linear-gradient(to right, green 0%, green 99%, black 99%, black)
 
 .localbar.abnormal
     background: red
@@ -382,8 +380,6 @@ h5
     height: 0.622em
     float: right
     padding-top: 0.23em
-.bl
-    background: blue
 .remotebar.abnormal
     background: red
 
