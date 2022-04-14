@@ -84,7 +84,7 @@ img
     position: fixed
     z-index: 80090000
     bottom: 0
-    right: 0
+    right: -1em
     width: 89%
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     padding: 1.5em

@@ -14,7 +14,7 @@
             block-info
         .twothirds.boxy(v-if='$store.state.cash.info.channels')
             .section(v-if='$store.state.cash.info.id') {{ $store.state.cash.info.channels.length }} &#9889;channels
-                div(v-if='$store.state.cash.info.lightningblocks !== $store.state.cash.info.bitcoinblocks') warning: desync detected
+                div(v-if='Math.abs($store.state.cash.info.lightningblocks - $store.state.cash.info.bitcoinblocks) > 1') warning: desync detected
             .row.channellimiter
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id')

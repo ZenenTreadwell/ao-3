@@ -1,11 +1,12 @@
 <template lang='pug'>
 
 .Connect
-    label.bg(@click='copyLink') Copy link to this card
+    .fr latency {{$store.state.loader.reqStatus}}ms
+    label.bg(@click='copyLink')  copy link to this card
         img.clippy(v-show='linkCopied'  src='../assets/images/clipboard.svg')
-        span(v-show='linkCopied')  &nbsp; {{linkCopied}}
+        span(v-if='linkCopied') {{linkCopied}}
     br
-    .section(v-if='$store.state.ao.length > 0') Send card to: 
+    .section(v-if='$store.state.ao.length > 0') Send card: 
     .onionlist
         .flexonion(v-for='w in $store.state.ao' @click='copyAddress(w.address, w.outboundSecret===false)') 
             input.radio(type='radio' name='aoconnect'  :value='w.address' :checked='sendTo === w.address' :disabled='w.outboundSecret===false') 
@@ -13,17 +14,17 @@
                 span(v-if='w.alias') {{w.alias}} @ 
                 span {{w.address}} 
     button(v-if='sendTo'  @click='trySend') send
-    span &nbsp; {{$store.state.loader.reqStatus}}ms
     br
     .input-container
         input.input-effect(v-model='ao.address' type='text'  :class='{"has-content":!!ao.address}')
-        label target connect string
+        label add connection
     .centerer
         button(v-if='ao.address.length > 0'  @click='connect') connect
-    code.ptr(@click='showSecr') Copy {{ $store.state.cash.alias }} connect string:
-      span(v-show='showSecret')
-        img.clippy(src='../assets/images/clipboard.svg')
-        span &nbsp; {{$store.state.cash.address + ':' + $store.state.loader.token}}
+    .ptr
+        code(@click='showSecr') copy {{ $store.state.cash.alias }} connect string:
+            span(v-show='showSecret')
+                img.clippy(src='../assets/images/clipboard.svg')
+                span &nbsp; {{$store.state.cash.address + ':' + $store.state.loader.token}}
 </template>
 
 <script>
@@ -157,7 +158,7 @@ code label
 .flexonion
     display: flex 
     input
-        flex: 1 1 auto 
+        flex: 1 1 1em 
     span 
         flex 7 7 auto
 .clippy
@@ -169,12 +170,12 @@ code label
     text-align: center
 
 span
-    text-align: center
     overflow-wrap: break-word
     word-wrap: break-word
 
 .ptr
     cursor: pointer
+    margin: .9em
 
 select
     background-color: lightteal
@@ -185,7 +186,6 @@ select.form-control
 code
     word-wrap: break-word
     word-break: break-word
-
 button
     background: softGrey
     color: white
@@ -194,6 +194,7 @@ button
 .faded
     opacity: 0.3
 
-
+.fr 
+    float: right
 
 </style>

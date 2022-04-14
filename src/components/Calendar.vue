@@ -16,9 +16,8 @@
   .calmonth(v-else  :ondrop='drop'    :ondragover="allowDrop")
       .weekdayfull(@click='clickDateBar') {{ chosenWeekDay }}
       .grey
-          .datenumber  {{ $store.state.upgrades.chosenDay }}
+          .datenumber(:class='{today:checkToday($store.state.upgrades.chosenDay,month,year)}')  {{ $store.state.upgrades.chosenDay }}
           .ptr.bg(v-for='n in selectedDaysEvs')
-              checkin(:b='$store.getters.contextCard')
               span(v-if='n.type === "task-claimed"'  @click='goDeeper(n.taskId, n.inId)')
                   img.completedcheckmark(:class='styl(getCardColor(n.taskId))'  src='../assets/images/completed.svg')
                   span {{ new Date(n.timestamp).toString().slice(15,21) }} &nbsp;
@@ -48,7 +47,6 @@ import Current from './Current.vue'
 import Currentr from './Currentr.vue'
 import Linky from './Linky'
 import ResourceBook from './ResourceBook'
-import Checkin from './Checkin'
 
 function getDMY(ts){
     let d = new Date(ts)
@@ -62,7 +60,6 @@ export default {
   components: {
     Day, Currentr, Current,
     Linky, ResourceBook,
-    Checkin
   },
   methods: {
       styl(color){
@@ -315,7 +312,7 @@ export default {
     flex-grow: 1
 
 .grey
-    background-color: softGrey
+    background-color: lightGrey
     min-height: 500px
     color: main
     padding: 5px
@@ -391,4 +388,9 @@ export default {
 img.completedcheckmark
     height: .99em
 
+
+.today 
+    font-weight: bolder 
+    border-radius: 50%
+    border-style: solid
 </style>

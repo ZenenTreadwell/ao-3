@@ -1,9 +1,9 @@
 <template lang='pug'>
 
 #settings
+    connect
     .row
         .six.columns
-            .section update
             select(v-model='change.field', @change='empty')
                 option(value='name') name
                 option(value='secret') password
@@ -27,9 +27,6 @@
             .aligncenter
                 button(@click='update'  v-if='inputType !== "password"') update 
         .six.columns
-            .aligncenter
-                button(@click='logout') log out
-            .section preferences
             //- .check.click(@click='toggleTooltips')
             //-     img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
             //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
@@ -47,8 +44,9 @@
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                 span.space colors
             div &nbsp;
+            .aligncenter
+                button(@click='logout') log out
     .breathing
-    connect
 </template>
 
 <script>

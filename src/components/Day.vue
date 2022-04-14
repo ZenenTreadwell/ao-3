@@ -1,7 +1,6 @@
 <template lang="pug">
 .day( :ondrop='drop'    :ondragover="allowDrop"   :ondragleave='offDrop'  :class='{dropping}')
-    .date {{ day }}
-    img.today(v-if='isToday'  src='../assets/images/down.svg'  draggable='false')
+    .date(:class='{today: isToday}') {{ day }}
     span(v-if='createdToday') *
     span(v-for='t in ev')
         .upgrade(v-if='!t.type')
@@ -12,14 +11,12 @@
         span.plain.completedcheckmark(v-else-if='t.type === "task-claimed"'  @dblclick='goDeeper(t.taskId, t.inId)' :class='{smaller: ev.length > 15}' )
             img.completedcheckmark.doge(v-if='t.taskId === $store.getters.contextCard.taskId'  src='../assets/images/doge.svg')
             img.completedcheckmark(v-else   :class='styl(getCardColor(t.taskId))'  src='../assets/images/completed.svg')
-    checkin(v-if='isToday' :b='$store.getters.contextCard')
 </template>
 
 <script>
 import Linky from './Linky'
 import Current from './Current'
 import Currentr from './Currentr'
-import Checkin from './Checkin'
 
 function getDMY(ts){
     let d = new Date(ts)
@@ -35,7 +32,7 @@ export default {
     data(){
         return { dropping: false }
     },
-    components: { Linky, Current, Currentr, Checkin },
+    components: { Linky, Current, Currentr },
     props: ['day', 'month', 'year', 'inId', 'ev', 'isToday'],
     computed: {
         createdToday(){
@@ -125,15 +122,6 @@ export default {
 .upgrade.doge
     height: 1.89em
 
-.today
-    width: 100%
-    height: 100%
-    cursor: pointer
-    opacity: 0.1
-    display: inline-block
-    position: absolute
-    top: 0
-
 .type
     font-size: .5em
     float: left
@@ -170,5 +158,8 @@ img.completedcheckmark
 
 .smaller  img
     height: 0.33em
-
+.today 
+    font-weight: bolder 
+    border-radius: 50%
+    border-style: solid
 </style>
