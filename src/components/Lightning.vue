@@ -5,7 +5,7 @@
     .boxy(v-if='$store.state.cash.info.id')
         div {{ $store.state.cash.info.alias}} 
         .nodeaddress {{ $store.state.cash.info.id }}
-        // span @{{ $store.state.cash.info.address }}    
+        span @{{ $store.state.cash.info.address }}    
         button.ptr(@click='clicktopay') deposit
     .price(v-if='sats > 0') 1 CAD = {{ sats }} sats
     .price(v-else) 1 Bitcoin = 100 000 000 sats
