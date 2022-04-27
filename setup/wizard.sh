@@ -255,9 +255,12 @@ install_lightning() {
     say "${BOLD}Installing lightningd${RESET}"
     git clone https://github.com/ElementsProject/lightning.git ./lightning
     pushd ./lightning
-    git checkout v0.10.2
+    pip3 install --upgrade pip
+    pip3 install --user poetry
+    git checkout v0.11.0.1
+    poetry install
     ./configure
-    make
+    poetry run make    
     sudo make install
     popd
 }
@@ -508,13 +511,17 @@ case $sparky in
     "y" | "Y")
         echo ""
         echo Wallet Onion: 
+        echo $SPARKONION
         qrencode -m 3 -t ANSIUTF8 $SPARKONION
         echo http://localhost:9737
     ;;
 esac
 echo ' '
 echo AO Onion: 
-export PORT=8003; export ONESHOT=true; qrencode -m 3 -t ANSIUTF8 `node ../src/server/torControl.js`
+export PORT=8003; export ONESHOT=true; 
+export AOONION=`node ../src/server/torControl.js`
+echo $AOONION
+qrencode -m 3 -t ANSIUTF8 $AOONION
 echo http://localhost:8003
 
 exit 0

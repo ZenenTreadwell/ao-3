@@ -6,7 +6,7 @@ Wants=network-online.target
 [Service]
 Type=notify
 NotifyAccess=all
-ExecStart=BITCOIND --daemonwait --server --pid=HOME/.bitcoin/bitcoind.pid
+ExecStart=BITCOIND --daemonwait --pid=HOME/.bitcoin/bitcoind.pid
 
 Type=forking
 PIDFile=HOME/.bitcoin/bitcoind.pid

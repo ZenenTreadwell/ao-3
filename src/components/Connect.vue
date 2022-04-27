@@ -66,7 +66,7 @@ export default {
         },
         copyLink(){
             let lnk = window.location.href + this.$store.getters.contextCard.taskId
-            console.log('this is sparta', lnk)
+            console.log('copied:', lnk)
             navigator.clipboard.writeText(lnk)
                 .then(() => {
                     this.linkCopied = lnk
