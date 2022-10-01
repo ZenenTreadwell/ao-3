@@ -87,7 +87,7 @@ iframe
         height: 3em
 
 .app
-    background:repeating-linear-gradient(45deg, black, white 77px)
+    background: black
     color: main
     font-size: 1.0912334455em
     min-height: 100vh

@@ -3,8 +3,8 @@
 #auth(v-if='!confirmed')
   .mainbg(v-if='$store.state.loader.reqStatus === "pending"')
       img.spin(src='../assets/images/gear.svg')
-  .authbox.centertitle welcome to ao 
-      .warning(v-if='err') {{err}}
+  .authbox.centertitle(v-if='err')
+      .warning {{err}}
   .authbox
       .flexrow
           .inputhalf

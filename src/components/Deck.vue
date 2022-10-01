@@ -10,9 +10,15 @@
                 priorities
                 checkmarks
     div
+        div &nbsp;
+        div &nbsp;
+        div &nbsp;
         panels(v-if='!$store.getters.contextCard.stackView.completed')
         .container(v-else) 
             simple-priority(v-for='n in $store.getters.contextCompleted'  :taskId='n.taskId')
+        div &nbsp;
+        div &nbsp;
+        div &nbsp;
     //roll-stack
     //data-vis
     pins.rell

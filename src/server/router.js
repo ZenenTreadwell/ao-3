@@ -7,7 +7,6 @@ const spec = require( './spec')
 const fobtap = require( './fobtap')
 const calculations = require( '../calculations')
 const { serverAuth } = require( './auth')
-const { lightningRouter } = require('./lightning')
 const openAo = require('./openAo')
 
 module.exports = function applyRouter(app){
@@ -26,7 +25,6 @@ module.exports = function applyRouter(app){
     }))
     app.use(spec)   // event creation
     app.use(fobtap) // rfid scan
-    app.use(lightningRouter)
     app.post('/state', (req, res) => {
         let xd = {
             hashMap: state.pubState.hashMap,

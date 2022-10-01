@@ -7,13 +7,16 @@ const lightningRouter = express.Router()
 const allEvents = require('./events')
 const LightningClient = require( './lightning-client')
 const {serverState} = require( './state')
+
 const client = new LightningClient(config.lightningdir, true);
+
 const Client = require('bitcoin-core');
 const bitClient = new Client({
     network: 'mainnet',
     username: 'ao',
     password: config.bitcoinrpcpass 
 }) 
+
 var nodeInfo = { 
     id: '',
     alias: '',
@@ -27,9 +30,7 @@ var nodeInfo = {
     smartfee: 0,
     feepercentiles: []
 }
-function updateNodeInfo(){ 
-    allEvents.getNodeInfo(nodeInfo)
-}
+
 bitClient.getBlockchainInfo().then(x => {
     if (x.initialblockdownload){
         console.log('Initial bitcoin sync detected', chalk.red((100 * x.verificationprogress).toFixed(2)), '% complete')
@@ -72,22 +73,6 @@ function peerInfo(){
         address:''
     }
 }
-lightningRouter.post('/lightning/peer', (req,res) => {
-    client.listpeers(req.body.pubkey).then(x => {
-        let pinfo = peerInfo()    
-        // TODO should only send what is used
-        pinfo.channel = x.peers[0].channels[0]
-        client.listnodes(req.body.pubkey).then(y => {
-            pinfo.alias = y.nodes[0].alias
-            pinfo.nodeid = y.nodes[0].nodeid
-            pinfo.address = y.nodes[0].addresses[0].address
-            res.send(pinfo)
-        })
-    })
-    .catch(err => {
-        res.status(400).end()
-    })
-})
 
 function createInvoice(sat, label, description, expiresInSec){
     let numSat = Number(sat)
@@ -100,6 +85,10 @@ function createInvoice(sat, label, description, expiresInSec){
     return client.invoice(msat, label, description, expiresInSec)
 }
 
+createInvoice(1999, "tesxxx", "!" , 3600)
+    .then(console.log) 
+    .catch(console.log) 
+
 function newAddress(){
     return client.newaddr()
 }
@@ -108,7 +97,6 @@ function updateAll(){
     checkFunds()
     checkLightning()
     checkBitcoin()
-    setTimeout(updateNodeInfo, 10456)
 }
 
 function watchOnChain(){
@@ -185,5 +173,4 @@ module.exports = {
     newAddress,
     recordEveryInvoice,
     watchOnChain,
-    lightningRouter
 }
