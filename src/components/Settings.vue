@@ -1,7 +1,6 @@
 <template lang='pug'>
 
 #settings
-    connect
     .row
         .six.columns
             select(v-model='change.field', @change='empty')
@@ -25,20 +24,8 @@
                             img.checkmark(v-else, src='../assets/images/uncompleted.svg')
                             span - repeat correctly
             .aligncenter
-                button(@click='update'  v-if='inputType !== "password"') update 
+                button(@click='update'  v-if='inputType !== "password"') change
         .six.columns
-            //- .check.click(@click='toggleTooltips')
-            //-     img.checkmark(v-if='$store.getters.member.tooltips', src='../assets/images/completed.svg')
-            //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-            //-     span.space tooltip
-            //- .check.click(@click='toggleGuides')
-            //-     img.checkmark(v-if='$store.getters.member.guides'  src='../assets/images/completed.svg')
-            //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-            //-     span.space guides
-            //- .check.click(@click='toggleMuted')
-            //-     img.checkmark(v-if='!$store.getters.member.muted', src='../assets/images/completed.svg')
-            //-     img.checkmark(v-else, src='../assets/images/uncompleted.svg')
-            //-     span.space sound
             .check.click(@click='toggleStacks')
                 img.checkmark(v-if='$store.getters.member.stacks === 5', src='../assets/images/completed.svg')
                 img.checkmark(v-else, src='../assets/images/uncompleted.svg')

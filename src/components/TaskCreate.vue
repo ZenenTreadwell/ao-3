@@ -7,19 +7,16 @@
               img(src='../assets/images/compose.svg')
           .boatContainer(v-else)
               button.clear(@click.stop='pileRecalled')
-                  span(v-if='showSearch') searching
+                  span(v-if='searchTotal > 0 && task.name.length > 0') recall &nbsp; {{ searchTotal }}
+                  span(v-else) recall (-) 
+                  span(v-if='showSearch') 
                       img(src='../assets/images/gear.svg').spin
-                  span(v-else-if='searchTotal > 0 && task.name.length > 0') found &nbsp; {{ searchTotal }}
-                  span(v-else-if='$store.state.upgrades.search === task.name.trim()') no matches
-                  span(v-else) type to search
               button.lock(@click='encryptIt = !encryptIt')
-                  label.switch(@click.stop)
-                      input(type="checkbox"  v-model='encryptIt')
-                      span.slider.round
-                  img(src='../assets/images/sunglasses.svg'  :class='{faded: !encryptIt}')
+                  //label.switch(@click.stop)
+                  //    input(type="checkbox"  v-model='encryptIt')
+                  //    span.slider.round
               button.create(@click.stop='createOrFindTask'  :class='cardInputSty')
-                  span(v-if='encryptIt') encrypt
-                  span(v-else) create
+                  span create
       .cc(v-show='showCreate')
           textarea#card.paperwrapper(
               v-model='task.name'
@@ -453,10 +450,8 @@ textarea.inactive
   bottom: -1em
   left: 50%
   transform: translateX(-50%)
-  // box-shadow:
-  //     0 0 6px 3px white,
-  //     0 0 7px 4px lightGrey,
-  //     0 0 8px 5px main;
+  font-size: 0.67em
+
 .lit
     opacity: 0.69
 

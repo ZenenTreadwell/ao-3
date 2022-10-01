@@ -12,7 +12,7 @@ let ALIAS = process.env.ALIAS || config.alias || 'AO'
 let publicKey
 try {
     let filekey = fs.readFileSync(config.aodir + '/key', {encoding:'utf8'})
-    publicKey = crypto.derivePublicKey(filekey)
+    //publicKey = crypto.derivePublicKey(filekey)
 } catch (err){
     console.log(chalk.red('key import error from', config.aodir + '/key'), err)
 }

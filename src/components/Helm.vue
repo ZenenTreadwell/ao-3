@@ -5,10 +5,10 @@
     .gear(:ondrop="drop"  :ondragover="allowDrop"  :ondragleave='dragLeave')
         img.gear(v-if='trash'  @click.stop='$store.commit("toggleSettings")'  src='../assets/images/trash.svg' )
         img.gear(v-else  @click.stop='$store.commit("toggleSettings")'  src='../assets/images/gear.svg')
-    img.bull(@click.stop='$store.commit("toggleNodeInfo")'  src='../assets/images/bull.svg')
+    //img.bull(@click.stop='$store.commit("toggleNodeInfo")'  src='../assets/images/bull.svg')
     img.doge(@click.stop='$store.commit("toggleAccounts")'  src='../assets/images/doge.svg'  :ondragover='toggl')
     settings(@click.stop  v-show='$store.state.upgrades.showSettings').settings
-    lightning(@click.stop  v-show='$store.state.upgrades.showNodeInfo').lightning
+    //lightning(@click.stop  v-show='$store.state.upgrades.showNodeInfo').lightning
     accounts(@click.stop  v-show='$store.state.upgrades.showAccounts').accounts
 
 </template>

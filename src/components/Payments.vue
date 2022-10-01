@@ -15,7 +15,7 @@
     .section(v-else) node unavailable :(
     .paddy
         div(v-for='p in b.payments') {{ getDateString(p.timestamp) }} ~ {{p.amount.toLocaleString()}}
-    .ptr.mh(v-if='$store.state.upgrades.paymode === "lightning" || !b.btcAddr' @click='getAddr') *use bitcoin address*
+    //.ptr.mh(v-if='$store.state.upgrades.paymode === "lightning" || !b.btcAddr' @click='getAddr') *use bitcoin address*
 </template>
 
 <script>

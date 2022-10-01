@@ -65,7 +65,7 @@ function blankMember(memberId, name, fob, secret, lastUsed){
       active: 0,
       muted: true,
       tooltips: false,
-      stacks: 5, // colored
+      stacks: 1,
       payments: 0,
       boats: false,
       action: false,
