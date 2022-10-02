@@ -102,7 +102,7 @@ function initialize(callback) {
                     chalk.bold.cyan('from', all.length, 'events')
                 )
 
-                // integrity check on hashMap (hashMap is broked)
+                // integrity check (hashMap can break) XXXX
                 pubState.tasks.forEach( (t, i) => {
                     if (pubState.hashMap[t.taskId] !== i) {
                       console.log(i, 'map retro fixed!!?', t.name.slice(0,7))

@@ -151,9 +151,9 @@ router.post('/events', (req, res, next)=>{
             utils.buildResCallback(res)
           );
           lightning
-              .createInvoice(req.body.value, "<3" +  uuidV1(), '~ ao ~', 3600)
+              .createInvoice(req.body.value, "ao <3: " +  uuidV1(), '~ ao ~', 3600)
               .then(result => {
-                  let addr = result['p2sh-segwit']
+                  console.log("invoice result?>>>" , result)
                   events.invoiceCreated(req.body.taskId, result.bolt11, result.payment_hash, req.body.blame)
               })
               .catch(err => {

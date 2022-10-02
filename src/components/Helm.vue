@@ -2,13 +2,10 @@
 <template lang='pug'>
 
 .helm
-    .gear(:ondrop="drop"  :ondragover="allowDrop"  :ondragleave='dragLeave')
-        img.gear(v-if='trash'  @click.stop='$store.commit("toggleSettings")'  src='../assets/images/trash.svg' )
-        img.gear(v-else  @click.stop='$store.commit("toggleSettings")'  src='../assets/images/gear.svg')
-    //img.bull(@click.stop='$store.commit("toggleNodeInfo")'  src='../assets/images/bull.svg')
+    img.gear(@click.stop='$store.commit("toggleSettings")'  src='../assets/images/gear.svg')
+    img.tras(:ondrop="drop"  :ondragover="allowDropT"  :ondragleave='dragLeaveT' src='../assets/images/trash.svg' :class="{tr: !trash}")
     img.doge(@click.stop='$store.commit("toggleAccounts")'  src='../assets/images/doge.svg'  :ondragover='toggl')
     settings(@click.stop  v-show='$store.state.upgrades.showSettings').settings
-    //lightning(@click.stop  v-show='$store.state.upgrades.showNodeInfo').lightning
     accounts(@click.stop  v-show='$store.state.upgrades.showAccounts').accounts
 
 </template>
@@ -44,14 +41,15 @@ export default {
                 }
             })
         },
-        allowDrop(ev){
+        allowDrop(ev){ ev.preventDefault() },
+        allowDropT(ev){
             ev.preventDefault()
             this.trash = true
         },
-        dragLeave(){
+        dragLeaveT(){
             this.trash = false
         },
-        toggl(ev){
+        togglT(ev){
             ev.preventDefault()
             if (!this.hackyToggleStopper){
                 this.$store.commit("toggleAccounts")
@@ -70,6 +68,9 @@ export default {
 
 @import '../styles/colours';
 
+.tr 
+    opacity: 0.1
+
 .helm
     z-index: 9001
 
@@ -83,12 +84,12 @@ img
 .settings
     position: fixed
     z-index: 80090000
-    bottom: 0
+    top: 0
     right: -1em
     width: 89%
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     padding: 1.5em
-    background: linear-gradient(to top left, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
+    background: linear-gradient(to bottom left, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
 
 .lightning
     position: fixed
@@ -98,7 +99,7 @@ img
     width: 89%
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     padding: 1.5em
-    background: linear-gradient(to bottom left, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
+    background: linear-gradient(to top left, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
 
 .accounts
     position: fixed
@@ -110,12 +111,12 @@ img
     background: linear-gradient(to bottom right, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
 
 .gear
-    bottom: 0
+    top: 0
     right: 0
     height: 3.3em
     width: 2.7em
-.bull
-    top: 0
+.tras
+    bottom: 0
     right: 0
     height: 3.3em
 

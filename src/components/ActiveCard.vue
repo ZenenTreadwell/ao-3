@@ -3,22 +3,20 @@
 .activecard(:class='{dropping}'  :ondrop="drop"   :ondragover="allowDrop"  :ondragleave='dragLeave')
     .flextabs
         .tabber(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}'   :ondragover='toBoatOnly')
-            // img.roro(v-if='$store.state.upgrades.mode !== "boat"  && card.priorities.length > 0'  v-for='t in card.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)')
             img(src='../assets/images/completed.svg')
         .tabber(@click='toTimeCube'  :class='{activationsequence: $store.state.upgrades.mode === "timecube"}'  :ondragover='toTimeCubeOnly')
             img(src='../assets/images/timecube.svg')
-        .tabber(@click='toChest'  :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
-            img(src='../assets/images/bitcoin.svg')
+        .tabber(@click='toChest'   :class='{activationsequence: $store.state.upgrades.mode === "chest"}')
+            span &#9889;
     .row.center.clearboth(@click='copyCard'  draggable="true"  :ondragstart='dragStart' )
         label
             .itsamember(v-if='$store.getters.contextMember')
-                img.doge(src='../assets/images/doge.svg')
-                linky(:x='m.name')
+                img(src='../assets/images/doge.svg')
+                linky.doge(:x='m.name')
             div(v-else-if='$store.getters.contextResource')
                 currentr(:resourceId='$store.getters.contextCard.taskId')
             div(v-else)
-                pinner(:b='$store.getters.contextCard', :inId='$store.getters.contextCard.taskId')
-                linky(:x='card.name')
+                linky.doge(:x='card.name')
                 img(v-show='copied'  src='../assets/images/clipboard.svg')
             span.timetill(v-if='cardStart.timeSet')
                 span(v-if='cardStart.days > 1'  @click='clearSchedule') in {{ cardStart.days.toFixed(1) }} days
@@ -267,9 +265,9 @@ export default {
     text-decoration: line-through;
 
 .doge
+    color: lightGrey
     height: 1.0789em
     display: inline-block
-    background-color: main
     padding: .3em;
     border-radius: 50%;
     margin-right: 0.4em;
@@ -312,15 +310,18 @@ label
     margin-bottom: 3em
 
 .activecard
+    margin-left: 1em
+    margin-right: 1em
+    margin-top: 0.35em
     // padding: 1em
-    background-color: rgba(255,255,255,.833)
+    //-- background-color: rgba(255,255,255,.833)
     margin-bottom: 1em
     padding-bottom: 1em
     // padding-top: 1em
-    // box-shadow:
-    //     0 0 6px 3px white,  /* inner white */
-    //     0 0 7px 4px lightGrey, /* middle magenta */
-    //     0 0 8px 5px main; /* outer cyan */
+    box-shadow:
+         0 0 6px 3px main , 
+         0 0 7px 4px softGrey, 
+         0 0 8px 5px lightGrey;
 
 .smallguild
     height: 2em
@@ -347,7 +348,7 @@ label
     flex-shrink: 1
     color: lightGrey
     text-align: center
-    opacity: 0.3
+    min-width: 2.22em;
     max-width: 3.3em;
     border-bottom-left-radius: 40%;
     border-bottom-right-radius: 40%;
@@ -368,6 +369,7 @@ label
 
 
 .tabber.activationsequence
+    background-color: lightGrey;
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
@@ -423,8 +425,6 @@ ul.left
     background: blue
 
 .itsamember
-    background: black;
-    color: white;
     height: 3em;
 
 </style>

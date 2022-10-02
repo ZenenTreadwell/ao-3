@@ -127,8 +127,6 @@ button
     border-radius: 50%
 
 .itsapin
-    background: black;
-    color: white;
-    height: 3em;
+    height: .3em;
 
 </style>

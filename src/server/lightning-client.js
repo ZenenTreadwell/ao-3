@@ -1,7 +1,7 @@
 const path = require('path');
 const net = require('net');
-const debug = require('debug')('lightning-client');
-const {EventEmitter} = require('events');
+const {EventEmitter} = require('node:events');
+console.log("wtf js") 
 const _ = require('lodash');
 const chalk = require('chalk')
 const methods = [
@@ -48,7 +48,6 @@ const methods = [
   "openchannel_init",
   "openchannel_signed",
   "openchannel_update",
-  "pay",
   "ping",
   "plugin",
   "reserveinputs",
@@ -70,6 +69,8 @@ const methods = [
   "waitsendpay",
   "withdraw"
 ]
+
+const debug = console.log
 
 class LightningClient extends EventEmitter {
     constructor(rpcPath, debugFlag = false) {
@@ -112,13 +113,11 @@ class LightningClient extends EventEmitter {
 
         let buffer = Buffer.from('');
         let openCount = 0;
-
         this.client.on('data', data => {
             _.each(LightningClient.splitJSON(Buffer.concat([buffer, data]), buffer.length, openCount), partObj => {
                 if (partObj.partial) {
                     buffer = partObj.string;
                     openCount = partObj.openCount;
-
                     return;
                 }
 
@@ -127,12 +126,14 @@ class LightningClient extends EventEmitter {
 
                 try {
                     let dataObject = JSON.parse(partObj.string.toString());
+                    debug("emittering" , dataObject.id)
                     _self.emit('res:' + dataObject.id, dataObject);
                 } catch (err) {
                     return;
                 }
             });
         });
+
     }
 
     static splitJSON(str, startFrom = 0, openCount = 0) {
@@ -169,8 +170,8 @@ class LightningClient extends EventEmitter {
     }
 
     increaseWaitTime() {
-        if (this.reconnectWait >= 16) {
-            this.reconnectWait = 16;
+        if (this.reconnectWait >= 128) {
+            this.reconnectWait = 128;
         } else {
             this.reconnectWait *= 2;
         }
@@ -185,19 +186,18 @@ class LightningClient extends EventEmitter {
 
         this.reconnectTimeout = setTimeout(() => {
             debug('Trying to reconnect...');
-
             _self.client.connect(_self.rpcPath);
             _self.reconnectTimeout = null;
         }, this.reconnectWait * 1000);
     }
 
-    call(method, args = []) {
-        if (!_.isString(method) || !_.isArray(args)) {
+    call(method, args = {}) {
+        if (!_.isString(method)) {
             return Promise.reject(new Error('invalid_call'));
         }
 
         let stackTrace = null;
-        if (this.debug === true) { // not really efficient, we skip this step if debug is not enabled
+        if (this.debug === true) { 
             const error = new Error();
             stackTrace = error.stack;
         }
@@ -206,10 +206,13 @@ class LightningClient extends EventEmitter {
 
         const callInt = ++this.reqcount;
         const sendObj = {
+            jsonrpc:"2.0",
             method,
-            params: args,
-            id: callInt.toString()
+            params:args,
+            id: callInt
         };
+
+        debug("method call ...", sendObj)
 
         // Wait for the client to connect
         return this.clientConnectionPromise
@@ -217,15 +220,13 @@ class LightningClient extends EventEmitter {
                 // Wait for a response
                 this.once('res:' + callInt, response => {
                     if (_.isNil(response.error)) {
-                        resolve(response.result);
-                        return;
+                        return resolve(response.result);
                     }
-
                     reject({error: response.error, stack: stackTrace});
                 });
-
-                // Send the command
+                debug("sending") 
                 _self.client.write(JSON.stringify(sendObj));
+
             }));
     }
 }
@@ -233,7 +234,7 @@ class LightningClient extends EventEmitter {
 const protify = s => s.replace(/-([a-z])/g, m => m[1].toUpperCase());
 
 methods.forEach(k => {
-    LightningClient.prototype[protify(k)] = function (...args) {
+    LightningClient.prototype[protify(k)] = function (args={}) {
         return this.call(k, args);
     };
 });

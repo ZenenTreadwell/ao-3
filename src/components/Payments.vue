@@ -2,17 +2,17 @@
 
 .upgrades
     points-set(:b='$store.getters.contextCard')
-    .payreq.ptr(v-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "lightning"'  @click='copy(b.bolt11, true)')
+    .payreq.ptr(@click='copy(b.bolt11, true)')
         tag(v-if='b.bolt11'  :d='b.bolt11'  size='5')
         .section.ptr
             img(src='../assets/images/clipboard.svg'  v-if='showCopiedBolt ')
             span(v-if='b.bolt11') {{b.bolt11}}
-    .payreq.ptr(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"'  @click='copy(b.btcAddr)')
-        tag(v-if='b.btcAddr'  :d='b.btcAddr'  size='7')
-        .section.ptr(v-if='b.btcAddr'  )
-            img(src='../assets/images/clipboard.svg'  v-if='showCopiedAddr ')
-            span(v-if='b.btcAddr') {{b.btcAddr}}
-    .section(v-else) node unavailable :(
+    //.payreq.ptr(v-else-if='$store.state.cash.info.alias && $store.state.upgrades.paymode === "bitcoin"'  @click='copy(b.btcAddr)')
+    //    tag(v-if='b.btcAddr'  :d='b.btcAddr'  size='7')
+    //    .section.ptr(v-if='b.btcAddr'  )
+    //        img(src='../assets/images/clipboard.svg'  v-if='showCopiedAddr ')
+    //        span(v-if='b.btcAddr') {{b.btcAddr}}
+    // .section(v-else) node unavailable :(
     .paddy
         div(v-for='p in b.payments') {{ getDateString(p.timestamp) }} ~ {{p.amount.toLocaleString()}}
     //.ptr.mh(v-if='$store.state.upgrades.paymode === "lightning" || !b.btcAddr' @click='getAddr') *use bitcoin address*

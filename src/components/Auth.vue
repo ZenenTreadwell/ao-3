@@ -17,13 +17,13 @@
                 input.input-effect#password(type='password', v-model='pass', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createSession'  :class='{"has-content":!!pass}')
                 label password
                 span.focus-border
-      button(@click="createSession") log in
+      button(@click="createSession") existing doge
   .authbox
       .input-container
           input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
           label name
           span.focus-border
-      button(@click="createAccount") create new account
+      button(@click="createAccount") new doge 
 
 </template>
 

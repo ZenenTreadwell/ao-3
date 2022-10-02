@@ -3,6 +3,7 @@
 .app
   .container(v-if='!$store.getters.isLoggedIn')
       auth
+      img.foge(src='./assets/images/doge.svg')
   router-view(v-else)
 
 </template>
@@ -60,6 +61,9 @@ export default {
 @import "./styles/skeleton";
 @import "./styles/colours";
 
+.foge 
+    width: 69%
+
 .reqStatus
     background: blue
     color: black
@@ -87,9 +91,8 @@ iframe
         height: 3em
 
 .app
-    background: black
+    background:wheat
     color: main
-    font-size: 1.0912334455em
     min-height: 100vh
 
 .statement

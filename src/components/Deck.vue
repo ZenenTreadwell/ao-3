@@ -93,6 +93,7 @@ export default {
     flex-grow:3.7333
     background: #e4f1f2aa
     padding: 0.07789em
+    margin-right: 1em
 
 .darkmode
     border-color: lightGrey

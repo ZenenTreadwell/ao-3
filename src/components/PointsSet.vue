@@ -3,7 +3,7 @@
 div
     .invoice
         input(v-model='task.points'  type='text'  placeholder='sats amount'  @keypress.enter='setValue')
-        button(@click.stop='setValue') get &#9889; qr
+        button(@click.stop='setValue') set amount
 
 </template>
 

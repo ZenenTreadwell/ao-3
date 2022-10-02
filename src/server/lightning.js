@@ -82,12 +82,14 @@ function createInvoice(sat, label, description, expiresInSec){
     } else {
         msat = "any"
     }
-    return client.invoice(msat, label, description, expiresInSec)
+    objj = {
+        amount_msat: msat, 
+        label, 
+        description, 
+        expiry: expiresInSec    
+    }
+    return client.invoice(objj)
 }
-
-createInvoice(1999, "tesxxx", "!" , 3600)
-    .then(console.log) 
-    .catch(console.log) 
 
 function newAddress(){
     return client.newaddr()
@@ -122,7 +124,7 @@ function checkFunds(){
                         })
                     }
                 })
-            } catch (err) {console.log("lighting error; maybe lightningd (c-lightning) is not running")}
+            } catch (err) {console.log("lighting error; lightningd not running?")}
         })
         .catch(err => {})
 }
@@ -135,7 +137,7 @@ function checkLightning(){
             nodeInfo.id = mainInfo.id
             nodeInfo.lightningblocks = mainInfo.blockheight
             nodeInfo.address = mainInfo.address[0].address
-        }).catch(console.log)
+        }).catch(e => console.log("catch checklightning", e))
 }
 
 function checkBitcoin(){
@@ -156,14 +158,16 @@ function checkBitcoin(){
 }
 
 function recordEveryInvoice(start){
-    client.waitanyinvoice(start)
+    client.waitanyinvoice({
+            "lastpay_index": start
+        })
         .then(invoice => {
             serverState.tasks.forEach( t => {
                 if (t.payment_hash === invoice.payment_hash){
-                    allEvents.taskBoostedLightning(t.taskId, invoice.msatoshi / 1000, invoice.payment_hash, invoice.pay_index)
+                    allEvents.taskBoostedLightning(t.taskId, invoice.amount_msat / 1000, invoice.payment_hash, invoice.pay_index)
                 }
             })
-            recordEveryInvoice(start + 1) // is this recurr broken?
+            recordEveryInvoice(start + 1) 
         })
         .catch(err => {})
 }

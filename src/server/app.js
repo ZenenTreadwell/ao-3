@@ -21,7 +21,6 @@ readConfigs(() => {
     applyRouter(app)
     startDctrlAo()
     
-    
     function startDctrlAo(){
         dctrlDb.startDb( (err, conn) => {
             if (err) return console.log(chalk.bold.red('db initialize failed:', err))
@@ -33,7 +32,7 @@ readConfigs(() => {
               watchSpot()
               rent()
               link()
-              lightning.recordEveryInvoice(state.serverState.cash.pay_index)
+              // lightning.recordEveryInvoice(state.serverState.cash.pay_index)
               lightning.watchOnChain()
     
               dctrlDb.changeFeed
@@ -52,6 +51,7 @@ readConfigs(() => {
                   ]).onValue( ev => {
                       state.applyEvent(state.pubState, ev)
                       io.emit('eventstream', ev)
+                      console.log("def happened:", ev) 
                   }).onValue(reactions)
               })
             })

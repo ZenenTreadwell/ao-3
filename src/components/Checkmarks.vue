@@ -5,30 +5,33 @@
         span.bg
             span(v-for='n in $store.getters.contextRelevantMembers'  :class='{dropping: dropping === n}'  :key='n'  @click.stop='toggleHighlight(n)'  @click.stop.ctrl='toggleHighlight(n, true)'   :ondrop="dropWrap(n)"  :ondragover="allowDropWrap(n)"  :ondragleave='dragLeave')
                 span(:class='{highlight: isHighlighted(n), lowdark: isLowdarked(n) }') &nbsp; {{ getName(n) }} &nbsp;
-            span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click.stop='leave') *leave*
-            span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click.stop='grab') *join*
-            span.ptr(v-if='$store.getters.contextCard.deck.length === 0' @click.stop='remove') &nbsp; *delete*
+            span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click.stop='leave') *X*
+            span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click.stop='grab') *O*
     span.ptr(@click.stop='tryToggle'  v-if='$store.getters.contextCard.completed.length > 0  || $store.getters.contextCard.stackView.completed')
         span &nbsp;&nbsp;&nbsp;
-        span
-            img.completedcheckmark.redwx(src='../assets/images/completed.svg')
-            span.num {{ $store.getters.completedByColor.red }}
-        span
-            img.completedcheckmark.yellowwx(src='../assets/images/completed.svg')
-            span.num {{ $store.getters.completedByColor.yellow }}
-        span
-            img.completedcheckmark.greenwx(src='../assets/images/completed.svg')
-            span.num {{ $store.getters.completedByColor.green }}
-        span
-            img.completedcheckmark.purplewx(src='../assets/images/completed.svg')
-            span.num {{ $store.getters.completedByColor.purple }}
-        span
-            img.completedcheckmark.bluewx(src='../assets/images/completed.svg')
-            span.num {{ $store.getters.completedByColor.blue }}
         span.witchswitch
             .switch
                 input(type="checkbox"  v-model='$store.getters.contextCard.stackView.completed')
                 span.slider.round
+        span.fxr(v-if="$store.getters.member.stacks === 1")   
+            img.completedcheckmark(src='../assets/images/completed.svg')
+            span {{$store.getters.contextCard.completed.length}}
+        span.fxr(v-else) 
+            span
+                img.completedcheckmark.redwx(src='../assets/images/completed.svg')
+                span.num {{ $store.getters.completedByColor.red }}
+            span
+                img.completedcheckmark.yellowwx(src='../assets/images/completed.svg')
+                span.num {{ $store.getters.completedByColor.yellow }}
+            span
+                img.completedcheckmark.greenwx(src='../assets/images/completed.svg')
+                span.num {{ $store.getters.completedByColor.green }}
+            span
+                img.completedcheckmark.purplewx(src='../assets/images/completed.svg')
+                span.num {{ $store.getters.completedByColor.purple }}
+            span
+                img.completedcheckmark.bluewx(src='../assets/images/completed.svg')
+                span.num {{ $store.getters.completedByColor.blue }}
     .spacer
 </template>
 
@@ -131,9 +134,15 @@ export default {
 .witchswitch
     margin-top: -1em
 
+.fxr 
+    position:fixed
+    padding-left:1em
 
 .tr
+    position: relative
     text-align: right
+    right:0
+    bottom:0
 
 .bg
     background: lightGrey
