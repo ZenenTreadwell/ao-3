@@ -32,7 +32,7 @@ readConfigs(() => {
               watchSpot()
               rent()
               link()
-              // lightning.recordEveryInvoice(state.serverState.cash.pay_index)
+              lightning.recordEveryInvoice(state.serverState.cash.pay_index)
               lightning.watchOnChain()
     
               dctrlDb.changeFeed

@@ -211,9 +211,6 @@ class LightningClient extends EventEmitter {
             params:args,
             id: callInt
         };
-
-        debug("method call ...", sendObj)
-
         // Wait for the client to connect
         return this.clientConnectionPromise
             .then(() => new Promise((resolve, reject) => {
@@ -224,7 +221,6 @@ class LightningClient extends EventEmitter {
                     }
                     reject({error: response.error, stack: stackTrace});
                 });
-                debug("sending") 
                 _self.client.write(JSON.stringify(sendObj));
 
             }));
