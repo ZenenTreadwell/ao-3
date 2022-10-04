@@ -11,10 +11,10 @@
 <script>
 
 import EventFeed from './EventFeed'
-import Helm from './Helm'
 import Contexts from './Contexts'
 import TaskCreate from './TaskCreate'
 import Deck from './Deck'
+import Helm from './Helm'
 
 export default {
     mounted(){
@@ -26,7 +26,7 @@ export default {
       }
     },
     components: {
-        EventFeed, Helm, TaskCreate, Contexts, Deck
+        EventFeed, TaskCreate, Contexts, Deck, Helm
     },
     computed: {
         cardInputSty(){

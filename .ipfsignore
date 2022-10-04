@@ -2,6 +2,7 @@
 node_modules
 dist
 configuration.js
+.git
 
 # local env files
 .env.local

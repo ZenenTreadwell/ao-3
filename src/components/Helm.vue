@@ -69,7 +69,7 @@ export default {
 @import '../styles/colours';
 
 .tr 
-    opacity: 0.1
+    opacity: 0.4
 
 .helm
     z-index: 9001

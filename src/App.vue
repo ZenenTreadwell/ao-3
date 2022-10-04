@@ -2,6 +2,7 @@
 
 .app
   .container(v-if='!$store.getters.isLoggedIn')
+      helm
       auth
       img.foge(src='./assets/images/doge.svg')
   router-view(v-else)
@@ -11,7 +12,7 @@
 <script>
 
 import Auth from './components/Auth'
-
+import Helm from './components/Helm'
 export default {
     mounted() {
         let token = window.localStorage.token
@@ -29,7 +30,7 @@ export default {
         window.addEventListener('keydown', this.alwaysFocusDown)
     },
     components: {
-        Auth
+        Auth, Helm
     },
     methods: {
         alwaysFocus(anypass){

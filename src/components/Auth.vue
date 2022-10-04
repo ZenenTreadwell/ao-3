@@ -24,6 +24,31 @@
           label name
           span.focus-border
       button(@click="createAccount") new doge 
+  ul
+      div No  
+      div negative,
+      div irrelavent,
+      div misleading,
+      div racist,
+      div stereotypes,
+      div manipulative,
+      div ego,
+      div lies, 
+      div cliche,
+      div slogan,
+      div nihilistic,
+      div fatalistic,
+      div apathetic,
+      div nonsense,
+      div garbage
+      div cards  
+      div &nbsp; 
+      li 
+      li 
+      div run your own:
+      div 
+      div -- _ --
+      div ipfs get _ 
 
 </template>
 
@@ -110,6 +135,10 @@ export default {
 @import '../styles/switch'
 @import '../styles/input'
 @import '../styles/spinners'
+
+ul 
+    text-align:right
+    float: right 
 
 .authbox
     background: lightGrey
