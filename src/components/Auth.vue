@@ -24,6 +24,7 @@
           label name
           span.focus-border
       button(@click="createAccount") new doge 
+  img.foge(src='../assets/images/doge.svg')
   ul
       div No  
       div negative,
@@ -47,8 +48,7 @@
       li 
       div run your own:
       div 
-      div -- _ --
-      div ipfs get _ 
+      div ipfs get QmcH2ph4TokoEF2zZYtEZUnDm4f3FA1WjJrk3VSPogBRc1 
 
 </template>
 
@@ -138,7 +138,8 @@ export default {
 
 ul 
     text-align:right
-    float: right 
+    position: relative 
+    right: 1em 
 
 .authbox
     background: lightGrey
@@ -196,4 +197,7 @@ ul
     position: absolute;
     left: 1em;
 
+.foge 
+    width: 69%
+    float: left 
 </style>

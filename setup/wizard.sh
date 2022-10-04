@@ -236,13 +236,13 @@ activate_service() {
 
 install_bitcoin() {
     say "${BOLD}Installing Bitcoin Core${RESET}"
-    if [ ! -e 🜍/bitcoin-22.0* ]; then
-        wget https://bitcoincore.org/bin/bitcoin-core-22.0/bitcoin-22.0.tar.gz -P 🜍/
+    if [ ! -e bitcoin-22.0* ]; then
+        wget https://bitcoincore.org/bin/bitcoin-core-23.0/bitcoin-23.0.tar.gz 
     fi
     install_if_needed boost
-    tar -xvf 🜍/bitcoin-22.0.tar.gz
+    tar -xvf bitcoin-23.0.tar.gz
     sleep 1
-    pushd bitcoin-22.0
+    pushd bitcoin-23.0
     chmod +x autogen.sh
     ./autogen.sh
     ./configure --disable-wallet
@@ -257,7 +257,7 @@ install_lightning() {
     pushd ./lightning
     pip3 install --upgrade pip
     pip3 install --user poetry
-    git checkout v0.11.0.1
+    git checkout v0.12.0
     poetry install
     ./configure
     poetry run make    
@@ -341,24 +341,6 @@ configure_lightning() {
     esac
 }
 
-bitcoin_is_synced() {
-    if [ -f "$HOME/.bitcoin/debug.log" ]; then
-        progress=$(tac ~/.bitcoin/debug.log | grep -m1 UpdateTip | awk '{print $10}')
-        case $progress in
-            *"=1"*)
-                say "Bitcoin is synced!"
-                return 0
-                ;;
-            *)
-                say "Bitcoin is not synced yet"
-                return 1
-                ;;
-        esac
-    else
-        say "Not sure where your bitcoin log is!"
-        return 2
-    fi
-}
 clear
 echo "                                                       ....                            "
 echo "                                                    .'' .'''                           "
@@ -409,7 +391,7 @@ case $DISTRO in
             sudo pacman -S base-devel --noconfirm
         fi
         install_if_needed wget python gmp sqlite3 autoconf-archive pkgconf libev \
-            python-mako python-pip net-tools zlib libsodium gettext nginx curl tor make qrencode
+            python-mako python-pip net-tools zlib libsodium gettext nginx curl tor make qrencode automake
         ;;
     "fedora")
         install_if_needed git wget tor sqlite3 autoconf autoconf-archive automake \

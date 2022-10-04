@@ -4,7 +4,6 @@
   .container(v-if='!$store.getters.isLoggedIn')
       helm
       auth
-      img.foge(src='./assets/images/doge.svg')
   router-view(v-else)
 
 </template>
@@ -62,8 +61,6 @@ export default {
 @import "./styles/skeleton";
 @import "./styles/colours";
 
-.foge 
-    width: 69%
 
 .reqStatus
     background: blue
