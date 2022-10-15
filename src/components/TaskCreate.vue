@@ -103,6 +103,12 @@ export default {
         });
     },
     methods: {
+        applyEvent(evn) {
+            console.log({evn}) 
+            if (evn.type === "task-created" && evn.name === this.task.name.trim){
+                this.resetCard() 
+            }
+        },
         tryGoIn(){
             let hash = cryptoUtils.createCardHash(this.task.name)
             let card = this.$store.state.hashMap[hash]
@@ -163,11 +169,9 @@ export default {
                 this.showSearch = false
                 return { guilds, doges, cards}
             }
-            /// should not be blocking the typing.  . .
               this.showSearch = true
               process.nextTick(() => {
                   try {
-                    // let start = Date.now()
                     let regex = new RegExp(search, 'i')
                     this.$store.state.tasks.forEach(t => {
                       if (t.taskId === this.$store.getters.contextCard.taskId) return //
@@ -182,7 +186,6 @@ export default {
                         doges.push(member)
                       }
                     })
-                    // console.log('search blocked for ', Date.now() - start, 'ms') // ~25ms@3000cards
                   } catch (err){
                     return
                   }
@@ -229,9 +232,6 @@ export default {
         switchColor(color){
             if (this.$store.state.upgrades.color === color){
                 this.$store.commit('toggleCreate')
-                this.task.name = ''
-            } else if (this.showCreate) {
-                // don't close, switch
             } else {
                 this.$store.commit('toggleCreate')
             }
@@ -239,11 +239,6 @@ export default {
         },
         refocus(keyp){
             document.getElementById('card').focus()
-            // setTimeout(()=>{
-            //     if (!this.showCreate){
-            //         this.$store.commit('toggleCreate')
-            //     }
-            // }, 1)
             this.task.name += keyp
         },
         resetCard(){
@@ -282,7 +277,6 @@ export default {
                     return true
                 }
             })
-            this.resetCard()
             if(!foundId) {
                 this.$store.dispatch("makeEvent", {
                     type: 'task-created',
@@ -295,6 +289,7 @@ export default {
             } else {
                 this.subTaskTask(foundId)
             }
+            this.resetCard()
             if (this.showCreate){
                 this.$store.commit('toggleCreate')
             }

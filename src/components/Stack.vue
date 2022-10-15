@@ -186,7 +186,7 @@ export default {
           type: 'task-touched',
           taskId: this.$store.getters.contextCard.taskId,
           stack: this.stack,
-          position:this.position - 1,
+          position:this.sanePosition - 1,
         }
         this.$store.dispatch("makeEvent", touchyBack)
         this.$store.commit("applyEvent", touchyBack)
@@ -199,7 +199,7 @@ export default {
         type: 'task-touched',
         taskId: this.$store.getters.contextCard.taskId,
         stack: this.stack,
-        position: this.position + 1 
+        position: this.sanePosition + 1 
       }
         
       this.$store.dispatch("makeEvent", touchyForward)

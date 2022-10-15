@@ -21,17 +21,14 @@ export default {
             if (ev.memberId){
                 this.$store.commit('goDeeper',ev.memberId )
             }
-
             if (ev.subTask){
-              this.$store.commit('goDeeper',ev.subTask )
+                this.$store.commit('goDeeper',ev.subTask )
             } else if  (ev.taskId){
-              this.$store.commit('goDeeper',ev.taskId )
+                this.$store.commit('goDeeper',ev.taskId )
             }
-
             if (ev.inId){
                 this.$store.commit('goDeeper',ev.inId )
             }
-
         }
     }
 }

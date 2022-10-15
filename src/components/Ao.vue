@@ -1,5 +1,5 @@
 <template lang='pug'>
-.app(v-if='$store.getters.contextCard' @click='$store.commit("closeAll")')
+.app(v-if='$store.getters.contextCard' @click='bgclick')
     .app2(:class='cardInputSty')
     helm
     contexts
@@ -24,6 +24,15 @@ export default {
               this.$store.commit("goDeeper", taskId)
           }
       }
+    },
+    methods: {
+        bgclick(){
+            let openMenu = 
+                 this.$store.state.upgrades.showSettings ||
+                 this.$store.state.upgrades.showAccounts
+            if (openMenu) {  this.$store.commit('closeAll') }
+            else { this.$store.commit('toggleCreate') }
+        }
     },
     components: {
         EventFeed, TaskCreate, Contexts, Deck, Helm

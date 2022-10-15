@@ -2,6 +2,7 @@ const modes = ["doge", "boat", "timecube", "chest", "badge"]
 const paymodes = ["bitcoin", "lightning"]
 
 const state = {
+    taskCreateName: "",
     rollStack: [],
     rollStackPosition: 0,
     refocus: 0,
@@ -24,6 +25,10 @@ const mutations = {
     applyEvent(state, ev){
         if (ev.type === "task-removed"){
             state.rollStack = state.rollStack.filter(t => t !== ev.taskId)
+        }
+        if (ev.type === "task-created" && 
+            ev.name === state.taskCreateName) {
+            state.taskCreateName = ""
         }
     },
     rollStackSet(state, x=[]){

@@ -6,6 +6,11 @@
   .authbox.centertitle(v-if='err')
       .warning {{err}}
   .authbox
+      .input-container
+          input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
+          label alias
+          span.focus-border
+      button(@click="createAccount") enter
       .flexrow
           .inputhalf
               .input-container
@@ -17,39 +22,29 @@
                 input.input-effect#password(type='password', v-model='pass', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createSession'  :class='{"has-content":!!pass}')
                 label password
                 span.focus-border
-      button(@click="createSession") existing doge
-  .authbox
-      .input-container
-          input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
-          label name
-          span.focus-border
-      button(@click="createAccount") new doge 
-  img.foge(src='../assets/images/doge.svg')
-  ul
-      div No  
-      div negative,
-      div irrelavent,
-      div misleading,
-      div racist,
-      div stereotypes,
-      div manipulative,
-      div ego,
-      div lies, 
-      div cliche,
-      div slogan,
-      div nihilistic,
-      div fatalistic,
-      div apathetic,
-      div nonsense,
-      div garbage
-      div cards  
-      div &nbsp; 
-      li 
-      li 
-      div run your own:
-      div 
-      div ipfs get QmcH2ph4TokoEF2zZYtEZUnDm4f3FA1WjJrk3VSPogBRc1 
-
+      button(@click="createSession") login
+  div 
+    img.spin(src='../assets/images/gear.svg')
+    span account settings 
+  div 
+    img.spin(src='../assets/images/doge.svg')
+    span view accounts 
+  div 
+    img.spin(src='../assets/images/clipboard.svg') 
+    span click text of card to copy
+  div 
+    img.spin(src='../assets/images/hourglass.svg') 
+    span mark in progress to record time
+  div 
+    img.spin(src='../assets/images/trash.svg') 
+    span delete a card drag to bottom right (remove only works if single account present)  
+  div 
+    img.spin(src='../assets/images/xmark.svg') 
+    img.spin(src='../assets/images/mark.svg') 
+    span cards checked multiple times keep a tally    
+  div 
+    img.spin(src='../assets/images/timecube.svg') 
+    span view on calendar, schedule to day
 </template>
 
 <script>
@@ -57,7 +52,6 @@
 import request from 'superagent'
 import uuidV1 from 'uuid/v1'
 import cryptoUtils from '../crypto'
-
 
 export default {
   name: 'Auth',
@@ -136,6 +130,7 @@ export default {
 @import '../styles/input'
 @import '../styles/spinners'
 
+
 ul 
     text-align:right
     position: relative 
@@ -198,6 +193,6 @@ ul
     left: 1em;
 
 .foge 
-    width: 69%
+    height: 5em
     float: left 
 </style>

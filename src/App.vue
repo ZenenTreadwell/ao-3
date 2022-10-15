@@ -4,12 +4,13 @@
   .container(v-if='!$store.getters.isLoggedIn')
       helm
       auth
+      panels
   router-view(v-else)
 
 </template>
 
 <script>
-
+import Panels from './components/Panels'
 import Auth from './components/Auth'
 import Helm from './components/Helm'
 export default {
@@ -29,7 +30,7 @@ export default {
         window.addEventListener('keydown', this.alwaysFocusDown)
     },
     components: {
-        Auth, Helm
+        Auth, Helm, Panels 
     },
     methods: {
         alwaysFocus(anypass){
@@ -89,7 +90,7 @@ iframe
         height: 3em
 
 .app
-    background:wheat
+    background: wrexgreen
     color: main
     min-height: 100vh
 
