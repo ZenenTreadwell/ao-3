@@ -23,28 +23,49 @@
                 label password
                 span.focus-border
       button(@click="createSession") login
-  div 
+  div.featureorbug 
     img.spin(src='../assets/images/gear.svg')
     span account settings 
-  div 
+  div.featureorbug
     img.spin(src='../assets/images/doge.svg')
-    span view accounts 
-  div 
+    span view accounts, click to go there
+  div.featureorbug
     img.spin(src='../assets/images/clipboard.svg') 
     span click text of card to copy
-  div 
+  div.featureorbug
     img.spin(src='../assets/images/hourglass.svg') 
     span mark in progress to record time
-  div 
+  div.featureorbug
     img.spin(src='../assets/images/trash.svg') 
     span delete a card drag to bottom right (remove only works if single account present)  
-  div 
+  div.featureorbug
     img.spin(src='../assets/images/xmark.svg') 
     img.spin(src='../assets/images/mark.svg') 
     span cards checked multiple times keep a tally    
-  div 
+  div.featureorbug
     img.spin(src='../assets/images/timecube.svg') 
-    span view on calendar, schedule to day
+    span view on calendar, accumulate recursively. Drag to day to schedule
+  div.featureorbug
+    img.spin(src='../assets/images/badge.svg')
+    span pin in progress things for quick access
+  div.featureorbug
+    img.spin(src='../assets/images/completed.svg')
+    span completing a card stores it under the completed switch
+  div.featureorbug
+    img.spin(src='../assets/images/lightning.svg')
+    span collect payment record and create invoices
+  div.featureorbug
+    img.spin(src='../assets/images/bull.svg')
+    span connect resources and trigger with fob reader, button, and payment
+  div &nbsp;  
+  div &nbsp;  
+  div &nbsp;  
+  div &nbsp;  
+  div &nbsp;  
+  div &nbsp;  
+  div &nbsp;  
+  div &nbsp;
+  img.spin(src='../assets/images/sunglasses.svg')
 </template>
 
 <script>
@@ -130,7 +151,12 @@ export default {
 @import '../styles/input'
 @import '../styles/spinners'
 
-
+div.featureorbug 
+    background: wrexgreen 
+    margin-bottom: 1em
+    span
+        vertical-align: top  
+        
 ul 
     text-align:right
     position: relative 
@@ -187,6 +213,7 @@ ul
 
 .spin
     height: 3em
+    padding: 1em 
 
 .warning
     position: absolute;

@@ -135,7 +135,6 @@ export default {
     margin-top: -1em
 
 .fxr 
-    position:fixed
     padding-left:1em
 
 .tr

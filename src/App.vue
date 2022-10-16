@@ -90,7 +90,7 @@ iframe
         height: 3em
 
 .app
-    background: wrexgreen
+    background: #28432c
     color: main
     min-height: 100vh
 
