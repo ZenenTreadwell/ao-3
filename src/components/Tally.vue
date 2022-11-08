@@ -79,8 +79,12 @@ export default {
                 asString = `in ${days.toFixed(0)} day${ (days > 1) ? 's' : '' }`
             } else if ( hours >= 1) {
                 asString = `in ${hours.toFixed(0)} hour${ (hours > 1) ? 's' : '' }`
-            } else {
+            } else if ( minutes >= 1 ) {
                 asString = `in ${minutes.toFixed(0)} minute${ (minutes > 1) ? 's' : '' }`
+            } else if (( this.b.book.endTs - now ) > 0) {
+                asString = 'happening now!'
+            } else {
+                asString = 'in the past'
             }
                 
             return {

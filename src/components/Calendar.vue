@@ -84,6 +84,7 @@ export default {
       drop(ev){
           ev.preventDefault();
           var data = ev.dataTransfer.getData("taskId")
+          //TODO specify time of event - all day or drop on a time segment (create timegrid for calendar)
           var startTs = new Date(this.chosenDay.year, this.chosenDay.month, this.chosenDay.day, 7, 7, 7).getTime()
           this.$store.dispatch("makeEvent", {
               type: 'resource-booked',
