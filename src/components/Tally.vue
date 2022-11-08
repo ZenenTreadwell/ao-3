@@ -2,7 +2,7 @@
 
 .tally.tooltip
     span
-        span(v-if='cardStart').points {{ cardStart.days.toFixed(1) }} days
+        span(v-if='cardStart').points {{ cardStart.asString }}
         span.hide(v-if='b.claimed.length > 0') -
         img(v-for='n in clm.xmark'  src='../assets/images/xmark.svg')
         img(v-for='n in clm.mark'  src='../assets/images/mark.svg')
@@ -72,12 +72,22 @@ export default {
             let now = Date.now()
             let msTill = this.b.book.startTs - now
             let days = msTill / (1000 * 60 * 60 * 24)
-            let hours = 0
-            let minutes = 0
+            let hours = msTill / (1000 * 60 * 24)
+            let minutes = msTill / (1000 * 60)
+            let asString = ""
+            if ( days.toFixed(0) >= 1 ) {
+                asString = `in ${days.toFixed(0)} day${ (days > 1) ? 's' : '' }`
+            } else if ( hours >= 1) {
+                asString = `in ${hours.toFixed(0)} hour${ (hours > 1) ? 's' : '' }`
+            } else {
+                asString = `in ${minutes.toFixed(0)} minute${ (minutes > 1) ? 's' : '' }`
+            }
+                
             return {
                 days,
                 hours,
-                minutes
+                minutes,
+                asString
             }
           }
           return undefined
