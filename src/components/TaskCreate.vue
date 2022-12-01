@@ -445,7 +445,7 @@ textarea.inactive
   bottom: -1em
   left: 50%
   transform: translateX(-50%)
-  font-size: 0.67em
+  font-size: 1.67em
 
 .lit
     opacity: 0.69
