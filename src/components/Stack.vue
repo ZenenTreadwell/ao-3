@@ -1,6 +1,7 @@
 <template lang='pug'>
 
 #tasks
+    img.oodd(src='../assets/images/open.svg')
     .ptr(ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
         span.third.dot(:class='{hidden:open || c.length <= 1}'  ref='previous')
         span.third(ref='mandelorb')
@@ -18,6 +19,8 @@
     .box(v-else)
         hypercard(:b="c[sanePosition]"  :inId='taskId'  :key='c[sanePosition].taskId')
     .piledrop(v-if='c.length < 1'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave' :class='{dropping:dropping}'  @click='stackTap')
+
+
 </template>
 
 <script>
@@ -290,6 +293,13 @@ export default {
 @import '../styles/colours'
 @import '../styles/button'
 @import '../styles/donut'
+
+.oodd
+    float: right
+    position: relative
+    margin-bottom:-5em
+    width: 100%   
+
 
 .dot
     font-size: 1.9em
