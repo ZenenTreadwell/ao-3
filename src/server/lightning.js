@@ -9,7 +9,6 @@ const LightningClient = require( './lightning-client')
 const {serverState} = require( './state')
 
 const client = new LightningClient(config.lightningdir, true);
-
 const Client = require('bitcoin-core');
 const bitClient = new Client({
     network: 'mainnet',
@@ -49,9 +48,10 @@ bitClient.getBlockchainInfo().then(x => {
         }
         supply += reward * blocks
         console.log(
-            chalk.bold.yellow( (supply * sats).toLocaleString(), 'supply'),
-            chalk.bold.cyan('+' + (reward * sats).toLocaleString() + '/block'),
-            chalk.bold.green(Math.round((halving - blocks) * 10 / 60 / 24).toString() , 'days to halving')
+            chalk.bold.yellow('bitcoind verified\n'),
+            chalk.bold.yellow( (supply * sats).toLocaleString(), 'total sats \n'),
+            chalk.bold.cyan('block reward of', (reward * sats).toLocaleString(), '\n'),
+            chalk.bold.green('halving in', Math.round((halving - blocks) * 10 / 60 / 24).toString() , 'days')
         )
     }
 }).catch( err => {
@@ -129,6 +129,16 @@ function checkFunds(){
         .catch(err => {})
 }
 
+function stormWallet(){
+    return client.stormwallet()
+        .then(sw => {
+            console.log (
+                chalk.bold.blue('storm active')
+            )
+        })
+        .catch(e => console.log('no storm') )
+}
+
 function checkLightning(){
     return client
         .getinfo()
@@ -173,6 +183,7 @@ function recordEveryInvoice(start){
 }
 
 module.exports = {
+    stormWallet,
     createInvoice,
     newAddress,
     recordEveryInvoice,

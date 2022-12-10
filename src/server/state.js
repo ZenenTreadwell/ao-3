@@ -12,7 +12,6 @@ let ALIAS = process.env.ALIAS || config.alias || 'AO'
 let publicKey
 try {
     let filekey = fs.readFileSync(config.aodir + '/key', {encoding:'utf8'})
-    //publicKey = crypto.derivePublicKey(filekey)
 } catch (err){
     console.log(chalk.red('key import error from', config.aodir + '/key'), err)
 }
@@ -96,13 +95,13 @@ function initialize(callback) {
                     applyEvent(pubState, removeSensitive( Object.assign({}, ev) ))
                 })
                 console.log(
-                    chalk.bold.green(serverState.tasks.length, 'cards'),
-                    chalk.bold.magenta(serverState.members.length, 'accounts'),
-                    chalk.bold.red(serverState.resources.length, 'resources'),
-                    chalk.bold.cyan('from', all.length, 'events')
+                    chalk.bold.green('ao \n'), 
+                    chalk.bold.green(serverState.tasks.length, 'cards\n'),
+                    chalk.bold.magenta(serverState.members.length, 'accounts\n'),
+                    chalk.bold.red(serverState.resources.length, 'resources\n'),
+                    chalk.bold.cyan(all.length, 'events')
                 )
 
-                // integrity check (hashMap can break) XXXX
                 pubState.tasks.forEach( (t, i) => {
                     if (pubState.hashMap[t.taskId] !== i) {
                       console.log(i, 'map retro fixed!!?', t.name.slice(0,7))

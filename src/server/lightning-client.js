@@ -1,7 +1,6 @@
 const path = require('path');
 const net = require('net');
 const {EventEmitter} = require('node:events');
-console.log("wtf js") 
 const _ = require('lodash');
 const chalk = require('chalk')
 const methods = [
@@ -67,7 +66,10 @@ const methods = [
   "waitblockheight",
   "waitinvoice",
   "waitsendpay",
-  "withdraw"
+  // ## -- "withdraw"
+  "stormwallet", 
+  "stormnetwork", 
+  "stormpaths"
 ]
 
 const debug = console.log
@@ -79,8 +81,6 @@ class LightningClient extends EventEmitter {
         }
 
         rpcPath = path.join(rpcPath, '/lightning-rpc');
-
-        debug(`Connecting to ${rpcPath}`);
 
         super();
         this.rpcPath = rpcPath;
@@ -95,7 +95,6 @@ class LightningClient extends EventEmitter {
         this.client = net.createConnection(rpcPath);
         this.clientConnectionPromise = new Promise(resolve => {
             _self.client.on('connect', () => {
-                debug(`Lightning client connected`);
                 _self.reconnectWait = 1;
                 resolve();
             });
@@ -126,7 +125,6 @@ class LightningClient extends EventEmitter {
 
                 try {
                     let dataObject = JSON.parse(partObj.string.toString());
-                    debug("emittering" , dataObject.id)
                     _self.emit('res:' + dataObject.id, dataObject);
                 } catch (err) {
                     return;
