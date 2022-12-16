@@ -19,8 +19,9 @@
         div &nbsp;
         div &nbsp;
         div &nbsp;
-    //roll-stack
-    //data-vis
+    roll-stack
+    data-vis
+    lightning 
     pins.rell
 
 </template>
@@ -37,12 +38,14 @@ import RollStack from './RollStack'
 import DataVis from './DataVis'
 import ResourceBook from './ResourceBook'
 import SimplePriority from './SimplePriority'
+import Lightning from './Lightning' 
 
 export default {
   components:{
       ActiveCard, Payments, Calendar, Priorities,
       Checkmarks, Panels, Pins, RollStack,
-      ResourceBook, DataVis, SimplePriority
+      ResourceBook, DataVis, SimplePriority, 
+      Lightning 
   },
   methods: {
     allowDrop(ev){
@@ -101,7 +104,5 @@ export default {
 .upgrade
     height: 4em
     border: 4px solid rgba(0, 0, 0, 0.5)
-
-
 
 </style>
