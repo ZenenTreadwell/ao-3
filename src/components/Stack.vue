@@ -60,7 +60,6 @@ export default {
           e.stopPropagation()
         })
 
-
         barmc.on('swipeup', (e) => {
             this.$store.dispatch("makeEvent" , {
                 type: "task-prioritized",
@@ -135,8 +134,7 @@ export default {
   },
   methods:{
     stackTap(){
-        this.$store.commit('toggleCreate')
-        if (this.c.length > 1 && this.$store.state.upgrades.create){
+        if (this.c.length > 1){
             this.toggleOpen()
         }
         if (this.$store.state.upgrades.color !== this.stack){
@@ -153,7 +151,7 @@ export default {
     drop(ev){
         ev.preventDefault();
         var data = ev.dataTransfer.getData("taskId")
-	this.$store.commit('rollStackPull', data)
+        this.$store.commit('rollStackPull', data)
         this.$store.dispatch("makeEvent", {
             type: 'task-colored',
             inId: this.$store.getters.contextCard.taskId,
