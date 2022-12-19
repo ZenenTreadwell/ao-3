@@ -1,9 +1,8 @@
 <template lang='pug'>
 
 #tasks
-    img.oodd(src='../assets/images/open.svg', ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
-    .ptr 
-        //(ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
+    img.oodd(draggable='false'  src='../assets/images/open.svg', ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
+    .ptr(:ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
         span.third.dot(:class='{hidden:open || c.length <= 1}'  ref='previous')
         span.third(ref='mandelorb')
             .donut(:class='{pileselected: $store.state.upgrades.color === stack, pileopen: $store.getters.contextCard.stackView[stack] === -1, dropping:dropping}')
@@ -61,17 +60,23 @@ export default {
           e.stopPropagation()
         })
 
-        let orbSwipe = new Hammer.Swipe({ threshold: 50 })
-        orbmc.add(orbSwipe)
 
-        orbmc.on('swipeup', (e) => {
-            this.swap(-1)
-            this.previous()
+        barmc.on('swipeup', (e) => {
+            this.$store.dispatch("makeEvent" , {
+                type: "task-prioritized",
+                taskId: this.topCard.taskId,
+                inId: this.$store.getters.contextCard.taskId,
+                fromId: this.topCard.taskId
+            }) 
             e.stopPropagation()
         })
 
-        orbmc.on('swipedown', (e) => {
-            this.swap(1)
+        barmc.on('swipedown', (e) => {
+            this.$store.dispatch("makeEvent" , { 
+                type: "task-de-sub-tasked",
+                inId: this.$store.getters.contextCard.taskId,
+                taskId: this.topCard.taskId
+            })
             e.stopPropagation()
         });
 
@@ -119,6 +124,7 @@ export default {
         this.last()
         e.stopPropagation()
         })
+        
   },
   data(){
       return {

@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.panel
+.panel(v-if='$store.getters.contextCard') 
     .flexrow
       .pile
           stack(stack='red', :position='$store.getters.contextCard.stackView["red"]',  :taskId='$store.getters.contextCard.taskId')
