@@ -1,8 +1,9 @@
 <template lang='pug'>
 
 #tasks
-    img.oodd(src='../assets/images/open.svg')
-    .ptr(ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
+    img.oodd(src='../assets/images/open.svg', ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
+    .ptr 
+        //(ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
         span.third.dot(:class='{hidden:open || c.length <= 1}'  ref='previous')
         span.third(ref='mandelorb')
             .donut(:class='{pileselected: $store.state.upgrades.color === stack, pileopen: $store.getters.contextCard.stackView[stack] === -1, dropping:dropping}')
