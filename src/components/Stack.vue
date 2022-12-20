@@ -49,6 +49,14 @@ export default {
 
         let barSwipe = new Hammer.Swipe({ threshold: 50 })
         barmc.add(barSwipe)
+        
+        barmc.add(orbTap)    
+            
+        barmc.on('tap', (e) => {
+            this.stackTap()
+            e.stopPropagation()
+        })
+
 
         barmc.on('swipeleft', (e) => {
           this.previous()
@@ -137,9 +145,7 @@ export default {
         if (this.c.length > 1){
             this.toggleOpen()
         }
-        if (this.$store.state.upgrades.color !== this.stack){
-            this.$store.commit('setColor', this.stack)
-        }
+        this.$store.commit('setColor', this.stack)
     },
     dragLeave(){
         this.dropping = false
