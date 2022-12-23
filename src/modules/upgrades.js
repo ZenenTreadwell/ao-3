@@ -88,6 +88,9 @@ const mutations = {
     toggleCreate(state){
         state.create = !state.create
     },
+    createOff(state){
+        state.create = false
+    },
     nextMode(state) {
         let currentIndex = modes.indexOf(state.mode)
         let nextIndex = (currentIndex + 1) % modes.length

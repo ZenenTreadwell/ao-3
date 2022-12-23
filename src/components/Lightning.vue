@@ -1,6 +1,7 @@
 <template lang='pug'>
 
 #nodes
+    div node stuff
     .breathing
     .boxy(v-if='$store.state.cash.info.id')
         div {{ $store.state.cash.info.alias}} 
@@ -19,8 +20,8 @@
                 .chanfo(v-if='selectedPeer < 0') pubkey: {{ $store.state.cash.info.id }}
                 .ptr(v-for='(n, i) in $store.state.cash.info.channels' :key='n.peer_id')
                     .localremote.bordy(v-show='selectedPeer === i'   @click='selectedPeer = false')
-                        .localbar.tall(:style='l(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseInt( n.channel_sat ).toLocaleString() }}
-                        .remotebar.tall(:style='r(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ parseInt( n.channel_total_sat - n.channel_sat ).toLocaleString() }}
+                        .localbar.tall(:style='l(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ (n.amount_msat ).toLocaleString() }}
+                        .remotebar.tall(:style='r(n)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')  {{ ( n.amount_msat - n.our_amount_msat ).toLocaleString() }}
                     .localremote(v-show='selectedPeer !== i'   @click='selectPeer(i)')
                         .localbar(:style='l(n, true)' :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
                         .remotebar(:style='r(n, true)'  :class='{abnormal:n.state !== "CHANNELD_NORMAL"}')
@@ -98,8 +99,8 @@ export default {
             }
             this.$store.state.cash.info.channels.forEach(n => {
                 if (n.state === "CHANNELD_NORMAL"){
-                    totals.channel_sat += n.channel_sat
-                    totals.channel_total_sat += n.channel_total_sat
+                    totals.channel_sat += n.our_amount_msat
+                    totals.channel_total_sat += n.amount_msat
                 }
             })
             if (totals.channel_sat + totals.channel_total_sat === 0){
@@ -153,8 +154,9 @@ export default {
             this.checkPeer(this.selectedChannel.peer_id)
         },
         r(n, nolimits){
-            let local = parseFloat( n.channel_sat )
-            let remote = parseFloat( n.channel_total_sat - n.channel_sat )
+            let local =  n.our_amount_msat 
+
+            let remote = n.amount_msat - n.our_amount_msat 
 
             let capacity = local + remote
             let remotePercent =  remote / capacity
@@ -172,8 +174,8 @@ export default {
             }
         },
         l(n, nolimits){
-          let local = parseFloat( n.channel_sat )
-          let remote = parseFloat( n.channel_total_sat - n.channel_sat )
+          let local = n.our_amount_msat 
+          let remote = n.amount_msat - local 
 
           let capacity = local + remote
           let localPercent =  n.channel_sat / capacity

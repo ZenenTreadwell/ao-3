@@ -16,7 +16,6 @@ readConfigs(() => {
     const applyRouter = require('./router')
     const chalk = require('chalk');
     const connector = require('./connector')
-    
     const app = express()
     applyRouter(app)
     startDctrlAo()
@@ -30,10 +29,11 @@ readConfigs(() => {
               if (err) return console.log(chalk.bold.red('ao state initialization failed:'), err)
     
               watchSpot()
-              rent()
-              link()
+              lightning.stormWallet()
               lightning.recordEveryInvoice(state.serverState.cash.pay_index)
               lightning.watchOnChain()
+              // rent()
+              // link()
     
               dctrlDb.changeFeed
                   .onValue( ev => state.applyEvent(state.serverState, ev))

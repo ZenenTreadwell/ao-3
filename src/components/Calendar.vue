@@ -24,6 +24,8 @@
                   span(v-if='n.taskId === $store.getters.contextCard.taskId')
                       img.completedcheckmark.dark(src='../assets/images/doge.svg')
                       span {{ checkIsMember(n.memberId) }}
+                  span(v-if='getFromMap(n.taskId).guild') 
+                      linky(:x='getFromMap(n.taskId).guild')
                   span(v-else)
                       linky(:x='getFromMap(n.taskId).name')
               span(v-else-if='n.type === "resource-used"'  @click='goDeeper(n.resourceId, n.memberId)')
@@ -84,7 +86,6 @@ export default {
       drop(ev){
           ev.preventDefault();
           var data = ev.dataTransfer.getData("taskId")
-          //TODO specify time of event - all day or drop on a time segment (create timegrid for calendar)
           var startTs = new Date(this.chosenDay.year, this.chosenDay.month, this.chosenDay.day, 7, 7, 7).getTime()
           this.$store.dispatch("makeEvent", {
               type: 'resource-booked',

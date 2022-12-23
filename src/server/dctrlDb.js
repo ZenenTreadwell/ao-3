@@ -126,11 +126,9 @@ function insertBackup(state, callback) {
 }
 
 function startDb(callback){
-
     conn = dbengine(dblocation, { });
     var checkTable = conn.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='events'");
-
-    console.log('loading ', chalk.bold.red(dblocation))
+    console.log('Database at ', chalk.bold.red(dblocation))
     if(checkTable.all().length == 0){
        initializeSqlite(callback);
     } else {

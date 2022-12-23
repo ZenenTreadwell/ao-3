@@ -69,6 +69,7 @@ export default {
         var el = document.getElementById('btnpanel')
         var mc = new Hammer.Manager(el)
 
+
         var Swipe = new Hammer.Swipe()
         let longPress = new Hammer.Press({ time: 400 })
 
@@ -101,6 +102,7 @@ export default {
                 this.swipeTimeout = Date.now()
             }
         });
+        window.addEventListener( "keydown", this.resetMaybe ) 
     },
     methods: {
         applyEvent(evn) {
@@ -240,6 +242,12 @@ export default {
         refocus(keyp){
             document.getElementById('card').focus()
             this.task.name += keyp
+        },
+        resetMaybe(x){
+            if (x.key === 'Escape') { 
+                this.resetCard();
+                this.$store.commit('createOff');
+            } 
         },
         resetCard(){
             this.task.name = ''
@@ -446,7 +454,7 @@ textarea.inactive
   bottom: -1em
   left: 50%
   transform: translateX(-50%)
-  font-size: 0.67em
+  font-size: 1.67em
 
 .lit
     opacity: 0.69

@@ -28,7 +28,6 @@ const readConfigs = callback => {
         config.lightningdir= process.env.LIGHTNINGDIR || config.lightningdir || process.env.HOME + '/.lightning/bitcoin',
         config.aodir= process.env.AODIR || config.aodir || process.env.HOME + '/.ao',
         config.open= process.env.OPEN || config.open || true
-        console.log('Read',aoDir + '/config', ' Current config is:', config)
         callback()
     })
 }
