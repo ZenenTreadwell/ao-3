@@ -718,7 +718,7 @@ textarea.inactive
     transform: translateX(-50%);
     margin-bottom: 0;
     border-radius: 50% 50% 0 0;
-    top: -2.789em;
+    bottom: 1em;
     padding-top: 0.2em;
     padding-bottom: 0.2em;
     img
