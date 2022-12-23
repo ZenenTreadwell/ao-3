@@ -310,7 +310,7 @@ export default {
     position: relative
     margin-bottom:-5em
     width: 100%   
-
+    display: none
 
 .dot
     font-size: 1.9em
