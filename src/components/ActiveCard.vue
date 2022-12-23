@@ -314,7 +314,7 @@ label
     margin-right: 1em
     margin-top: 0.35em
     // padding: 1em
-    //-- background-color: rgba(255,255,255,.833)
+    background-color: main
     margin-bottom: 1em
     padding-bottom: 1em
     // padding-top: 1em

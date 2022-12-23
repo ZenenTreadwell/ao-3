@@ -147,11 +147,13 @@ img.darkcircle
     bottom: 0
     right: 0
     position: relative
-    width: 100%
+    width: 20vw
+    min-width: 20em
     height: 1.5em
     cursor: pointer
     z-index: 50
     overflow: hidden
+    
 
 .popup .here .only
     opacity: 0.15

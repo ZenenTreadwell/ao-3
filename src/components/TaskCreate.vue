@@ -437,6 +437,7 @@ textarea.inactive
 
 #createtask
   width: 69%
+  max-width: 800px;
   margin: 0 auto 0 auto
   text-align: center
   padding: 0.05em

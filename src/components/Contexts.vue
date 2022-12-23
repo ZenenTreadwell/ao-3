@@ -76,6 +76,9 @@ export default {
     min-height: 3.35em
     display: flex
     flex-direction: column
+    width: fit-content
+    margin: auto
+    padding-bottom: 1em
 
 .spacer
     flex-grow:1

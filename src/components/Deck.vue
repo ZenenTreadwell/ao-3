@@ -69,6 +69,17 @@ export default {
 @import '../styles/colours';
 @import '../styles/skeleton';
 
+.deck
+    width: 80vw
+    max-width: 800px
+    background-image: url('../assets/images/cork.svg')
+    background-size: cover
+    background-repeat: no-repeat
+    height: 80vh
+    padding: 4em
+    opacity: 0.9
+    margin: auto
+
 .flex
     position: relative
     flex-direction: row
@@ -84,7 +95,6 @@ export default {
     margin-left: 3em
 
 .card.adjustwidth
-    box-shadow: 1px -1px 1px main;
     max-width: 100%
     max-width: 15em
 

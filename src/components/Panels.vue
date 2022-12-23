@@ -37,6 +37,8 @@ export default {
     margin: 0 1em 1em 1em
     clear: both
     min-height: 5.9em
+    max-width: 800px
+    margin: auto
     background-size: cover
     background-position: center center
     overflow: visible

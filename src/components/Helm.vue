@@ -80,6 +80,7 @@ img
     z-index: 90010000
     cursor: pointer
     padding: .075em
+    margin: 1em
 
 .settings
     position: fixed
