@@ -108,7 +108,7 @@ img
     left: 0
     width: 89%
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
-    background: linear-gradient(to bottom right, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
+    background: linear-gradient(to bottom right, softGrey, softGrey 6em, lightGrey 6em, lightGrey )
 
 .gear
     top: 0

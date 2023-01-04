@@ -1,9 +1,11 @@
 <template lang='pug'>
 .task(:class="cardInputSty"  @click='goDeeper'  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart'   :ondragleave='dragLeave').dont-break-out.agedwrapper
     img.diamond(v-for='t in b.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)'  @click='$store.commit("setMode", 1)')
+    img.flaggy(@click.stop='upboat' src='../assets/images/chevron-up.svg')
+    img.viney(@click.stop='pop' src='../assets/images/explode.svg')
+    img.scrolly(@click.stop='remove' src='../assets/images/fire.svg')
     pinner(:b='b', :inId='inId')
     tally(:b='b')
-    .donut.flaggy.square.hidden(@click.stop='upboat')
     .buffertop
       .cardbody
           linky.cardhud(:x='b.name' v-if='!member'  @click.stop='copyCardToClipboard')
@@ -15,10 +17,6 @@
               current(v-for='n in actions'  :memberId='n')
     div
         .copiedspace
-        .scrol(@click.stop='remove')
-            .donut.scrolly.hidden.square
-        .vine(@click.stop='pop')
-            .donut.viney.hidden.square
     preview-deck(:task='b')
 </template>
 
@@ -227,6 +225,7 @@ export default {
     top: 0
     right: 0
     float: right;
+    z-index: 2
 
 .sml
     font-size: .73em
@@ -243,14 +242,15 @@ export default {
     height: 2.1em
     cursor: pointer
 
+img.scrolly
+    opacity: 0.2
+    padding: 0.5em
+
 .vine
     width: 100%
     text-align: right
     span
         padding-right: 1.2em
-
-img.chest
-    height: 1.2em
 
 .task
     margin:10px 0
@@ -262,6 +262,11 @@ img.chest
     right: 0
     cursor: pointer
     height: 2.1em
+
+img.viney
+    opacity: 0.15
+    padding: 0.4em
+    padding-right: 0.6em
 
 .send
     height: 1.1em
@@ -347,6 +352,11 @@ img.chest
     height: 2.1em
     top: 0
     cursor: pointer
+
+img.flaggy
+    opacity: 0.1
+    padding: 0.25em
+    padding-right: 0.5em
 
 .task.dropping
     background: blue
