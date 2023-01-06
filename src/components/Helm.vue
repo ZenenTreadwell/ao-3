@@ -90,7 +90,7 @@ img
     width: 89%
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     padding: 1.5em
-    background: linear-gradient(to bottom left, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
+    background: linear-gradient(to bottom left, softGrey, softGrey 6em, lightGrey 6em, lightGrey )
 
 .lightning
     position: fixed
@@ -100,7 +100,7 @@ img
     width: 89%
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2)
     padding: 1.5em
-    background: linear-gradient(to top left, softGrey, softGrey 4em, lightGrey 4em, lightGrey )
+    background: linear-gradient(to top left, softGrey, softGrey 6em, lightGrey 6em, lightGrey )
 
 .accounts
     position: fixed

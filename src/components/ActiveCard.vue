@@ -1,6 +1,6 @@
 <template lang='pug'>
 
-.activecard(:class='{dropping}'  :ondrop="drop"   :ondragover="allowDrop"  :ondragleave='dragLeave')
+.activecard(:class='styl' :ondrop="drop"   :ondragover="allowDrop"  :ondragleave='dragLeave')
     .flextabs
         .tabber(@click='toBoat'  :class='{activationsequence: $store.state.upgrades.mode === "boat"}'   :ondragover='toBoatOnly')
             img(src='../assets/images/completed.svg')
@@ -74,6 +74,19 @@ export default {
             }
             return cstar
         },
+        styl(){
+            let color = this.$store.getters.contextCard.color
+            if (!color  || this.$store.getters.member.stacks === 1) return
+            return {
+                dropping: this.dropping,
+                bluewx : color == 'blue',
+                redwx : color == 'red',
+                greenwx : color == 'green',
+                yellowwx : color == 'yellow',
+                purplewx : color == 'purple',
+                blackwx : color == 'black',
+            }
+        },
         m(){
             return this.$store.getters.contextMember
         },
@@ -126,17 +139,6 @@ export default {
             })
             this.goDoge()
             setTimeout(()=> this.copied = false, 1234)
-        },
-        styl(color){
-            if (!color  || this.$store.getters.member.stacks === 1) return
-            return {
-                redwx : color == 'red',
-                bluewx : color == 'blue',
-                greenwx : color == 'green',
-                yellowwx : color == 'yellow',
-                purplewx : color == 'purple',
-                blackwx : color == 'black',
-            }
         },
         dragLeave(){
             this.dropping = false
@@ -265,8 +267,8 @@ export default {
     text-decoration: line-through;
 
 .doge
-    color: lightGrey
-    height: 1.0789em
+    color: main
+    height: 1.111em
     display: inline-block
     padding: .3em;
     border-radius: 50%;
@@ -283,9 +285,6 @@ label img
 
 label div
     cursor: pointer
-
-.doge
-    height: 1.111em
 
 .row.center.clearboth
     cursor: pointer
@@ -319,9 +318,9 @@ label
     padding-bottom: 1em
     // padding-top: 1em
     box-shadow:
-         0 0 6px 3px main , 
-         0 0 7px 4px softGrey, 
-         0 0 8px 5px lightGrey;
+         2px 2px 6px 3px main , 
+         2px 2px 7px 4px softGrey, 
+         2px 2px 8px 5px lightGrey;
 
 .smallguild
     height: 2em
@@ -348,6 +347,7 @@ label
     cursor: pointer
     flex-shrink: 1
     color: lightGrey
+    background-color: softGrey;
     text-align: center
     min-width: 2.22em;
     max-width: 3.3em;

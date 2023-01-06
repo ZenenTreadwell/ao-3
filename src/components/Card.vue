@@ -44,7 +44,7 @@ export default {
         styl(color){
             if (!color  || this.$store.getters.member.stacks === 1) return
             return {
-                dropping :this.dropping,
+                dropping : this.dropping,
                 redwx : color == 'red',
                 bluewx : color == 'blue',
                 greenwx : color == 'green',
@@ -220,6 +220,7 @@ export default {
     margin:10px 0
     padding:20px
     cursor: crosshair
+    box-shadow: 2px 2px 3px 2px softGrey
 
 .scrolly
     position: absolute
@@ -237,10 +238,6 @@ img.scrolly
     text-align: right
     span
         padding-right: 1.2em
-
-.task
-    margin:10px 0
-    padding:20px
 
 .viney
     position: absolute
