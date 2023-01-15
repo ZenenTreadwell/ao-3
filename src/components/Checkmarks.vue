@@ -2,11 +2,11 @@
 
 .upgrades(v-if='!$store.getters.contextMember')
     div.tr
-        span.bg
+        div.bg
             span(v-for='n in $store.getters.contextRelevantMembers'  :class='{dropping: dropping === n}'  :key='n'  @click.stop='toggleHighlight(n)'  @click.stop.ctrl='toggleHighlight(n, true)'   :ondrop="dropWrap(n)"  :ondragover="allowDropWrap(n)"  :ondragleave='dragLeave')
                 span(:class='{highlight: isHighlighted(n), lowdark: isLowdarked(n) }') &nbsp; {{ getName(n) }} &nbsp;
-            span.ptr(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click.stop='leave') *X*
-            span.ptr(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click.stop='grab') *O*
+            img.icon(v-if='$store.getters.contextCard.deck.indexOf($store.getters.member.memberId) > -1'  @click.stop='leave', src='../assets/images/grab.svg') 
+            img.icon(v-else-if='$store.getters.member.memberId !== $store.getters.contextCard.name'  @click.stop='grab', src='../assets/images/ungrab.svg')
     span.ptr(@click.stop='tryToggle'  v-if='$store.getters.contextCard.completed.length > 0  || $store.getters.contextCard.stackView.completed')
         span &nbsp;&nbsp;&nbsp;
         span.witchswitch
@@ -147,12 +147,22 @@ export default {
     background: lightGrey
     padding: 0.33em
     border-radius: 3%
+    width: max-content
+    margin-right: 1em
+    margin-left: auto
+    display: flex
+    align-items: center
 
 .spacer
     height: 0.5em
 
 .ptr
-    cursor: pointer;
+    cursor: pointer
+
+.icon
+    cursor: pointer
+    height: 2em
+    opacity: 0.8
 
 .highlight
     text-shadow: 0 0 20px yellow, 0 0 20px yellow, 0 0 20px yellow

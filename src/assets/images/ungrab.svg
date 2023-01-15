@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   fill="none"
+   version="1.1"
+   id="svg3577"
+   sodipodi:docname="ungrab.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3581" />
+  <sodipodi:namedview
+     id="namedview3579"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="34.458333"
+     inkscape:cx="12.01451"
+     inkscape:cy="11.085852"
+     inkscape:window-width="1920"
+     inkscape:window-height="1007"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3577" />
+  <path
+     fill-rule="evenodd"
+     clip-rule="evenodd"
+     d="M3 4C3 2.34315 4.34315 1 6 1H18C19.6569 1 21 2.34315 21 4V20C21 21.6569 19.6569 23 18 23H6C4.34315 23 3 21.6569 3 20V4ZM6 3H18C18.5523 3 19 3.44772 19 4V20C19 20.5523 18.5523 21 18 21H6C5.44772 21 5 20.5523 5 20V4C5 3.44772 5.44772 3 6 3Z"
+     fill="#000000"
+     id="path3575" />
+  <path
+     style="fill:#1a1a1a;stroke:#000000;stroke-width:0.861732;stroke-linejoin:round"
+     d="M 7.1709519,4.9000989 H 16.829048"
+     id="path3978" />
+  <path
+     style="fill:#1a1a1a;stroke:#000000;stroke-width:0.861732;stroke-linejoin:round"
+     d="m 7.170952,6.8885154 h 9.658096"
+     id="path3978-3" />
+  <path
+     style="fill:#1a1a1a;stroke:#000000;stroke-width:0.861732;stroke-linejoin:round"
+     d="M 7.1946108,8.9218947 H 16.852707"
+     id="path3978-6" />
+  <path
+     style="fill:#1a1a1a;stroke:#000000;stroke-width:0.861732;stroke-linejoin:round"
+     d="M 7.1946109,10.910311 H 16.852707"
+     id="path3978-3-7" />
+</svg>
