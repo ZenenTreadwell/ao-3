@@ -93,7 +93,6 @@ iframe
     background: #28432c
     color: main
     min-height: 100vh
-    overflow: hidden
 
 .statement
     margin: 2em

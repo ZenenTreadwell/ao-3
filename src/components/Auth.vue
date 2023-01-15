@@ -6,11 +6,13 @@
   .authbox.centertitle(v-if='err')
       .warning {{err}}
   .authbox
+      h2.centertitle New Account
       .input-container
           input.input-effect(type='text', v-model='name', autocapitalize="none", autocomplete="off", autocorrect="off", @keyup.enter='createAccount'  :class='{"has-content":!!name}')
           label alias
           span.focus-border
       button(@click="createAccount") enter
+      h2.centertitle Login
       .flexrow
           .inputhalf
               .input-container
@@ -23,49 +25,50 @@
                 label password
                 span.focus-border
       button(@click="createSession") login
-  div.featureorbug 
-    img.spin(src='../assets/images/gear.svg')
-    span account settings 
-  div.featureorbug
-    img.spin(src='../assets/images/doge.svg')
-    span view accounts, click to go there
-  div.featureorbug
-    img.spin(src='../assets/images/clipboard.svg') 
-    span click text of card to copy
-  div.featureorbug
-    img.spin(src='../assets/images/hourglass.svg') 
-    span mark in progress to record time
-  div.featureorbug
-    img.spin(src='../assets/images/trash.svg') 
-    span delete a card drag to bottom right (remove only works if single account present)  
-  div.featureorbug
-    img.spin(src='../assets/images/xmark.svg') 
-    img.spin(src='../assets/images/mark.svg') 
-    span cards checked multiple times keep a tally    
-  div.featureorbug
-    img.spin(src='../assets/images/timecube.svg') 
-    span view on calendar, accumulate recursively. Drag to day to schedule
-  div.featureorbug
-    img.spin(src='../assets/images/badge.svg')
-    span pin in progress things for quick access
-  div.featureorbug
-    img.spin(src='../assets/images/completed.svg')
-    span completing a card stores it under the completed switch
-  div.featureorbug
-    img.spin(src='../assets/images/lightning.svg')
-    span collect payment record and create invoices
-  div.featureorbug
-    img.spin(src='../assets/images/bull.svg')
-    span connect resources and trigger with fob reader, button, and payment
+  div.featurelist
+    div.featureorbug 
+      img.spin(src='../assets/images/gear.svg')
+      span account settings 
+    div.featureorbug
+      img.spin(src='../assets/images/doge.svg')
+      span view accounts, click to go there
+    div.featureorbug
+      img.spin(src='../assets/images/clipboard.svg') 
+      span click text of card to copy
+    div.featureorbug
+      img.spin(src='../assets/images/hourglass.svg') 
+      span mark in progress to record time
+    div.featureorbug
+      img.spin(src='../assets/images/trash.svg') 
+      span delete a card drag to bottom right (remove only works if single account present)  
+    div.featureorbug
+      img.spin(src='../assets/images/xmark.svg') 
+      img.spin(src='../assets/images/mark.svg') 
+      span cards checked multiple times keep a tally    
+    div.featureorbug
+      img.spin(src='../assets/images/timecube.svg') 
+      span view on calendar, accumulate recursively. Drag to day to schedule
+    div.featureorbug
+      img.spin(src='../assets/images/badge.svg')
+      span pin in progress things for quick access
+    div.featureorbug
+      img.spin(src='../assets/images/completed.svg')
+      span completing a card stores it under the completed switch
+    div.featureorbug
+      img.spin(src='../assets/images/lightning.svg')
+      span collect payment record and create invoices
+    div.featureorbug
+      img.spin(src='../assets/images/bull.svg')
+      span connect resources and trigger with fob reader, button, and payment
   div &nbsp;  
   div &nbsp;  
   div &nbsp;  
   div &nbsp;  
   div &nbsp;  
   div &nbsp;  
+  img.spin(src='../assets/images/sunglasses.svg')
   div &nbsp;  
   div &nbsp;
-  img.spin(src='../assets/images/sunglasses.svg')
 </template>
 
 <script>
@@ -151,11 +154,21 @@ export default {
 @import '../styles/input'
 @import '../styles/spinners'
 
+div.featurelist
+    align-items: center
+    justify-content: center
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+
 div.featureorbug 
     background: wrexgreen 
-    margin-bottom: 1em
-    span
-        vertical-align: top  
+    margin: 1em
+    padding: 1em
+    display: flex
+    flex-direction: row
+    align-items: center
+    width: 240px
         
 ul 
     text-align:right
@@ -184,12 +197,13 @@ ul
     color: lightGrey
 
 .existing:hover span
-    text-decoration: underline;
+    text-decoration: underline
 
 .centertitle
     text-align: center
-    font-weight: bolder;
+    font-weight: bolder
     font-size: 1.2em
+    margin-bottom: 0
 
 .five.grid.center
     padding: .77em

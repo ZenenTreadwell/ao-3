@@ -76,9 +76,8 @@ export default {
     width: 80vw
     max-width: 800px
     background-image: url('../assets/images/cork.svg')
-    background-size: cover
+    background-size: contain
     background-repeat: no-repeat
-    height: 80vh
     padding: 4em
     opacity: 0.9
     margin: auto
