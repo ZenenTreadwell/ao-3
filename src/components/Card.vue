@@ -58,26 +58,41 @@ export default {
         drop(ev){
             ev.preventDefault();
             this.dropping = false
-            var data = ev.dataTransfer.getData("taskId")
+            var data = ev.dataTransfer.getData("taskId").split(",")
             if (this.b.taskId === data){
                 return
             }
+            
+            if (data.length > 1) {
+                this.$store.dispatch("makeEvent", {
+                    type: 'pile-sub-tasked',
+                    inId: this.b.taskId,
+                    tasks: data,
+                })
+                this.$store.dispatch("makeEvent", {
+                    type: 'pile-de-sub-tasked',
+                    inId: this.$store.getters.contextCard.taskId,
+                    tasks: data,
+                })
+            } else {
             this.$store.dispatch("makeEvent", {
                 type: 'task-de-sub-tasked',
                 inId: this.$store.getters.contextCard.taskId,
-                taskId: data,
+                taskId: data[0],
             })
             this.$store.dispatch("makeEvent", {
                 type: 'task-sub-tasked',
                 inId: this.b.taskId,
-                taskId: data,
+                taskId: data[0],
             })
+            }
         },
         allowDrop(ev){
             ev.preventDefault()
             this.dropping = true
         },
         dragStart(ev){
+            console.log("carddrag" ) 
             ev.dataTransfer.setData("taskId", this.b.taskId);
         },
         pop(){

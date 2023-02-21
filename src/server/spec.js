@@ -181,7 +181,10 @@ router.post('/events', (req, res, next)=>{
       case "pile-prioritized":
           if (
               validators.isTaskId(req.body.inId, errRes) &&
-              req.body.tasks.every(tId => validators.isTaskId(tId, errRes))
+              req.body.tasks.every(tId => {
+                  console.log("validating tId") 
+                  validators.isTaskId(tId, errRes)
+              })
           ) {
               events.pilePrioritized(req.body.inId, req.body.tasks, req.body.blame, utils.buildResCallback(res));
           } else {

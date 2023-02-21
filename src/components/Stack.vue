@@ -4,7 +4,7 @@
     img.oodd(draggable='false'  src='../assets/images/open.svg', ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
     .ptr(:ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
         span.third.dot(:class='{hidden:open || c.length <= 1}'  ref='previous')
-        span.third(ref='mandelorb')
+        span.third(ref='mandelorb' draggable="true" :ondragstart='dragStart')
             .donut(:class='{pileselected: $store.state.upgrades.color === stack, pileopen: $store.getters.contextCard.stackView[stack] === -1, dropping:dropping}')
             .fixedstatus(v-if='c.length > 1  && sanePosition !== -1'  ) {{ sanePosition + 1 }} of {{ c.length }}
             .fixedstatus(v-else-if='c.length === 1') 1 
@@ -141,6 +141,9 @@ export default {
       }
   },
   methods:{
+    dragStart(ev){
+        ev.dataTransfer.setData("taskId", this.c.map(t => t.taskId))
+    },
     stackTap(){
         if (this.c.length > 1){
             this.toggleOpen()
@@ -384,12 +387,5 @@ export default {
 
 .donut.dropping
     border-color: blue
-
-
-// // ? no work - add color to drop area?
-// .piledrop.dropping
-//     border-color: blue
-//     border-style: solid
-//     background: blue
 
 </style>
