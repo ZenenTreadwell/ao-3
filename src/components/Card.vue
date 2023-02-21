@@ -92,7 +92,6 @@ export default {
             this.dropping = true
         },
         dragStart(ev){
-            console.log("carddrag" ) 
             ev.dataTransfer.setData("taskId", this.b.taskId);
         },
         pop(){

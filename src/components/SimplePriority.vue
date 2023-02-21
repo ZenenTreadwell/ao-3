@@ -4,7 +4,8 @@
     .row.agedwrapper(:class='cardInputSty')
         .check()
             img.checkmark.right.front(v-if='isCompleted' src='../assets/images/completed.svg'  @click.stop='checky')
-            img.checkmark.right.front(v-else-if='!isCompleted' src='../assets/images/uncompleted.svg'  @click.stop='checky')
+            img.checkmark.right.front(v-if='isCompleted' src='../assets/images/doge.svg' @click.stop='checky')
+            .checkmark.right.front(v-else-if='!isCompleted' @click.stop='completed') &rarr;
             span(:key='updatePlz'  @click.stop='toggleActive').checkmark.right.front
                 span(v-if='clockworkblue.days > 0') {{ clockworkblue.days }}:
                 span(v-if='clockworkblue.hours > 0') {{ clockworkblue.hours }}:
@@ -25,6 +26,7 @@
         span(v-else-if='isResource')
             span {{ isResource }}
         linky.cardname.front(v-else-if='!isMember'  :x='card.name')
+        
     preview-deck(:task='card').faded
 </template>
 
@@ -50,6 +52,13 @@ export default {
     props: ['taskId', 'inId'],
     components: { Linky, Tally, PreviewDeck },
     methods: {
+      completed(){
+          this.$store.dispatch("makeEvent", {
+              type: 'task-completed',
+              inId: this.$store.getters.contextCard.taskId,
+              taskId: this.taskId,
+          })
+      },
       startTimer() {
           this.timerInterval = setInterval(() => {
             if (this.$store.getters.member.action !== this.card.taskId) return clearInterval(this.timerInterval)
