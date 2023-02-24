@@ -3,7 +3,7 @@
     img.diamond(v-for='t in b.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)'  @click='$store.commit("setMode", 1)')
     img.flaggy(@click.stop='upboat' src='../assets/images/chevron-up.svg')
     img.viney(@click.stop='pop' src='../assets/images/explode.svg')
-    img.scrolly(@click.stop='remove' src='../assets/images/fire.svg')
+    img.scrolly(@click.stop='remove' src='../assets/images/chevron-up.svg').rotate2
     pinner(:b='b', :inId='inId')
     tally(:b='b')
     .buffertop
@@ -215,6 +215,9 @@ export default {
 @import '../styles/button'
 @import '../styles/spinners'
 @import '../styles/donut'
+
+.rotate2 
+    transform: rotate(180deg) 
 
 .diamond
     cursor: pointer;

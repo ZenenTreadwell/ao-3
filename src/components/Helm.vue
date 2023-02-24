@@ -3,7 +3,7 @@
 
 .helm
     img.gear(@click.stop='$store.commit("toggleSettings")'  src='../assets/images/gear.svg')
-    img.tras(:ondrop="drop"  :ondragover="allowDropT"  :ondragleave='dragLeaveT' src='../assets/images/trash.svg' :class="{tr: !trash}")
+    img.tras(:ondrop="drop"  :ondragover="allowDropT"  :ondragleave='dragLeaveT' src='../assets/images/fire.svg' :class="{tr: !trash}")
     img.doge(@click.stop='$store.commit("toggleAccounts")'  src='../assets/images/doge.svg'  :ondragenter='toggl')
     settings(@click.stop  v-show='$store.state.upgrades.showSettings').settings
     accounts(@click.stop  v-show='$store.state.upgrades.showAccounts').accounts
