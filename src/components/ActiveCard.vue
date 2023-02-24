@@ -74,6 +74,7 @@ export default {
             }
             return cstar
         },
+    
         styl(){
             let color = this.$store.getters.contextCard.color
             if (!color  || this.$store.getters.member.stacks === 1) return
@@ -422,6 +423,8 @@ ul.left
 .stash span
     cursor: pointer;
 
+.activecard
+    background: lightGrey
 .activecard.dropping
     background: blue
 
