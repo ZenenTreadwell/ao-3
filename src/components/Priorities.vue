@@ -84,7 +84,7 @@ export default {
   },
   computed:{
       priorities(){
-          return this.$store.getters.contextCard.priorities.slice().reverse()
+          return this.$store.getters.contextCard.priorities
       },
   },
   components:{
