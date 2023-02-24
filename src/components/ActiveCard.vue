@@ -347,7 +347,7 @@ label
     cursor: pointer
     flex-shrink: 1
     color: lightGrey
-    background-color: softGrey;
+    background-color: transparent;
     text-align: center
     min-width: 2.22em;
     max-width: 3.3em;
@@ -370,7 +370,7 @@ label
 
 
 .tabber.activationsequence
-    background-color: lightGrey;
+    background-color: softGrey;
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
