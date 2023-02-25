@@ -2,9 +2,7 @@
 
 .app
   .container(v-if='!$store.getters.isLoggedIn')
-      helm
       auth
-      panels
   router-view(v-else)
 
 </template>

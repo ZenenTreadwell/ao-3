@@ -1,5 +1,5 @@
 <template lang='pug'>
-.deck
+.deck(v-if='$store.getters.isLoggedIn')
     .flex
         .card.openwidth(:class='{ adjustwidth : $store.state.upgrades.mode !== "doge", closedwidth : $store.state.upgrades.mode === "doge"}')
             active-card
