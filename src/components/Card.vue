@@ -1,6 +1,7 @@
 <template lang='pug'>
 .task(:class="cardInputSty"  @click='goDeeper'  draggable="true"  :ondrop="drop"  :ondragover="allowDrop"  :ondragstart='dragStart'   :ondragleave='dragLeave').dont-break-out.agedwrapper
-    img.diamond(v-for='t in b.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)'  @click='$store.commit("setMode", 1)')
+    .diamondbox
+        img.diamond(v-for='t in b.priorities'  src='../assets/images/uncompleted.svg'  :class='styl($store.state.tasks[$store.state.hashMap[t]].color)'  @click='$store.commit("setMode", 1)')
     img.flaggy(@click.stop='upboat' src='../assets/images/chevron-up.svg')
     img.viney(@click.stop='pop' src='../assets/images/explode.svg')
     img.scrolly(@click.stop='remove' src='../assets/images/chevron-up.svg').rotate2
@@ -229,6 +230,13 @@ export default {
     right: 0
     float: right;
     z-index: 2
+
+.diamondbox
+    padding-right:1.4272342em
+    position: relative
+    top: 0
+    right: 0
+    float: right;
 
 .sml
     font-size: .73em
