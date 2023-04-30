@@ -1,7 +1,7 @@
 <template lang='pug'>
 
 #tasks
-    img.oodd(draggable='false'  src='../assets/images/open.svg', ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
+    img.oodd(v-if='c.length >= 1' draggable='false'  src='../assets/images/open.svg', ref='swipebar'  :ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
     .ptr(:ondrop='drop'  :ondragover="allowDrop"  :ondragleave='dragLeave')
         span.third.dot(:class='{hidden:open || c.length <= 1}'  ref='previous')
         span.third(ref='mandelorb' draggable="true" :ondragstart='dragStart')
