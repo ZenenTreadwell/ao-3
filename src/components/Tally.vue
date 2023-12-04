@@ -4,6 +4,8 @@
     span
         span(v-if='cardStart').points {{ cardStart.asString }}
         span.hide(v-if='b.claimed.length > 0') -
+        
+        img(v-for='n in clm.dmark'  src='../assets/images/dmark.svg')
         img(v-for='n in clm.xmark'  src='../assets/images/xmark.svg')
         img(v-for='n in clm.mark'  src='../assets/images/mark.svg')
 </template>
@@ -56,7 +58,12 @@ export default {
       clm(){
           let mark = 0
           let xmark = 0
+          let dmark = 0
           let m = this.b.claims.length
+          while (m >= 100){
+              dmark += 1
+              m -= 100  
+          }
           while (m >= 10){
               xmark += 1
               m -= 10
@@ -65,6 +72,7 @@ export default {
           return {
               mark,
               xmark,
+              dmark,
           }
       },
       cardStart(){
