@@ -114,6 +114,7 @@ function checkFunds(){
         .then(result => {
             nodeInfo.channels = result.channels
             nodeInfo.outputs = result.outputs
+
             try {
                 result.outputs.forEach( o => {
                     if (o.status === 'confirmed' && serverState.cash.usedTxIds.indexOf(o.txid) === -1){
@@ -140,14 +141,17 @@ function stormWallet(){
 }
 
 function checkLightning(){
-    return client
-        .getinfo()
-        .then(mainInfo => {
-            nodeInfo.alias = mainInfo.alias
-            nodeInfo.id = mainInfo.id
-            nodeInfo.lightningblocks = mainInfo.blockheight
-            nodeInfo.address = mainInfo.address[0].address
-        }).catch(e => console.log("catch checklightning", e))
+	client.listfunds().then(funds => {
+		return client
+			.getinfo()
+			.then(mainInfo => {
+				allEvents.getNodeInfo({...mainInfo, ...funds})
+				nodeInfo.alias = mainInfo.alias
+				nodeInfo.id = mainInfo.id
+				nodeInfo.lightningblocks = mainInfo.blockheight
+				nodeInfo.address = mainInfo.address[0].address
+			}).catch(e => console.log("catch checklightning", e))
+	})
 }
 
 function checkBitcoin(){
