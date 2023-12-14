@@ -31,6 +31,8 @@ router.get('/newaccount/:name', (req, res) => {
                 res.json({token, session})
             })
         })
+    } else {
+	    console.error('validation error: ', errRes)
     }
 })
 
