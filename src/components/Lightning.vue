@@ -252,6 +252,12 @@ export default {
 #nodes
     overflow-y: scroll;
     max-height: 100vh;
+    position: absolute;
+    right: 0;
+    margin-bottom: 5em;
+    bottom: 0;
+    background-color: rgba(228,241,242,.667);
+    padding: 2em;
 
 .inactive
     opacity: 0.3456

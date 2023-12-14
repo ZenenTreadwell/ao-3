@@ -104,7 +104,7 @@ function initialize(callback) {
 
                 pubState.tasks.forEach( (t, i) => {
                     if (pubState.hashMap[t.taskId] !== i) {
-                      console.log(i, 'map retro fixed!!?', t.name.slice(0,7))
+                      console.log(i, 'map retro fixed...!!?', t.name.slice(0,7))
                       pubState.hashMap[t.taskId] = i
                       serverState.hashMap[t.taskId] = i
                     }
